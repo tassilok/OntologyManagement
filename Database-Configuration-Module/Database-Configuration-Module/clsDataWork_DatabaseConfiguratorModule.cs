@@ -22,7 +22,10 @@ namespace DatabaseConfigurationModule
             SchemaConstraints = 16,
             DatabaseProjects = 32,
             SchemaViews = 64,
-            RefToProject = 128
+            RefToProject = 128,
+            DatabaseOnServer = 256,
+            Server = 512,
+            ServerDatabases = 1024
         }
         public enum LoadResult
         {
@@ -35,7 +38,10 @@ namespace DatabaseConfigurationModule
             Schema_TableColumns = 32,
             Schema_Constraints = 64,
             DatabaseProjects = 128,
-            RefToProject = 256
+            RefToProject = 256,
+            DatabaseOnServer = 512,
+            Server = 1024,
+            ServerDatabases = 2048
         }
 
         private Thread threadDatabaseItems;
@@ -60,6 +66,9 @@ namespace DatabaseConfigurationModule
         private clsDBLevel objDBlevel_ColumnAtts;
         private clsDBLevel objDBLevel_ColumnsToFieldTypes;
         private clsDBLevel objDBLevel_FieldTypes;
+        private clsDBLevel objDBLevel_DatabaseOnServer;
+        private clsDBLevel objDBLevel_Server;
+        private clsDBLevel objDBLevel_ServerDatabases;
 
         private List<clsOntologyItem> OList_FilterProjects;
 
@@ -158,6 +167,30 @@ namespace DatabaseConfigurationModule
             }
         }
 
+        public List<clsObjectRel> DatabaseOnServer
+        {
+            get
+            {
+                return objDBLevel_DatabaseOnServer.OList_ObjectRel;
+            }
+        }
+
+        public List<clsObjectRel> Servers
+        {
+            get
+            {
+                return objDBLevel_Server.OList_ObjectRel;
+            }
+        }
+
+        public List<clsObjectRel> ServerDatabases
+        {
+            get
+            {
+                return objDBLevel_ServerDatabases.OList_ObjectRel;
+            }
+        }
+
         public List<clsConstraint> ColumnConstraints { get; private set; }
 
         public clsOntologyItem GetData()
@@ -181,6 +214,9 @@ namespace DatabaseConfigurationModule
             GetSubData_006_Routines();
             GetSubData_007_Constraints();
             GetSubData_008_SchemaViews();
+            GetSubData_009_DatabaseOnServer();
+            GetSubData_010_Server();
+            GetSubData_011_ServerDatabases();
         }
 
         public clsOntologyItem GetColumnFieldType(string GUID_Col)
@@ -243,6 +279,21 @@ namespace DatabaseConfigurationModule
             if (loadResult == LoadSubResult.RefToProject)
             {
                 loadItems(LoadResult.RefToProject, OItem_Result);
+            }
+
+            if (loadResult == LoadSubResult.DatabaseOnServer)
+            {
+                loadItems(LoadResult.DatabaseOnServer, OItem_Result);
+            }
+
+            if (loadResult == LoadSubResult.Server)
+            {
+                loadItems(LoadResult.Server, OItem_Result);
+            }
+
+            if (loadResult == LoadSubResult.ServerDatabases)
+            {
+                loadItems(LoadResult.ServerDatabases, OItem_Result);
             }
             
         }
@@ -715,6 +766,73 @@ namespace DatabaseConfigurationModule
 
             loadedSubItems(LoadSubResult.SchemaViews, result);
         }
+
+
+        private void GetSubData_009_DatabaseOnServer()
+        {
+            var searchDatabaseOnServers = objDBLevel_DatabaseProjects.OList_Objects.Select(prj => new clsObjectRel
+            {
+                ID_Object = prj.GUID,
+                ID_RelationType = objLocalConfig.OItem_relationtype_contains.GUID,
+                ID_Parent_Other = objLocalConfig.OItem_class_database_on_server.GUID
+            }).ToList();
+
+            var result = objLocalConfig.Globals.LState_Success.Clone();
+            if (searchDatabaseOnServers.Any())
+            {
+                result = objDBLevel_DatabaseOnServer.get_Data_ObjectRel(searchDatabaseOnServers, boolIDs: false);
+            }
+            else
+            {
+                objDBLevel_DatabaseOnServer.OList_ObjectRel.Clear();
+            }
+
+            loadedSubItems(LoadSubResult.DatabaseOnServer, result);
+        }
+
+        private void GetSubData_010_Server()
+        {
+            var searchServers = objDBLevel_DatabaseOnServer.OList_ObjectRel.Select(dbOnServer => new clsObjectRel
+            {
+                ID_Object = dbOnServer.ID_Other,
+                ID_RelationType = objLocalConfig.OItem_relationtype_located_in.GUID,
+                ID_Parent_Other = objLocalConfig.OItem_class_server.GUID
+            }).ToList();
+
+            var result = objLocalConfig.Globals.LState_Success.Clone();
+            if (searchServers.Any())
+            {
+                result = objDBLevel_Server.get_Data_ObjectRel(searchServers, boolIDs: false);
+            }
+            else
+            {
+                objDBLevel_Server.OList_ObjectRel.Clear();
+            }
+
+            loadedSubItems(LoadSubResult.Server, result);
+        }
+
+        private void GetSubData_011_ServerDatabases()
+        {
+            var searchServerDatabases = objDBLevel_DatabaseOnServer.OList_ObjectRel.Select(dbOnServer => new clsObjectRel
+            {
+                ID_Object = dbOnServer.ID_Other,
+                ID_RelationType = objLocalConfig.OItem_relationtype_belongs_to.GUID,
+                ID_Parent_Other = objLocalConfig.OItem_class_database.GUID
+            }).ToList();
+
+            var result = objLocalConfig.Globals.LState_Success.Clone();
+            if (searchServerDatabases.Any())
+            {
+                result = objDBLevel_ServerDatabases.get_Data_ObjectRel(searchServerDatabases, boolIDs: false);
+            }
+            else
+            {
+                objDBLevel_ServerDatabases.OList_ObjectRel.Clear();
+            }
+
+            loadedSubItems(LoadSubResult.ServerDatabases, result);
+        }
         
         public clsDataWork_DatabaseConfiguratorModule(clsLocalConfig LocalConfig)
         {
@@ -746,6 +864,9 @@ namespace DatabaseConfigurationModule
             objDBLevel_ColumnsToFieldTypes = new clsDBLevel(objLocalConfig.Globals);
             objDBlevel_ColumnAtts = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_FieldTypes = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_DatabaseOnServer = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_Server = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_ServerDatabases = new clsDBLevel(objLocalConfig.Globals);
 
         }
     }

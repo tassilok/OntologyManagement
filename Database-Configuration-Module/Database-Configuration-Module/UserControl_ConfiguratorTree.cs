@@ -35,6 +35,12 @@ namespace DatabaseConfigurationModule
         private AddSchemaRoutinesNode addSchemaRoutinesNode;
         public delegate void ConfigurePrimaryKeys();
         private ConfigurePrimaryKeys configurePrimaryKeys;
+        public delegate void AddDBOnServerNode();
+        private AddDBOnServerNode addDBOnServerNode;
+        public delegate void AddServerNode();
+        private AddServerNode addServerNode;
+        public delegate void AddServerDatabaseNode();
+        private AddServerDatabaseNode addServerDatabaseNode;
 
         private frm_ObjectEdit objFrmObjectEdit;
 
@@ -68,10 +74,65 @@ namespace DatabaseConfigurationModule
             addSchemaTableColumnsNode = new AddSchemaTableColumnsNode(AddTreeNode_SchemaColumns);
             addSchemaRoutinesNode = new AddSchemaRoutinesNode(AddTreeNode_SchemaRoutines);
             configurePrimaryKeys = new ConfigurePrimaryKeys(ConfigurePrimaryKeysNodes);
+            addDBOnServerNode = new AddDBOnServerNode(AddTreeNode_DBOnServer);
+            addServerNode = new AddServerNode(AddTreeNode_Server);
+            addServerDatabaseNode = new AddServerDatabaseNode(AddTreeNode_ServerDatabase);
 
             FillTree();
 
 
+        }
+
+        private void AddTreeNode_ServerDatabase()
+        {
+            var serverDatabases = objDataWork_DatabaseConfigurationModule.ServerDatabases;
+            serverDatabases.ForEach(sdb =>
+                {
+                    var dbOnSeverNodes = treeView_Configurator.Nodes.Find(sdb.ID_Object, true);
+                    if (dbOnSeverNodes.Any())
+                    {
+                        dbOnSeverNodes.First().Nodes.Add(sdb.ID_Other, sdb.Name_Other, objLocalConfig.ImageID_Database, objLocalConfig.ImageID_Database);
+                    }
+                });
+            
+        }
+
+        private void AddTreeNode_Server()
+        {
+            var servers = objDataWork_DatabaseConfigurationModule.Servers;
+            servers.ForEach(server =>
+            {
+                var dbOnSeverNodes = treeView_Configurator.Nodes.Find(server.ID_Object, true);
+                if (dbOnSeverNodes.Any())
+                {
+                    dbOnSeverNodes.First().Nodes.Add(server.ID_Other, server.Name_Other, objLocalConfig.ImageID_Server, objLocalConfig.ImageID_Server);
+                }
+            });
+        }
+
+        private void AddTreeNode_DBOnServer()
+        {
+            var databaseOnServer = objDataWork_DatabaseConfigurationModule.DatabaseOnServer;
+            databaseOnServer.ForEach(dbOnServer =>
+            {
+                var projectNodes = treeView_Configurator.Nodes.Find(dbOnServer.ID_Object, true);
+                if (projectNodes.Any())
+                {
+                    var dbOnServersNode = projectNodes.First().Nodes.Find(objLocalConfig.OItem_class_database_on_server.GUID, false);
+
+                    TreeNode parentNode;
+                    if (dbOnServersNode.Count() == 0)
+                    {
+                        parentNode = projectNodes.First().Nodes.Add(objLocalConfig.OItem_class_database_on_server.GUID, objLocalConfig.OItem_class_database_on_server.Name, objLocalConfig.ImageID_DatabaseConnections, objLocalConfig.ImageID_DatabaseConnections);
+
+                    }
+                    else
+                    {
+                        parentNode = dbOnServersNode.First();
+                    }
+                    parentNode.Nodes.Add(dbOnServer.ID_Other, dbOnServer.Name_Other, objLocalConfig.ImageID_DatabaseConnection, objLocalConfig.ImageID_DatabaseConnection);
+                }
+            });
         }
 
         private void AddTreeNode_SchemaView()
@@ -446,6 +507,60 @@ namespace DatabaseConfigurationModule
                     MessageBox.Show(this, "Die Views konnten nicht geladen werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+            if (loadItems == clsDataWork_DatabaseConfiguratorModule.LoadResult.DatabaseOnServer)
+            {
+                if (OItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+                    if (this.InvokeRequired)
+                    {
+                        this.Invoke(addDBOnServerNode);
+                    }
+                    else
+                    {
+                        AddTreeNode_DBOnServer();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show(this, "Die Datenbank-Verbindungen konnten nicht geladen werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            if (loadItems == clsDataWork_DatabaseConfiguratorModule.LoadResult.Server)
+            {
+                if (OItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+                    if (this.InvokeRequired)
+                    {
+                        this.Invoke(addServerNode);
+                    }
+                    else
+                    {
+                        AddTreeNode_Server();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show(this, "Die Server konnten nicht geladen werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            if (loadItems == clsDataWork_DatabaseConfiguratorModule.LoadResult.ServerDatabases)
+            {
+                if (OItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+                    if (this.InvokeRequired)
+                    {
+                        this.Invoke(addServerDatabaseNode);
+                    }
+                    else
+                    {
+                        AddTreeNode_ServerDatabase();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show(this, "Die Server-Datenbanken konnten nicht geladen werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
 
         private void FillTree()
@@ -595,6 +710,26 @@ namespace DatabaseConfigurationModule
                 objFrmObjectEdit = new frm_ObjectEdit(objLocalConfig.Globals, objOList_Objects, rowID, objLocalConfig.Globals.Type_Object, null);
                 objFrmObjectEdit.ShowDialog(this);
             }
+        }
+
+        private void contextMenuStrip_Nodes_Opening(object sender, CancelEventArgs e)
+        {
+            var selectedNode = treeView_Configurator.SelectedNode;
+
+            resolveDependenciesToolStripMenuItem.Enabled = false;
+
+            if (selectedNode != null)
+            {
+                if (selectedNode.ImageIndex == objLocalConfig.ImageID_Views)
+                {
+                    resolveDependenciesToolStripMenuItem.Enabled = true;
+                }
+            }
+        }
+
+        private void resolveDependenciesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
 
     }

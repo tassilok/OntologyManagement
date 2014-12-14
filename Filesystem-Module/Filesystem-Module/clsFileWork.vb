@@ -731,6 +731,11 @@ Public Class clsFileWork
                                     strPath = objOitem_Folder.Name & strSeperator & strPath
                                 End If
                             End While
+                        Else
+                            objOItem_Share = New clsOntologyItem With {.GUID = objDBLevel_Folder.OList_ObjectRel.First().ID_Other,
+                                                                       .Name = objDBLevel_Folder.OList_ObjectRel.First().Name_Other,
+                                                                       .GUID_Parent = objDBLevel_Folder.OList_ObjectRel.First().ID_Parent_Other,
+                                                                       .Type = objDBLevel_Folder.OList_ObjectRel.First().Ontology}
                         End If
 
                         If objOItem_Share.GUID <> "" Then
