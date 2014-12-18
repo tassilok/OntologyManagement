@@ -42,7 +42,7 @@ namespace NextGenerationOntoEdit
 
         void userControl_TypeTree_selected_Class(clsOntologyItem OItem_Class)
         {
-            
+            userControl_OItemList.Initialize_Items(OItem_Class);
         }
     }
 }

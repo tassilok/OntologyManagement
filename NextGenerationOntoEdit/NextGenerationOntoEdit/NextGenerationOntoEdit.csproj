@@ -44,8 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClassAttColMap.cs" />
+    <Compile Include="ClassRelColMap.cs" />
+    <Compile Include="DynamicBuilder.cs" />
     <Compile Include="clsDataWork_OntologyItems.cs" />
     <Compile Include="clsLocalConfig.cs" />
+    <Compile Include="DynamicField.cs" />
     <Compile Include="Form_OntoEdit.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -71,6 +75,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="UserControl_OItemList.resx">
       <DependentUpon>UserControl_OItemList.cs</DependentUpon>
@@ -110,6 +115,7 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\sync.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Config\Templates\" />

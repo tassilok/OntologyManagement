@@ -15,21 +15,73 @@ namespace NextGenerationOntoEdit
         ClassRelations = 1,
         ObjectAttributes = 2,
         ObjectRelations = 4,
+        Objects = 8,
         Items = 1024
     }
     public class clsDataWork_OntologyItems
     {
         private clsLocalConfig localConfig;
 
+        private clsDBLevel dbLevel_Objects;
         private clsDBLevel dbLevel_ClassAttributes;
         private clsDBLevel dbLevel_ClassRelations;
         private clsDBLevel dbLevel_ObjectAtt;
         private clsDBLevel dbLevel_ObjectRel;
+        private clsDBLevel dbLevel_OtherRel;
+
+        public List<clsClassAtt> ClassAttributes
+        {
+            get
+            {
+                return dbLevel_ClassAttributes.OList_ClassAtt;
+            }
+        }
+
+        public List<clsClassRel> ClassRelations
+        {
+            get
+            {
+                return dbLevel_ClassRelations.OList_ClassRel;
+            }
+        }
+
+        public List<clsObjectAtt> ObjectAttributes
+        {
+            get
+            {
+                return dbLevel_ObjectAtt.OList_ObjectAtt;
+            }
+        }
+
+        public List<clsObjectRel> ObjectRelations
+        {
+            get
+            {
+                return dbLevel_ObjectRel.OList_ObjectRel;
+            }
+        }
+
+        public List<clsObjectRel> OtherRelations
+        {
+            get
+            {
+                return dbLevel_OtherRel.OList_ObjectRel;
+            }
+        }
+
+        public List<clsOntologyItem> Objects
+        {
+            get
+            {
+                return dbLevel_Objects.OList_Objects;
+            }
+        }
 
         public clsOntologyItem OItem_Result_ClassAtt { get; private set; }
         public clsOntologyItem OItem_Result_ClassRel { get; private set; }
         public clsOntologyItem OItem_Result_ObjectAtt { get; private set; }
         public clsOntologyItem OItem_Result_ObjectRel { get; private set; }
+        public clsOntologyItem OItem_Result_Objects { get; private set; }
 
         public clsOntologyItem ClassItem { get; private set; }
 
@@ -61,6 +113,14 @@ namespace NextGenerationOntoEdit
 
             loadedSubItems +=clsDataWork_OntologyItems_loadedSubItems;
 
+            try
+            {
+            }
+            catch (Exception ex)
+            {
+                threadItemData_Class.Abort();
+            }
+
             threadItemData_Class = new Thread(GetThreadData_Class);
             threadItemData_Class.Start();
 
@@ -73,6 +133,7 @@ namespace NextGenerationOntoEdit
             GetSubData_002_ClassRelations();
             GetSubData_003_ObjectAtt();
             GetSubData_004_ObjectRel();
+            GetSubData_005_Objects();
         }
 
         void clsDataWork_OntologyItems_loadedSubItems(LoadResult loadResult, clsOntologyItem OItem_Result)
@@ -97,16 +158,23 @@ namespace NextGenerationOntoEdit
                 OItem_Result_ObjectRel = OItem_Result;
             }
 
+            if (loadResult == LoadResult.Objects)
+            {
+                OItem_Result_Objects = OItem_Result;
+            }
+
 
             if (OItem_Result_ClassAtt != null
                 && OItem_Result_ClassRel != null
                 && OItem_Result_ObjectAtt != null
-                && OItem_Result_ObjectRel != null)
+                && OItem_Result_ObjectRel != null
+                && OItem_Result_Objects != null)
             {
                 if (OItem_Result_ClassAtt.GUID == localConfig.Globals.LState_Error.GUID
                     || OItem_Result_ClassRel.GUID == localConfig.Globals.LState_Error.GUID
                     || OItem_Result_ObjectAtt.GUID == localConfig.Globals.LState_Error.GUID
-                    || OItem_Result_ObjectRel.GUID == localConfig.Globals.LState_Error.GUID)
+                    || OItem_Result_ObjectRel.GUID == localConfig.Globals.LState_Error.GUID
+                    || OItem_Result_Objects.GUID == localConfig.Globals.LState_Error.GUID)
                 {
                     loadItems(LoadResult.Items, localConfig.Globals.LState_Error.Clone());
                 }
@@ -144,11 +212,26 @@ namespace NextGenerationOntoEdit
 
         public void GetSubData_004_ObjectRel()
         {
-            var searchObjectRel = new List<clsObjectRel> { new clsObjectRel { ID_Parent_Object = ClassItem.GUID } };
+            var searchObjectRel = new List<clsObjectRel> { new clsObjectRel { ID_Parent_Object = ClassItem.GUID, Ontology = localConfig.Globals.Type_Object } };
 
             var result = dbLevel_ObjectRel.get_Data_ObjectRel(searchObjectRel, boolIDs: false);
 
+            searchObjectRel = new List<clsObjectRel> { new clsObjectRel { ID_Parent_Object = ClassItem.GUID, Ontology = localConfig.Globals.Type_AttributeType },
+                new clsObjectRel { ID_Parent_Object = ClassItem.GUID, Ontology = localConfig.Globals.Type_RelationType },
+                new clsObjectRel { ID_Parent_Object = ClassItem.GUID, Ontology = localConfig.Globals.Type_Class } };
+
+            result = dbLevel_OtherRel.get_Data_ObjectRel(searchObjectRel, boolIDs: false);
+
             loadedSubItems(LoadResult.ObjectRelations, result);
+        }
+
+        public void GetSubData_005_Objects()
+        {
+            var searchObjects = new List<clsOntologyItem> { new clsOntologyItem { GUID_Parent = ClassItem.GUID } };
+
+            var result = dbLevel_Objects.get_Data_Objects(searchObjects);
+
+            loadedSubItems(LoadResult.Objects, result);
         }
 
         private void Initialize()
@@ -157,6 +240,8 @@ namespace NextGenerationOntoEdit
             dbLevel_ClassRelations = new clsDBLevel(localConfig.Globals);
             dbLevel_ObjectAtt = new clsDBLevel(localConfig.Globals);
             dbLevel_ObjectRel = new clsDBLevel(localConfig.Globals);
+            dbLevel_Objects = new clsDBLevel(localConfig.Globals);
+            dbLevel_OtherRel = new clsDBLevel(localConfig.Globals);
         }
     }
 }
