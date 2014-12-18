@@ -17,6 +17,7 @@ namespace Office_Module
     {
         private clsLocalConfig objLocalConfig;
         private clsOntologyItem objOItem_Ref;
+        private List<clsOntologyItem> itemList;
         private clsBlobConnection objBlobConnection;
         private clsFileWork objFileWork;
         private clsDocumentation objDocumentation;
@@ -45,6 +46,15 @@ namespace Office_Module
             objBlobConnection = new clsBlobConnection(objLocalConfig.Globals);
             objFileWork = new clsFileWork(objLocalConfig.Globals);
             objDocumentation = new clsDocumentation(objLocalConfig.Globals);
+        }
+
+        public void Initialize_DocumentFunctions(clsDataWork_Documents objDataWork_Documents, List<clsOntologyItem> itemList)
+        {
+            objDocumentation.Clear_BookmarkDocLast();
+            objLocalConfig.DataWork_Documents = objDataWork_Documents;
+            this.itemList = itemList;
+
+            ConfigureControls();
         }
 
         public void Initialize_Documents(clsDataWork_Documents objDataWork_Documents, clsOntologyItem OItem_Ref)
@@ -85,12 +95,13 @@ namespace Office_Module
             ConfigureControls();
         }
 
-        private void ConfigureControls()
+        public void ConfigureControls()
         {
             button_Delete.Enabled = false;
             button_Open.Enabled = false;
             button_InsertBookmark.Enabled = false;
             button_ActivateBookmark.Enabled = false;
+            button_InsertItems.Enabled = false;
 
             if (objOItem_Ref != null && dataGridView_Documents.Rows.Count == 0)
             {
@@ -126,12 +137,18 @@ namespace Office_Module
                 {
                     button_Open.Enabled = true;
                     button_InsertBookmark.Enabled = true;
+                    button_InsertItems.Enabled = true;
                 }
                 
             }
             else
             {
-                if (dataGridView_Documents.SelectedRows.Count > 0)
+                if (itemList != null && itemList.Any())
+                {
+                    splitContainer1.Panel2Collapsed = true;
+                    button_InsertItems.Enabled = true;
+                }
+                else if (dataGridView_Documents.SelectedRows.Count > 0)
                 {
                     button_Delete.Enabled = true;
 
@@ -140,6 +157,7 @@ namespace Office_Module
                         button_Open.Enabled = true;
                     }
                 }
+                
             }
         }
 
@@ -281,6 +299,12 @@ namespace Office_Module
 
             Item_Document.OItem_Result = OItem_Result;
             return Item_Document;
+        }
+
+        private void button_InsertItems_Click(object sender, EventArgs e)
+        {
+            objDocumentation.InsertItemList(itemList ?? (objOItem_Ref != null ? new List<clsOntologyItem> { objOItem_Ref } : null));
+
         }
     }
 }

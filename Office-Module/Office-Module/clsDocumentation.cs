@@ -97,7 +97,7 @@ namespace Office_Module
             {
                 objOItem_Result = objLocalConfig.Globals.LState_Error;
             }
-
+            objWordWork.Visible = true;
             return objOItem_Result;
         }
 
@@ -247,9 +247,49 @@ namespace Office_Module
             {
                 objOItem_Result = objLocalConfig.Globals.LState_Nothing;
             }
+
+            objWordWork.Visible = true;
             return objOItem_Result;
         }
 
+        public clsOntologyItem InsertItemList(List<clsOntologyItem> itemList)
+        {
+            var result = objLocalConfig.Globals.LState_Success.Clone();
+            if (itemList.Count > 1)
+            {
+                if (!string.IsNullOrEmpty(objWordWork.insertList()))
+                {
+                    foreach (var item in itemList)
+                    {
+                        if (string.IsNullOrEmpty(objWordWork.insertTextContent(item.GUID, item.Name)))
+                        {
+                            result = objLocalConfig.Globals.LState_Error.Clone();
+                            break;
+                        }
+                        if (string.IsNullOrEmpty(objWordWork.insertNewLine()))
+                        {
+                            result = objLocalConfig.Globals.LState_Error.Clone();
+                            break;
+                        }
+                    }
+                }
+            }
+            else if (itemList.Count == 1)
+            {
+                if (string.IsNullOrEmpty(objWordWork.insertTextContent(itemList.First().GUID, itemList.First().Name)))
+                {
+                    result = objLocalConfig.Globals.LState_Error.Clone();
+                }
+            }
+            else
+            {
+                result = objLocalConfig.Globals.LState_Error.Clone();
+            }
+            
+
+            objWordWork.Visible = true;
+            return result;
+        }
 
         public clsDocument CreateDoc(clsOntologyItem OItem_Ref)
         {
@@ -555,7 +595,7 @@ namespace Office_Module
 
 
                                 objOItem_Document.GUID_Related = objWordWork.openDocument(objOItem_File_Document.Additional1, strCategory, objDocument.Name_Ref, objOItem_Template_File.Additional1);
-                                objWordWork.Visible = true;
+                                
                                 if (objOItem_Document.GUID_Related == null)
                                 {
                                     objOItem_Result = objLocalConfig.Globals.LState_Error;
@@ -589,8 +629,8 @@ namespace Office_Module
                     objOItem_Result = open_Document(objDocument);
                 }
             }
-            
-            
+
+            objWordWork.Visible = true;
             return objOItem_Result;
         }
 

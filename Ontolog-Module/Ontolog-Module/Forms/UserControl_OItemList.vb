@@ -12,6 +12,7 @@ Public Class UserControl_OItemList
     Private objDBLevel4 As clsDBLevel
     Private objDBLevel5 As clsDBLevel
     Private objOntologyClipboard As clsOntologyClipboard
+    Private objSession As clsSession = Nothing
 
     Private objFrm_Main As frmMain
     Private objFrm_ObjectEdit As frm_ObjectEdit
@@ -1936,7 +1937,8 @@ Public Class UserControl_OItemList
             If strType = objLocalConfig.Globals.Type_Object Then
                 RelateToItemByNameToolStripMenuItem.Enabled = True
             End If
-            If DataGridView_Items.SelectedRows.Count = 1 Then
+
+            If DataGridView_Items.SelectedRows.Count > 0 Then
                 If Not objOItem_Parent Is Nothing Then
                     If objOItem_Parent.Type = objLocalConfig.Globals.Type_Object Then
                         MoveObjectsToolStripMenuItem.Enabled = True
@@ -1953,6 +1955,7 @@ Public Class UserControl_OItemList
 
             If Not objOItem_Parent Is Nothing Then
                 If objOItem_Parent.Type = objLocalConfig.Globals.Type_Object Then
+                    OpenModuleByArgumentToolStripMenuItem.Enabled = True
                     MoveObjectsToolStripMenuItem.Enabled = True
                 End If
             End If
@@ -2821,7 +2824,8 @@ Public Class UserControl_OItemList
     Private Sub OpenModuleByArgumentToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenModuleByArgumentToolStripMenuItem.Click
         Dim objDGVR As DataGridViewRow = DataGridView_Items.SelectedRows(0)
         Dim objDRV As DataRowView = objDGVR.DataBoundItem
-        Dim objOItem_Object As clsOntologyItem
+        Dim objOItem_Object As clsOntologyItem = Nothing
+        Dim objOItem_Session As clsOntologyItem = Nothing
 
         If DataGridView_Items.SelectedRows.Count = 1 Then
             If Not objOItem_Parent Is Nothing Then
@@ -2854,6 +2858,89 @@ Public Class UserControl_OItemList
                 End If
             End If
 
+        Else
+            If Not objOItem_Parent Is Nothing Then
+                If objOItem_Parent.Type = objLocalConfig.Globals.Type_Object Then
+                    If objSession Is Nothing Then
+                        objSession = New clsSession(objLocalConfig)
+                    End If
+                    Dim objectList = DataGridView_Items.SelectedRows.Cast(Of DataGridViewRow).Select(Function(dgvr) DirectCast(dgvr.DataBoundItem, DataRowView)).Select(Function(drv) New clsOntologyItem With {
+                                                                                                                                                                            .GUID = drv.Item("ID_Item"),
+                                                                                                                                                                            .Name = drv.Item("Name"),
+                                                                                                                                                                            .GUID_Parent = drv.Item("ID_Parent"),
+                                                                                                                                                                            .Type = objLocalConfig.Globals.Type_Object}).ToList()
+
+                    objOItem_Session = objSession.RegisterSession()
+
+                    If Not objOItem_Session Is Nothing Then
+                        Dim objOItem_Result = objSession.RegisterItems(objOItem_Session, objectList, True)
+
+                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                            objOItem_Session = Nothing
+                            MsgBox("Beim registrieren der Objekte ist ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)
+                        End If
+                    Else
+                        MsgBox("Beim registrieren der Objekte ist ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)
+                    End If
+                End If
+            Else
+                If Not objOItem_Direction Is Nothing Then
+                    If objOItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
+                        If objDRV.Item("Ontology") = objLocalConfig.Globals.Type_Object Then
+                            If objSession Is Nothing Then
+                                objSession = New clsSession(objLocalConfig)
+                            End If
+
+                            Dim objectList = DataGridView_Items.SelectedRows.Cast(Of DataGridViewRow).Select(Function(dgvr) DirectCast(dgvr.DataBoundItem, DataRowView)).Select(Function(drv) New clsOntologyItem With {
+                                                                                                                                                                            .GUID = objDRV.Item("ID_Other"), _
+                                                        .Name = objDRV.Item("Name_Other"), _
+                                                        .GUID_Parent = objDRV.Item("ID_Parent_Other"), _
+                                                        .Type = objLocalConfig.Globals.Type_Object}).ToList()
+
+                            objOItem_Session = objSession.RegisterSession()
+
+                            If Not objOItem_Session Is Nothing Then
+                                Dim objOItem_Result = objSession.RegisterItems(objOItem_Session, objectList, True)
+
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                                    objOItem_Session = Nothing
+                                    MsgBox("Beim registrieren der Objekte ist ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)
+                                End If
+                            Else
+                                MsgBox("Beim registrieren der Objekte ist ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)
+                            End If
+                            
+
+                        Else
+                            MsgBox("Die Elemente in der Beziehung sind kein Objekte. Bitte wählen Sie nur Objekte.", MsgBoxStyle.Information)
+
+                        End If
+
+                    Else
+                        If objSession Is Nothing Then
+                            objSession = New clsSession(objLocalConfig)
+                        End If
+                        Dim objectList = DataGridView_Items.SelectedRows.Cast(Of DataGridViewRow).Select(Function(dgvr) DirectCast(dgvr.DataBoundItem, DataRowView)).Select(Function(drv) New clsOntologyItem With {
+                                                                                                                                                                           .GUID = objDRV.Item("ID_Object"), _
+                                                        .Name = objDRV.Item("Name_Object"), _
+                                                        .GUID_Parent = objDRV.Item("ID_Parent_Object"), _
+                                                        .Type = objLocalConfig.Globals.Type_Object}).ToList()
+                        objOItem_Session = objSession.RegisterSession()
+
+                        If Not objOItem_Session Is Nothing Then
+                            Dim objOItem_Result = objSession.RegisterItems(objOItem_Session, objectList, True)
+
+                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                                objOItem_Session = Nothing
+                                MsgBox("Beim registrieren der Objekte ist ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)
+                            End If
+                        Else
+                            MsgBox("Beim registrieren der Objekte ist ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)
+                        End If
+                    End If
+
+                End If
+            End If
 
         End If
 
@@ -2866,12 +2953,23 @@ Public Class UserControl_OItemList
                 Dim strModule = objFrm_Modules.Selected_Module
                 If Not strModule Is Nothing Then
                     objShellWork = New clsShellWork()
-                    If objShellWork.start_Process(strModule, "Item=" & objOItem_Object.GUID + ",Object", IO.Path.GetDirectoryName(strModule), False, False) Then
-                        strLastModule = strModule
-                        OpenLastModuleToolStripMenuItem.ToolTipText = strLastModule
-                    Else
-                        MsgBox("Das Module konnte nicht gestartet werden!", MsgBoxStyle.Exclamation)
+                    If Not objOItem_Object Is Nothing Then
+                        If objShellWork.start_Process(strModule, "Item=" & objOItem_Object.GUID + ",Object", IO.Path.GetDirectoryName(strModule), False, False) Then
+                            strLastModule = strModule
+                            OpenLastModuleToolStripMenuItem.ToolTipText = strLastModule
+                        Else
+                            MsgBox("Das Module konnte nicht gestartet werden!", MsgBoxStyle.Exclamation)
+                        End If
+                    ElseIf Not objOItem_Session Is Nothing Then
+                        If objShellWork.start_Process(strModule, "Session=" & objOItem_Object.GUID, IO.Path.GetDirectoryName(strModule), False, False) Then
+                            strLastModule = strModule
+                            OpenLastModuleToolStripMenuItem.ToolTipText = strLastModule
+                        Else
+                            MsgBox("Das Module konnte nicht gestartet werden!", MsgBoxStyle.Exclamation)
+                        End If
+
                     End If
+                    
                 End If
             End If
         Else

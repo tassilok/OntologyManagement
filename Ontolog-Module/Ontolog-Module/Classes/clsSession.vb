@@ -7,6 +7,12 @@ Public Class clsSession
     Private objDBLevel_XML As clsDBLevel
     Private objRelationConfig As clsRelationConfig
 
+    Public ReadOnly Property ClassItem_Session As clsOntologyItem
+        Get
+            Return objLocalConfig.OItem_class_modulesession
+        End Get
+    End Property
+
     Public Function RegisterSession() As clsOntologyItem
         Dim sessionGuid = objLocalConfig.Globals.NewGUID
         Dim objOItem_Session = New clsOntologyItem With

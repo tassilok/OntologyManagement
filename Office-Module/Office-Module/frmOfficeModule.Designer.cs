@@ -34,6 +34,8 @@
             this.NewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ImageList_RelatedItems = new System.Windows.Forms.ImageList(this.components);
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.hilfeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.infoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton_Close = new System.Windows.Forms.ToolStripButton();
@@ -47,8 +49,6 @@
             this.ToolStripComboBox_Filter = new System.Windows.Forms.ToolStripComboBox();
             this.ToolStripTextBox_Filter = new System.Windows.Forms.ToolStripTextBox();
             this.ToolStripButton_Filter = new System.Windows.Forms.ToolStripButton();
-            this.hilfeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.infoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ContextMenuStrip_Tree.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
@@ -109,6 +109,21 @@
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
+            // hilfeToolStripMenuItem
+            // 
+            this.hilfeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.infoToolStripMenuItem});
+            this.hilfeToolStripMenuItem.Name = "hilfeToolStripMenuItem";
+            this.hilfeToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.hilfeToolStripMenuItem.Text = "&Hilfe";
+            // 
+            // infoToolStripMenuItem
+            // 
+            this.infoToolStripMenuItem.Name = "infoToolStripMenuItem";
+            this.infoToolStripMenuItem.Size = new System.Drawing.Size(95, 22);
+            this.infoToolStripMenuItem.Text = "&Info";
+            this.infoToolStripMenuItem.Click += new System.EventHandler(this.infoToolStripMenuItem_Click);
+            // 
             // toolStripContainer1
             // 
             // 
@@ -119,7 +134,7 @@
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.splitContainer1);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(785, 466);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(785, 441);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 24);
             this.toolStripContainer1.Name = "toolStripContainer1";
@@ -157,7 +172,7 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.Controls.Add(this.toolStripContainer2);
-            this.splitContainer1.Size = new System.Drawing.Size(785, 466);
+            this.splitContainer1.Size = new System.Drawing.Size(785, 441);
             this.splitContainer1.SplitterDistance = 485;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -171,11 +186,11 @@
             // toolStripContainer2.ContentPanel
             // 
             this.toolStripContainer2.ContentPanel.Controls.Add(this.treeView_Items);
-            this.toolStripContainer2.ContentPanel.Size = new System.Drawing.Size(481, 412);
+            this.toolStripContainer2.ContentPanel.Size = new System.Drawing.Size(481, 387);
             this.toolStripContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer2.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer2.Name = "toolStripContainer2";
-            this.toolStripContainer2.Size = new System.Drawing.Size(481, 462);
+            this.toolStripContainer2.Size = new System.Drawing.Size(481, 437);
             this.toolStripContainer2.TabIndex = 0;
             this.toolStripContainer2.Text = "toolStripContainer2";
             // 
@@ -215,7 +230,7 @@
             this.treeView_Items.Location = new System.Drawing.Point(0, 0);
             this.treeView_Items.Name = "treeView_Items";
             this.treeView_Items.SelectedImageIndex = 0;
-            this.treeView_Items.Size = new System.Drawing.Size(481, 412);
+            this.treeView_Items.Size = new System.Drawing.Size(481, 387);
             this.treeView_Items.TabIndex = 0;
             this.treeView_Items.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView_Items_AfterSelect);
             // 
@@ -250,21 +265,6 @@
             this.ToolStripButton_Filter.Size = new System.Drawing.Size(47, 22);
             this.ToolStripButton_Filter.Text = "x_Filter";
             // 
-            // hilfeToolStripMenuItem
-            // 
-            this.hilfeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.infoToolStripMenuItem});
-            this.hilfeToolStripMenuItem.Name = "hilfeToolStripMenuItem";
-            this.hilfeToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-            this.hilfeToolStripMenuItem.Text = "&Hilfe";
-            // 
-            // infoToolStripMenuItem
-            // 
-            this.infoToolStripMenuItem.Name = "infoToolStripMenuItem";
-            this.infoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.infoToolStripMenuItem.Text = "&Info";
-            this.infoToolStripMenuItem.Click += new System.EventHandler(this.infoToolStripMenuItem_Click);
-            // 
             // frmOfficeModule
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -275,7 +275,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmOfficeModule";
             this.Text = "x_Office Module";
-            this.Load += new System.EventHandler(this.frmOfficeModule_Load);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.frmOfficeModule_MouseMove);
             this.ContextMenuStrip_Tree.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();

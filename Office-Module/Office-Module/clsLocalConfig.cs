@@ -24,6 +24,8 @@ namespace Office_Module
         private clsDBLevel objDBLevel_Config1;
         private clsDBLevel objDBLevel_Config2;
 
+        public clsOntologyItem OItem_Session { get; set; }
+        public clsSession objSession { get; set; }
         
         public int ImageID_Root
         {

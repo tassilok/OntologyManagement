@@ -29,11 +29,12 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.button_ActivateBookmark = new System.Windows.Forms.Button();
+            this.button_InsertBookmark = new System.Windows.Forms.Button();
             this.button_Delete = new System.Windows.Forms.Button();
             this.button_Open = new System.Windows.Forms.Button();
             this.dataGridView_Documents = new System.Windows.Forms.DataGridView();
-            this.button_InsertBookmark = new System.Windows.Forms.Button();
-            this.button_ActivateBookmark = new System.Windows.Forms.Button();
+            this.button_InsertItems = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -50,6 +51,7 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.button_InsertItems);
             this.splitContainer1.Panel1.Controls.Add(this.button_ActivateBookmark);
             this.splitContainer1.Panel1.Controls.Add(this.button_InsertBookmark);
             this.splitContainer1.Panel1.Controls.Add(this.button_Delete);
@@ -62,10 +64,28 @@
             this.splitContainer1.SplitterDistance = 84;
             this.splitContainer1.TabIndex = 0;
             // 
+            // button_ActivateBookmark
+            // 
+            this.button_ActivateBookmark.Location = new System.Drawing.Point(4, 133);
+            this.button_ActivateBookmark.Name = "button_ActivateBookmark";
+            this.button_ActivateBookmark.Size = new System.Drawing.Size(75, 39);
+            this.button_ActivateBookmark.TabIndex = 3;
+            this.button_ActivateBookmark.Text = "x_Activate Bookmark";
+            this.button_ActivateBookmark.UseVisualStyleBackColor = true;
+            this.button_ActivateBookmark.Click += new System.EventHandler(this.button_ActivateBookmark_Click);
+            // 
+            // button_InsertBookmark
+            // 
+            this.button_InsertBookmark.Location = new System.Drawing.Point(4, 83);
+            this.button_InsertBookmark.Name = "button_InsertBookmark";
+            this.button_InsertBookmark.Size = new System.Drawing.Size(75, 43);
+            this.button_InsertBookmark.TabIndex = 2;
+            this.button_InsertBookmark.Text = "x_Insert Bookmark";
+            this.button_InsertBookmark.UseVisualStyleBackColor = true;
+            this.button_InsertBookmark.Click += new System.EventHandler(this.button_InsertBookmark_Click);
+            // 
             // button_Delete
             // 
-            this.button_Delete.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.button_Delete.Location = new System.Drawing.Point(4, 34);
             this.button_Delete.Name = "button_Delete";
             this.button_Delete.Size = new System.Drawing.Size(75, 23);
@@ -75,8 +95,6 @@
             // 
             // button_Open
             // 
-            this.button_Open.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.button_Open.Location = new System.Drawing.Point(4, 4);
             this.button_Open.Name = "button_Open";
             this.button_Open.Size = new System.Drawing.Size(75, 23);
@@ -99,25 +117,15 @@
             this.dataGridView_Documents.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_Documents_CellClick);
             this.dataGridView_Documents.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_Documents_RowHeaderMouseClick);
             // 
-            // button_InsertBookmark
+            // button_InsertItems
             // 
-            this.button_InsertBookmark.Location = new System.Drawing.Point(4, 83);
-            this.button_InsertBookmark.Name = "button_InsertBookmark";
-            this.button_InsertBookmark.Size = new System.Drawing.Size(75, 43);
-            this.button_InsertBookmark.TabIndex = 2;
-            this.button_InsertBookmark.Text = "x_Insert Bookmark";
-            this.button_InsertBookmark.UseVisualStyleBackColor = true;
-            this.button_InsertBookmark.Click += new System.EventHandler(this.button_InsertBookmark_Click);
-            // 
-            // button_ActivateBookmark
-            // 
-            this.button_ActivateBookmark.Location = new System.Drawing.Point(4, 133);
-            this.button_ActivateBookmark.Name = "button_ActivateBookmark";
-            this.button_ActivateBookmark.Size = new System.Drawing.Size(75, 39);
-            this.button_ActivateBookmark.TabIndex = 3;
-            this.button_ActivateBookmark.Text = "x_Activate Bookmark";
-            this.button_ActivateBookmark.UseVisualStyleBackColor = true;
-            this.button_ActivateBookmark.Click += new System.EventHandler(this.button_ActivateBookmark_Click);
+            this.button_InsertItems.Location = new System.Drawing.Point(4, 179);
+            this.button_InsertItems.Name = "button_InsertItems";
+            this.button_InsertItems.Size = new System.Drawing.Size(75, 44);
+            this.button_InsertItems.TabIndex = 4;
+            this.button_InsertItems.Text = "x_Insert Items";
+            this.button_InsertItems.UseVisualStyleBackColor = true;
+            this.button_InsertItems.Click += new System.EventHandler(this.button_InsertItems_Click);
             // 
             // UserControl_Documents
             // 
@@ -143,5 +151,6 @@
         private System.Windows.Forms.DataGridView dataGridView_Documents;
         private System.Windows.Forms.Button button_ActivateBookmark;
         private System.Windows.Forms.Button button_InsertBookmark;
+        private System.Windows.Forms.Button button_InsertItems;
     }
 }

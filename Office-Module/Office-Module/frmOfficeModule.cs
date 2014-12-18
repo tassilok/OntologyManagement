@@ -29,7 +29,6 @@ namespace Office_Module
         private frmDocumentEdit objFrmDocumentEdit;
         private UserControl_Documents objUserControl_Documents;
 
-
         private TreeNode objTreeNode_Root;
         private TreeNode objTreeNode_Documents;
         private TreeNode objTreeNode_ContentItems;
@@ -59,7 +58,14 @@ namespace Office_Module
         private void Initialize()
         {
             var objArgumentParsing = new clsArgumentParsing(objLocalConfig.Globals, Environment.GetCommandLineArgs().ToList());
-            if (objArgumentParsing.OList_Items != null && objArgumentParsing.OList_Items.Count == 1)
+            
+            if (!string.IsNullOrEmpty(objArgumentParsing.Session))
+            {
+                objFrmDocumentEdit = new frmDocumentEdit(objLocalConfig.Globals, new clsOntologyItem { GUID = objArgumentParsing.Session, Type = objLocalConfig.Globals.Type_Object, Mark = true });
+                objFrmDocumentEdit.ShowDialog(this);
+                Environment.Exit(0);
+            }
+            else if (objArgumentParsing.OList_Items != null && objArgumentParsing.OList_Items.Count == 1)
             {
                 objFrmDocumentEdit = new frmDocumentEdit(objLocalConfig.Globals, objArgumentParsing.OList_Items.First());
                 objFrmDocumentEdit.ShowDialog(this);
@@ -409,6 +415,11 @@ namespace Office_Module
         {
             AboutBox = new AboutBox_OntologyItem();
             AboutBox.ShowDialog(this);
+        }
+
+        private void frmOfficeModule_MouseMove(object sender, MouseEventArgs e)
+        {
+            
         }
     }
 }

@@ -25,6 +25,8 @@ namespace Office_Module
         private string strFilePath_LastAction;
         private string strFileName;
 
+        private ContentControl objContentControl;
+
         private Guid DocID;
         private bool boolVisible = false;
 
@@ -457,9 +459,9 @@ namespace Office_Module
             return strDocGUID;
         }
 
-        public string insertContentControl(string strTitle)
+        public string insertContentControl(string strTitle, string text = null)
         {
-            ContentControl objContentControl;
+            
             Document objWordDoc;
             string strDocGUID;
 
@@ -474,6 +476,10 @@ namespace Office_Module
                     objContentControl = objWord.ActiveDocument.ContentControls.Add(Microsoft.Office.Interop.Word.WdContentControlType.wdContentControlRichText);
                     objContentControl.Title = strTitle;
                     objContentControl.Range.Select();
+                    if (!string.IsNullOrEmpty(text))
+                    {
+                        objContentControl.Range.Text = text;
+                    }
                 }
                 else
                 {
