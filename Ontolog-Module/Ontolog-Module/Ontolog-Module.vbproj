@@ -721,6 +721,7 @@
     <None Include="Resources\cahiers_de_labo.png" />
     <None Include="Resources\bb_back_.png" />
     <None Include="Resources\bb_forward_.png" />
+    <Content Include="LuaBindings.cs" />
     <Content Include="VogelschwarmKlein.ico" />
     <None Include="Ontolog-Module_TemporaryKey.pfx" />
     <None Include="packages.config" />

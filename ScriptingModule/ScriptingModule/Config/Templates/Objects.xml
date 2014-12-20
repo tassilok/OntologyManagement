@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="Object">
+  <Item Id="24c53cc594564d6c97714ed34718e2c4" Id_Parent="aa616051e5214facabdbcbba6f8c6e73"><![CDATA[Scripting-Module]]></Item>
+<Item Id="84e3867652e248528bb51a9ef372d085" Id_Parent="86b05e853ce24a56be3c80375a686a82"><![CDATA[Automation]]></Item>
+<Item Id="d0332726e10a4d1d9e180dc8e7195db7" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Scripting-Module]]></Item>
+<Item Id="e48a6a662ead41159c7377d88232941c" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belongs_to]]></Item>
+<Item Id="bf9ad3b7a2254763879fe31e82dc84c4" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_Scripting_Module]]></Item>
+<Item Id="0a1906319497487c8b5d56896322e405" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_LuaPl]]></Item>
+<Item Id="dadf4c89d2d8454fa7ca3283f2b24d52" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_lua]]></Item>
+<Item Id="24c53cc594564d6c97714ed34718e2c4" Id_Parent="aa616051e5214facabdbcbba6f8c6e73"><![CDATA[Scripting-Module]]></Item>
+<Item Id="e0d95f79cdd44967861bd221e5dbb53d" Id_Parent="956a2e59176a4437a8668690616b9da4"><![CDATA[Lua]]></Item>
+<Item Id="ab577ad25c3c41a3a5cbe5c79f1ff812" Id_Parent="55e06eb05bdc45858d935bc776eae561"><![CDATA[lua]]></Item>
+
+</Items>

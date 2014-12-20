@@ -58,6 +58,7 @@
     <Compile Include="clsExecutableConfiguration.cs" />
     <Compile Include="clsLocalConfig.cs" />
     <Compile Include="clsShellOutput.cs" />
+    <Compile Include="clsTransaction_CodeSnipplets.cs" />
     <Compile Include="clsValue.cs" />
     <Compile Include="clsVariableToReportField.cs" />
     <Compile Include="clsVariableValueMapper.cs" />

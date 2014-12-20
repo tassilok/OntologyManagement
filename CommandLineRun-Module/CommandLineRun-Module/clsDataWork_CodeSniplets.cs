@@ -26,7 +26,7 @@ namespace CommandLineRun_Module
             var searchCode = new List<clsObjectAtt> { new clsObjectAtt { ID_Object = OItem_CodeSnipplet.GUID,
                         ID_AttributeType = objLocalConfig.OItem_attributetype_code.GUID } };
 
-            result = objDBLevel_CodeSnipplets.get_Data_ObjectAtt(searchCode);
+            result = objDBLevel_CodeSnipplets.get_Data_ObjectAtt(searchCode, boolIDs:false);
 
             if (result.GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
@@ -39,6 +39,13 @@ namespace CommandLineRun_Module
         public clsDataWork_CodeSniplets(clsLocalConfig LocalConfig)
         {
             objLocalConfig = LocalConfig;
+
+            Initialize();
+        }
+
+        public clsDataWork_CodeSniplets(clsGlobals Globals)
+        {
+            objLocalConfig = new clsLocalConfig(Globals);
 
             Initialize();
         }

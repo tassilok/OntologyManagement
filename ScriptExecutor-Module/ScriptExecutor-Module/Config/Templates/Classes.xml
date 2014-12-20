@@ -4,16 +4,9 @@
 <Item Id="d3f72a683f6146a48ff381db05997dc8" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Items]]></Item>
 <Item Id="aab30dd04faf4386896016218132b110" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Join]]></Item>
 <Item Id="925f489dec8d4130a418fcb022a4c731" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Relation-Rule]]></Item>
-<Item Id="4158aad2656a4fb997bf524c6f5fecaa" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Variable]]></Item>
-<Item Id="a43c35e4751d484484fa58c2dcce5abd" Id_Parent="4158aad2656a4fb997bf524c6f5fecaa"><![CDATA[Value]]></Item>
-<Item Id="956a2e59176a4437a8668690616b9da4" Id_Parent="71415eebce464b2cb0a2f72116b55438"><![CDATA[Programing-Language]]></Item>
-<Item Id="dbadb971a838485ba4eedce6c477ac3c" Id_Parent="20b74c27dcd64d86b4c2dd669a9d9490"><![CDATA[Comand Line (Run)]]></Item>
-<Item Id="20b74c27dcd64d86b4c2dd669a9d9490" Id_Parent="4546225bab044036b2182e95a25a0c2b"><![CDATA[Comand Line]]></Item>
-<Item Id="e116e2bd424b4a76a22908513f919a85" Id_Parent="71415eebce464b2cb0a2f72116b55438"><![CDATA[Code-Snipplets]]></Item>
-<Item Id="4546225bab044036b2182e95a25a0c2b" Id_Parent="73e32abfe5774d319a46bc07e9e15de3"><![CDATA[Application]]></Item>
-<Item Id="71415eebce464b2cb0a2f72116b55438" Id_Parent="73e32abfe5774d319a46bc07e9e15de3"><![CDATA[Software-Development]]></Item>
+<Item Id="aa616051e5214facabdbcbba6f8c6e73" Id_Parent="b5224e7f7d0d4beebf8eb9a0eeba5747"><![CDATA[Module]]></Item>
+<Item Id="b5224e7f7d0d4beebf8eb9a0eeba5747" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Module-Management]]></Item>
 <Item Id="665dd88b792e4256a27a68ee1e10ece6" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[System]]></Item>
 <Item Id="49fdcd27e1054770941d7485dcad08c1" Id_Parent=""><![CDATA[Root]]></Item>
-<Item Id="73e32abfe5774d319a46bc07e9e15de3" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[Software-Management]]></Item>
 
 </Items>

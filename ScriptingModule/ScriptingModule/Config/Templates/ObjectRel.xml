@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="ObjectRel">
+  <Item Id_Object="ab577ad25c3c41a3a5cbe5c79f1ff812" Id_Parent_Object="55e06eb05bdc45858d935bc776eae561" Id_Other="e0d95f79cdd44967861bd221e5dbb53d" Id_Parent_Other="956a2e59176a4437a8668690616b9da4" Id_RelationType="e07469d9766c443e85266d9c684f944f" OrderId="1" Ontology="Object"/>
+  
+<Item Id_Object="bf9ad3b7a2254763879fe31e82dc84c4" Id_Parent_Object="d3f72a683f6146a48ff381db05997dc8" Id_Other="24c53cc594564d6c97714ed34718e2c4" Id_Parent_Other="aa616051e5214facabdbcbba6f8c6e73" Id_RelationType="f68a9438fb8b418d8e0bd9aefc9ecdf3" OrderId="0" Ontology="Object"/>
+  
+<Item Id_Object="bf9ad3b7a2254763879fe31e82dc84c4" Id_Parent_Object="d3f72a683f6146a48ff381db05997dc8" Id_Other="24c53cc594564d6c97714ed34718e2c4" Id_Parent_Other="aa616051e5214facabdbcbba6f8c6e73" Id_RelationType="f68a9438fb8b418d8e0bd9aefc9ecdf3" OrderId="0" Ontology="Object"/>
+  
+<Item Id_Object="24c53cc594564d6c97714ed34718e2c4" Id_Parent_Object="aa616051e5214facabdbcbba6f8c6e73" Id_Other="84e3867652e248528bb51a9ef372d085" Id_Parent_Other="86b05e853ce24a56be3c80375a686a82" Id_RelationType="9996494aef6a4357a6ef71a92b5ff596" OrderId="1" Ontology="Object"/>
+  
+<Item Id_Object="24c53cc594564d6c97714ed34718e2c4" Id_Parent_Object="aa616051e5214facabdbcbba6f8c6e73" Id_Other="84e3867652e248528bb51a9ef372d085" Id_Parent_Other="86b05e853ce24a56be3c80375a686a82" Id_RelationType="9996494aef6a4357a6ef71a92b5ff596" OrderId="1" Ontology="Object"/>
+  
+<Item Id_Object="dadf4c89d2d8454fa7ca3283f2b24d52" Id_Parent_Object="d3f72a683f6146a48ff381db05997dc8" Id_Other="ab577ad25c3c41a3a5cbe5c79f1ff812" Id_Parent_Other="55e06eb05bdc45858d935bc776eae561" Id_RelationType="f68a9438fb8b418d8e0bd9aefc9ecdf3" OrderId="0" Ontology="Object"/>
+  
+<Item Id_Object="0a1906319497487c8b5d56896322e405" Id_Parent_Object="d3f72a683f6146a48ff381db05997dc8" Id_Other="e0d95f79cdd44967861bd221e5dbb53d" Id_Parent_Other="956a2e59176a4437a8668690616b9da4" Id_RelationType="f68a9438fb8b418d8e0bd9aefc9ecdf3" OrderId="0" Ontology="Object"/>
+  
+<Item Id_Object="d0332726e10a4d1d9e180dc8e7195db7" Id_Parent_Object="eb411e2ff93d4a5ebbbac0b5d7ec0197" Id_Other="bf9ad3b7a2254763879fe31e82dc84c4" Id_Parent_Other="d3f72a683f6146a48ff381db05997dc8" Id_RelationType="e971160347db44d8a476fe88290639a4" OrderId="1" Ontology="Object"/>
+  
+<Item Id_Object="d0332726e10a4d1d9e180dc8e7195db7" Id_Parent_Object="eb411e2ff93d4a5ebbbac0b5d7ec0197" Id_Other="0a1906319497487c8b5d56896322e405" Id_Parent_Other="d3f72a683f6146a48ff381db05997dc8" Id_RelationType="e971160347db44d8a476fe88290639a4" OrderId="1" Ontology="Object"/>
+  
+<Item Id_Object="d0332726e10a4d1d9e180dc8e7195db7" Id_Parent_Object="eb411e2ff93d4a5ebbbac0b5d7ec0197" Id_Other="e48a6a662ead41159c7377d88232941c" Id_Parent_Other="d3f72a683f6146a48ff381db05997dc8" Id_RelationType="e971160347db44d8a476fe88290639a4" OrderId="1" Ontology="Object"/>
+  
+<Item Id_Object="d0332726e10a4d1d9e180dc8e7195db7" Id_Parent_Object="eb411e2ff93d4a5ebbbac0b5d7ec0197" Id_Other="dadf4c89d2d8454fa7ca3283f2b24d52" Id_Parent_Other="d3f72a683f6146a48ff381db05997dc8" Id_RelationType="e971160347db44d8a476fe88290639a4" OrderId="1" Ontology="Object"/>
+  
+<Item Id_Object="e48a6a662ead41159c7377d88232941c" Id_Parent_Object="d3f72a683f6146a48ff381db05997dc8" Id_Other="e07469d9766c443e85266d9c684f944f" Id_Parent_Other="" Id_RelationType="4417582dbd6347fbab18770a611917fe" OrderId="0" Ontology="RelationType"/>
+  
+
+</Items>

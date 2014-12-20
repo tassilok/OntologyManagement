@@ -8,10 +8,5 @@
 <Item Id="f68a9438fb8b418d8e0bd9aefc9ecdf3" Id_Parent=""><![CDATA[belonging Object]]></Item>
 <Item Id="4417582dbd6347fbab18770a611917fe" Id_Parent=""><![CDATA[belonging RelationType]]></Item>
 <Item Id="81bbd380e35648a1a4b7fdbaebe7273c" Id_Parent=""><![CDATA[belonging Attribute]]></Item>
-<Item Id="e971160347db44d8a476fe88290639a4" Id_Parent=""><![CDATA[contains]]></Item>
-<Item Id="d34d545e9ddf46cebb6f22db1b7bb025" Id_Parent=""><![CDATA[belonging Source]]></Item>
-<Item Id="ef1cc33106ac47cdace2587c1f87a6d6" Id_Parent=""><![CDATA[belonging Value]]></Item>
-<Item Id="e07469d9766c443e85266d9c684f944f" Id_Parent=""><![CDATA[belongs to]]></Item>
-<Item Id="fafc1464815f45969737bcbc96bd744a" Id_Parent=""><![CDATA[needs]]></Item>
 
 </Items>
