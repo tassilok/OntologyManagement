@@ -20,21 +20,38 @@ namespace Manual_Repair_Module
         private clsDataWork_Repair objDataWork_Repair;
         private clsTransaction_Objects objTransaction_Objects;
 
+        private clsDBLevel objDBLevel;
+
         public frmManualRepair()
         {
             InitializeComponent();
 
             objLocalConfig = new clsLocalConfig(new clsGlobals());
-            objTransaction_Objects = new clsTransaction_Objects(objLocalConfig.Globals);
-            Initialize();
+            //objTransaction_Objects = new clsTransaction_Objects(objLocalConfig.Globals);
+            //Initialize();
             //Repair_MathematischeKomponenten();
             //Repair_MP3File();
             //Repair_MultipleRelations();
             //RemoveMultipleDataTypes();
             //Move_Versions();
             //MoveLogEntries();
-            DeleteAllReportFields();
+            //DeleteAllReportFields();
+            //ExportOntologyItems();
+            ImportOntologyItems();
+        }
 
+        private void ExportOntologyItems()
+        {
+            var objExport = new clsExport(objLocalConfig.Globals);
+
+            objExport.ExportOntologyGraph("C:\\Temp\\Ontologies");
+        }
+
+        private void ImportOntologyItems()
+        {
+            var objImport = new clsImport(objLocalConfig.Globals);
+
+            objImport.ImportXMLFiles("C:\\Temp\\Ontologies");
         }
 
         private void DeleteAllReportFields()

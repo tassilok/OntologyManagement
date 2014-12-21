@@ -86,14 +86,8 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ClassLibrary_ShellWork">
-      <HintPath>..\..\ClassLibrary_ShellWork\ClassLibrary_ShellWork\bin\Debug\ClassLibrary_ShellWork.dll</HintPath>
-    </Reference>
     <Reference Include="Elasticsearch.Net">
       <HintPath>..\..\ElasticSearchNestConnector\ElasticSearchNestConnector\bin\Debug\Elasticsearch.Net.dll</HintPath>
-    </Reference>
-    <Reference Include="ElasticSearchNestConnector">
-      <HintPath>..\..\ElasticSearchNestConnector\ElasticSearchNestConnector\bin\Debug\ElasticSearchNestConnector.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.GLEE">
       <HintPath>..\..\libs\Glee\Microsoft.GLEE.dll</HintPath>
@@ -831,6 +825,14 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ClassLibrary_ShellWork\ClassLibrary_ShellWork\ClassLibrary_ShellWork.vbproj">
+      <Project>{10bcc346-a390-401c-ba6a-904a8842a40b}</Project>
+      <Name>ClassLibrary_ShellWork</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ElasticSearchNestConnector\ElasticSearchNestConnector\ElasticSearchNestConnector.csproj">
+      <Project>{47208cae-f413-4c25-a184-14f1140ca081}</Project>
+      <Name>ElasticSearchNestConnector</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\OntologyClasses\OntologyClasses.csproj">
       <Project>{e937824a-b52a-4aa4-a008-710824fc52f3}</Project>
       <Name>OntologyClasses</Name>
@@ -842,6 +844,10 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>mkdir "%25TEMP%25\OntologyManagement\$(TargetName)"
+xcopy "$(TargetDir)*.*" "%25TEMP%25\OntologyManagement\$(TargetName)\" /E /D /C /Y /H</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

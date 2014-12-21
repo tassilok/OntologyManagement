@@ -8,20 +8,20 @@ del /s /q "%OMODULE_PATH%\OntologyClasses\*.*"
 del /s /q "%OMODULE_PATH%\Structure-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Structure-Module_0.0.1.1.exe" -o"%OMODULE_PATH%\Structure-Module\"
 
-del /s /q "%OMODULE_PATH%\Grid-Module\*.*"
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Grid-Module_0.0.0.2.exe" -o"%OMODULE_PATH%\Grid-Module\"
-
 del /s /q "%OMODULE_PATH%\ClassLibrary_ShellWork\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\ClassLibrary_ShellWork_0.1.0.1.exe" -o"%OMODULE_PATH%\ClassLibrary_ShellWork\"
 
-del /s /q "%OMODULE_PATH%\ElasticSearchNestConnector\*.*"
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\ElasticSearchNestConnector_0.0.0.44.exe" -o"%OMODULE_PATH%\ElasticSearchNestConnector\"
+del /s /q "%OMODULE_PATH%\ClipBoardListener-Url-Connector\*.*"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\ClipBoardListener-Url-Connector_0.0.0.46.exe" -o"%OMODULE_PATH%\ClipBoardListener-Url-Connector\"
 
 del /s /q "%OMODULE_PATH%\ElasticSearchNestConnector\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\ElasticSearchNestConnector_0.0.0.44.exe" -o"%OMODULE_PATH%\ElasticSearchNestConnector\"
 
-del /s /q "%OMODULE_PATH%\Ontolog-Module\*.*"
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Ontolog-Module_0.3.0.131.exe" -o"%OMODULE_PATH%\Ontolog-Module\"
+del /s /q "%OMODULE_PATH%\ElasticSearchNestConnector\*.*"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\ElasticSearchNestConnector_0.0.0.44.exe" -o"%OMODULE_PATH%\ElasticSearchNestConnector\"
+
+del /s /q "%OMODULE_PATH%\Ontology-Module\*.*"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Ontology-Module_0.3.0.131.exe" -o"%OMODULE_PATH%\Ontology-Module\"
 
 del /s /q "%OMODULE_PATH%\File-Tagging-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\File-Tagging-Module_0.0.0.45.exe" -o"%OMODULE_PATH%\File-Tagging-Module\"
@@ -50,8 +50,8 @@ del /s /q "%OMODULE_PATH%\Localization-Module\*.*"
 del /s /q "%OMODULE_PATH%\Formale-Begriffsanalyse-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Formale-Begriffsanalyse-Module_0.0.0.44.exe" -o"%OMODULE_PATH%\Formale-Begriffsanalyse-Module\"
 
-del /s /q "%OMODULE_PATH%\ClipBoardListener-Url-Connector\*.*"
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\ClipBoardListener-Url-Connector_0.0.0.46.exe" -o"%OMODULE_PATH%\ClipBoardListener-Url-Connector\"
+del /s /q "%OMODULE_PATH%\Grid-Module\*.*"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Grid-Module_0.0.0.2.exe" -o"%OMODULE_PATH%\Grid-Module\"
 
 del /s /q "%OMODULE_PATH%\NextGenerationOntoEdit\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\NextGenerationOntoEdit_0.0.0.2.exe" -o"%OMODULE_PATH%\NextGenerationOntoEdit\"
@@ -62,23 +62,14 @@ del /s /q "%OMODULE_PATH%\GraphMLConnector\*.*"
 del /s /q "%OMODULE_PATH%\Hierarchichal-Splitter-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Hierarchichal-Splitter-Module_0.0.0.48.exe" -o"%OMODULE_PATH%\Hierarchichal-Splitter-Module\"
 
-del /s /q "%OMODULE_PATH%\CommandLineRun-Module\*.*"
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\CommandLineRun-Module_0.0.0.37.exe" -o"%OMODULE_PATH%\CommandLineRun-Module\"
-
 del /s /q "%OMODULE_PATH%\Ping-Test-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Ping-Test-Module_0.0.0.40.exe" -o"%OMODULE_PATH%\Ping-Test-Module\"
 
-del /s /q "%OMODULE_PATH%\Log-Module\*.*"
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Log-Module_0.2.0.51.exe" -o"%OMODULE_PATH%\Log-Module\"
-
-del /s /q "%OMODULE_PATH%\Database-Configuration-Module\*.*"
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Database-Configuration-Module_0.0.0.15.exe" -o"%OMODULE_PATH%\Database-Configuration-Module\"
+del /s /q "%OMODULE_PATH%\Log-Manager\*.*"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Log-Manager_0.2.0.51.exe" -o"%OMODULE_PATH%\Log-Manager\"
 
 del /s /q "%OMODULE_PATH%\TimeManagement-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\TimeManagement-Module_0.0.0.87.exe" -o"%OMODULE_PATH%\TimeManagement-Module\"
-
-del /s /q "%OMODULE_PATH%\CommandLineCL-Module\*.*"
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\CommandLineCL-Module_0.0.0.30.exe" -o"%OMODULE_PATH%\CommandLineCL-Module\"
 
 del /s /q "%OMODULE_PATH%\ElasticSearchLogging-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\ElasticSearchLogging-Module_0.0.0.45.exe" -o"%OMODULE_PATH%\ElasticSearchLogging-Module\"
@@ -107,11 +98,23 @@ del /s /q "%OMODULE_PATH%\Typed-Tagging-Module\*.*"
 del /s /q "%OMODULE_PATH%\AudioPlayer-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\AudioPlayer-Module_0.0.0.63.exe" -o"%OMODULE_PATH%\AudioPlayer-Module\"
 
+del /s /q "%OMODULE_PATH%\CommandLineRun-Module\*.*"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\CommandLineRun-Module_0.0.0.37.exe" -o"%OMODULE_PATH%\CommandLineRun-Module\"
+
 del /s /q "%OMODULE_PATH%\BankTransaction-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\BankTransaction-Module_0.0.1.64.exe" -o"%OMODULE_PATH%\BankTransaction-Module\"
 
 del /s /q "%OMODULE_PATH%\Development-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Development-Module_0.2.0.117.exe" -o"%OMODULE_PATH%\Development-Module\"
+
+del /s /q "%OMODULE_PATH%\DatabaseConfigurationModule\*.*"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\DatabaseConfigurationModule_0.0.0.15.exe" -o"%OMODULE_PATH%\DatabaseConfigurationModule\"
+
+del /s /q "%OMODULE_PATH%\ScriptingModule\*.*"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\ScriptingModule_0.0.0.5.exe" -o"%OMODULE_PATH%\ScriptingModule\"
+
+del /s /q "%OMODULE_PATH%\CommandLineCL-Module\*.*"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\CommandLineCL-Module_0.0.0.30.exe" -o"%OMODULE_PATH%\CommandLineCL-Module\"
 
 del /s /q "%OMODULE_PATH%\Media-Viewer-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Media-Viewer-Module_0.0.1.116.exe" -o"%OMODULE_PATH%\Media-Viewer-Module\"
@@ -146,8 +149,8 @@ del /s /q "%OMODULE_PATH%\Schriftverkehrs-Module\*.*"
 del /s /q "%OMODULE_PATH%\Bill-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Bill-Module_0.0.0.96.exe" -o"%OMODULE_PATH%\Bill-Module\"
 
-del /s /q "%OMODULE_PATH%\LiteraturQuellen-Module\*.*"
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\LiteraturQuellen-Module_0.0.0.138.exe" -o"%OMODULE_PATH%\LiteraturQuellen-Module\"
+del /s /q "%OMODULE_PATH%\Literaturquellen-Module\*.*"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Literaturquellen-Module_0.0.0.138.exe" -o"%OMODULE_PATH%\Literaturquellen-Module\"
 
 del /s /q "%OMODULE_PATH%\Change-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Change-Module_0.0.0.99.exe" -o"%OMODULE_PATH%\Change-Module\"

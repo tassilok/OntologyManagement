@@ -276,7 +276,7 @@
       <Name>Media-Viewer-Module</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\ModuleLibrary\ModuleLibrary\ModuleLibrary.vbproj">
-      <Project>{28FDA320-130A-4B64-8199-B6A3F7F6D56A}</Project>
+      <Project>{28fda320-130a-4b64-8199-b6a3f7f6d56a}</Project>
       <Name>ModuleLibrary</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Ontolog-Module\Ontolog-Module\Ontolog-Module.vbproj">
@@ -302,6 +302,10 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>mkdir "%25TEMP%25\OntologyManagement\$(TargetName)"
+xcopy "$(TargetDir)*.*" "%25TEMP%25\OntologyManagement\$(TargetName)\" /E /D /C /Y /H</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

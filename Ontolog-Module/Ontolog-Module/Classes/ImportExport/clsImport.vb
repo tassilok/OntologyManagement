@@ -56,23 +56,23 @@ Public Class clsImport
 
         ClearLists()
 
-        Try
-            Dim fileList = IO.Directory.GetFiles(strPath).Where(Function(f) Path.GetExtension(f).ToLower = ".xml").ToList()
+        'Try
+        Dim fileList = IO.Directory.GetFiles(strPath).Where(Function(f) Path.GetExtension(f).ToLower = ".xml").ToList()
 
-            For Each strFile In fileList
-                Dim objStream = New FileStream(strFile, FileMode.Open)
+        For Each strFile In fileList
+            Dim objStream = New FileStream(strFile, FileMode.Open)
 
-                objOItem_Result = AddItemsFromXMLStream(objStream)
-                If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
-                    objOItem_Result = SaveItems()
-                End If
-                objStream.Close()
-            Next
+            objOItem_Result = AddItemsFromXMLStream(objStream)
+            If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+                objOItem_Result = SaveItems()
+            End If
+            objStream.Close()
+        Next
 
-            objOItem_Result.Count = fileList.Count
-        Catch ex As Exception
-            objOItem_Result = objGlobals.LState_Error.Clone
-        End Try
+        objOItem_Result.Count = fileList.Count
+        'Catch ex As Exception
+        '    objOItem_Result = objGlobals.LState_Error.Clone
+        'End Try
 
         Return objOItem_Result
     End Function
@@ -159,8 +159,14 @@ Public Class clsImport
                         Case objGlobals.Type_Object
                             Dim ID = objXMLReader.GetAttribute("Id")
                             Dim ID_Parent = objXMLReader.GetAttribute("Id_Parent")
-                            objXMLReader.Read()
-                            Dim Name = objXMLReader.Value
+                            Dim Name = ""
+                            Try
+                                objXMLReader.Read()
+                                Name = objXMLReader.Value
+                            Catch ex As Exception
+                                Name = ""
+                            End Try
+                            
 
                             objOList_OItems.Add(New clsOntologyItem With {.GUID = ID, _
                                                                           .Name = Name, _
@@ -236,10 +242,15 @@ Public Class clsImport
                             Dim Val_String As String = Nothing
                             If objXMLReader.ReadToDescendant("Val_Named") Then
 
-                                Val_Named = System.Web.HttpUtility.HtmlDecode(objXMLReader.ReadElementContentAsString)
-                                If Val_Named = "" Then
-                                    Val_Named = Nothing
-                                End If
+                                Try
+                                    Val_Named = System.Web.HttpUtility.HtmlDecode(objXMLReader.ReadElementContentAsString)
+                                    If Val_Named = "" Then
+                                        Val_Named = Nothing
+                                    End If
+                                Catch ex As Exception
+                                    Val_Named = ""
+                                End Try
+                                
 
                             End If
                             If objXMLReader.ReadToFollowing("Val_Bit") Then

@@ -460,6 +460,7 @@ End Enum
                     OList_RelationTypes = objDBLevel_RelationTypes.OList_RelationTypes
                     objOItem_Result = objDBLevel_Classes.get_Data_Classes()
                     If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+                        OList_Classes = objDBLevel_Classes.OList_Classes
                         objOItem_Result = objDBLevel_Objects.get_Data_Objects()
                         If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
                             OList_Objects = objDBLevel_Objects.OList_Objects

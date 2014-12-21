@@ -40,6 +40,7 @@ namespace ScriptingModule
             lua.RegisterFunction("CreateGuid", functions, functions.GetType().GetMethod("CreateGuid"));
             lua.RegisterFunction("MsgBox", functions, functions.GetType().GetMethod("MsgBox"));
             lua.RegisterFunction("SaveFile", functions, functions.GetType().GetMethod("SaveFile"));
+            lua.RegisterFunction("ExportOntology", functions, functions.GetType().GetMethod("ExportOntology"));
         }
 
         public clsOntologyItem ExecuteScript(string script)

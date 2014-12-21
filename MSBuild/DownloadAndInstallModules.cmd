@@ -27,18 +27,6 @@ wget -O "%temp%\OModules\Structure-Module_0.0.1.1.exe" %DOWNLOAD_URL%/Structure-
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Structure-Module_0.0.1.1.exe" -o"%OMODULE_PATH%\Structure-Module\"
 
 
-if /i [Grid-Module] EQU [Ontolog-Module] (
-	SET DOWNLOAD_URL=https://sourceforge.net/projects/ontologymanager/files/OntologyManager
-) else (
-	SET DOWNLOAD_URL=https://sourceforge.net/projects/ontologymanager/files/Modules/Grid-Module
-)
-
-del /s /q "%OMODULE_PATH%\Grid-Module\*.*"
-
-wget -O "%temp%\OModules\Grid-Module_0.0.0.2.exe" %DOWNLOAD_URL%/Grid-Module_0.0.0.2.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Grid-Module_0.0.0.2.exe" -o"%OMODULE_PATH%\Grid-Module\"
-
-
 if /i [ClassLibrary_ShellWork] EQU [Ontolog-Module] (
 	SET DOWNLOAD_URL=https://sourceforge.net/projects/ontologymanager/files/OntologyManager
 ) else (
@@ -51,6 +39,18 @@ wget -O "%temp%\OModules\ClassLibrary_ShellWork_0.1.0.1.exe" %DOWNLOAD_URL%/Clas
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\ClassLibrary_ShellWork_0.1.0.1.exe" -o"%OMODULE_PATH%\ClassLibrary_ShellWork\"
 
 
+if /i [ClipBoardListener-Url-Connector] EQU [Ontolog-Module] (
+	SET DOWNLOAD_URL=https://sourceforge.net/projects/ontologymanager/files/OntologyManager
+) else (
+	SET DOWNLOAD_URL=https://sourceforge.net/projects/ontologymanager/files/Modules/ClipBoardListener-Url-Connector
+)
+
+del /s /q "%OMODULE_PATH%\ClipBoardListener-Url-Connector\*.*"
+
+wget -O "%temp%\OModules\ClipBoardListener-Url-Connector_0.0.0.46.exe" %DOWNLOAD_URL%/ClipBoardListener-Url-Connector_0.0.0.46.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\ClipBoardListener-Url-Connector_0.0.0.46.exe" -o"%OMODULE_PATH%\ClipBoardListener-Url-Connector\"
+
+
 if /i [ElasticSearchNestConnector] EQU [Ontolog-Module] (
 	SET DOWNLOAD_URL=https://sourceforge.net/projects/ontologymanager/files/OntologyManager
 ) else (
@@ -75,16 +75,16 @@ wget -O "%temp%\OModules\ElasticSearchNestConnector_0.0.0.44.exe" %DOWNLOAD_URL%
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\ElasticSearchNestConnector_0.0.0.44.exe" -o"%OMODULE_PATH%\ElasticSearchNestConnector\"
 
 
-if /i [Ontolog-Module] EQU [Ontolog-Module] (
+if /i [Ontology-Module] EQU [Ontolog-Module] (
 	SET DOWNLOAD_URL=https://sourceforge.net/projects/ontologymanager/files/OntologyManager
 ) else (
-	SET DOWNLOAD_URL=https://sourceforge.net/projects/ontologymanager/files/Modules/Ontolog-Module
+	SET DOWNLOAD_URL=https://sourceforge.net/projects/ontologymanager/files/Modules/Ontology-Module
 )
 
-del /s /q "%OMODULE_PATH%\Ontolog-Module\*.*"
+del /s /q "%OMODULE_PATH%\Ontology-Module\*.*"
 
-wget -O "%temp%\OModules\Ontolog-Module_0.3.0.131.exe" %DOWNLOAD_URL%/Ontolog-Module_0.3.0.131.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Ontolog-Module_0.3.0.131.exe" -o"%OMODULE_PATH%\Ontolog-Module\"
+wget -O "%temp%\OModules\Ontology-Module_0.3.0.131.exe" %DOWNLOAD_URL%/Ontology-Module_0.3.0.131.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Ontology-Module_0.3.0.131.exe" -o"%OMODULE_PATH%\Ontology-Module\"
 
 
 if /i [File-Tagging-Module] EQU [Ontolog-Module] (
@@ -195,16 +195,16 @@ wget -O "%temp%\OModules\Formale-Begriffsanalyse-Module_0.0.0.44.exe" %DOWNLOAD_
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Formale-Begriffsanalyse-Module_0.0.0.44.exe" -o"%OMODULE_PATH%\Formale-Begriffsanalyse-Module\"
 
 
-if /i [ClipBoardListener-Url-Connector] EQU [Ontolog-Module] (
+if /i [Grid-Module] EQU [Ontolog-Module] (
 	SET DOWNLOAD_URL=https://sourceforge.net/projects/ontologymanager/files/OntologyManager
 ) else (
-	SET DOWNLOAD_URL=https://sourceforge.net/projects/ontologymanager/files/Modules/ClipBoardListener-Url-Connector
+	SET DOWNLOAD_URL=https://sourceforge.net/projects/ontologymanager/files/Modules/Grid-Module
 )
 
-del /s /q "%OMODULE_PATH%\ClipBoardListener-Url-Connector\*.*"
+del /s /q "%OMODULE_PATH%\Grid-Module\*.*"
 
-wget -O "%temp%\OModules\ClipBoardListener-Url-Connector_0.0.0.46.exe" %DOWNLOAD_URL%/ClipBoardListener-Url-Connector_0.0.0.46.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\ClipBoardListener-Url-Connector_0.0.0.46.exe" -o"%OMODULE_PATH%\ClipBoardListener-Url-Connector\"
+wget -O "%temp%\OModules\Grid-Module_0.0.0.2.exe" %DOWNLOAD_URL%/Grid-Module_0.0.0.2.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Grid-Module_0.0.0.2.exe" -o"%OMODULE_PATH%\Grid-Module\"
 
 
 if /i [NextGenerationOntoEdit] EQU [Ontolog-Module] (
@@ -243,18 +243,6 @@ wget -O "%temp%\OModules\Hierarchichal-Splitter-Module_0.0.0.48.exe" %DOWNLOAD_U
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Hierarchichal-Splitter-Module_0.0.0.48.exe" -o"%OMODULE_PATH%\Hierarchichal-Splitter-Module\"
 
 
-if /i [CommandLineRun-Module] EQU [Ontolog-Module] (
-	SET DOWNLOAD_URL=https://sourceforge.net/projects/ontologymanager/files/OntologyManager
-) else (
-	SET DOWNLOAD_URL=https://sourceforge.net/projects/ontologymanager/files/Modules/CommandLineRun-Module
-)
-
-del /s /q "%OMODULE_PATH%\CommandLineRun-Module\*.*"
-
-wget -O "%temp%\OModules\CommandLineRun-Module_0.0.0.37.exe" %DOWNLOAD_URL%/CommandLineRun-Module_0.0.0.37.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\CommandLineRun-Module_0.0.0.37.exe" -o"%OMODULE_PATH%\CommandLineRun-Module\"
-
-
 if /i [Ping-Test-Module] EQU [Ontolog-Module] (
 	SET DOWNLOAD_URL=https://sourceforge.net/projects/ontologymanager/files/OntologyManager
 ) else (
@@ -267,28 +255,16 @@ wget -O "%temp%\OModules\Ping-Test-Module_0.0.0.40.exe" %DOWNLOAD_URL%/Ping-Test
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Ping-Test-Module_0.0.0.40.exe" -o"%OMODULE_PATH%\Ping-Test-Module\"
 
 
-if /i [Log-Module] EQU [Ontolog-Module] (
+if /i [Log-Manager] EQU [Ontolog-Module] (
 	SET DOWNLOAD_URL=https://sourceforge.net/projects/ontologymanager/files/OntologyManager
 ) else (
-	SET DOWNLOAD_URL=https://sourceforge.net/projects/ontologymanager/files/Modules/Log-Module
+	SET DOWNLOAD_URL=https://sourceforge.net/projects/ontologymanager/files/Modules/Log-Manager
 )
 
-del /s /q "%OMODULE_PATH%\Log-Module\*.*"
+del /s /q "%OMODULE_PATH%\Log-Manager\*.*"
 
-wget -O "%temp%\OModules\Log-Module_0.2.0.51.exe" %DOWNLOAD_URL%/Log-Module_0.2.0.51.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Log-Module_0.2.0.51.exe" -o"%OMODULE_PATH%\Log-Module\"
-
-
-if /i [Database-Configuration-Module] EQU [Ontolog-Module] (
-	SET DOWNLOAD_URL=https://sourceforge.net/projects/ontologymanager/files/OntologyManager
-) else (
-	SET DOWNLOAD_URL=https://sourceforge.net/projects/ontologymanager/files/Modules/Database-Configuration-Module
-)
-
-del /s /q "%OMODULE_PATH%\Database-Configuration-Module\*.*"
-
-wget -O "%temp%\OModules\Database-Configuration-Module_0.0.0.15.exe" %DOWNLOAD_URL%/Database-Configuration-Module_0.0.0.15.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Database-Configuration-Module_0.0.0.15.exe" -o"%OMODULE_PATH%\Database-Configuration-Module\"
+wget -O "%temp%\OModules\Log-Manager_0.2.0.51.exe" %DOWNLOAD_URL%/Log-Manager_0.2.0.51.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Log-Manager_0.2.0.51.exe" -o"%OMODULE_PATH%\Log-Manager\"
 
 
 if /i [TimeManagement-Module] EQU [Ontolog-Module] (
@@ -301,18 +277,6 @@ del /s /q "%OMODULE_PATH%\TimeManagement-Module\*.*"
 
 wget -O "%temp%\OModules\TimeManagement-Module_0.0.0.87.exe" %DOWNLOAD_URL%/TimeManagement-Module_0.0.0.87.exe/download
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\TimeManagement-Module_0.0.0.87.exe" -o"%OMODULE_PATH%\TimeManagement-Module\"
-
-
-if /i [CommandLineCL-Module] EQU [Ontolog-Module] (
-	SET DOWNLOAD_URL=https://sourceforge.net/projects/ontologymanager/files/OntologyManager
-) else (
-	SET DOWNLOAD_URL=https://sourceforge.net/projects/ontologymanager/files/Modules/CommandLineCL-Module
-)
-
-del /s /q "%OMODULE_PATH%\CommandLineCL-Module\*.*"
-
-wget -O "%temp%\OModules\CommandLineCL-Module_0.0.0.30.exe" %DOWNLOAD_URL%/CommandLineCL-Module_0.0.0.30.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\CommandLineCL-Module_0.0.0.30.exe" -o"%OMODULE_PATH%\CommandLineCL-Module\"
 
 
 if /i [ElasticSearchLogging-Module] EQU [Ontolog-Module] (
@@ -423,6 +387,18 @@ wget -O "%temp%\OModules\AudioPlayer-Module_0.0.0.63.exe" %DOWNLOAD_URL%/AudioPl
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\AudioPlayer-Module_0.0.0.63.exe" -o"%OMODULE_PATH%\AudioPlayer-Module\"
 
 
+if /i [CommandLineRun-Module] EQU [Ontolog-Module] (
+	SET DOWNLOAD_URL=https://sourceforge.net/projects/ontologymanager/files/OntologyManager
+) else (
+	SET DOWNLOAD_URL=https://sourceforge.net/projects/ontologymanager/files/Modules/CommandLineRun-Module
+)
+
+del /s /q "%OMODULE_PATH%\CommandLineRun-Module\*.*"
+
+wget -O "%temp%\OModules\CommandLineRun-Module_0.0.0.37.exe" %DOWNLOAD_URL%/CommandLineRun-Module_0.0.0.37.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\CommandLineRun-Module_0.0.0.37.exe" -o"%OMODULE_PATH%\CommandLineRun-Module\"
+
+
 if /i [BankTransaction-Module] EQU [Ontolog-Module] (
 	SET DOWNLOAD_URL=https://sourceforge.net/projects/ontologymanager/files/OntologyManager
 ) else (
@@ -445,6 +421,42 @@ del /s /q "%OMODULE_PATH%\Development-Module\*.*"
 
 wget -O "%temp%\OModules\Development-Module_0.2.0.117.exe" %DOWNLOAD_URL%/Development-Module_0.2.0.117.exe/download
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Development-Module_0.2.0.117.exe" -o"%OMODULE_PATH%\Development-Module\"
+
+
+if /i [DatabaseConfigurationModule] EQU [Ontolog-Module] (
+	SET DOWNLOAD_URL=https://sourceforge.net/projects/ontologymanager/files/OntologyManager
+) else (
+	SET DOWNLOAD_URL=https://sourceforge.net/projects/ontologymanager/files/Modules/DatabaseConfigurationModule
+)
+
+del /s /q "%OMODULE_PATH%\DatabaseConfigurationModule\*.*"
+
+wget -O "%temp%\OModules\DatabaseConfigurationModule_0.0.0.15.exe" %DOWNLOAD_URL%/DatabaseConfigurationModule_0.0.0.15.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\DatabaseConfigurationModule_0.0.0.15.exe" -o"%OMODULE_PATH%\DatabaseConfigurationModule\"
+
+
+if /i [ScriptingModule] EQU [Ontolog-Module] (
+	SET DOWNLOAD_URL=https://sourceforge.net/projects/ontologymanager/files/OntologyManager
+) else (
+	SET DOWNLOAD_URL=https://sourceforge.net/projects/ontologymanager/files/Modules/ScriptingModule
+)
+
+del /s /q "%OMODULE_PATH%\ScriptingModule\*.*"
+
+wget -O "%temp%\OModules\ScriptingModule_0.0.0.5.exe" %DOWNLOAD_URL%/ScriptingModule_0.0.0.5.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\ScriptingModule_0.0.0.5.exe" -o"%OMODULE_PATH%\ScriptingModule\"
+
+
+if /i [CommandLineCL-Module] EQU [Ontolog-Module] (
+	SET DOWNLOAD_URL=https://sourceforge.net/projects/ontologymanager/files/OntologyManager
+) else (
+	SET DOWNLOAD_URL=https://sourceforge.net/projects/ontologymanager/files/Modules/CommandLineCL-Module
+)
+
+del /s /q "%OMODULE_PATH%\CommandLineCL-Module\*.*"
+
+wget -O "%temp%\OModules\CommandLineCL-Module_0.0.0.30.exe" %DOWNLOAD_URL%/CommandLineCL-Module_0.0.0.30.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\CommandLineCL-Module_0.0.0.30.exe" -o"%OMODULE_PATH%\CommandLineCL-Module\"
 
 
 if /i [Media-Viewer-Module] EQU [Ontolog-Module] (
@@ -579,16 +591,16 @@ wget -O "%temp%\OModules\Bill-Module_0.0.0.96.exe" %DOWNLOAD_URL%/Bill-Module_0.
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Bill-Module_0.0.0.96.exe" -o"%OMODULE_PATH%\Bill-Module\"
 
 
-if /i [LiteraturQuellen-Module] EQU [Ontolog-Module] (
+if /i [Literaturquellen-Module] EQU [Ontolog-Module] (
 	SET DOWNLOAD_URL=https://sourceforge.net/projects/ontologymanager/files/OntologyManager
 ) else (
-	SET DOWNLOAD_URL=https://sourceforge.net/projects/ontologymanager/files/Modules/LiteraturQuellen-Module
+	SET DOWNLOAD_URL=https://sourceforge.net/projects/ontologymanager/files/Modules/Literaturquellen-Module
 )
 
-del /s /q "%OMODULE_PATH%\LiteraturQuellen-Module\*.*"
+del /s /q "%OMODULE_PATH%\Literaturquellen-Module\*.*"
 
-wget -O "%temp%\OModules\LiteraturQuellen-Module_0.0.0.138.exe" %DOWNLOAD_URL%/LiteraturQuellen-Module_0.0.0.138.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\LiteraturQuellen-Module_0.0.0.138.exe" -o"%OMODULE_PATH%\LiteraturQuellen-Module\"
+wget -O "%temp%\OModules\Literaturquellen-Module_0.0.0.138.exe" %DOWNLOAD_URL%/Literaturquellen-Module_0.0.0.138.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Literaturquellen-Module_0.0.0.138.exe" -o"%OMODULE_PATH%\Literaturquellen-Module\"
 
 
 if /i [Change-Module] EQU [Ontolog-Module] (

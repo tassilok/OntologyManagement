@@ -776,7 +776,12 @@ Public Class clsDBLevel
             objOntologyList_Objects1 = objElSelector.get_Data_Objects(oList_Objects, False, True, True, boolExact)
             If boolTable Then
                 For Each objOItem As clsOntologyItem In objOntologyList_Objects1
-                    otblT_Objects.Rows.Add(objOItem.GUID, objOItem.Name, objOItem.GUID_Parent)
+                    Try
+                        otblT_Objects.Rows.Add(objOItem.GUID, objOItem.Name, objOItem.GUID_Parent)
+                    Catch ex As Exception
+                        MsgBox(objOItem.GUID + vbCrLf + objOItem.Name + vbCrLf + ex.Message)
+                    End Try
+
                 Next
             End If
 

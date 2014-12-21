@@ -58,10 +58,6 @@
     <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Filesystem-Module, Version=0.2.0.25, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Filesystem-Module\Filesystem-Module\bin\Debug\Filesystem-Module.exe</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
@@ -197,6 +193,10 @@
       <Project>{10bcc346-a390-401c-ba6a-904a8842a40b}</Project>
       <Name>ClassLibrary_ShellWork</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Filesystem-Module\Filesystem-Module\Filesystem-Module.vbproj">
+      <Project>{f31c8a5a-bb2b-474e-bc1f-a14e805ea2e9}</Project>
+      <Name>Filesystem-Module</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\HTMLExport-Module\HTMLExport-Module\HTMLExport-Module.csproj">
       <Project>{32a7511e-a4a8-4668-a43a-0672befab0c9}</Project>
       <Name>HTMLExport-Module</Name>
@@ -220,6 +220,10 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>mkdir "%25TEMP%25\OntologyManagement\$(TargetName)"
+xcopy "$(TargetDir)*.*" "%25TEMP%25\OntologyManagement\$(TargetName)\" /E /D /C /Y /H</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

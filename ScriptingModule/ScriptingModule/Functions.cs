@@ -27,6 +27,7 @@ namespace ScriptingModule
         private clsDBLevel dbLevel_ObjectAttributes;
         private clsDBLevel dbLevel_ObjectRelations;
         private clsDBLevel dbLevel_File;
+        private clsDBLevel dbLevel_Ontologies;
 
         public List<clsOntologyItem> ObjectList { get; set; }
         public List<clsOntologyItem> ClassList { get; set; }
@@ -45,6 +46,7 @@ namespace ScriptingModule
         public List<clsObjectRel> ErrorObjectRels { get; private set; }
 
         private IWin32Window parentForm;
+        private clsExport exportWorker;
 
         private clsBlobConnection blobConnection;
 
@@ -59,6 +61,8 @@ namespace ScriptingModule
 
         private void Initialize()
         {
+            exportWorker = new clsExport(localConfig.Globals);
+
             dbLevel_Objects = new clsDBLevel(localConfig.Globals);
             dbLevel_AttributeTypes = new clsDBLevel(localConfig.Globals);
             dbLevel_ClassAttributes = new clsDBLevel(localConfig.Globals);
@@ -68,7 +72,7 @@ namespace ScriptingModule
             dbLevel_ObjectRelations = new clsDBLevel(localConfig.Globals);
             dbLevel_RelationTypes = new clsDBLevel(localConfig.Globals);
             dbLevel_File = new clsDBLevel(localConfig.Globals);
-
+            dbLevel_Ontologies = new clsDBLevel(localConfig.Globals);
             
         }
 
@@ -215,6 +219,24 @@ namespace ScriptingModule
         public void MsgBox(object text)
         {
             MessageBox.Show(parentForm, text.ToString());
+        }
+
+        public object ExportOntology(string idOntology, string path)
+        {
+            var result = localConfig.Globals.LState_Success.Clone();
+
+            var oItem_Ontology = dbLevel_Ontologies.GetOItem(idOntology, localConfig.Globals.Type_Object);
+
+            if (oItem_Ontology != null)
+            {
+                result = exportWorker.Export_Ontology(new List<clsOntologyItem>{ oItem_Ontology }, path, ModeEnum.AllRelations);
+            }
+            else
+            {
+                result = localConfig.Globals.LState_Error.Clone();
+            }
+
+            return result.GUID;
         }
 
         public void InsertRelationType(string id, string name)
