@@ -189,7 +189,6 @@ Public Class UserControl_Report
 
         End If
         ConfigureCalculation()
-        DataGridView_Reports.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText
     End Sub
 
     Public Sub initialize(ByVal oItem_Report As clsOntologyItem)
@@ -210,6 +209,7 @@ Public Class UserControl_Report
             ToolStripButton_CommandLineRun.Enabled = True
             ToolStripButton_CreateGraphML.Enabled = True
             boolSynced = False
+
             Try
                 objThread_Sync.Abort()
             Catch ex As Exception
@@ -779,6 +779,10 @@ Public Class UserControl_Report
                 objReport = objDataWork_Report.Report
 
                 If Not objReport.Name_Server Is Nothing Then
+                    ServerToolStripMenuItem.Text = objReport.Name_Server
+                    DatabaseToolStripMenuItem.Text = objReport.Name_Database
+                    ViewToolStripMenuItem.Text = objReport.Name_DBView
+
                     strConn = "Data Source=" & objReport.Name_Server & "\" & objLocalConfig.Globals.Rep_Instance & ";Initial Catalog=" & objReport.Name_Database & ";Integrated Security=True"
                     objDataAdp = New SqlClient.SqlDataAdapter("SELECT * FROM [" & objReport.Name_Database & "]..[" & objReport.Name_DBView & "]", strConn)
                     Try
@@ -1560,7 +1564,7 @@ Public Class UserControl_Report
         ColumnsToolStripMenuItem.Enabled = False
 
         If DataGridView_Reports.SelectedCells.Count = 1 Then
-            ColumnsToolStripMenuItem.Enabled = True
+
             FilterToolStripMenuItem.Enabled = True
             CopyNameToolStripMenuItem.Enabled = True
             Dim objLCol = objDataWork_ReportFields.ReportFields.Where(Function(p) p.Name_Col = DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName).ToList
@@ -1601,6 +1605,7 @@ Public Class UserControl_Report
         End If
 
         If DataGridView_Reports.SelectedCells.Count > 0 Then
+            ColumnsToolStripMenuItem.Enabled = True
             CopyToOntologyClipboardToolStripMenuItem.Enabled = True
         End If
     End Sub
@@ -1847,8 +1852,13 @@ Public Class UserControl_Report
     End Sub
 
     Private Sub ColumnToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ColumnToolStripMenuItem.Click
-        Dim column = DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex)
-        column.Visible = False
+
+        For Each cell In DataGridView_Reports.SelectedCells
+            Dim column = DataGridView_Reports.Columns(cell.ColumnIndex)
+            column.Visible = False
+        Next
+
+
     End Sub
 
     Private Sub ToolStripButton_OpenFilter_Click(sender As Object, e As EventArgs) Handles ToolStripButton_OpenFilter.Click
@@ -2123,4 +2133,15 @@ Public Class UserControl_Report
         Return objOItem_Result
     End Function
 
+    Private Sub ServerToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ServerToolStripMenuItem.Click
+        Clipboard.SetDataObject(ServerToolStripMenuItem.Text)
+    End Sub
+
+    Private Sub DatabaseToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DatabaseToolStripMenuItem.Click
+        Clipboard.SetDataObject(DatabaseToolStripMenuItem.Text)
+    End Sub
+
+    Private Sub ViewToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ViewToolStripMenuItem.Click
+        Clipboard.SetDataObject(ViewToolStripMenuItem.Text)
+    End Sub
 End Class

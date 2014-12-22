@@ -197,6 +197,7 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\Procedures1.png" />
     <None Include="Resources\Procedures.png" />
     <None Include="Resources\gnome-fs-home.png" />
     <None Include="Resources\saveHS.png" />
