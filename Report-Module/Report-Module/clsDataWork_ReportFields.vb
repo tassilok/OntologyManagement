@@ -10,7 +10,7 @@ Public Class clsDataWork_ReportFields
     Private objDBLevel_Report As clsDBLevel
     Private objDBLevel_ReportsToDBView As clsDBLevel
     Private objDBLevel_Objects As clsDBLevel
-    Private objDBLevel_Columns As clsDBLevel
+    Private objDBLevel_ColumnsOrParsFields As clsDBLevel
     Private objDBLevel_DBItem As clsDBLevel
     Private objDBLevel_DBOnServer As clsDBLevel
     Private objDBLevel_DataBase As clsDBLevel
@@ -24,6 +24,7 @@ Public Class clsDataWork_ReportFields
     Private objDBLevel_ReportFieldTypes As clsDBLevel
     Private objDBLevel_ReportFieldTypesToMsSQLDataTypes As clsDBLevel
     Private objDBLevel_Column As clsDBLevel
+    Private objDBLevel_DataType As clsDBLevel
 
     Private objOItem_Report As clsOntologyItem
     Private objOItem_ReportType As clsOntologyItem
@@ -40,11 +41,19 @@ Public Class clsDataWork_ReportFields
 
     Private objTransaction_ReportFields As clsTransaction
 
+    Private objOItem_Result_Fields As clsOntologyItem
+
+    Public ReadOnly Property OItem_Result_Fields As clsOntologyItem
+        Get
+            Return objOItem_Result_Fields
+        End Get
+    End Property
+
     Public Property OList_FieldTypesMsSQLVisibility As List(Of clsFieldTypesMSSQL)
         Get
             Return objLFieldTypesMsSQLVisibility
         End Get
-        private Set(value As List(Of clsFieldTypesMSSQL))
+        Private Set(value As List(Of clsFieldTypesMSSQL))
             objLFieldTypesMsSQLVisibility = value
         End Set
     End Property
@@ -62,94 +71,94 @@ Public Class clsDataWork_ReportFields
         End Get
     End Property
 
-    Public sub get_Data_ReportFieldTypesMSSQL()
-        
-        
-        Dim objOList_Visible = new List(Of clsObjectAtt)
+    Public Sub get_Data_ReportFieldTypesMSSQL()
+
+
+        Dim objOList_Visible = New List(Of clsObjectAtt)
         objOList_Visible.Add(New clsObjectAtt With {.ID_AttributeType = objLocalConfig.OItem_Attribute_visible.GUID, _
                                                     .ID_Class = objLocalConfig.OItem_Class_Field_Type.GUID})
-        Dim objOItem_Result = objDBLevel_ReportFieldTypes.get_Data_ObjectAtt(objOList_Visible,boolIDs := false)
+        Dim objOItem_Result = objDBLevel_ReportFieldTypes.get_Data_ObjectAtt(objOList_Visible, boolIDs:=False)
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-            Dim objORel_FieldTypeToMsSQLDataType = new List(Of clsObjectRel)
-            objORel_FieldTypeToMsSQLDataType.Add(New clsObjectRel With{.ID_Parent_Object = objLocalConfig.OItem_Class_Field_Type.GUID, _
+            Dim objORel_FieldTypeToMsSQLDataType = New List(Of clsObjectRel)
+            objORel_FieldTypeToMsSQLDataType.Add(New clsObjectRel With {.ID_Parent_Object = objLocalConfig.OItem_Class_Field_Type.GUID, _
                                                                        .ID_Parent_Other = objLocalConfig.OItem_Class_DataTypes__Ms_SQL_.GUID, _
                                                                        .ID_RelationType = objLocalConfig.OItem_RelationType_is_of_Type.GUID})
 
-            objOItem_Result = objDBLevel_ReportFieldTypesToMsSQLDataTypes.get_Data_ObjectRel(objORel_FieldTypeToMsSQLDataType,boolIDs := False)
+            objOItem_Result = objDBLevel_ReportFieldTypesToMsSQLDataTypes.get_Data_ObjectRel(objORel_FieldTypeToMsSQLDataType, boolIDs:=False)
             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                Dim objOList_FieldTypesMSSQL = (From objRel in objDBLevel_ReportFieldTypes.OList_ObjectAtt
-                                                Join objMsSql in objDBLevel_ReportFieldTypesToMsSQLDataTypes.OList_ObjectRel on objmssql.ID_Object Equals objRel.ID_Object
+                Dim objOList_FieldTypesMSSQL = (From objRel In objDBLevel_ReportFieldTypes.OList_ObjectAtt
+                                                Join objMsSql In objDBLevel_ReportFieldTypesToMsSQLDataTypes.OList_ObjectRel On objmssql.ID_Object Equals objRel.ID_Object
                                                 Select New clsFieldTypesMSSQL With {.ID_FieldType = objRel.ID_Object, _
                                                                                     .Name_FieldType = objRel.Name_Object, _
                                                                                     .ID_MSSQL_FieldType = objMsSql.ID_Other, _
                                                                                     .Name_MSSQL_FieldType = objMsSql.Name_Other, _
                                                                                     .Visible = objRel.Val_Bit}).ToList()
                 OList_FieldTypesMsSQLVisibility = objOList_FieldTypesMSSQL
-            Else 
+            Else
                 OList_FieldTypesMsSQLVisibility = Nothing
             End If
-        Else 
+        Else
             OList_FieldTypesMsSQLVisibility = Nothing
         End If
 
-        
+
     End Sub
 
     Public Function get_ColumnsOfReportMSSQL(report As clsReports) As clsOntologyItem
-        Dim objConnection = New SqlClient.SqlConnection(objLocalConfig.Globals.get_ConnectionStr(report.Name_Server, objLocalConfig.Globals.Rep_Instance, report.Name_Database))
-        Dim objOItem_Result_Function = New clsOntologyItem with {.GUID = objLocalConfig.Globals.LState_Success.GUID, _
+        Dim objConnection = New SqlClient.SqlConnection(objLocalConfig.Globals.get_ConnectionStr(report.Name_Server, objLocalConfig.Globals.Rep_Instance, report.Name_DatabaseOrIndex))
+        Dim objOItem_Result_Function = New clsOntologyItem With {.GUID = objLocalConfig.Globals.LState_Success.GUID, _
                                                                  .Name = objLocalConfig.Globals.LState_Success.Name, _
                                                                  .GUID_Parent = objLocalConfig.Globals.LState_Success.GUID_Parent, _
-                                                                 .Type = objLocalConfig.Globals.LState_Success.Type }
+                                                                 .Type = objLocalConfig.Globals.LState_Success.Type}
 
         dtblA_Columns.Connection = objConnection
-        dtblA_Columns.Fill(dtblT_Columns,report.Name_DBView)
+        dtblA_Columns.Fill(dtblT_Columns, report.Name_DBViewOrEsType)
 
         If dtblT_Columns.Rows.Count > 0 Then
-            dim objOItem_Report = new clsOntologyItem With {.GUID = report.ID_Report, _
+            Dim objOItem_Report = New clsOntologyItem With {.GUID = report.ID_Report, _
                                                             .Name = report.Name_Report, _
                                                             .GUID_Parent = objLocalConfig.OItem_Class_Reports.GUID, _
-                                                            .Type = objLocalConfig.Globals.Type_Object }
+                                                            .Type = objLocalConfig.Globals.Type_Object}
             get_Data_ReportFields_MSSQL(objOItem_Report)
-            
+
             objOItem_Result_Function.Max1 = dtblT_Columns.Rows.Count
-            objOItem_Result_Function.Count = 0 
+            objOItem_Result_Function.Count = 0
 
             For Each row As DataSet_Reports.dtbl_ColumnsRow In dtblT_Columns.Rows
                 Dim objLColExist = objLReportFields.Where(Function(p) p.Name_Col.ToLower() = row.name.ToLower()).ToList()
                 If Not objLColExist.Any() Then
-                    Dim objOItem_Col = get_ColumnOfView(row.name,report.ID_DBView)
-                    Dim objOItem_DBView = new clsOntologyItem With { .GUID = report.ID_DBView, _
-                                                                                .Name = report.Name_DBView, _
+                    Dim objOItem_Col = get_ColumnOfView(row.name, report.ID_DBViewOrESType)
+                    Dim objOItem_DBView = New clsOntologyItem With {.GUID = report.ID_DBViewOrESType, _
+                                                                                .Name = report.Name_DBViewOrEsType, _
                                                                                 .GUID_Parent = objLocalConfig.OItem_Class_DB_Views.GUID, _
-                                                                                .Type = objLocalConfig.Globals.Type_Object }
+                                                                                .Type = objLocalConfig.Globals.Type_Object}
 
-                    If objOItem_Col is Nothing
+                    If objOItem_Col Is Nothing Then
                         objOItem_Col = get_Column(row.name)
                         If objOItem_Col Is Nothing Then
                             objTransaction_ReportFields.ClearItems()
-                            objOItem_Col = new clsOntologyItem With {.GUID = objLocalConfig.Globals.NewGUID, _
+                            objOItem_Col = New clsOntologyItem With {.GUID = objLocalConfig.Globals.NewGUID, _
                                                                         .Name = row.name, _
                                                                         .GUID_Parent = objLocalConfig.OItem_Class_DB_Columns.GUID, _
                                                                         .Type = objLocalConfig.Globals.Type_Object}
                             Dim objOItem_Result = objTransaction_ReportFields.do_Transaction(objOItem_Col)
                             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                Dim objORel_ColToDBView = Rel_DBColumn_To_DBView(objOItem_Col,objOItem_DBView)
+                                Dim objORel_ColToDBView = Rel_DBColumn_To_DBView(objOItem_Col, objOItem_DBView)
                                 objOItem_Result = objTransaction_ReportFields.do_Transaction(objORel_ColToDBView)
                                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
                                     objOItem_Col = Nothing
                                     objTransaction_ReportFields.rollback()
 
                                 End If
-                            Else 
+                            Else
                                 objOItem_Col = Nothing
                             End If
 
                             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
                                 objOItem_Result_Function = objOItem_Result
                             End If
-                        Else 
-                            Dim objORel_ColToDBView = Rel_DBColumn_To_DBView(objOItem_Col,objOItem_DBView)
+                        Else
+                            Dim objORel_ColToDBView = Rel_DBColumn_To_DBView(objOItem_Col, objOItem_DBView)
                             Dim objOItem_Result = objTransaction_ReportFields.do_Transaction(objORel_ColToDBView)
                             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
                                 objOItem_Col = Nothing
@@ -157,50 +166,50 @@ Public Class clsDataWork_ReportFields
 
                             End If
                         End If
-                    Else If objOItem_Col.GUID = objLocalConfig.Globals.LState_Error.GUID then
+                    ElseIf objOItem_Col.GUID = objLocalConfig.Globals.LState_Error.GUID Then
                         objOItem_Result_Function = objLocalConfig.Globals.LState_Error
                         objOItem_Col = Nothing
                     End If
 
-                        
+
                     If Not objOItem_Col Is Nothing Then
-                        Dim objOItem_ReportField = new clsOntologyItem With {.GUID = objLocalConfig.Globals.NewGUID, _
+                        Dim objOItem_ReportField = New clsOntologyItem With {.GUID = objLocalConfig.Globals.NewGUID, _
                                                                                 .Name = row.name, _
                                                                                 .GUID_Parent = objLocalConfig.OItem_Class_Report_Field.GUID, _
                                                                                 .Type = objLocalConfig.Globals.Type_Object}
 
                         objTransaction_ReportFields.ClearItems()
-                        Dim objOItem_Result =  objTransaction_ReportFields.do_Transaction(objOItem_ReportField)
+                        Dim objOItem_Result = objTransaction_ReportFields.do_Transaction(objOItem_ReportField)
 
                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                             Dim objORel_ReportField_To_DBColumn = Rel_ReportField_To_DBColumn(objOItem_ReportField, objOItem_Col)
-                            objOItem_Result = objTransaction_ReportFields.do_Transaction(objORel_ReportField_To_DBColumn,True)
+                            objOItem_Result = objTransaction_ReportFields.do_Transaction(objORel_ReportField_To_DBColumn, True)
                             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                                     Dim strNameType = row.name_type.ToLower()
-                                    If (strNameType = "varchar" And row.max_length = 36) or (strNameType = "nvarchar" And row.max_length = 72) Then
+                                    If (strNameType = "varchar" And row.max_length = 36) Or (strNameType = "nvarchar" And row.max_length = 72) Then
                                         strNameType = "uniqueidentifier"
                                     End If
                                     Dim objOList_FieldType = OList_FieldTypesMsSQLVisibility.Where(Function(p) p.Name_MSSQL_FieldType.ToLower() = strNameType).ToList()
                                     If Not objOList_FieldType Is Nothing And objOList_FieldType.Any() Then
-                                        
-                                        Dim objOItem_FieldType = new clsOntologyItem With {.GUID = objOList_FieldType.First().ID_FieldType, _
+
+                                        Dim objOItem_FieldType = New clsOntologyItem With {.GUID = objOList_FieldType.First().ID_FieldType, _
                                                                                             .Name = objOList_FieldType.First().Name_FieldType, _
                                                                                             .GUID_Parent = objLocalConfig.OItem_Class_Field_Type.GUID, _
-                                                                                            .Type = objLocalConfig.Globals.Type_Object }
+                                                                                            .Type = objLocalConfig.Globals.Type_Object}
 
-                                        dim objORel_ReportField__Invisible = Rel_ReportField__Invisible(objOItem_ReportField, objOList_FieldType.First().Visible)
-                                        objOItem_Result = objTransaction_ReportFields.do_Transaction(objORel_ReportField__Invisible,True)
+                                        Dim objORel_ReportField__Invisible = Rel_ReportField__Invisible(objOItem_ReportField, objOList_FieldType.First().Visible)
+                                        objOItem_Result = objTransaction_ReportFields.do_Transaction(objORel_ReportField__Invisible, True)
                                         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                                             Dim objRel_ReportField_To_FieldType = Rel_ReportField_To_FieldType(objOItem_ReportField, objOItem_FieldType)
 
                                             objOItem_Result = objTransaction_ReportFields.do_Transaction(objRel_ReportField_To_FieldType)
 
                                             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                                    
-                                                Dim objRel_ReportField_To_Report = Rel_ReportField_To_Report(objOItem_ReportField,objOItem_Report)
 
-                                                objOItem_Result = objTransaction_ReportFields.do_Transaction(objRel_ReportField_To_Report,True)
+                                                Dim objRel_ReportField_To_Report = Rel_ReportField_To_Report(objOItem_ReportField, objOItem_Report)
+
+                                                objOItem_Result = objTransaction_ReportFields.do_Transaction(objRel_ReportField_To_Report, True)
                                                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
                                                     objTransaction_ReportFields.rollback()
                                                 End If
@@ -230,11 +239,11 @@ Public Class clsDataWork_ReportFields
                     objOItem_Result_Function.Count = objOItem_Result_Function.Count + 1
                 End If
             Next
-        Else 
+        Else
             objOItem_Result_Function = objLocalConfig.Globals.LState_Error
         End If
-            
-        
+
+
 
 
         Return objOItem_Result_Function
@@ -242,22 +251,22 @@ Public Class clsDataWork_ReportFields
 
 
 
-    
+
     Private Function get_Column(Name_Column As String) As clsOntologyItem
         Dim objOLColumn As New List(Of clsOntologyItem)
 
-        objOLColumn.Add(New clsOntologyItem With{.Name = Name_Column, _
+        objOLColumn.Add(New clsOntologyItem With {.Name = Name_Column, _
                                                  .GUID_Parent = objloCalConfig.OItem_Class_DB_Columns.GUID})
 
         Dim objOItem_Result = objDBLevel_Column.get_Data_Objects(objOLColumn)
 
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-            dim objColumnsExact = objDBLevel_Column.OList_Objects.Where(Function(p) p.Name.ToLower() = Name_Column.ToLower()).ToList()
+            Dim objColumnsExact = objDBLevel_Column.OList_Objects.Where(Function(p) p.Name.ToLower() = Name_Column.ToLower()).ToList()
 
 
             If objColumnsExact.Any() Then
                 objOItem_Result = objColumnsExact.First()
-            Else 
+            Else
                 objOItem_Result = Nothing
             End If
         End If
@@ -268,12 +277,12 @@ Public Class clsDataWork_ReportFields
     Private Function get_ColumnOfView(Name_Column As String, ID_DBView As String) As clsOntologyItem
         Dim objOLColumnToDBView As New List(Of clsObjectRel)
 
-        
+
         objOLColumnToDBView.Add(New clsObjectRel With {.ID_Parent_Object = objLocalConfig.OItem_Class_DB_Columns.GUID, _
                                                         .ID_Other = ID_DBView, _
                                                         .ID_RelationType = objLocalConfig.OItem_RelationType_belongsTo.GUID})
 
-        Dim objOItem_Result = objDBLevel_Column.get_Data_ObjectRel(objOLColumnToDBView,boolIDs := False)
+        Dim objOItem_Result = objDBLevel_Column.get_Data_ObjectRel(objOLColumnToDBView, boolIDs:=False)
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
             Dim objOLColumnOfView = objDBLevel_Column.OList_ObjectRel.Where(Function(p) p.Name_Object.ToLower() = Name_Column.ToLower()).Select(Function(p) New clsOntologyitem With {.GUID = p.ID_Object, _
                                                                                                                                                                                       .Name = p.Name_Object, _
@@ -282,14 +291,14 @@ Public Class clsDataWork_ReportFields
 
             If objOLColumnOfView.Any() Then
                 Return objOLColumnOfView.First()
-            Else 
+            Else
                 Return Nothing
             End If
-        Else 
+        Else
             Return objOItem_Result
         End If
-        
-        
+
+
     End Function
 
     Private Sub set_DBConnection()
@@ -298,7 +307,7 @@ Public Class clsDataWork_ReportFields
         objDBLevel_ReportsToDBView = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_Objects = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_Attributes = New clsDBLevel(objLocalConfig.Globals)
-        objDBLevel_Columns = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_ColumnsOrParsFields = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_DBItem = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_DataBase = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_DBOnServer = New clsDBLevel(objLocalConfig.Globals)
@@ -308,9 +317,10 @@ Public Class clsDataWork_ReportFields
         objDBLevel_LeadFields = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_TypeFields = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_OItems = New clsDBLevel(objLocalConfig.Globals)
-        objDBLevel_ReportFieldTypes = new clsDBLevel(objLocalConfig.Globals)
-        objDBLevel_Column = new clsDBLevel(objLocalConfig.Globals)
-        objDBLevel_ReportFieldTypesToMsSQLDataTypes = new clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_ReportFieldTypes = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_Column = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_ReportFieldTypesToMsSQLDataTypes = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_DataType = New clsDBLevel(objLocalConfig.Globals)
 
         objDataWork_Report = New clsDataWork_Report(objLocalConfig)
 
@@ -340,11 +350,108 @@ Public Class clsDataWork_ReportFields
 
     End Sub
     Private Sub get_Data_ReportFields_ES()
+        ' Report-Fields
+        Dim objOList_ObjRel_Reports = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Parent_Object = objLocalConfig.OItem_Class_Report_Field.GUID,
+                                                                                          .ID_Other = objOItem_Report.GUID, _
+                                                                                          .ID_RelationType = objLocalConfig.OItem_RelationType_belongsTo.GUID}}
+
+        objOItem_Result_Fields = objDBLevel_Report.get_Data_ObjectRel(objOList_ObjRel_Reports, _
+                                             boolIDs:=False)
+
+        If objOItem_Result_Fields.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            'Invisible-Attribute
+            Dim objOList_ObjecAtt = objDBLevel_Report.OList_ObjectRel.Select(Function(repfield) New clsObjectAtt With {.ID_Object = repfield.ID_Object,
+                                                                                                               .ID_AttributeType = objLocalConfig.OItem_Attribute_invisible.GUID}).ToList()
+
+            If objOList_ObjecAtt.Any() Then
+                objOItem_Result_Fields = objDBLevel_Attributes.get_Data_ObjectAtt(objOList_ObjecAtt, _
+                                                 boolIDs:=False)
+
+
+            Else
+                objDBLevel_Attributes.OList_ObjectAtt.Clear()
+            End If
+        End If
+
+        If objOItem_Result_Fields.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            Dim searchField = objDBLevel_Report.OList_ObjectRel.Select(Function(repField) New clsObjectRel With {.ID_Object = repField.ID_Object,
+                                                                                                                 .ID_RelationType = objLocalConfig.OItem_RelationType_belongsTo.GUID,
+                                                                                                                 .ID_Parent_Other = objLocalConfig.OItem_class_field.GUID}).ToList()
+
+            If searchField.Any() Then
+                objOItem_Result_Fields = objDBLevel_ColumnsOrParsFields.get_Data_ObjectRel(searchField, boolIDs:=False)
+            Else
+                objDBLevel_ColumnsOrParsFields.OList_ObjectRel.Clear()
+            End If
+        End If
+
+        If objOItem_Result_Fields.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            Dim searchDataType = objDBLevel_ColumnsOrParsFields.OList_ObjectRel.Select(Function(field) New clsObjectRel With {.ID_Object = field.ID_Other,
+                                                                                                                              .ID_RelationType = objLocalConfig.OItem_relationtype_value_type.GUID,
+                                                                                                                              .ID_Parent_Other = objLocalConfig.OItem_class_datatypes.GUID}).ToList()
+
+            If searchDataType.Any() Then
+                objOItem_Result_Fields = objDBLevel_DataType.get_Data_ObjectRel(searchDataType, boolIDs:=False)
+            Else
+                objDBLevel_DataType.OList_ObjectRel.Clear()
+            End If
+        End If
+
+        If objOItem_Result_Fields.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            Dim searchFieldTypes = objDBLevel_Report.OList_ObjectRel.Select(Function(fieldItem) New clsObjectRel With {.ID_Object = fieldItem.ID_Object,
+                                                                                                                             .ID_RelationType = objLocalConfig.OItem_RelationType_is_of_Type.GUID,
+                                                                                                                             .ID_Parent_Other = objLocalConfig.OItem_Class_Field_Type.GUID}).ToList()
+
+
+            If searchFieldTypes.Any() Then
+                objOItem_Result_Fields = objDBLevel_FieldTypes.get_Data_ObjectRel(searchFieldTypes, boolIDs:=False)
+            Else
+                objDBLevel_FieldTypes.OList_ObjectRel.Clear()
+            End If
+        End If
+
+        If objOItem_Result_Fields.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            Dim searchFieldFormats = objDBLevel_Report.OList_ObjectRel.Select(Function(fieldItem) New clsObjectRel With {.ID_Object = fieldItem.ID_Object,
+                                                                                                                               .ID_RelationType = objLocalConfig.OItem_RelationType_Formatted_by.GUID,
+                                                                                                                               .ID_Parent_Other = objLocalConfig.OItem_Class_Field_Format.GUID}).ToList()
+
+            If searchFieldFormats.Any() Then
+                objOItem_Result_Fields = objDBLevel_FieldFormats.get_Data_ObjectRel(searchFieldFormats, boolIDs:=False)
+            Else
+                objDBLevel_FieldFormats.OList_ObjectRel.Clear()
+            End If
+
+        End If
+
+        If objOItem_Result_Fields.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            objLReportFields = (From report In objDBLevel_Report.OList_ObjectRel
+                                Join invisible In objDBLevel_Attributes.OList_ObjectAtt On report.ID_Object Equals invisible.ID_Object
+                                Join parsField In objDBLevel_ColumnsOrParsFields.OList_ObjectRel On report.ID_Object Equals parsField.ID_Object
+                                Join dataType In objDBLevel_DataType.OList_ObjectRel On parsField.ID_Other Equals dataType.ID_Object
+                                Join fieldType In objDBLevel_FieldTypes.OList_ObjectRel On report.ID_Object Equals fieldType.ID_Object
+                                Group Join fieldFormat In objDBLevel_FieldFormats.OList_ObjectRel On report.ID_Object Equals fieldFormat.ID_Object Into fieldFormats = Group
+                                From fieldFormat In fieldFormats.DefaultIfEmpty()
+                                Select New clsReportField With {.ID_Report = report.ID_Other,
+                                                                .ID_RepField = report.ID_Object,
+                                                                .Visible = Not invisible.Val_Bool,
+                                                                .Name_RepField = report.Name_Object,
+                                                                .ID_ParsField = parsField.ID_Other,
+                                                                .Name_ParsField = parsField.Name_Other,
+                                                                .ID_DataType = dataType.ID_Other,
+                                                                .Name_DataType = dataType.Name_Other,
+                                                                .ID_FieldType = fieldType.ID_Other,
+                                                                .Name_FieldType = fieldType.Name_Other,
+                                                                .ID_FieldFormat = If(Not fieldFormat Is Nothing, fieldFormat.ID_Other, Nothing),
+                                                                .Name_FieldFormat = If(Not fieldFormat Is Nothing, fieldFormat.Name_Other, Nothing),
+                                                                .OrderID = report.OrderID}).ToList()
+        Else
+            objLReportFields.Clear()
+        End If
 
         boolData_ReportFields = True
     End Sub
 
-    
+
 
     Private Sub get_Data_ReportFields_MSSQL(Optional OItem_Report As clsOntologyItem = Nothing)
         Dim objOList_Objects As New List(Of clsOntologyItem)
@@ -375,6 +482,7 @@ Public Class clsDataWork_ReportFields
             objOItem_Report = OItem_Report
         End If
 
+        ' Report-Fields
         objOList_ObjRel_Reports = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Parent_Object = objLocalConfig.OItem_Class_Report_Field.GUID,
                                                                                           .ID_Other = objOItem_Report.GUID, _
                                                                                           .ID_RelationType = objLocalConfig.OItem_RelationType_belongsTo.GUID}}
@@ -383,6 +491,7 @@ Public Class clsDataWork_ReportFields
                                              boolIDs:=False)
 
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            'Invisible-Attribute
             objOList_ObjecAtt = objDBLevel_Report.OList_ObjectRel.Select(Function(repfield) New clsObjectAtt With {.ID_Object = repfield.ID_Object,
                                                                                                                .ID_AttributeType = objLocalConfig.OItem_Attribute_invisible.GUID}).ToList()
 
@@ -415,24 +524,24 @@ Public Class clsDataWork_ReportFields
                                                                                                                       .ID_Parent_Other = objLocalConfig.OItem_Class_DB_Columns.GUID}).ToList()
 
             If objOList_ObjRel_Columns.Any() Then
-                objOItem_Result = objDBLevel_Columns.get_Data_ObjectRel(objOList_ObjRel_Columns, boolIDs:=False)
+                objOItem_Result = objDBLevel_ColumnsOrParsFields.get_Data_ObjectRel(objOList_ObjRel_Columns, boolIDs:=False)
             Else
-                objDBLevel_Columns.OList_ObjectRel.Clear()
+                objDBLevel_ColumnsOrParsFields.OList_ObjectRel.Clear()
             End If
 
         End If
 
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-            objOList_ObjRel_DBItem = objDBLevel_Columns.OList_ObjectRel.Select(Function(col) New clsObjectRel With {.ID_Object = col.ID_Other,
+            objOList_ObjRel_DBItem = objDBLevel_ColumnsOrParsFields.OList_ObjectRel.Select(Function(col) New clsObjectRel With {.ID_Object = col.ID_Other,
                                                                                                                     .ID_RelationType = objLocalConfig.OItem_RelationType_belongsTo.GUID,
                                                                                                                     .ID_Parent_Other = objLocalConfig.OItem_Class_DB_Views.GUID}).ToList()
 
             If objOList_ObjRel_DBItem.Any() Then
                 objOItem_Result = objDBLevel_DBItem.get_Data_ObjectRel(objOList_ObjRel_DBItem, boolIDs:=False)
             Else
-                objDBLevel_Columns.OList_ObjectRel.Clear()
+                objDBLevel_ColumnsOrParsFields.OList_ObjectRel.Clear()
             End If
-            
+
         End If
 
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
@@ -445,7 +554,7 @@ Public Class clsDataWork_ReportFields
             Else
                 objDBLevel_DBOnServer.OList_ObjectRel.Clear()
             End If
-            
+
 
         End If
 
@@ -459,7 +568,7 @@ Public Class clsDataWork_ReportFields
             Else
                 objDBLevel_DataBase.OList_ObjectRel.Clear()
             End If
-            
+
         End If
 
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
@@ -486,7 +595,7 @@ Public Class clsDataWork_ReportFields
                 objDBLevel_LeadFields.OList_ObjectRel.Clear()
             End If
 
-            
+
         End If
 
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
@@ -514,7 +623,7 @@ Public Class clsDataWork_ReportFields
             Else
                 objDBLevel_FieldTypes.OList_ObjectRel.Clear()
             End If
-            
+
 
         End If
 
@@ -770,7 +879,7 @@ Public Class clsDataWork_ReportFields
         '                                    List2:=True)
 
         Dim objL_Cols = (From objLeft In objDBLevel_Report.OList_ObjectRel
-                        Join objRel In objDBLevel_Columns.OList_ObjectRel On objLeft.ID_Object Equals objRel.ID_Object
+                        Join objRel In objDBLevel_ColumnsOrParsFields.OList_ObjectRel On objLeft.ID_Object Equals objRel.ID_Object
                         Select ID_Field = objLeft.ID_Object, _
                                 ID_Col = objRel.ID_Other, _
                                 Name_Col = objRel.Name_Other).ToList

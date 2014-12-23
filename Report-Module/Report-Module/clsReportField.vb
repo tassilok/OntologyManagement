@@ -1,7 +1,11 @@
 ﻿Public Class clsReportField
     Private strID_Report As String
-    Private strID_Field As String
-    Private strName_Field As String
+    Private strID_RepField As String
+    Private strName_RepField As String
+    Private strID_ParsField As String
+    Private strName_ParsField As String
+    Private strID_DataType As String
+    Private strName_DataType As String
     Private boolVisible As Boolean
     Private strID_Col As String
     Private strName_Col As String
@@ -40,20 +44,20 @@
             strID_Report = value
         End Set
     End Property
-    Public Property ID_Field As String
+    Public Property ID_RepField As String
         Get
-            Return strID_Field
+            Return strID_RepField
         End Get
         Set(ByVal value As String)
-            strID_Field = value
+            strID_RepField = value
         End Set
     End Property
-    Public Property Name_Field As String
+    Public Property Name_RepField As String
         Get
-            Return strName_Field
+            Return strName_RepField
         End Get
         Set(ByVal value As String)
-            strName_Field = value
+            strName_RepField = value
         End Set
     End Property
     Public Property Visible As Boolean
@@ -213,6 +217,42 @@
         End Set
     End Property
 
+    Public Property ID_ParsField As String
+        Get
+            Return strID_ParsField
+        End Get
+        Set(value As String)
+            strID_ParsField = value
+        End Set
+    End Property
+
+    Public Property Name_ParsField As String
+        Get
+            Return strName_ParsField
+        End Get
+        Set(value As String)
+            strName_ParsField = value
+        End Set
+    End Property
+
+    Public Property ID_DataType As String
+        Get
+            Return strID_DataType
+        End Get
+        Set(value As String)
+            strID_DataType = value
+        End Set
+    End Property
+
+    Public Property Name_DataType As String
+        Get
+            Return strName_DataType
+        End Get
+        Set(value As String)
+            strName_DataType = value
+        End Set
+    End Property
+
     Public Sub New()
 
     End Sub
@@ -231,7 +271,7 @@
         strID_Database = ID_Database
         strID_DBOnServer = ID_DBOnServer
         strID_DBView = ID_DBView
-        strID_Field = ID_Field
+        strID_RepField = ID_Field
         strID_FieldFormat = ID_FieldFormat
         strID_FieldType = ID_FieldType
         strID_Lead = ID_Lead
@@ -249,7 +289,7 @@
         strName_Database = Name_Database
         strName_DBOnServer = Name_DBOnServer
         strName_DBView = Name_DBView
-        strName_Field = Name_Field
+        strName_RepField = Name_Field
         strName_FieldFormat = Name_FieldFormat
         strName_FieldType = Name_FieldType
         strName_Lead = Name_Lead

@@ -5,10 +5,11 @@ Public Class clsDataWork_Report
 
     Private objLocalConfig As clsLocalConfig
     Private objDBLevel_Report As clsDBLevel
-    Private objDBLevel_DBView As clsDBLevel
-    Private objDBLevel_DBOnServer As clsDBLevel
-    Private objDBLevel_Database As clsDBLevel
+    Private objDBLevel_DBViewOrESType As clsDBLevel
+    Private objDBLevel_DBOnServerOrServerPort As clsDBLevel
+    Private objDBLevel_DatabaseOrESIndex As clsDBLevel
     Private objDBLevel_Server As clsDBLevel
+    Private objDBLevel_Port As clsDBLevel
     Private objDBLevel_Filter As clsDBLevel
     Private objDBLevel_FilterValue As clsDBLevel
     Private objDBLevel_Sort As clsDBLevel
@@ -21,6 +22,14 @@ Public Class clsDataWork_Report
     Private objDBLevel_RefOfReport As clsDBLevel
     Private objDBLevel_OItem As clsDBLevel
 
+    Private objOItem_Result_ReportMeta As clsOntologyItem
+
+    Public ReadOnly Property OITem_Result_ReportMeta
+        Get
+            Return objOItem_Result_ReportMeta
+        End Get
+    End Property
+
     Public ReadOnly Property ReportListOfRef As List(Of clsOntologyItem)
         Get
             Return objDBLevel_RefOfReport.OList_ObjectRel.Select(Function(ref) New clsOntologyItem With {.GUID = ref.ID_Object,
@@ -30,7 +39,7 @@ Public Class clsDataWork_Report
         End Get
     End Property
 
-        Public ReadOnly Property ClipBoardFilterItems As List(Of clsOntologyItem)
+    Public ReadOnly Property ClipBoardFilterItems As List(Of clsOntologyItem)
         Get
             Return objDBLevel_ClipboardFilter.OList_Objects
         End Get
@@ -79,12 +88,12 @@ Public Class clsDataWork_Report
         Return objDBLevel_OItem.GetOItem(GUID_Item, Type_Item)
     End Function
 
-    Public function GetReferencedReports(OItem As clsOntologyItem) As clsOntologyItem
-        Dim searchReports = new List(Of clsObjectRel) From { New clsObjectRel With { .ID_Other = OItem.GUID,
+    Public Function GetReferencedReports(OItem As clsOntologyItem) As clsOntologyItem
+        Dim searchReports = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Other = OItem.GUID,
                                                                                      .ID_Parent_Object = objLocalConfig.OItem_Class_Reports.GUID,
-                                                                                     .ID_RelationType = objLocalConfig.OItem_RelationType_belonging_Resources.GUID} }
+                                                                                     .ID_RelationType = objLocalConfig.OItem_RelationType_belonging_Resources.GUID}}
 
-        Dim objOItem_Result = objDBLevel_RefOfReport.get_Data_ObjectRel(searchReports, boolIDs := False)
+        Dim objOItem_Result = objDBLevel_RefOfReport.get_Data_ObjectRel(searchReports, boolIDs:=False)
 
         Return objOItem_Result
     End Function
@@ -158,15 +167,15 @@ Public Class clsDataWork_Report
                                              Nothing))
 
 
-        objDBLevel_DBView.get_Data_ObjectRel(objOLRel_DBView, _
+        objDBLevel_DBViewOrESType.get_Data_ObjectRel(objOLRel_DBView, _
                                              boolIDs:=False)
 
-        If objDBLevel_DBView.OList_ObjectRel.Count > 0 Then
+        If objDBLevel_DBViewOrESType.OList_ObjectRel.Count > 0 Then
             objOLRel_DBOnServer.Add(New clsObjectRel(Nothing, _
                                                      Nothing, _
                                                      objLocalConfig.OItem_Class_Database_on_Server.GUID, _
                                                      Nothing, _
-                                                     objDBLevel_DBView.OList_ObjectRel(0).ID_Other, _
+                                                     objDBLevel_DBViewOrESType.OList_ObjectRel(0).ID_Other, _
                                                      Nothing, _
                                                      Nothing, _
                                                      Nothing, _
@@ -177,10 +186,10 @@ Public Class clsDataWork_Report
                                                      Nothing, _
                                                      Nothing))
 
-            objDBLevel_DBOnServer.get_Data_ObjectRel(objOLRel_DBOnServer)
+            objDBLevel_DBOnServerOrServerPort.get_Data_ObjectRel(objOLRel_DBOnServer)
 
-            If objDBLevel_DBOnServer.OList_ObjectRel_ID.Count > 0 Then
-                objOLRel_Database.Add(New clsObjectRel(objDBLevel_DBOnServer.OList_ObjectRel_ID(0).ID_Object, _
+            If objDBLevel_DBOnServerOrServerPort.OList_ObjectRel_ID.Count > 0 Then
+                objOLRel_Database.Add(New clsObjectRel(objDBLevel_DBOnServerOrServerPort.OList_ObjectRel_ID(0).ID_Object, _
                                                        Nothing, _
                                                        Nothing, _
                                                        Nothing, _
@@ -195,11 +204,11 @@ Public Class clsDataWork_Report
                                                        Nothing, _
                                                        Nothing))
 
-                objDBLevel_Database.get_Data_ObjectRel(objOLRel_Database, _
+                objDBLevel_DatabaseOrESIndex.get_Data_ObjectRel(objOLRel_Database, _
                                                        boolIDs:=False)
 
-                If objDBLevel_Database.OList_ObjectRel.Count > 0 Then
-                    objOLRel_Server.Add(New clsObjectRel(objDBLevel_DBOnServer.OList_ObjectRel_ID(0).ID_Object, _
+                If objDBLevel_DatabaseOrESIndex.OList_ObjectRel.Count > 0 Then
+                    objOLRel_Server.Add(New clsObjectRel(objDBLevel_DBOnServerOrServerPort.OList_ObjectRel_ID(0).ID_Object, _
                                                        Nothing, _
                                                        Nothing, _
                                                        Nothing, _
@@ -222,11 +231,11 @@ Public Class clsDataWork_Report
                                                    objOItem_Report.Name, _
                                                    objOItem_ReportType.GUID, _
                                                    objOItem_ReportType.Name, _
-                                                   objDBLevel_DBView.OList_ObjectRel(0).ID_Other, _
-                                                   objDBLevel_DBView.OList_ObjectRel(0).Name_Other, _
-                                                   objDBLevel_DBOnServer.OList_ObjectRel_ID(0).ID_Object, _
-                                                   objDBLevel_Database.OList_ObjectRel(0).ID_Other, _
-                                                   objDBLevel_Database.OList_ObjectRel(0).Name_Other, _
+                                                   objDBLevel_DBViewOrESType.OList_ObjectRel(0).ID_Other, _
+                                                   objDBLevel_DBViewOrESType.OList_ObjectRel(0).Name_Other, _
+                                                   objDBLevel_DBOnServerOrServerPort.OList_ObjectRel_ID(0).ID_Object, _
+                                                   objDBLevel_DatabaseOrESIndex.OList_ObjectRel(0).ID_Other, _
+                                                   objDBLevel_DatabaseOrESIndex.OList_ObjectRel(0).Name_Other, _
                                                    objDBLevel_Server.OList_ObjectRel(0).ID_Other, _
                                                    objDBLevel_Server.OList_ObjectRel(0).Name_Other)
 
@@ -241,6 +250,85 @@ Public Class clsDataWork_Report
     End Sub
 
     Private Sub get_Data_Report_ES()
+        Dim searchIndex = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Object = objOItem_Report.GUID,
+                                                                                  .ID_RelationType = objLocalConfig.OItem_RelationType_located_in.GUID,
+                                                                                  .ID_Parent_Other = objLocalConfig.OItem_Class_Indexes__Elastic_Search_.GUID}}
+        objOItem_Result_ReportMeta = objDBLevel_DatabaseOrESIndex.get_Data_ObjectRel(searchIndex, boolIDs:=False)
+
+        If objOItem_Result_ReportMeta.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            Dim searchServerPort = objDBLevel_DatabaseOrESIndex.OList_ObjectRel.Select(Function(indx) New clsObjectRel With {.ID_Object = indx.ID_Other,
+                                                                                                                .ID_RelationType = objLocalConfig.OItem_RelationType_belongsTo.GUID,
+                                                                                                                    .ID_Parent_Other = objLocalConfig.OItem_Class_Server_Port.GUID}).ToList()
+
+            If searchServerPort.Any() Then
+                objOItem_Result_ReportMeta = objDBLevel_DBOnServerOrServerPort.get_Data_ObjectRel(searchServerPort, boolIDs:=False)
+
+                
+            End If
+
+        End If
+
+        If objOItem_Result_ReportMeta.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            Dim searchServer = objDBLevel_DBOnServerOrServerPort.OList_ObjectRel.Select(Function(servport) New clsObjectRel With {.ID_Object = servport.ID_Other,
+                                                                                                                      .ID_RelationType = objLocalConfig.OItem_RelationType_belonging_Source.GUID,
+                                                                                                                      .ID_Parent_Other = objLocalConfig.OItem_Class_Server.GUID}).ToList()
+
+            If searchServer.Any() Then
+                objOItem_Result_ReportMeta = objDBLevel_Server.get_Data_ObjectRel(searchServer, boolIDs:=False)
+
+                
+
+
+            End If
+
+
+        End If
+
+        If objOItem_Result_ReportMeta.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            Dim searchPort = objDBLevel_DBOnServerOrServerPort.OList_ObjectRel.Select(Function(srvport) New clsObjectRel With {.ID_Object = srvport.ID_Other,
+                                                                                                                   .ID_RelationType = objLocalConfig.OItem_RelationType_belonging_Source.GUID,
+                                                                                                                   .ID_Parent_Other = objLocalConfig.OItem_Class_Port.GUID}).ToList()
+
+            If searchPort.Any() Then
+                objOItem_Result_ReportMeta = objDBLevel_Port.get_Data_ObjectRel(searchPort, boolIDs:=False)
+            End If
+
+
+
+
+        End If
+
+        If objOItem_Result_ReportMeta.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            Dim searchType = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Object = objOItem_Report.GUID,
+                                                                                    .ID_RelationType = objLocalConfig.OItem_RelationType_located_in.GUID,
+                                                                                    .ID_Parent_Other = objLocalConfig.OItem_class_types__elastic_search_.GUID}}
+
+            objOItem_Result_ReportMeta = objDBLevel_DBViewOrESType.get_Data_ObjectRel(searchType, boolIDs:=False)
+
+        End If
+
+        If objOItem_Result_ReportMeta.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            Dim reportMeta = (From index In objDBLevel_DatabaseOrESIndex.OList_ObjectRel
+                              Join servPort In objDBLevel_DBOnServerOrServerPort.OList_ObjectRel On index.ID_Other Equals servPort.ID_Object
+                              Join server In objDBLevel_Server.OList_ObjectRel On servPort.ID_Other Equals server.ID_Object
+                              Join port In objDBLevel_Port.OList_ObjectRel On servPort.ID_Other Equals port.ID_Object
+                              Join types In objDBLevel_DBViewOrESType.OList_ObjectRel On index.ID_Object Equals types.ID_Object
+                              Select New clsReports With {.ID_Report = index.ID_Object,
+                                                          .Name_Report = index.Name_Object,
+                                                          .ID_ReportType = objOItem_ReportType.GUID,
+                                                          .Name_ReportType = objOItem_ReportType.Name,
+                                                          .ID_DatabaseOnServer = servPort.ID_Other,
+                                                          .ID_DatabaseOrIndex = index.ID_Other,
+                                                          .Name_DatabaseOrIndex = index.Name_Other,
+                                                          .ID_Server = server.ID_Other,
+                                                          .Name_Server = server.Name_Other,
+                                                          .ID_Port = port.ID_Other,
+                                                          .Name_Port = port.Name_Other,
+                                                          .ID_DBViewOrESType = types.ID_Other,
+                                                          .Name_DBViewOrEsType = types.Name_Other}).ToList()
+
+            objReport = reportMeta.FirstOrDefault()
+        End If
 
         boolReportFinished = True
     End Sub
@@ -620,7 +708,7 @@ Public Class clsDataWork_Report
                                                                                    .NextLine_BoldEnd = If(objNextLine_BoldEnd Is Nothing, False, objNextLine_BoldEnd.Val_Bit)}).ToList()
                 End If
 
-                
+
 
 
 
@@ -633,23 +721,23 @@ Public Class clsDataWork_Report
 
     Public Function GetFiltersOfReport(OItem_Report As clsOntologyItem) As List(Of clsObjectAtt)
         Dim result As New List(Of clsObjectAtt)
-        Dim searchFilters = new List(Of clsObjectRel) From { New clsObjectRel With {.ID_Other = OItem_Report.GUID,
+        Dim searchFilters = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Other = OItem_Report.GUID,
                                                                                     .ID_RelationType = objLocalConfig.OItem_RelationType_belongsTo.GUID,
-                                                                                    .ID_Parent_Object = objLocalConfig.OItem_Class_Report_Filter.GUID } }
+                                                                                    .ID_Parent_Object = objLocalConfig.OItem_Class_Report_Filter.GUID}}
 
-        Dim objOItem_Result = objDBLevel_Filter.get_Data_ObjectRel(searchFilters, boolIDs := False)
+        Dim objOItem_Result = objDBLevel_Filter.get_Data_ObjectRel(searchFilters, boolIDs:=False)
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
             Dim searchFiltersAtt = objDBLevel_Filter.OList_ObjectRel.Select(Function(rep) New clsObjectAtt With {.ID_Object = rep.ID_Object,
-                                                                                                                 .ID_AttributeType = objLocalConfig.OItem_Attribute_Value.GUID }).ToList()
+                                                                                                                 .ID_AttributeType = objLocalConfig.OItem_Attribute_Value.GUID}).ToList()
             If searchFiltersAtt.Any() Then
-                objOItem_Result = objDBLevel_FilterValue.get_Data_ObjectAtt(searchFiltersAtt, boolIDs := False)
+                objOItem_Result = objDBLevel_FilterValue.get_Data_ObjectAtt(searchFiltersAtt, boolIDs:=False)
                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                     result = objDBLevel_FilterValue.OList_ObjectAtt
-                Else 
+                Else
                     result = Nothing
                 End If
             End If
-        Else 
+        Else
             result = Nothing
         End If
 
@@ -658,23 +746,23 @@ Public Class clsDataWork_Report
 
     Public Function GetSortsOfReport(OItem_Report As clsOntologyItem) As List(Of clsObjectAtt)
         Dim result As New List(Of clsObjectAtt)
-        Dim searchSort = new List(Of clsObjectRel) From { New clsObjectRel With {.ID_Other = OItem_Report.GUID,
+        Dim searchSort = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Other = OItem_Report.GUID,
                                                                                     .ID_RelationType = objLocalConfig.OItem_RelationType_belongsTo.GUID,
-                                                                                    .ID_Parent_Object = objLocalConfig.OItem_Class_Report_Sort.GUID } }
+                                                                                    .ID_Parent_Object = objLocalConfig.OItem_Class_Report_Sort.GUID}}
 
-        Dim objOItem_Result = objDBLevel_Sort.get_Data_ObjectRel(searchSort, boolIDs := False)
+        Dim objOItem_Result = objDBLevel_Sort.get_Data_ObjectRel(searchSort, boolIDs:=False)
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
             Dim searchSortAtt = objDBLevel_Sort.OList_ObjectRel.Select(Function(rep) New clsObjectAtt With {.ID_Object = rep.ID_Object,
-                                                                                                                 .ID_AttributeType = objLocalConfig.OItem_Attribute_Value.GUID }).ToList()
+                                                                                                                 .ID_AttributeType = objLocalConfig.OItem_Attribute_Value.GUID}).ToList()
             If searchSortAtt.Any() Then
-                objOItem_Result = objDBLevel_SortValue.get_Data_ObjectAtt(searchSortAtt, boolIDs := False)
+                objOItem_Result = objDBLevel_SortValue.get_Data_ObjectAtt(searchSortAtt, boolIDs:=False)
                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                     result = objDBLevel_SortValue.OList_ObjectAtt
-                Else 
+                Else
                     result = Nothing
                 End If
             End If
-        Else 
+        Else
             result = Nothing
         End If
 
@@ -684,21 +772,22 @@ Public Class clsDataWork_Report
 
     Private Sub set_DBConnection()
         objDBLevel_Report = New clsDBLevel(objLocalConfig.Globals)
-        objDBLevel_DBView = New clsDBLevel(objLocalConfig.Globals)
-        objDBLevel_DBOnServer = New clsDBLevel(objLocalConfig.Globals)
-        objDBLevel_Database = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_DBViewOrESType = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_DBOnServerOrServerPort = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_DatabaseOrESIndex = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_Server = New clsDBLevel(objLocalConfig.Globals)
-        objDBLevel_Filter = new clsDBLevel(objLocalConfig.Globals)
-        objDBLevel_FilterValue = new clsDBLevel(objLocalConfig.Globals)
-        objDBLevel_Sort = new clsDBLevel(objLocalConfig.Globals)
-        objDBLevel_SortValue = new clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_Port = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_Filter = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_FilterValue = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_Sort = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_SortValue = New clsDBLevel(objLocalConfig.Globals)
 
         objDBLevel_ClipboardFilter = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_ClipboardFilterTag = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_NextLine = New clsDBLevel(objLocalConfig.Globals)
 
-        objDBLevel_RefOfReport = new clsDBLevel(objLocalConfig.Globals)
-        objDBLevel_OItem = new clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_RefOfReport = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_OItem = New clsDBLevel(objLocalConfig.Globals)
     End Sub
 End Class
 

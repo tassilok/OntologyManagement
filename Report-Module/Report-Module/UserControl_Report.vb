@@ -54,6 +54,9 @@ Public Class UserControl_Report
     Private objGraphMLWork As clsGraphMLWork
     Private objFrmLocalizingModuleSingle As frmLocalizingModuleSingle
     Private objDlgAttribute_String As dlg_Attribute_String
+
+    Private objAppDbLevel As clsAppDBLevel
+
     Private WithEvents objFrmCommandLineRun As frmCommandLineRun
 
     Private objOntologyClipboard As clsOntologyClipboard
@@ -106,7 +109,7 @@ Public Class UserControl_Report
     Private Sub AppliedCommandLineRun() Handles objFrmCommandLineRun.appliedItem
 
 
-        Dim dictFieldList = objDataWork_ReportFields.ReportFields.Select(Function(repf) New KeyValuePair(Of String, String)(repf.Name_Col, repf.ID_Field)).ToList()
+        Dim dictFieldList = objDataWork_ReportFields.ReportFields.Select(Function(repf) New KeyValuePair(Of String, String)(repf.Name_Col, repf.ID_RepField)).ToList()
         objFrmCommandLineRun.CreateScriptOfReport(dictFieldList, DataGridView_Reports)
     End Sub
 
@@ -135,9 +138,19 @@ Public Class UserControl_Report
             For Each objColumn In DataGridView_Reports.Columns
 
 
+                Dim objLReportFields As List(Of clsReportField) = Nothing
 
-                Dim objLReportFields = From objRF In objOList_ReportFields
+                If objDataWork_Report.Report.ID_ReportType = objLocalConfig.OItem_Object_Report_Type_View.GUID Then
+                    objLReportFields = (From objRF In objOList_ReportFields
                                  Where objRF.Name_Col.ToLower = objColumn.Name.ToLower
+                                 Select objRF).ToList()
+                Else
+                    objLReportFields = (From objRF In objOList_ReportFields
+                                       Where objRF.Name_RepField.ToLower() = objColumn.Name.ToLower()
+                                       Select objRF).ToList()
+
+                End If
+                
 
 
                 If Not objLReportFields Is Nothing Then
@@ -147,7 +160,7 @@ Public Class UserControl_Report
                             objColumn.Visible = False
                         End If
 
-                        objColumn.HeaderText = objLReportFields(0).Name_Field
+                        objColumn.HeaderText = objLReportFields(0).Name_RepField
 
                         If Not objLReportFields(0).Name_FieldFormat Is Nothing Then
                             objColumn.DefaultCellStyle.Format = objLReportFields(0).Name_FieldFormat
@@ -472,7 +485,7 @@ Public Class UserControl_Report
 
                         strLine = strLine & objHTMLCreation.Get_HTML_Tag(objHTMLCreation.OItem_DocType_TableCol, True)
                     End If
-                    
+
 
                 Next
                 objHTMLCreation.Write_Line(strLine)
@@ -530,7 +543,7 @@ Public Class UserControl_Report
                             objHTMLCreation.Write_Line(strLine)
                         End If
 
-                        
+
                     Next
 
                     objHTMLCreation.Write_Line(strLine)
@@ -704,7 +717,6 @@ Public Class UserControl_Report
         objReport = New clsReport(objLocalConfig.Globals)
         objDataWork_Report = New clsDataWork_Report(objLocalConfig)
 
-
         objShell = New clsShellWork()
         objTransaction = New clsTransaction(objLocalConfig.Globals)
         Dim objLocalConfig_FileWork = New Filesystem_Module.clsLocalConfig(objLocalConfig.Globals)
@@ -778,36 +790,105 @@ Public Class UserControl_Report
             If Not objDataWork_Report.Report Is Nothing Then
                 objReport = objDataWork_Report.Report
 
-                If Not objReport.Name_Server Is Nothing Then
-                    ServerToolStripMenuItem.Text = objReport.Name_Server
-                    DatabaseToolStripMenuItem.Text = objReport.Name_Database
-                    ViewToolStripMenuItem.Text = objReport.Name_DBView
+                If objReport.ID_ReportType = objLocalConfig.OItem_Object_Report_Type_View.GUID Then
+                    If Not objReport.Name_Server Is Nothing Then
+                        ServerToolStripMenuItem.Text = objReport.Name_Server
+                        DatabaseToolStripMenuItem.Text = objReport.Name_DatabaseOrIndex
+                        ViewToolStripMenuItem.Text = objReport.Name_DBViewOrEsType
 
-                    strConn = "Data Source=" & objReport.Name_Server & "\" & objLocalConfig.Globals.Rep_Instance & ";Initial Catalog=" & objReport.Name_Database & ";Integrated Security=True"
-                    objDataAdp = New SqlClient.SqlDataAdapter("SELECT * FROM [" & objReport.Name_Database & "]..[" & objReport.Name_DBView & "]", strConn)
-                    Try
-                        objDataAdp.Fill(objDataSet)
-                        objDataTable = objDataSet.Tables(0)
-                        BindingSource_Reports.DataSource = objDataTable
-                    Catch ex As Exception
+                        strConn = "Data Source=" & objReport.Name_Server & "\" & objLocalConfig.Globals.Rep_Instance & ";Initial Catalog=" & objReport.Name_DatabaseOrIndex & ";Integrated Security=True"
+                        objDataAdp = New SqlClient.SqlDataAdapter("SELECT * FROM [" & objReport.Name_DatabaseOrIndex & "]..[" & objReport.Name_DBViewOrEsType & "]", strConn)
                         Try
-                            BindingSource_Reports.RemoveFilter()
+                            objDataAdp.Fill(objDataSet)
+                            objDataTable = objDataSet.Tables(0)
                             BindingSource_Reports.DataSource = objDataTable
-                        Catch ex1 As Exception
+                        Catch ex As Exception
+                            Try
+                                BindingSource_Reports.RemoveFilter()
+                                BindingSource_Reports.DataSource = objDataTable
+                            Catch ex1 As Exception
 
+                            End Try
                         End Try
-                    End Try
 
 
-                    DataGridView_Reports.DataSource = BindingSource_Reports
-                    BindingNavigator_Reports.BindingSource = BindingSource_Reports
-                    RaiseEvent DataLoaded()
-                    configure_DataGridView()
+                        DataGridView_Reports.DataSource = BindingSource_Reports
+                        BindingNavigator_Reports.BindingSource = BindingSource_Reports
+                        RaiseEvent DataLoaded()
+                        configure_DataGridView()
+                    End If
+                ElseIf objReport.ID_ReportType = objLocalConfig.OItem_Object_Report_Type_ElasticView.GUID Then
+                    If Not String.IsNullOrEmpty(objReport.Name_Server) And objReport.Port > 0 _
+                        And Not String.IsNullOrEmpty(objReport.Name_DatabaseOrIndex) _
+                        And Not String.IsNullOrEmpty(objReport.Name_DBViewOrEsType) Then
+                        ServerToolStripMenuItem.Text = objReport.Name_Server
+                        DatabaseToolStripMenuItem.Text = objReport.Name_DatabaseOrIndex
+                        ViewToolStripMenuItem.Text = objReport.Name_DBViewOrEsType
+
+                        objAppDbLevel = New clsAppDBLevel(objReport.Name_Server, _
+                                                          objReport.Port, _
+                                                          objReport.Name_DatabaseOrIndex, _
+                                                          objLocalConfig.Globals.SearchRange, _
+                                                          objLocalConfig.Globals.Session)
+
+                        Dim objDocs = objAppDbLevel.GetData_Documents(objReport.Name_DatabaseOrIndex, objReport.Name_DBViewOrEsType, False)
+                        Dim objOItem_Result = CreateTableFromEsIndex()
+
+                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                            For Each objDoc As clsAppDocuments In objDocs
+                                Dim row = objDataTable.Rows.Add()
+                                For Each objCol As DataColumn In objDataTable.Columns
+                                    If objDoc.Dict.ContainsKey(objCol.ColumnName) Then
+                                        row(objCol.ColumnName) = objDoc.Dict(objCol.ColumnName)
+                                    End If
+
+                                Next
+                            Next
+
+                            BindingSource_Reports.DataSource = objDataTable
+                            DataGridView_Reports.DataSource = BindingSource_Reports
+                            BindingNavigator_Reports.BindingSource = BindingSource_Reports
+                            RaiseEvent DataLoaded()
+                            configure_DataGridView()
+                        Else
+                                MsgBox("Die Daten konnten nicht ermittelt werden!", MsgBoxStyle.Exclamation)
+                        End If
+
+                    End If
                 End If
+
 
             End If
         End If
     End Sub
+
+    Private Function CreateTableFromEsIndex() As clsOntologyItem
+        objDataTable = New DataTable()
+        Dim objOItem_Result = objLocalConfig.Globals.LState_Success.Clone()
+
+        If objDataWork_ReportFields.ReportFields.Any() Then
+            For Each reportField In objDataWork_ReportFields.ReportFields.OrderBy(Function(rf) rf.OrderID).ToList()
+                Select Case reportField.ID_DataType
+                    Case objLocalConfig.OItem_object_bit.GUID
+                        objDataTable.Columns.Add(reportField.Name_ParsField, GetType(Boolean))
+                    Case objLocalConfig.OItem_object_int.GUID
+                        objDataTable.Columns.Add(reportField.Name_ParsField, GetType(Integer))
+                    Case objLocalConfig.OItem_object_datetime.GUID
+                        objDataTable.Columns.Add(reportField.Name_ParsField, GetType(DateAndTime))
+                    Case objLocalConfig.OItem_object_double.GUID
+                        objDataTable.Columns.Add(reportField.Name_ParsField, GetType(Double))
+                    Case objLocalConfig.OItem_object_string.GUID
+                        objDataTable.Columns.Add(reportField.Name_ParsField, GetType(String))
+                End Select
+            Next
+        End If
+
+        If objDataTable.Columns.Count = 0 Then
+            objOItem_Result = objLocalConfig.Globals.LState_Error.Clone()
+        End If
+
+        Return objOItem_Result
+    End Function
 
     Private Sub ConfigureCalculation(Optional menuItem As ToolStripMenuItem = Nothing)
         If menuItem Is Nothing Then
@@ -929,8 +1010,14 @@ Public Class UserControl_Report
                 strOperator = "="
         End Select
         If DataGridView_Reports.SelectedCells.Count = 1 Then
+            Dim objLReportFields As New List(Of clsReportField)
 
-            Dim objLReportFields = objDataWork_ReportFields.ReportFields.Where(Function(p) p.Name_Col.ToLower() = DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName.ToLower()).ToList
+            If objDataWork_Report.Report.ID_ReportType = objLocalConfig.OItem_Object_Report_Type_View.GUID Then
+                objLReportFields = objDataWork_ReportFields.ReportFields.Where(Function(p) p.Name_Col.ToLower() = DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName.ToLower()).ToList
+            ElseIf objDataWork_Report.Report.ID_ReportType = objLocalConfig.OItem_Object_Report_Type_ElasticView.GUID Then
+                objLReportFields = objDataWork_ReportFields.ReportFields.Where(Function(p) p.Name_ParsField.ToLower() = DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).Name.ToLower()).ToList
+            End If
+
             If objLReportFields.Any() Then
                 If objLReportFields.First().ID_FieldType = objLocalConfig.OItem_Object_Field_Type_Zahl.GUID Then
                     If IsDBNull(DataGridView_Reports.SelectedCells(0)) Then
@@ -1132,7 +1219,7 @@ Public Class UserControl_Report
                 objDGVR_Selected = DataGridView_Reports.Rows(DataGridView_Reports.SelectedCells(0).RowIndex)
                 objDRV_Selected = objDGVR_Selected.DataBoundItem
 
-                Dim objLType = objDataWork_ReportFields.ReportFields.Where(Function(p) p.ID_Field = objLCol.First().ID_TypeField).ToList()
+                Dim objLType = objDataWork_ReportFields.ReportFields.Where(Function(p) p.ID_RepField = objLCol.First().ID_TypeField).ToList()
 
                 If objLType.Any Then
 
@@ -1151,7 +1238,7 @@ Public Class UserControl_Report
 
                 End If
 
-                Dim objLLeaded = objDataWork_ReportFields.ReportFields.Where(Function(p) p.ID_Field = objLCol.First().ID_LeadField).ToList()
+                Dim objLLeaded = objDataWork_ReportFields.ReportFields.Where(Function(p) p.ID_RepField = objLCol.First().ID_LeadField).ToList()
 
                 If objLLeaded.Any() Then
                     If Not IsDBNull(objDRV_Selected.Item(objLLeaded.First().Name_Col)) And _
@@ -1213,7 +1300,7 @@ Public Class UserControl_Report
         Dim objLCol = objDataWork_ReportFields.ReportFields.Where(Function(p) p.Name_Col = DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName).ToList
 
         If objLCol.Any() Then
-            Dim objLType = objDataWork_ReportFields.ReportFields.Where(Function(p) p.ID_Field = objLCol.First().ID_TypeField).ToList()
+            Dim objLType = objDataWork_ReportFields.ReportFields.Where(Function(p) p.ID_RepField = objLCol.First().ID_TypeField).ToList()
             objDGVR_Selected = DataGridView_Reports.Rows(DataGridView_Reports.SelectedCells(0).RowIndex)
             objDRV_Selected = objDGVR_Selected.DataBoundItem
 
@@ -1221,7 +1308,7 @@ Public Class UserControl_Report
 
             End If
 
-            Dim objLLeaded = objDataWork_ReportFields.ReportFields.Where(Function(p) p.ID_Field = objLCol.First().ID_LeadField).ToList()
+            Dim objLLeaded = objDataWork_ReportFields.ReportFields.Where(Function(p) p.ID_RepField = objLCol.First().ID_LeadField).ToList()
             If objLLeaded.Any() Then
                 If objLLeaded.First().ID_FieldType = objLocalConfig.OItem_Object_Field_Type_GUID.GUID Then
                     objDGVR_Selected = DataGridView_Reports.Rows(DataGridView_Reports.SelectedCells(0).RowIndex)
@@ -1262,7 +1349,7 @@ Public Class UserControl_Report
 
         Dim objLCol = objDataWork_ReportFields.ReportFields.Where(Function(p) p.Name_Col = DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName).ToList
         If objLCol.Any() Then
-            Dim objLLeaded = objDataWork_ReportFields.ReportFields.Where(Function(p) p.ID_Field = objLCol.First().ID_LeadField).ToList()
+            Dim objLLeaded = objDataWork_ReportFields.ReportFields.Where(Function(p) p.ID_RepField = objLCol.First().ID_LeadField).ToList()
 
             objOItem_File.GUID = objDRV_Selected.Item(objLLeaded.First().Name_Col)
             objOItem_File.Name = objDRV_Selected.Item(objLCol.First().Name_Col)
@@ -1290,7 +1377,7 @@ Public Class UserControl_Report
 
         Dim objLCol = objDataWork_ReportFields.ReportFields.Where(Function(p) p.Name_Col = DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName).ToList
         If objLCol.Any() Then
-            Dim objLLeaded = objDataWork_ReportFields.ReportFields.Where(Function(p) p.ID_Field = objLCol.First().ID_LeadField).ToList()
+            Dim objLLeaded = objDataWork_ReportFields.ReportFields.Where(Function(p) p.ID_RepField = objLCol.First().ID_LeadField).ToList()
 
             objOItem_File.GUID = objDRV_Selected.Item(objLLeaded.First().Name_Col)
             objOItem_File.Name = objDRV_Selected.Item(objLCol.First().Name_Col)
@@ -1348,7 +1435,7 @@ Public Class UserControl_Report
 
         Dim objLCol = objDataWork_ReportFields.ReportFields.Where(Function(p) p.Name_Col = DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName).ToList
         If objLCol.Any() Then
-            Dim objLLeaded = objDataWork_ReportFields.ReportFields.Where(Function(p) p.ID_Field = objLCol.First().ID_LeadField).ToList()
+            Dim objLLeaded = objDataWork_ReportFields.ReportFields.Where(Function(p) p.ID_RepField = objLCol.First().ID_LeadField).ToList()
 
             objOntologyItem_File.GUID = objDRV_Selected.Item(objLLeaded.First().Name_Col)
             objOntologyItem_File.Name = objDRV_Selected.Item(objLCol.First().Name_Col)
@@ -1381,7 +1468,7 @@ Public Class UserControl_Report
 
         Dim objLCol = objDataWork_ReportFields.ReportFields.Where(Function(p) p.Name_Col = DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName).ToList
         If objLCol.Any() Then
-            Dim objLType = objDataWork_ReportFields.ReportFields.Where(Function(p) p.ID_Field = objLCol.First().ID_TypeField).ToList()
+            Dim objLType = objDataWork_ReportFields.ReportFields.Where(Function(p) p.ID_RepField = objLCol.First().ID_TypeField).ToList()
             objDGVR_Selected = DataGridView_Reports.Rows(DataGridView_Reports.SelectedCells(0).RowIndex)
             objDRV_Selected = objDGVR_Selected.DataBoundItem
 
@@ -1399,7 +1486,7 @@ Public Class UserControl_Report
             End If
 
 
-            Dim objLLeaded = objDataWork_ReportFields.ReportFields.Where(Function(p) p.ID_Field = objLCol.First().ID_LeadField).ToList()
+            Dim objLLeaded = objDataWork_ReportFields.ReportFields.Where(Function(p) p.ID_RepField = objLCol.First().ID_LeadField).ToList()
             If objLLeaded.Any() Then
                 If objLLeaded.First().ID_FieldType = objLocalConfig.OItem_Object_Field_Type_GUID.GUID Then
                     objDGVR_Selected = DataGridView_Reports.Rows(DataGridView_Reports.SelectedCells(0).RowIndex)
@@ -1456,8 +1543,8 @@ Public Class UserControl_Report
                 Dim objLCol = objDataWork_ReportFields.ReportFields.Where(Function(p) p.Name_Col = DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName).ToList
 
                 If objLCol.Any() Then
-                    Dim objLType = objDataWork_ReportFields.ReportFields.Where(Function(p) p.ID_Field = objLCol.First().ID_TypeField).ToList()
-                    Dim objLLeaded = objDataWork_ReportFields.ReportFields.Where(Function(p) p.ID_Field = objLCol.First().ID_LeadField).ToList()
+                    Dim objLType = objDataWork_ReportFields.ReportFields.Where(Function(p) p.ID_RepField = objLCol.First().ID_TypeField).ToList()
+                    Dim objLLeaded = objDataWork_ReportFields.ReportFields.Where(Function(p) p.ID_RepField = objLCol.First().ID_LeadField).ToList()
 
                     If objLLeaded.Any() Then
 
@@ -1526,7 +1613,7 @@ Public Class UserControl_Report
         If DataGridView_Reports.SelectedCells.Count = 1 Then
             Dim objLCol = objDataWork_ReportFields.ReportFields.Where(Function(p) p.Name_Col = DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName).ToList
             If objLCol.Any() Then
-                Dim objLLeaded = objDataWork_ReportFields.ReportFields.Where(Function(p) p.ID_Field = objLCol.First().ID_LeadField).ToList()
+                Dim objLLeaded = objDataWork_ReportFields.ReportFields.Where(Function(p) p.ID_RepField = objLCol.First().ID_LeadField).ToList()
                 If objLLeaded.Any() Then
                     If objLLeaded.First().ID_FieldType = objLocalConfig.OItem_Object_Field_Type_GUID.GUID Then
                         objDGVR_Selected = DataGridView_Reports.Rows(DataGridView_Reports.SelectedCells(0).RowIndex)
@@ -1570,7 +1657,7 @@ Public Class UserControl_Report
             Dim objLCol = objDataWork_ReportFields.ReportFields.Where(Function(p) p.Name_Col = DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName).ToList
             If objLCol.Any() Then
                 If Not IsDBNull(objLCol.First().ID_FieldType) Then
-                    Dim objLType = objDataWork_ReportFields.ReportFields.Where(Function(p) p.ID_Field = objLCol.First().ID_TypeField).ToList()
+                    Dim objLType = objDataWork_ReportFields.ReportFields.Where(Function(p) p.ID_RepField = objLCol.First().ID_TypeField).ToList()
 
                     If objLType.Any() Then
                         objDGVR_Selected = DataGridView_Reports.Rows(DataGridView_Reports.SelectedCells(0).RowIndex)
@@ -1593,7 +1680,7 @@ Public Class UserControl_Report
             FieldToSortToolStripMenuItem.Enabled = True
             If objLCol.Any() Then
 
-                Dim objLLeaded = objDataWork_ReportFields.ReportFields.Where(Function(p) p.ID_Field = objLCol.First().ID_LeadField).ToList()
+                Dim objLLeaded = objDataWork_ReportFields.ReportFields.Where(Function(p) p.ID_RepField = objLCol.First().ID_LeadField).ToList()
                 If objLLeaded.Any() Then
                     If objLLeaded.First().ID_FieldType = objLocalConfig.OItem_Object_Field_Type_GUID.GUID Then
                         CopyGUIDToolStripMenuItem.Enabled = True
@@ -1626,7 +1713,7 @@ Public Class UserControl_Report
             Dim objLCol = objDataWork_ReportFields.ReportFields.Where(Function(p) p.Name_Col = DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName).ToList
 
             If objLCol.Any() Then
-                Dim objLLeaded = objDataWork_ReportFields.ReportFields.Where(Function(p) p.ID_Field = objLCol.First().ID_LeadField).ToList()
+                Dim objLLeaded = objDataWork_ReportFields.ReportFields.Where(Function(p) p.ID_RepField = objLCol.First().ID_LeadField).ToList()
                 If objLLeaded.Any() Then
                     If objLLeaded.First.ID_FieldType = objLocalConfig.OItem_Object_Field_Type_GUID.GUID Then
                         objDGVR_Selected = DataGridView_Reports.Rows(DataGridView_Reports.SelectedCells(0).RowIndex)
@@ -1986,7 +2073,7 @@ Public Class UserControl_Report
             cells.ForEach(Sub(objCell)
                               Dim objLCol = objDataWork_ReportFields.ReportFields.Where(Function(p) p.Name_Col = DataGridView_Reports.Columns(objCell.ColumnIndex).DataPropertyName).ToList
                               If objLCol.Any() Then
-                                  Dim objLLeaded = objDataWork_ReportFields.ReportFields.Where(Function(p) p.ID_Field = objLCol.First().ID_LeadField).ToList()
+                                  Dim objLLeaded = objDataWork_ReportFields.ReportFields.Where(Function(p) p.ID_RepField = objLCol.First().ID_LeadField).ToList()
                                   If objLLeaded.Any() Then
                                       If objLLeaded.First().ID_FieldType = objLocalConfig.OItem_Object_Field_Type_GUID.GUID Then
                                           Dim objDGVR_Selected As DataGridViewRow = DataGridView_Reports.Rows(objCell.RowIndex)
@@ -2054,7 +2141,7 @@ Public Class UserControl_Report
 
             If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                 Timer_Session.Stop()
-                Dim dictFieldList = objDataWork_ReportFields.ReportFields.Select(Function(repf) New KeyValuePair(Of String, String)(repf.Name_Col, repf.ID_Field)).ToList()
+                Dim dictFieldList = objDataWork_ReportFields.ReportFields.Select(Function(repf) New KeyValuePair(Of String, String)(repf.Name_Col, repf.ID_RepField)).ToList()
                 Dim xmlSerializer = New XmlSerializer(dictFieldList.GetType())
 
                 Dim stringWriter = New StringWriter()
@@ -2068,13 +2155,13 @@ Public Class UserControl_Report
                 Timer_Session.Stop()
                 MsgBox("Beim Datenaustausch ist ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)
             End If
-            
+
 
         Else
             MsgBox("Beim Datenaustausch ist ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)
             Timer_Session.Stop()
         End If
-        
+
     End Sub
 
     Private Function ExportImages(cell As DataGridViewCell, boolThumb As Boolean) As clsOntologyItem
@@ -2096,9 +2183,9 @@ Public Class UserControl_Report
             objDGVR_Selected = DataGridView_Reports.Rows(cell.RowIndex)
             objDRV_Selected = objDGVR_Selected.DataBoundItem
 
-            Dim objLType = objDataWork_ReportFields.ReportFields.Where(Function(p) p.ID_Field = objLCol.First().ID_TypeField).ToList()
+            Dim objLType = objDataWork_ReportFields.ReportFields.Where(Function(p) p.ID_RepField = objLCol.First().ID_TypeField).ToList()
 
-            Dim objLLeaded = objDataWork_ReportFields.ReportFields.Where(Function(p) p.ID_Field = objLCol.First().ID_LeadField).ToList()
+            Dim objLLeaded = objDataWork_ReportFields.ReportFields.Where(Function(p) p.ID_RepField = objLCol.First().ID_LeadField).ToList()
 
             If objLLeaded.Any() Then
                 If Not IsDBNull(objDRV_Selected.Item(objLLeaded.First().Name_Col)) And _
