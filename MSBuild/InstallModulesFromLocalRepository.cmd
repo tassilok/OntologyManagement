@@ -138,13 +138,13 @@ del /s /q "%OMODULE_PATH%\Partner-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Partner-Module_0.2.0.83.exe" -o"%OMODULE_PATH%\Partner-Module\"
 
 del /s /q "%OMODULE_PATH%\Report-Module\*.*"
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Report-Module_0.0.1.116.exe" -o"%OMODULE_PATH%\Report-Module\"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Report-Module_0.0.1.118.exe" -o"%OMODULE_PATH%\Report-Module\"
 
 del /s /q "%OMODULE_PATH%\Appointment-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Appointment-Module_0.0.1.86.exe" -o"%OMODULE_PATH%\Appointment-Module\"
 
 del /s /q "%OMODULE_PATH%\Schriftverkehrs-Module\*.*"
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Schriftverkehrs-Module_0.0.0.111.exe" -o"%OMODULE_PATH%\Schriftverkehrs-Module\"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Schriftverkehrs-Module_0.0.0.112.exe" -o"%OMODULE_PATH%\Schriftverkehrs-Module\"
 
 del /s /q "%OMODULE_PATH%\Bill-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Bill-Module_0.0.0.96.exe" -o"%OMODULE_PATH%\Bill-Module\"
@@ -156,4 +156,4 @@ del /s /q "%OMODULE_PATH%\Change-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Change-Module_0.0.0.99.exe" -o"%OMODULE_PATH%\Change-Module\"
 
 del /s /q "%OMODULE_PATH%\Checklist-Module\*.*"
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Checklist-Module_0.0.0.124.exe" -o"%OMODULE_PATH%\Checklist-Module\"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Checklist-Module_0.0.0.125.exe" -o"%OMODULE_PATH%\Checklist-Module\"

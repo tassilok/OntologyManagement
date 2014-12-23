@@ -551,8 +551,8 @@ if /i [Report-Module] EQU [Ontolog-Module] (
 
 del /s /q "%OMODULE_PATH%\Report-Module\*.*"
 
-wget -O "%temp%\OModules\Report-Module_0.0.1.116.exe" %DOWNLOAD_URL%/Report-Module_0.0.1.116.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Report-Module_0.0.1.116.exe" -o"%OMODULE_PATH%\Report-Module\"
+wget -O "%temp%\OModules\Report-Module_0.0.1.118.exe" %DOWNLOAD_URL%/Report-Module_0.0.1.118.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Report-Module_0.0.1.118.exe" -o"%OMODULE_PATH%\Report-Module\"
 
 
 if /i [Appointment-Module] EQU [Ontolog-Module] (
@@ -575,8 +575,8 @@ if /i [Schriftverkehrs-Module] EQU [Ontolog-Module] (
 
 del /s /q "%OMODULE_PATH%\Schriftverkehrs-Module\*.*"
 
-wget -O "%temp%\OModules\Schriftverkehrs-Module_0.0.0.111.exe" %DOWNLOAD_URL%/Schriftverkehrs-Module_0.0.0.111.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Schriftverkehrs-Module_0.0.0.111.exe" -o"%OMODULE_PATH%\Schriftverkehrs-Module\"
+wget -O "%temp%\OModules\Schriftverkehrs-Module_0.0.0.112.exe" %DOWNLOAD_URL%/Schriftverkehrs-Module_0.0.0.112.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Schriftverkehrs-Module_0.0.0.112.exe" -o"%OMODULE_PATH%\Schriftverkehrs-Module\"
 
 
 if /i [Bill-Module] EQU [Ontolog-Module] (
@@ -623,5 +623,5 @@ if /i [Checklist-Module] EQU [Ontolog-Module] (
 
 del /s /q "%OMODULE_PATH%\Checklist-Module\*.*"
 
-wget -O "%temp%\OModules\Checklist-Module_0.0.0.124.exe" %DOWNLOAD_URL%/Checklist-Module_0.0.0.124.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Checklist-Module_0.0.0.124.exe" -o"%OMODULE_PATH%\Checklist-Module\"
+wget -O "%temp%\OModules\Checklist-Module_0.0.0.125.exe" %DOWNLOAD_URL%/Checklist-Module_0.0.0.125.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Checklist-Module_0.0.0.125.exe" -o"%OMODULE_PATH%\Checklist-Module\"

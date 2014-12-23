@@ -66,7 +66,7 @@ namespace Schriftverkehrs_Module
                     if (reportFieldsFound.Any())
                     {
                         column.Visible = reportFieldsFound.First().Visible;
-                        column.HeaderText = reportFieldsFound.First().Name_Field;
+                        column.HeaderText = reportFieldsFound.First().Name_RepField;
                         column.DisplayIndex = reportFieldsFound.First().OrderID;
                         if (reportFieldsFound.First().Name_FieldFormat != null)
                         {

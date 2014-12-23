@@ -57,7 +57,7 @@ namespace CommandLineRun_Module
                 throw new Exception("Executable-Configuration Error");
             }
 
-            encodings = Encoding.GetEncodings().ToList();
+            encodings = Encoding.GetEncodings().OrderBy(enc => enc.DisplayName).ToList();
             comboBox_Encoding.DataSource = encodings;
             comboBox_Encoding.ValueMember = "CodePage";
             comboBox_Encoding.DisplayMember = "DisplayName";
