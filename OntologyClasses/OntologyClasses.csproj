@@ -72,6 +72,16 @@
     <Compile Include="DataClasses\clsRelationTypes.cs" />
     <Compile Include="DataClasses\clsTypes.cs" />
     <Compile Include="DataClasses\clsVariables.cs" />
+    <Compile Include="ESTypes\EsEdge_ClassAttribute.cs" />
+    <Compile Include="ESTypes\EsEdge_ObjectAttribute.cs" />
+    <Compile Include="ESTypes\EsEdge_ObjectRelation.cs" />
+    <Compile Include="ESTypes\EsNode.cs" />
+    <Compile Include="ESTypes\EsNode_AttributeType.cs" />
+    <Compile Include="ESTypes\EsNode_Class.cs" />
+    <Compile Include="ESTypes\EsEdge_ClassRelation.cs" />
+    <Compile Include="ESTypes\EsNode_DataType.cs" />
+    <Compile Include="ESTypes\EsNode_Object.cs" />
+    <Compile Include="ESTypes\EsNode_RelationType.cs" />
     <Compile Include="Interfaces\IModule.cs" />
     <Compile Include="Interfaces\IReportConnector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

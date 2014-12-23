@@ -59,6 +59,8 @@ Partial Class frm_FilesystemModule
         Me.TreeView_Folder = New System.Windows.Forms.TreeView()
         Me.ContextMenuStrip_Tree = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.NewToolStripMenuItem_Tree = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItem_Edit = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RenameToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Open_Tree_ToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ApplyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ModuleActionsToolStripMenuItem_Tree = New System.Windows.Forms.ToolStripMenuItem()
@@ -101,8 +103,6 @@ Partial Class frm_FilesystemModule
         Me.FolderBrowserDialog_Folders = New System.Windows.Forms.FolderBrowserDialog()
         Me.BindingSource_Files = New System.Windows.Forms.BindingSource(Me.components)
         Me.SaveFileDialog_ZipFile = New System.Windows.Forms.SaveFileDialog()
-        Me.ToolStripMenuItem_Edit = New System.Windows.Forms.ToolStripMenuItem()
-        Me.RenameToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
@@ -386,13 +386,26 @@ Partial Class frm_FilesystemModule
         '
         Me.ContextMenuStrip_Tree.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem_Tree, Me.ToolStripMenuItem_Edit, Me.Open_Tree_ToolStripMenuItem1, Me.ApplyToolStripMenuItem, Me.ModuleActionsToolStripMenuItem_Tree})
         Me.ContextMenuStrip_Tree.Name = "ContextMenuStrip_Tree"
-        Me.ContextMenuStrip_Tree.Size = New System.Drawing.Size(171, 136)
+        Me.ContextMenuStrip_Tree.Size = New System.Drawing.Size(171, 114)
         '
         'NewToolStripMenuItem_Tree
         '
         Me.NewToolStripMenuItem_Tree.Name = "NewToolStripMenuItem_Tree"
         Me.NewToolStripMenuItem_Tree.Size = New System.Drawing.Size(170, 22)
         Me.NewToolStripMenuItem_Tree.Text = "x_New"
+        '
+        'ToolStripMenuItem_Edit
+        '
+        Me.ToolStripMenuItem_Edit.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RenameToolStripMenuItem})
+        Me.ToolStripMenuItem_Edit.Name = "ToolStripMenuItem_Edit"
+        Me.ToolStripMenuItem_Edit.Size = New System.Drawing.Size(170, 22)
+        Me.ToolStripMenuItem_Edit.Text = "x_Edit"
+        '
+        'RenameToolStripMenuItem
+        '
+        Me.RenameToolStripMenuItem.Name = "RenameToolStripMenuItem"
+        Me.RenameToolStripMenuItem.Size = New System.Drawing.Size(127, 22)
+        Me.RenameToolStripMenuItem.Text = "x_Rename"
         '
         'Open_Tree_ToolStripMenuItem1
         '
@@ -674,19 +687,6 @@ Partial Class frm_FilesystemModule
         'SaveFileDialog_ZipFile
         '
         Me.SaveFileDialog_ZipFile.Filter = "Zip-Dateien|*.zip"
-        '
-        'ToolStripMenuItem_Edit
-        '
-        Me.ToolStripMenuItem_Edit.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RenameToolStripMenuItem})
-        Me.ToolStripMenuItem_Edit.Name = "ToolStripMenuItem_Edit"
-        Me.ToolStripMenuItem_Edit.Size = New System.Drawing.Size(170, 22)
-        Me.ToolStripMenuItem_Edit.Text = "x_Edit"
-        '
-        'RenameToolStripMenuItem
-        '
-        Me.RenameToolStripMenuItem.Name = "RenameToolStripMenuItem"
-        Me.RenameToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.RenameToolStripMenuItem.Text = "x_Rename"
         '
         'frm_FilesystemModule
         '

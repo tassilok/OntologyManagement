@@ -27,14 +27,14 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>kexi_kexi_team_01.ico</ApplicationIcon>
@@ -43,8 +43,17 @@
     <StartupObject>Change_Module.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ClassLibrary_ShellWork">
-      <HintPath>..\..\ClassLibrary_ShellWork\ClassLibrary_ShellWork\bin\Debug\ClassLibrary_ShellWork.dll</HintPath>
+    <Reference Include="Elasticsearch.Net, Version=1.0.0.0, Culture=neutral, PublicKeyToken=96c599bbe3e70f5d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\BuildSolution\packages\Elasticsearch.Net.1.3.1\lib\Elasticsearch.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="Nest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=96c599bbe3e70f5d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\BuildSolution\packages\NEST.1.3.1\lib\Nest.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\BuildSolution\packages\Newtonsoft.Json.6.0.7\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -156,6 +165,7 @@
     <None Include="DataSet_ChangeModule.xss">
       <DependentUpon>DataSet_ChangeModule.xsd</DependentUpon>
     </None>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -194,6 +204,10 @@
     <None Include="Resources\b_down_Infinite.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ClassLibrary_ShellWork\ClassLibrary_ShellWork\ClassLibrary_ShellWork.vbproj">
+      <Project>{10bcc346-a390-401c-ba6a-904a8842a40b}</Project>
+      <Name>ClassLibrary_ShellWork</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Log-Module\Log-Module\Log-Module.vbproj">
       <Project>{666536BD-FD4A-4BDF-A5BC-572E07D4E27A}</Project>
       <Name>Log-Module</Name>

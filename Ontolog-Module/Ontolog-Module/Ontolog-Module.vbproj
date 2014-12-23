@@ -45,7 +45,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <DefineDebug>false</DefineDebug>
     <DefineTrace>true</DefineTrace>
@@ -87,7 +87,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Elasticsearch.Net">
-      <HintPath>..\..\ElasticSearchNestConnector\ElasticSearchNestConnector\bin\Debug\Elasticsearch.Net.dll</HintPath>
+      <HintPath>..\packages\Elasticsearch.Net.1.3.1\lib\Elasticsearch.Net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.GLEE">
       <HintPath>..\..\libs\Glee\Microsoft.GLEE.dll</HintPath>
@@ -99,7 +99,10 @@
       <HintPath>..\..\libs\Glee\Microsoft.GLEE.GraphViewerGDI.dll</HintPath>
     </Reference>
     <Reference Include="Nest">
-      <HintPath>..\..\ElasticSearchNestConnector\ElasticSearchNestConnector\bin\Debug\Nest.dll</HintPath>
+      <HintPath>..\packages\NEST.1.3.1\lib\Nest.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.7\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -712,13 +715,13 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
+    <None Include="packages.config" />
     <None Include="Resources\cahiers_de_labo.png" />
     <None Include="Resources\bb_back_.png" />
     <None Include="Resources\bb_forward_.png" />
     <Content Include="LuaBindings.cs" />
     <Content Include="VogelschwarmKlein.ico" />
     <None Include="Ontolog-Module_TemporaryKey.pfx" />
-    <None Include="packages.config" />
     <None Include="Resources\Vogelschwarm1.png" />
     <None Include="Resources\Ontology-Module2.png" />
     <None Include="Resources\Ontology-Module Block.png" />
