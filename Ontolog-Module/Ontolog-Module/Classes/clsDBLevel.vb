@@ -293,7 +293,7 @@ Public Class clsDBLevel
     End Function
 
     Public Function del_ClassAttType(ByVal oItem_Class As clsOntologyItem, ByVal oItem_AttType As clsOntologyItem) As clsOntologyItem
-        Dim objOItem_Result = objElDeletor.del_ClassAttType(oItem_Class,oItem_AttType)
+        Dim objOItem_Result = objElDeletor.del_ClassAttType(oItem_Class, oItem_AttType)
         Return objOItem_Result
     End Function
     Public Function del_Objects(ByVal List_Objects As List(Of clsOntologyItem)) As clsOntologyItem
@@ -312,7 +312,7 @@ Public Class clsDBLevel
         Dim objOItem_Result As clsOntologyItem
 
         objOItem_Result = objElDeletor.del_ObjectAtt(oList_ObjectAtts)
-        
+
         Return objOItem_Result
     End Function
     Public Function del_ObjectRel(ByVal oList_ObjecRels As List(Of clsObjectRel)) As clsOntologyItem
@@ -324,38 +324,38 @@ Public Class clsDBLevel
     End Function
     Public Function save_RelationType(ByVal oItem_RelationType As clsOntologyItem) As clsOntologyItem
         Dim objOItem_Result = objElUpdater.save_RelationType(oItem_RelationType)
-        
+
         Return objOItem_Result
     End Function
 
     Public Function del_Class(ByVal oList_Class As List(Of clsOntologyItem)) As clsOntologyItem
 
-        dim objOItem_Result = objElDeletor.del_Class(oList_Class)
+        Dim objOItem_Result = objElDeletor.del_Class(oList_Class)
 
         Return objOItem_Result
-        
+
     End Function
 
     Public Function save_ClassRel(ByVal oList_ClassRel As List(Of clsClassRel)) As clsOntologyItem
         Dim objOItem_Result = objElUpdater.save_ClassRel(oList_ClassRel)
 
-        
+
         Return objOItem_Result
     End Function
     Public Function save_ClassAttType(ByVal oList_ClassAtt As List(Of clsClassAtt)) As clsOntologyItem
         Dim objOItem_Result = objElUpdater.save_ClassAtt(oList_ClassAtt)
-        
+
         Return objOItem_Result
     End Function
-    Public Function save_Class(ByVal objOItem_Class As clsOntologyItem, Optional  boolRoot As Boolean = false) As clsOntologyItem
-        Dim objOItem_Result = objElUpdater.save_Class(objOItem_Class,boolRoot)
-        
+    Public Function save_Class(ByVal objOItem_Class As clsOntologyItem, Optional boolRoot As Boolean = False) As clsOntologyItem
+        Dim objOItem_Result = objElUpdater.save_Class(objOItem_Class, boolRoot)
+
         Return objOItem_Result
     End Function
 
     Public Function save_ObjRel(ByVal oList_ObjectRel As List(Of clsObjectRel)) As clsOntologyItem
         Dim objOItem_Result = objElUpdater.save_ObjectRel(oList_ObjectRel)
-        
+
         Return objOItem_Result
     End Function
 
@@ -372,15 +372,15 @@ Public Class clsDBLevel
 
     Public Function save_Objects(ByVal oList_Objects As List(Of clsOntologyItem)) As clsOntologyItem
         Dim objOItem_Result = objElUpdater.save_Objects(oList_Objects)
-        
+
         Return objOItem_Result
     End Function
 
     Private Sub initialize_Client()
         intPackageLength = intSearchRange
-        objElSelector = New ElasticSearchNestConnector.clsDBSelector(strServer,intPort,strIndex,strIndexRep,intSearchRange,strSession)
-        objElDeletor = new clsDBDeletor(objElSelector)
-        objElUpdater = new clsDBUpdater(objElSelector)
+        objElSelector = New ElasticSearchNestConnector.clsDBSelector(strServer, intPort, strIndex, strIndexRep, intSearchRange, strSession)
+        objElDeletor = New clsDBDeletor(objElSelector)
+        objElUpdater = New clsDBUpdater(objElSelector)
     End Sub
     Public Function get_Data_RelationTypes(Optional ByVal OList_RelType As List(Of clsOntologyItem) = Nothing, _
                                            Optional ByVal boolTable As Boolean = False, _
@@ -404,7 +404,7 @@ Public Class clsDBLevel
 
         End If
 
-        
+
         Return objOItem_Result
     End Function
 
@@ -420,18 +420,18 @@ Public Class clsDBLevel
 
         If doCount Then
             objOItem_Result.Count = objElSelector.get_Data_AttributeTypeCount(OList_AttType)
-        Else 
+        Else
             objOntologyList_AttributTypes = objElSelector.get_Data_AttributeType(OList_AttType)
-            If boolTable
+            If boolTable Then
                 For Each objAttributeType As clsOntologyItem In objOntologyList_AttributTypes
                     otblT_AttributeTypes.Rows.Add(objAttributeType.GUID, _
                                                 objAttributeType.Name, _
-                                                objAttributeType.GUID_Parent)    
+                                                objAttributeType.GUID_Parent)
                 Next
-                
+
             End If
         End If
-        
+
 
         Return objOItem_Result
     End Function
@@ -442,19 +442,19 @@ Public Class clsDBLevel
                                       Optional ByVal boolIDs As Boolean = True, _
                                       Optional ByVal doCount As Boolean = False) As clsOntologyItem
 
-        dim objOItem_Result As clsOntologyItem = objLogStates.LogState_Success
+        Dim objOItem_Result As clsOntologyItem = objLogStates.LogState_Success
 
         otblT_ClassAtt.Clear()
 
-        If doCount then
-            objOItem_Result.Count = objElSelector.get_Data_ClassAttCount(oList_Class,oList_AttributeTyp)
-        Else 
+        If doCount Then
+            objOItem_Result.Count = objElSelector.get_Data_ClassAttCount(oList_Class, oList_AttributeTyp)
+        Else
             If boolIDs Then
-                objOntologyList_ClassAtt_ID = objElSelector.get_Data_ClassAtt(oList_Class, oList_AttributeTyp,boolIDs)
-            Else 
-                objOntologyList_ClassAtt = objElSelector.get_Data_ClassAtt(oList_Class,oList_AttributeTyp,boolIDs)
+                objOntologyList_ClassAtt_ID = objElSelector.get_Data_ClassAtt(oList_Class, oList_AttributeTyp, boolIDs)
+            Else
+                objOntologyList_ClassAtt = objElSelector.get_Data_ClassAtt(oList_Class, oList_AttributeTyp, boolIDs)
 
-                
+
                 If boolTable Then
                     For Each objClassAtt As clsClassAtt In objOntologyList_ClassAtt
                         otblT_ClassAtt.Rows.Add(objClassAtt.ID_Class, _
@@ -466,12 +466,12 @@ Public Class clsDBLevel
                                                     objClassAtt.Min, _
                                                     objClassAtt.Max)
                     Next
-                    
+
                 End If
             End If
         End If
 
-        return objOItem_Result
+        Return objOItem_Result
     End Function
 
     Public Function get_Data_ClassRel(ByVal OList_ClassRel As List(Of clsClassRel), _
@@ -485,11 +485,11 @@ Public Class clsDBLevel
         Dim objOItem_Result = objLogStates.LogState_Success
         If doCount Then
             objOItem_Result.Count = objElSelector.get_Data_ClassRelCount(OList_ClassRel)
-        Else 
+        Else
             If boolIDs Then
-                objOntologyList_ClassRel_ID =  objElSelector.get_Data_ClassRel(OList_ClassRel,boolIDs,boolOR)
-            Else 
-                objOntologyList_ClassRel =  objElSelector.get_Data_ClassRel(OList_ClassRel,boolIDs,boolOR)
+                objOntologyList_ClassRel_ID = objElSelector.get_Data_ClassRel(OList_ClassRel, boolIDs, boolOR)
+            Else
+                objOntologyList_ClassRel = objElSelector.get_Data_ClassRel(OList_ClassRel, boolIDs, boolOR)
 
                 If boolTable Then
                     For Each objClassRel As clsClassRel In objOntologyList_ClassRel
@@ -506,10 +506,10 @@ Public Class clsDBLevel
                     Next
                 End If
             End If
-            
+
         End If
-        
-        
+
+
 
 
         Return objOItem_Result
@@ -565,12 +565,12 @@ Public Class clsDBLevel
     Public Function get_Data_Att_OrderID(Optional OItem_Object As clsOntologyItem = Nothing, _
                                          Optional OItem_AttributeType As clsOntologyItem = Nothing, _
                                          Optional doASC As Boolean = True) As Long
-        
+
         Dim strSortField As String
-        
+
         strSortField = "OrderID:"
 
-        Dim lngOrderID = objElSelector.get_Data_Att_OrderByVal(strSortField,OItem_Object,OItem_AttributeType,doASC)
+        Dim lngOrderID = objElSelector.get_Data_Att_OrderByVal(strSortField, OItem_Object, OItem_AttributeType, doASC)
 
         Return lngOrderID
 
@@ -580,9 +580,9 @@ Public Class clsDBLevel
                                      Optional OItem_Object As clsOntologyItem = Nothing, _
                                          Optional OItem_AttributeType As clsOntologyItem = Nothing, _
                                          Optional doASC As Boolean = True) As Long
-        
-        
-        Dim lngOrderID = objElSelector.get_Data_Att_OrderByVal(strOrderField,OItem_Object,OItem_AttributeType,doASC)
+
+
+        Dim lngOrderID = objElSelector.get_Data_Att_OrderByVal(strOrderField, OItem_Object, OItem_AttributeType, doASC)
 
         Return lngOrderID
 
@@ -592,7 +592,7 @@ Public Class clsDBLevel
                                          Optional OItem_Right As clsOntologyItem = Nothing, _
                                          Optional OItem_RelationType As clsOntologyItem = Nothing, _
                                          Optional doASC As Boolean = True) As Long
-        
+
         Dim lngOrderID As Long = 0
 
         lngOrderID = objElSelector.get_Data_Rel_OrderByVal(OItem_Left,
@@ -601,7 +601,7 @@ Public Class clsDBLevel
                                                            "OrderID",
                                                            doASC)
 
-        
+
         Return lngOrderID
     End Function
 
@@ -625,7 +625,7 @@ Public Class clsDBLevel
 
         If doCount Then
             objOItem_Result.Count = objElSelector.get_Data_ObjectRelCount(oList_ObjectRel)
-        Else 
+        Else
             If boolIDs Then
                 objOntologyList_ObjectRel_ID = objElSelector.get_Data_ObjectRel(oList_ObjectRel, boolIDs, doJoin_Left, doJoin_right)
             Else
@@ -667,32 +667,32 @@ Public Class clsDBLevel
                                                  Direction)
                     Next
                 End If
-            
+
 
 
             End If
 
             If boolTable_Objects_Left Then
-                
+
                 otblT_Objects.Clear()
                 For Each objOItem As clsOntologyItem In objOntologyList_ObjectRel.Select(Function(p) New clsOntologyItem With {.GUID = p.ID_Object,
-                                                                                                                               .Name = p.Name_Object, 
+                                                                                                                               .Name = p.Name_Object,
                                                                                                                                .GUID_Parent = p.ID_Parent_Object,
                                                                                                                                .Type = objTypes.ObjectType}).ToList()
-                    otblT_Objects.Rows.Add(objOItem.GUID, objOItem.Name,objOItem.GUID_Parent)
+                    otblT_Objects.Rows.Add(objOItem.GUID, objOItem.Name, objOItem.GUID_Parent)
                 Next
-            ElseIf  boolTable_Objects_Right Then
+            ElseIf boolTable_Objects_Right Then
 
                 otblT_Objects.Clear()
                 For Each objOItem As clsOntologyItem In objOntologyList_ObjectRel.Select(Function(p) New clsOntologyItem With {.GUID = p.ID_Other,
-                                                                                                                               .Name = p.Name_Other, 
+                                                                                                                               .Name = p.Name_Other,
                                                                                                                                .GUID_Parent = p.ID_Parent_Other,
                                                                                                                                .Type = p.Ontology}).ToList()
-                    otblT_Objects.Rows.Add(objOItem.GUID, objOItem.Name,objOItem.GUID_Parent)
+                    otblT_Objects.Rows.Add(objOItem.GUID, objOItem.Name, objOItem.GUID_Parent)
                 Next
             End If
         End If
-        
+
 
         Return objOItem_Result
     End Function
@@ -718,7 +718,7 @@ Public Class clsDBLevel
             End If
         End If
 
-        
+
         Return objOItem_Result
     End Function
 
@@ -812,14 +812,14 @@ Public Class clsDBLevel
         objIndexDescriptor.Index(strIndex)
 
         Return objElSelector.ElConnector.IndexExists(Function(f) objIndexDescriptor).Exists
-        
+
     End Function
 
     Public Function create_Index_Es() As Boolean
         Dim indexSettings = objElSelector.GetIndexSettings()
         Dim objOPResult = objElSelector.ElConnector.CreateIndex(strIndex)
         Return objOPResult.IsValid
-            
+
     End Function
 
     'Public Function create_Report_SQL(Optional ByVal OList_Classes As List(Of clsOntologyItem) = Nothing) As clsOntologyItem
@@ -892,35 +892,35 @@ Public Class clsDBLevel
                                      Optional ByVal boolClasses_Right As Boolean = False, _
                                      Optional ByVal strSort As String = Nothing, _
                                      Optional ByVal doCount As Boolean = False) As clsOntologyItem
-        
+
         Dim objOItem_Result = objLogStates.LogState_Success
 
         If doCount Then
             objOItem_Result.Count = objElSelector.get_Data_ClassesCount(OList_Classes)
-        Else 
-            If boolClasses_Right=False Then
+        Else
+            If boolClasses_Right = False Then
                 objOntologyList_Classes1 = objElSelector.get_Data_Classes(OList_Classes, boolClasses_Right, strSort)
                 If boolTable Then
                     For Each objClass As clsOntologyItem In objOntologyList_Classes1
                         otblT_Classes.Rows.Add(New clsOntologyItem(objClass.GUID, _
                                                                     objClass.Name, _
-                                                                    objClass.GUID_Parent))    
+                                                                    objClass.GUID_Parent))
                     Next
-                    
+
                 End If
-            Else 
+            Else
                 objOntologyList_Classes2 = objElSelector.get_Data_Classes(OList_Classes, boolClasses_Right, strSort)
-                 If boolTable Then
+                If boolTable Then
                     For Each objClass As clsOntologyItem In objOntologyList_Classes2
                         otblT_Classes.Rows.Add(New clsOntologyItem(objClass.GUID, _
                                                                     objClass.Name, _
-                                                                    objClass.GUID_Parent))    
+                                                                    objClass.GUID_Parent))
                     Next
-                    
+
                 End If
             End If
         End If
-        
+
         Return objOItem_Result
         'Dim objSearchResult As ElasticSearch.Client.Domain.SearchResult
         'Dim objList As New List(Of ElasticSearch.Client.Domain.Hits)
