@@ -204,6 +204,24 @@ namespace LiteraturQuellen_Module
                         objOItem_Result = objTransaction.do_Transaction(objORel_Quelle_To_LiterarischeQuelle, true);
                         if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                         {
+                            if (objLocalConfig.OItem_RefItems != null && objLocalConfig.OItem_RefItems.Any())
+                            {
+                                foreach (var item in objLocalConfig.OItem_RefItems)
+	                            {
+                                    var objORel_LiterarischeQuelle_To_Ref = objRelationConfig.Rel_ObjectRelation(objOItem_LiterarischeQuelle, item, objLocalConfig.OItem_relationtype_belongsto);
+                                    objOItem_Result = objTransaction.do_Transaction(objORel_LiterarischeQuelle_To_Ref);
+                                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
+                                    {
+                                        break;
+                                    }
+	                            }
+
+                                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
+                                {
+                                    MessageBox.Show(this, "Die Quelle konnte nicht mit den Referenzen vernetzt werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                }
+                            }
+
                             toolStripTextBox_Filter.ReadOnly = true;
                             toolStripTextBox_Filter.Text = "";
                             toolStripTextBox_Filter.ReadOnly = false;

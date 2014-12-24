@@ -587,8 +587,8 @@ if /i [Literaturquellen-Module] EQU [Ontolog-Module] (
 
 del /s /q "%OMODULE_PATH%\Literaturquellen-Module\*.*"
 
-wget -O "%temp%\OModules\Literaturquellen-Module_0.0.0.140.exe" %DOWNLOAD_URL%/Literaturquellen-Module_0.0.0.140.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Literaturquellen-Module_0.0.0.140.exe" -o"%OMODULE_PATH%\Literaturquellen-Module\"
+wget -O "%temp%\OModules\Literaturquellen-Module_0.0.0.141.exe" %DOWNLOAD_URL%/Literaturquellen-Module_0.0.0.141.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Literaturquellen-Module_0.0.0.141.exe" -o"%OMODULE_PATH%\Literaturquellen-Module\"
 
 
 if /i [Change-Module] EQU [Ontolog-Module] (

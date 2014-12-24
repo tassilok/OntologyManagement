@@ -20,14 +20,19 @@ namespace LiteraturQuellen_Module
         private clsDBLevel objDBLevel_Filter2;
         private clsDBLevel objDBLevel_Filter3;
         private clsDBLevel objDBLevel_Filter4;
+        private clsDBLevel objDBLevel_RefItems;
 
         public clsOntologyItem OItem_Result_LiteraturQuellen { get; private set; }
+
+        private List<clsOntologyItem> FilterQuellen;
 
         public SortableBindingList<clsLiteraturQuelle> OList_LiteraturQuellen { get; set; }
 
         public void GetData_LiteraturQuellen()
         {
             OItem_Result_LiteraturQuellen = objLocalConfig.Globals.LState_Nothing.Clone();
+
+            OItem_Result_LiteraturQuellen = getLiteraturQuellenOfRefItems();
 
             var objORL_Literaturquellen = new List<clsObjectRel> {
                 new clsObjectRel {ID_Parent_Other = objLocalConfig.OItem_type_literarische_quelle.GUID,
@@ -56,15 +61,34 @@ namespace LiteraturQuellen_Module
 
             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
-                OList_LiteraturQuellen = new SortableBindingList<clsLiteraturQuelle>(objDBLevel_LiteraturQuellen.OList_ObjectRel.Select(p => new clsLiteraturQuelle
+                if (FilterQuellen != null)
                 {
-                    ID_LiteraturQuelle = p.ID_Other,
-                    Name_LiteraturQuelle = p.Name_Other,
-                    ID_Quelle = p.ID_Object,
-                    Name_Quelle = p.Name_Object,
-                    ID_Class_Quelle = p.ID_Parent_Object,
-                    Name_Class_Quelle = p.Name_Parent_Object
-                }));
+                    OList_LiteraturQuellen = new SortableBindingList<clsLiteraturQuelle>(
+                    from litQuelle in objDBLevel_LiteraturQuellen.OList_ObjectRel.Select(p => new clsLiteraturQuelle
+                        {
+                            ID_LiteraturQuelle = p.ID_Other,
+                            Name_LiteraturQuelle = p.Name_Other,
+                            ID_Quelle = p.ID_Object,
+                            Name_Quelle = p.Name_Object,
+                            ID_Class_Quelle = p.ID_Parent_Object,
+                            Name_Class_Quelle = p.Name_Parent_Object
+                        })
+                        join filterQuelle in FilterQuellen on litQuelle.ID_LiteraturQuelle equals filterQuelle.GUID
+                        select litQuelle);
+                }
+                else
+                {
+                    OList_LiteraturQuellen = new SortableBindingList<clsLiteraturQuelle>(objDBLevel_LiteraturQuellen.OList_ObjectRel.Select(p => new clsLiteraturQuelle
+                        {
+                            ID_LiteraturQuelle = p.ID_Other,
+                            Name_LiteraturQuelle = p.Name_Other,
+                            ID_Quelle = p.ID_Object,
+                            Name_Quelle = p.Name_Object,
+                            ID_Class_Quelle = p.ID_Parent_Object,
+                            Name_Class_Quelle = p.Name_Parent_Object
+                        }));
+                }
+                
 
                 OItem_Result_LiteraturQuellen = objOItem_Result;
             }
@@ -72,6 +96,59 @@ namespace LiteraturQuellen_Module
             {
                 OItem_Result_LiteraturQuellen = objLocalConfig.Globals.LState_Error.Clone();
             }
+        }
+
+        public clsOntologyItem getLiteraturQuellenOfRefItems()
+        {
+            var result = objLocalConfig.Globals.LState_Success.Clone();
+
+            FilterQuellen = null;
+
+            if (objLocalConfig.OItem_RefItems != null && objLocalConfig.OItem_RefItems.Any())
+            {
+                var searchLiteraturQuellen_LR = objLocalConfig.OItem_RefItems.Select(refI => new clsObjectRel
+                {
+                    ID_Object = refI.GUID,
+                    ID_Parent_Other = objLocalConfig.OItem_type_literarische_quelle.GUID
+                }).ToList();
+
+                var searchLiteraturQuellen_RL = objLocalConfig.OItem_RefItems.Select(refI => new clsObjectRel
+                {
+                    ID_Other = refI.GUID,
+                    ID_Parent_Object = objLocalConfig.OItem_type_literarische_quelle.GUID
+                }).ToList();
+
+                result = objDBLevel_RefItems.get_Data_ObjectRel(searchLiteraturQuellen_LR, boolIDs: false);
+
+                if (result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+                    FilterQuellen = objDBLevel_RefItems.OList_ObjectRel.Select(quellen => new clsOntologyItem
+                    {
+                        GUID = quellen.ID_Other,
+                        Name = quellen.Name_Other,
+                        GUID_Parent = quellen.ID_Parent_Other,
+                        Type = quellen.Ontology
+                    }).ToList();
+
+                    result = objDBLevel_RefItems.get_Data_ObjectRel(searchLiteraturQuellen_RL, boolIDs: false);
+
+                    if (result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                    {
+                        FilterQuellen.AddRange(objDBLevel_RefItems.OList_ObjectRel.Select(quellen => new clsOntologyItem
+                        {
+                            GUID = quellen.ID_Object,
+                            Name = quellen.Name_Object,
+                            GUID_Parent = quellen.ID_Parent_Object,
+                            Type = objLocalConfig.Globals.Type_Object
+                        }));
+                    }
+                }
+            }
+            else if (objLocalConfig.OItem_RefItems != null && !objLocalConfig.OItem_RefItems.Any())
+            {
+                FilterQuellen = new List<clsOntologyItem>();
+            }
+            return result;
         }
 
         public List<clsOntologyItem> getFilterQuellen(clsOntologyItem OItem_Filter)
@@ -432,6 +509,7 @@ namespace LiteraturQuellen_Module
             objDBLevel_Filter2 = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_Filter3 = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_Filter4 = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_RefItems = new clsDBLevel(objLocalConfig.Globals);
 
             OItem_Result_LiteraturQuellen = objLocalConfig.Globals.LState_Nothing.Clone();
         }

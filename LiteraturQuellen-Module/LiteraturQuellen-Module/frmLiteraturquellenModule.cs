@@ -24,6 +24,10 @@ namespace LiteraturQuellen_Module
         private UserControl_EmailQuelle objUserControl_EmailQuelle;
         private frmAuthenticate objFrmAuthenticate;
 
+        private clsArgumentParsing objArgumentParsing;
+
+        private clsDBLevel objDBLevel_OItems;
+
         public List<clsLiteraturQuelle> OList_LiteraturQuellen;
 
         public bool Applyable { get; set; }
@@ -44,9 +48,61 @@ namespace LiteraturQuellen_Module
             Initialize();
         }
 
+        private void ParseArguments()
+        {
+            var objArgumentParsing = new clsArgumentParsing(objLocalConfig.Globals, Environment.GetCommandLineArgs().ToList());
+
+            if (!string.IsNullOrEmpty( objArgumentParsing.Session ))
+            {
+                var objOItem_Session = objDBLevel_OItems.GetOItem(objArgumentParsing.Session, objLocalConfig.Globals.Type_Object).Clone();
+
+                if (objOItem_Session != null)
+                {
+                    objLocalConfig.OItem_Session = objOItem_Session;
+                    var objSession = new clsSession(objLocalConfig.Globals);
+                    objLocalConfig.OItem_RefItems = objSession.GetItems(objLocalConfig.OItem_Session, true);
+                }
+                
+            }
+            else if (objArgumentParsing.OList_Items.Any())
+            {
+                objLocalConfig.OItem_RefItems = new List<clsOntologyItem> { objArgumentParsing.OList_Items.First() };
+            }
+
+            if (objLocalConfig.OItem_RefItems != null)
+            {
+                if (objLocalConfig.OItem_RefItems.Count == 1)
+                {
+                    this.Text = "";
+                    var objOItem = objLocalConfig.OItem_RefItems.First();
+                    if (objOItem.Type == objLocalConfig.Globals.Type_Object)
+                    {
+                        var objClassItem = objDBLevel_OItems.GetOItem(objOItem.GUID_Parent, objLocalConfig.Globals.Type_Class);
+                        if (objClassItem != null)
+                        {
+                            this.Text = objClassItem.Name;
+                        }
+                    }
+
+                    if (!string.IsNullOrEmpty(this.Text))
+                    {
+                        this.Text += " \\ ";
+                    }
+
+                    this.Text += objOItem.Name;
+
+                }
+                else
+                {
+                    this.Text = "Multiple reference-items";
+                }
+            }
+        }
+
         private void Initialize()
         {
-
+            objDBLevel_OItems = new clsDBLevel(objLocalConfig.Globals);
+            ParseArguments();
             if (objLocalConfig.User == null)
             {
                 objFrmAuthenticate = new frmAuthenticate(objLocalConfig.Globals, true, true, frmAuthenticate.ERelateMode.User_To_Group,true);

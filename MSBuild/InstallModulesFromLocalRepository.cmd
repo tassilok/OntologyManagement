@@ -147,7 +147,7 @@ del /s /q "%OMODULE_PATH%\Bill-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Bill-Module_0.0.0.100.exe" -o"%OMODULE_PATH%\Bill-Module\"
 
 del /s /q "%OMODULE_PATH%\Literaturquellen-Module\*.*"
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Literaturquellen-Module_0.0.0.140.exe" -o"%OMODULE_PATH%\Literaturquellen-Module\"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Literaturquellen-Module_0.0.0.141.exe" -o"%OMODULE_PATH%\Literaturquellen-Module\"
 
 del /s /q "%OMODULE_PATH%\Change-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Change-Module_0.0.0.103.exe" -o"%OMODULE_PATH%\Change-Module\"

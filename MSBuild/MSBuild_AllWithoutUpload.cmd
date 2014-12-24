@@ -196,7 +196,7 @@ CALL %USERPROFILE%\Documents\GitHub\OntologyManagement\MSBuild\MSBuild_DebugRele
 IF ERRORLEVEL 1 GOTO Fehler
 
 
-CALL %USERPROFILE%\Documents\GitHub\OntologyManagement\MSBuild\MSBuild_DebugRelease.cmd %ROOTDIR%\ Literaturquellen-Module \LiteraturQuellen-Module.sln 0.0.0.140 1 1 0
+CALL %USERPROFILE%\Documents\GitHub\OntologyManagement\MSBuild\MSBuild_DebugRelease.cmd %ROOTDIR%\ Literaturquellen-Module \LiteraturQuellen-Module.sln 0.0.0.141 1 1 0
 IF ERRORLEVEL 1 GOTO Fehler
 
 
