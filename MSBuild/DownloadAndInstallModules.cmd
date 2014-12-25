@@ -203,8 +203,8 @@ if /i [NextGenerationOntoEdit] EQU [Ontolog-Module] (
 
 del /s /q "%OMODULE_PATH%\NextGenerationOntoEdit\*.*"
 
-wget -O "%temp%\OModules\NextGenerationOntoEdit_0.0.0.4.exe" %DOWNLOAD_URL%/NextGenerationOntoEdit_0.0.0.4.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\NextGenerationOntoEdit_0.0.0.4.exe" -o"%OMODULE_PATH%\NextGenerationOntoEdit\"
+wget -O "%temp%\OModules\NextGenerationOntoEdit_0.0.0.5.exe" %DOWNLOAD_URL%/NextGenerationOntoEdit_0.0.0.5.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\NextGenerationOntoEdit_0.0.0.5.exe" -o"%OMODULE_PATH%\NextGenerationOntoEdit\"
 
 
 if /i [GraphMLConnector] EQU [Ontolog-Module] (
@@ -587,8 +587,8 @@ if /i [Literaturquellen-Module] EQU [Ontolog-Module] (
 
 del /s /q "%OMODULE_PATH%\Literaturquellen-Module\*.*"
 
-wget -O "%temp%\OModules\Literaturquellen-Module_0.0.0.141.exe" %DOWNLOAD_URL%/Literaturquellen-Module_0.0.0.141.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Literaturquellen-Module_0.0.0.141.exe" -o"%OMODULE_PATH%\Literaturquellen-Module\"
+wget -O "%temp%\OModules\Literaturquellen-Module_0.0.0.142.exe" %DOWNLOAD_URL%/Literaturquellen-Module_0.0.0.142.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Literaturquellen-Module_0.0.0.142.exe" -o"%OMODULE_PATH%\Literaturquellen-Module\"
 
 
 if /i [Change-Module] EQU [Ontolog-Module] (

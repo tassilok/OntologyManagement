@@ -14,7 +14,11 @@ Public Class frmPartnerModule
     Private WithEvents objUserControl_ComData As UserControl_CommunicationData
     Private WithEvents objUserControl_AvailabilityData As UserControl_AvailabilityData
 
+    Private objDBLevel As clsDBLevel
+
     Private objFrmAuthenticate As frmAuthenticate
+
+    Private objArgumentParsing As clsArgumentParsing
 
     Private SplashScreen As SplashScreen_OntologyModule
     Private AboutBox As AboutBox_OntologyItem
@@ -114,6 +118,21 @@ Public Class frmPartnerModule
         Me.Close()
     End Sub
 
+    Private Sub ParseArguments()
+        objArgumentParsing = New clsArgumentParsing(objLocalConfig.Globals, Environment.GetCommandLineArgs().ToList())
+
+        If Not String.IsNullOrEmpty(objArgumentParsing.Session) Then
+
+            Dim objOItem_Session = objDBLevel.GetOItem(objArgumentParsing.Session, objLocalConfig.Globals.Type_Object)
+
+            Dim objSession = New clsSession(objLocalConfig.Globals)
+            objLocalConfig.RefItemList = objSession.GetItems(objOItem_Session, True)
+
+        Else
+            objLocalConfig.RefItemList = objArgumentParsing.OList_Items
+        End If
+    End Sub
+
     Public Sub New()
 
         ' Dieser Aufruf ist für den Designer erforderlich.
@@ -147,6 +166,8 @@ Public Class frmPartnerModule
     Private Sub initialize()
         Dim objOItem_Partner As clsOntologyItem
 
+        objDBLevel = New clsDBLevel(objLocalConfig.Globals)
+
         If objLocalConfig.OItem_User Is Nothing Then
             objFrmAuthenticate = New frmAuthenticate(objLocalConfig.Globals, True, False, frmAuthenticate.ERelateMode.NoRelate, True)
             objFrmAuthenticate.ShowDialog(Me)
@@ -155,6 +176,7 @@ Public Class frmPartnerModule
             End If
         End If
         If Not objLocalConfig.OItem_User Is Nothing Then
+            ParseArguments()
             objUserControl_PartnerList = New UserControl_OItemList(objLocalConfig.Globals)
             objUserControl_PartnerList.Dock = DockStyle.Fill
             SplitContainer1.Panel1.Controls.Add(objUserControl_PartnerList)
@@ -163,7 +185,7 @@ Public Class frmPartnerModule
             objUserControl_Address.Dock = DockStyle.Fill
             TabPage_Address.Controls.Add(objUserControl_Address)
 
-            
+
 
             objOItem_Partner = New clsOntologyItem(Nothing, _
                                                     Nothing, _
