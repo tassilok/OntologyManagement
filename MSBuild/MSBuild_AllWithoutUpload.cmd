@@ -209,3 +209,4 @@ IF ERRORLEVEL 1 GOTO Fehler
 
 
 :Fehler
+echo package-fehler>%TEMP%\OntologyManagement\Error.txt
