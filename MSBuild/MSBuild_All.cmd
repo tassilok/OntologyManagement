@@ -23,6 +23,8 @@ IF ERRORLEVEL 1 GOTO Fehler
 CALL %USERPROFILE%\Documents\GitHub\OntologyManagement\MSBuild\MSBuild_DebugRelease.cmd %ROOTDIR%\ Literaturquellen-Module \LiteraturQuellen-Module.sln 0.0.0.143 1 1 1
 IF ERRORLEVEL 1 GOTO Fehler
 
-
+Goto Ende
 :Fehler
 echo package-fehler>%TEMP%\OntologyManagement\Error.txt
+
+:Ende

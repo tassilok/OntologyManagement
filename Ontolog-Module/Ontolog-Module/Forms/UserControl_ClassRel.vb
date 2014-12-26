@@ -15,6 +15,12 @@ Public Class UserControl_ClassRel
     Private boolObjectReference As Boolean
     Private objDirection As clsOntologyItem
 
+    Public ReadOnly Property OList_ClassRel As List(Of clsClassRel)
+        Get
+            Return objDBLevel.OList_ClassRel
+        End Get
+    End Property
+
     Public Sub New(ByVal LocalConfig As clsLocalConfig, ByVal oItem_Class As clsOntologyItem, ByVal Direction As clsOntologyItem, Optional ByVal is_ObjectReference As Boolean = False)
 
         ' Dieser Aufruf ist für den Designer erforderlich.

@@ -135,10 +135,17 @@ Public Class UserControl_Graph
         graph = New Graph("Graph")
         nodeItem = New clsGraphItem(objLocalConfig.Globals, graph)
 
+
+        If OList_AttributeTypes Is Nothing Then
+            OList_AttributeTypes = New List(Of clsOntologyItem)
+        End If
         OList_AttributeTypes.ForEach(Sub(att)
                                          nodeItem.AddNode(att.GUID, att.Name, objLocalConfig.Globals.Type_AttributeType, False)
                                      End Sub)
 
+        If OList_Classes Is Nothing Then
+            OList_Classes = New List(Of clsOntologyItem)
+        End If
         OList_Classes.ForEach(Sub(cls)
                                   nodeItem.AddNode(cls.GUID, cls.Name, objLocalConfig.Globals.Type_Class, False)
                               End Sub)
@@ -147,35 +154,56 @@ Public Class UserControl_Graph
                                                                                                           nodeItem.AddEdge(cls.GUID_Parent, cls.GUID, ShowArrow:=False)
                                                                                                       End Sub)
 
+        If OList_RelationTypes Is Nothing Then
+            OList_RelationTypes = New List(Of clsOntologyItem)
+        End If
         OList_RelationTypes.ForEach(Sub(relt)
                                         nodeItem.AddNode(relt.GUID, relt.Name, objLocalConfig.Globals.Type_RelationType, False)
                                     End Sub)
 
+        If OList_Objects Is Nothing Then
+            OList_Objects = New List(Of clsOntologyItem)
+        End If
         OList_Objects.ForEach(Sub(obj)
                                   nodeItem.AddNode(obj.GUID, obj.Name, objLocalConfig.Globals.Type_Object, False)
                                   nodeItem.AddEdge(obj.GUID_Parent, obj.GUID, ShowArrow:=False)
                               End Sub)
 
 
+        If OList_ClassAtt Is Nothing Then
+            OList_ClassAtt = New List(Of clsClassAtt)
+        End If
         OList_ClassAtt.ForEach(Sub(clsa)
                                    nodeItem.AddNode(clsa.ID_AttributeType, clsa.Name_AttributeType, objLocalConfig.Globals.Type_AttributeType, False)
-                                   nodeItem.AddEdge(clsa.ID_Class, clsa.ID_AttributeType)
+                                   nodeItem.AddEdge(clsa.ID_Class, clsa.ID_AttributeType, "Attribute", min:=clsa.Min, max:=clsa.Max)
                                End Sub)
 
+        If OList_ClassRel Is Nothing Then
+            OList_ClassRel = New List(Of clsClassRel)
+        End If
         OList_ClassRel.ForEach(Sub(clsr)
-                                   nodeItem.AddEdge(clsr.ID_Class_Left, clsr.ID_Class_Right, clsr.Name_RelationType)
+                                   nodeItem.AddEdge(clsr.ID_Class_Left, clsr.ID_Class_Right, clsr.Name_RelationType, min:=clsr.Min_Forw, max:=clsr.Max_Forw)
                                End Sub)
 
 
+        If OList_ObjectAtt Is Nothing Then
+            OList_ObjectAtt = New List(Of clsObjectAtt)
+        End If
         OList_ObjectAtt.ForEach(Sub(obja)
                                     nodeItem.AddAttribNode(obja.ID_Attribute, obja.Val_Name)
                                     nodeItem.AddEdge(obja.ID_Object, obja.ID_Attribute, obja.Name_AttributeType)
                                 End Sub)
 
+        If OList_ObjectRel Is Nothing Then
+            OList_ObjectRel = New List(Of clsObjectRel)
+        End If
         OList_ObjectRel.ForEach(Sub(objr)
                                     nodeItem.AddEdge(objr.ID_Object, objr.ID_Other, objr.Name_RelationType)
                                 End Sub)
 
+        If EdgeList Is Nothing Then
+            EdgeList = New List(Of clsObjectRel)
+        End If
         EdgeList.ForEach(Sub(edg)
                              nodeItem.AddEdge(edg.ID_Object, edg.ID_Other, edg.Name_RelationType)
                          End Sub)

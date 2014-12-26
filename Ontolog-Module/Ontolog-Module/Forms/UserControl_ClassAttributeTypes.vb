@@ -12,6 +12,12 @@ Public Class UserControl_ClassAttributeTypes
 
     Private objDBLevel As clsDBLevel
 
+    Public ReadOnly Property OList_ClassAttributes As List(Of clsClassAtt)
+        Get
+            Return objDBLevel.OList_ClassAtt
+        End Get
+    End Property
+
     Public Sub New(ByVal LocalConfig As clsLocalConfig, ByVal oItem_Class As clsOntologyItem)
 
         ' Dieser Aufruf ist für den Designer erforderlich.
@@ -167,7 +173,7 @@ Public Class UserControl_ClassAttributeTypes
                             objOItem_Result = objLocalConfig.Globals.LState_Success
                         End If
 
-                    
+
                 End Select
 
                 objOItem_Class.GUID = objDRV_Selected.Item("ID_Class")
@@ -177,14 +183,14 @@ Public Class UserControl_ClassAttributeTypes
                 objOItem_AttributeType.GUID_Parent = objDRV_Selected.Item("ID_DataType")
                 objOItem_AttributeType.Type = objLocalConfig.Globals.Type_AttributeType
 
-                
+
                 If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
                     objOList_ClAtt.Add(New clsClassAtt With {.ID_AttributeType = objOItem_AttributeType.GUID, _
                                                              .ID_Class = objOItem_Class.GUID, _
                                                              .ID_DataType = objOItem_AttributeType.GUID_Parent, _
                                                              .Min = lngMin_forw, _
-                                                             .Max = lngMax_forw })
-                                       
+                                                             .Max = lngMax_forw})
+
 
 
                     objOItem_Result = objDBLevel.save_ClassAttType(objOList_ClAtt)

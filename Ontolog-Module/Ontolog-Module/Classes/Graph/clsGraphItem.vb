@@ -74,12 +74,20 @@ Public Class clsGraphItem
         GraphNode.Attr.Fillcolor = Color.Azure
     End Sub
 
-    Public Sub AddEdge(IdLeft As String, IdRight As String, Optional Name_RelationType As String = Nothing, Optional lineWidth As Integer = 1, optional ShowArrow As Boolean = vbTrue)
+    Public Sub AddEdge(IdLeft As String, IdRight As String, Optional Name_RelationType As String = Nothing, Optional lineWidth As Integer = 1, Optional ShowArrow As Boolean = vbTrue, Optional min As Nullable(Of Integer) = Nothing, Optional max As Nullable(Of Integer) = Nothing)
         GraphNode = Nothing
+
+        If Not min Is Nothing Or Not max Is Nothing Then
+            If Name_RelationType Is Nothing Then
+                Name_RelationType = ""
+            End If
+
+            Name_RelationType = min.ToString() + ": " + Name_RelationType + ": " + max.ToString()
+        End If
 
         If Name_RelationType Is Nothing Then
             GraphEdge = objGraph.AddEdge(IdLeft, IdRight)
-            
+
         Else
             GraphEdge = objGraph.AddEdge(IdLeft, Name_RelationType, IdRight)
         End If

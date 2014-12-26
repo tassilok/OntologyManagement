@@ -8,6 +8,8 @@ Public Class frmClassEdit
     Private WithEvents objUserControl_ClassRel_Backward As UserControl_ClassRel
     Private WithEvents objUserControl_ClassRel_OR As UserControl_ClassRel
 
+    Private objFrmGraph As frmGraph
+
     Private objDBLevel As clsDBLevel
 
     Private objOItem_Class As clsOntologyItem
@@ -128,5 +130,47 @@ Public Class frmClassEdit
                 End If
                 
         End Select
+    End Sub
+
+    Private Sub ToolStripSplitButton_Graph_ButtonClick(sender As Object, e As EventArgs) Handles ToolStripSplitButton_Graph.ButtonClick
+        
+
+        objFrmGraph = New frmGraph(objLocalConfig)
+
+        objFrmGraph.Initialize_Lists()
+        objFrmGraph.OList_Classes.Add(objOItem_Class)
+
+        If ToolStripMenuItem_ClassAttributes.Checked Then
+            objFrmGraph.OList_ClassAtt = objUserControl_ClassAttributeType.OList_ClassAttributes
+        End If
+
+        If ClassRelationsforwToolStripMenuItem.Checked Then
+            objFrmGraph.OList_Classes.AddRange(From classRel In objUserControl_ClassRel_Forward.OList_ClassRel
+                                                Group Join classItem In objFrmGraph.OList_Classes On classRel.ID_Class_Right Equals classItem.GUID Into classItems = Group
+                                                From classItem In classItems.DefaultIfEmpty
+                                                Where classItem Is Nothing
+                                                Select New clsOntologyItem With {.GUID = classRel.ID_Class_Right,
+                                                                                 .Name = classRel.Name_Class_Right,
+                                                                                 .Type = objLocalConfig.Globals.Type_Class})
+                          
+            objFrmGraph.OList_ClassRel = objUserControl_ClassRel_Forward.OList_ClassRel
+        End If
+        If ClassRelationsbackwToolStripMenuItem.Checked Then
+            objFrmGraph.OList_Classes.AddRange(From classRel In objUserControl_ClassRel_Backward.OList_ClassRel
+                                                Group Join classItem In objFrmGraph.OList_Classes On classRel.ID_Class_Left Equals classItem.GUID Into classItems = Group
+                                                From classItem In classItems.DefaultIfEmpty
+                                                Where classItem Is Nothing
+                                                Select New clsOntologyItem With {.GUID = classRel.ID_Class_Left,
+                                                                                 .Name = classRel.Name_Class_Left,
+                                                                                 .Type = objLocalConfig.Globals.Type_Class})
+            objFrmGraph.OList_ClassRel.AddRange(objUserControl_ClassRel_Backward.OList_ClassRel)
+        End If
+        If ClassRelationsORToolStripMenuItem.Checked Then
+            objFrmGraph.OList_ClassRel.AddRange(objUserControl_ClassRel_OR.OList_ClassRel)
+        End If
+
+
+        objFrmGraph.Initialize_ListGraph()
+        objFrmGraph.Show()
     End Sub
 End Class

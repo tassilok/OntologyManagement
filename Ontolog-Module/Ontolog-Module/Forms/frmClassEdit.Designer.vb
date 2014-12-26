@@ -41,8 +41,15 @@ Partial Class frmClassEdit
         Me.ToolStripTextBox_GUID = New System.Windows.Forms.ToolStripTextBox()
         Me.ToolStripButton_DelClass = New System.Windows.Forms.ToolStripButton()
         Me.Timer_Name_Changed = New System.Windows.Forms.Timer(Me.components)
+        Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
+        Me.ToolStripSplitButton_Graph = New System.Windows.Forms.ToolStripSplitButton()
+        Me.ToolStripMenuItem_ClassAttributes = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ClassRelationsforwToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ClassRelationsbackwToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ClassRelationsORToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.StatusStrip1.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
+        Me.ToolStripContainer1.LeftToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -50,6 +57,7 @@ Partial Class frmClassEdit
         Me.SplitContainer1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
+        Me.ToolStrip2.SuspendLayout()
         Me.SuspendLayout()
         '
         'StatusStrip1
@@ -83,8 +91,12 @@ Partial Class frmClassEdit
         'ToolStripContainer1.ContentPanel
         '
         Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.SplitContainer1)
-        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(771, 365)
+        Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(738, 365)
         Me.ToolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill
+        '
+        'ToolStripContainer1.LeftToolStripPanel
+        '
+        Me.ToolStripContainer1.LeftToolStripPanel.Controls.Add(Me.ToolStrip2)
         Me.ToolStripContainer1.Location = New System.Drawing.Point(0, 0)
         Me.ToolStripContainer1.Name = "ToolStripContainer1"
         Me.ToolStripContainer1.Size = New System.Drawing.Size(771, 390)
@@ -105,8 +117,8 @@ Partial Class frmClassEdit
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.TabControl1)
-        Me.SplitContainer1.Size = New System.Drawing.Size(771, 365)
-        Me.SplitContainer1.SplitterDistance = 384
+        Me.SplitContainer1.Size = New System.Drawing.Size(738, 365)
+        Me.SplitContainer1.SplitterDistance = 367
         Me.SplitContainer1.TabIndex = 0
         '
         'TabControl1
@@ -118,7 +130,7 @@ Partial Class frmClassEdit
         Me.TabControl1.Location = New System.Drawing.Point(0, 0)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(379, 361)
+        Me.TabControl1.Size = New System.Drawing.Size(363, 361)
         Me.TabControl1.TabIndex = 0
         '
         'TabPage_Forward
@@ -126,7 +138,7 @@ Partial Class frmClassEdit
         Me.TabPage_Forward.Location = New System.Drawing.Point(4, 22)
         Me.TabPage_Forward.Name = "TabPage_Forward"
         Me.TabPage_Forward.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage_Forward.Size = New System.Drawing.Size(371, 335)
+        Me.TabPage_Forward.Size = New System.Drawing.Size(355, 335)
         Me.TabPage_Forward.TabIndex = 0
         Me.TabPage_Forward.Text = "x_Forward-Relations"
         Me.TabPage_Forward.UseVisualStyleBackColor = True
@@ -136,7 +148,7 @@ Partial Class frmClassEdit
         Me.TabPage_Backward.Location = New System.Drawing.Point(4, 22)
         Me.TabPage_Backward.Name = "TabPage_Backward"
         Me.TabPage_Backward.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage_Backward.Size = New System.Drawing.Size(371, 337)
+        Me.TabPage_Backward.Size = New System.Drawing.Size(371, 335)
         Me.TabPage_Backward.TabIndex = 1
         Me.TabPage_Backward.Text = "x_Backward-Relations"
         Me.TabPage_Backward.UseVisualStyleBackColor = True
@@ -146,7 +158,7 @@ Partial Class frmClassEdit
         Me.TabPage_ObjectReferences.Location = New System.Drawing.Point(4, 22)
         Me.TabPage_ObjectReferences.Name = "TabPage_ObjectReferences"
         Me.TabPage_ObjectReferences.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage_ObjectReferences.Size = New System.Drawing.Size(371, 337)
+        Me.TabPage_ObjectReferences.Size = New System.Drawing.Size(371, 335)
         Me.TabPage_ObjectReferences.TabIndex = 2
         Me.TabPage_ObjectReferences.Text = "x_Object-References"
         Me.TabPage_ObjectReferences.UseVisualStyleBackColor = True
@@ -201,6 +213,61 @@ Partial Class frmClassEdit
         '
         Me.Timer_Name_Changed.Interval = 300
         '
+        'ToolStrip2
+        '
+        Me.ToolStrip2.Dock = System.Windows.Forms.DockStyle.None
+        Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripSplitButton_Graph})
+        Me.ToolStrip2.Location = New System.Drawing.Point(0, 3)
+        Me.ToolStrip2.Name = "ToolStrip2"
+        Me.ToolStrip2.Size = New System.Drawing.Size(33, 53)
+        Me.ToolStrip2.TabIndex = 0
+        '
+        'ToolStripSplitButton_Graph
+        '
+        Me.ToolStripSplitButton_Graph.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.ToolStripSplitButton_Graph.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem_ClassAttributes, Me.ClassRelationsforwToolStripMenuItem, Me.ClassRelationsbackwToolStripMenuItem, Me.ClassRelationsORToolStripMenuItem})
+        Me.ToolStripSplitButton_Graph.Image = Global.Ontology_Module.My.Resources.Resources.cahiers_de_labo
+        Me.ToolStripSplitButton_Graph.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripSplitButton_Graph.Name = "ToolStripSplitButton_Graph"
+        Me.ToolStripSplitButton_Graph.Size = New System.Drawing.Size(31, 20)
+        Me.ToolStripSplitButton_Graph.Text = "ToolStripSplitButton1"
+        '
+        'ToolStripMenuItem_ClassAttributes
+        '
+        Me.ToolStripMenuItem_ClassAttributes.Checked = True
+        Me.ToolStripMenuItem_ClassAttributes.CheckOnClick = True
+        Me.ToolStripMenuItem_ClassAttributes.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.ToolStripMenuItem_ClassAttributes.Name = "ToolStripMenuItem_ClassAttributes"
+        Me.ToolStripMenuItem_ClassAttributes.Size = New System.Drawing.Size(209, 22)
+        Me.ToolStripMenuItem_ClassAttributes.Text = "x_Class-Attributes"
+        '
+        'ClassRelationsforwToolStripMenuItem
+        '
+        Me.ClassRelationsforwToolStripMenuItem.Checked = True
+        Me.ClassRelationsforwToolStripMenuItem.CheckOnClick = True
+        Me.ClassRelationsforwToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.ClassRelationsforwToolStripMenuItem.Name = "ClassRelationsforwToolStripMenuItem"
+        Me.ClassRelationsforwToolStripMenuItem.Size = New System.Drawing.Size(209, 22)
+        Me.ClassRelationsforwToolStripMenuItem.Text = "x_Class-Relations (forw)"
+        '
+        'ClassRelationsbackwToolStripMenuItem
+        '
+        Me.ClassRelationsbackwToolStripMenuItem.Checked = True
+        Me.ClassRelationsbackwToolStripMenuItem.CheckOnClick = True
+        Me.ClassRelationsbackwToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.ClassRelationsbackwToolStripMenuItem.Name = "ClassRelationsbackwToolStripMenuItem"
+        Me.ClassRelationsbackwToolStripMenuItem.Size = New System.Drawing.Size(209, 22)
+        Me.ClassRelationsbackwToolStripMenuItem.Text = "x_Class-Relations (backw)"
+        '
+        'ClassRelationsORToolStripMenuItem
+        '
+        Me.ClassRelationsORToolStripMenuItem.Checked = True
+        Me.ClassRelationsORToolStripMenuItem.CheckOnClick = True
+        Me.ClassRelationsORToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.ClassRelationsORToolStripMenuItem.Name = "ClassRelationsORToolStripMenuItem"
+        Me.ClassRelationsORToolStripMenuItem.Size = New System.Drawing.Size(209, 22)
+        Me.ClassRelationsORToolStripMenuItem.Text = "x_Class-Relations (OR)"
+        '
         'frmClassEdit
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -214,6 +281,8 @@ Partial Class frmClassEdit
         Me.StatusStrip1.ResumeLayout(False)
         Me.StatusStrip1.PerformLayout()
         Me.ToolStripContainer1.ContentPanel.ResumeLayout(False)
+        Me.ToolStripContainer1.LeftToolStripPanel.ResumeLayout(False)
+        Me.ToolStripContainer1.LeftToolStripPanel.PerformLayout()
         Me.ToolStripContainer1.TopToolStripPanel.ResumeLayout(False)
         Me.ToolStripContainer1.TopToolStripPanel.PerformLayout()
         Me.ToolStripContainer1.ResumeLayout(False)
@@ -224,6 +293,8 @@ Partial Class frmClassEdit
         Me.TabControl1.ResumeLayout(False)
         Me.ToolStrip1.ResumeLayout(False)
         Me.ToolStrip1.PerformLayout()
+        Me.ToolStrip2.ResumeLayout(False)
+        Me.ToolStrip2.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -245,4 +316,10 @@ Partial Class frmClassEdit
     Friend WithEvents TabPage_ObjectReferences As System.Windows.Forms.TabPage
     Friend WithEvents ToolStripButton_DelClass As System.Windows.Forms.ToolStripButton
     Friend WithEvents Timer_Name_Changed As System.Windows.Forms.Timer
+    Friend WithEvents ToolStrip2 As System.Windows.Forms.ToolStrip
+    Friend WithEvents ToolStripSplitButton_Graph As System.Windows.Forms.ToolStripSplitButton
+    Friend WithEvents ToolStripMenuItem_ClassAttributes As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ClassRelationsforwToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ClassRelationsbackwToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ClassRelationsORToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 End Class
