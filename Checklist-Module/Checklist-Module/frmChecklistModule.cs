@@ -28,6 +28,8 @@ namespace Checklist_Module
 
         private clsOntologyItem objOItem_LogState;
 
+        private clsArgumentParsing objArgumentParsing;
+
         private bool boolOpen;
 
         public frmChecklistModule()
@@ -40,6 +42,58 @@ namespace Checklist_Module
         private void toolStripButton_Close_Click(object sender, EventArgs e)
         {
             Environment.Exit(0);
+        }
+
+        private void ParseArguments()
+        {
+            objArgumentParsing = new clsArgumentParsing(objLocalConfig.Globals, Environment.GetCommandLineArgs().ToList());
+            if (objArgumentParsing.OList_Items != null && objArgumentParsing.OList_Items.Any())
+            {
+                var item = objArgumentParsing.OList_Items.First();
+
+                if (item.Type == objLocalConfig.Globals.Type_Object && item.GUID_Parent == objLocalConfig.OItem_class_working_lists.GUID)
+                {
+                    var workingListList = objDataWork_Checklists.GetData_WorkingListsOfRefOrDirect(null, objLocalConfig.OItem_object_active, item);
+                    if (workingListList.Any())
+                    {
+                        var objWorkingList = workingListList.First();
+                        if (objWorkingList.ID_Report != null && objWorkingList.ID_ReportField != null)
+                        {
+                            var objReport = new clsOntologyItem
+                            {
+                                GUID = objWorkingList.ID_Report,
+                                Name = objWorkingList.Name_Report,
+                                GUID_Parent = objLocalConfig.OItem_class_report.GUID,
+                                Type = objLocalConfig.Globals.Type_Object
+                            };
+
+                            var objOItem_WorkingList = new clsOntologyItem
+                            {
+                                GUID = objWorkingList.ID_WorkingList,
+                                Name = objWorkingList.Name_WorkingList,
+                                GUID_Parent = objLocalConfig.OItem_class_working_lists.GUID,
+                                Type = objLocalConfig.Globals.Type_Object
+                            };
+
+                            var objOItem_ReportField = new clsOntologyItem
+                            {
+                                GUID = objWorkingList.ID_ReportField,
+                                Name = objWorkingList.Name_ReportField,
+                                GUID_Parent = objLocalConfig.OItem_class_report_field.GUID,
+                                Type = objLocalConfig.Globals.Type_Object
+                            };
+
+                            objFrmChecklist = new frmCheckliste(objLocalConfig, objReport, objOItem_WorkingList, objOItem_ReportField, objDataWork_Checklists);
+                            objFrmChecklist.ShowDialog(this);
+                        }
+                        else
+                        {
+                            MessageBox.Show(this, "Bitte erst die Checkliste vollständig definieren!", "Vollständigkeit", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        Environment.Exit(0);
+                    }
+                }
+            }
         }
 
         private void Initialize()
@@ -65,7 +119,7 @@ namespace Checklist_Module
                 
             if (objLocalConfig.User != null)
             {
-                
+                ParseArguments();    
                 objDataWork_Checklists.GetData_WorkingLists(objOItem_LogState);
                 if (objDataWork_Checklists.OItem_Result_WorkingLists.GUID == objLocalConfig.Globals.LState_Success.GUID)
                 {
@@ -96,7 +150,7 @@ namespace Checklist_Module
         void objUserControl_RefTree_selected_Node(clsOntologyItem OItem_Selected)
         {
             dataGridView_Checklists.DataSource = null;
-            var objOList_WorkingList = objDataWork_Checklists.GetData_WorkingListsOfRef(OItem_Selected, objOItem_LogState);
+            var objOList_WorkingList = objDataWork_Checklists.GetData_WorkingListsOfRefOrDirect(OItem_Selected, objOItem_LogState);
             dataGridView_Checklists.DataSource = objOList_WorkingList;
             dataGridView_Checklists.Columns[0].Visible = false;
             dataGridView_Checklists.Columns[2].Visible = false;

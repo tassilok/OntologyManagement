@@ -125,7 +125,7 @@ namespace Checklist_Module
 
         }
 
-        public SortableBindingList<clsWorkingList> GetData_WorkingListsOfRef(clsOntologyItem OItem_Ref, clsOntologyItem OItem_LogState)
+        public SortableBindingList<clsWorkingList> GetData_WorkingListsOfRefOrDirect(clsOntologyItem OItem_Ref, clsOntologyItem OItem_LogState, clsOntologyItem OItem_WorkingList = null)
         {
             SortableBindingList<clsWorkingList> objOList_WorkingLists = new SortableBindingList<clsWorkingList>();
 
@@ -133,12 +133,14 @@ namespace Checklist_Module
 
             if (OItem_Ref == null)
             {
-                objORel_WorkingLIsts_To_Ref = new List<clsObjectRel> { new clsObjectRel {ID_Parent_Object = objLocalConfig.OItem_class_working_lists.GUID,
+                objORel_WorkingLIsts_To_Ref = new List<clsObjectRel> { new clsObjectRel {ID_Object = OItem_WorkingList != null ? OItem_WorkingList.GUID: null,
+                    ID_Parent_Object = objLocalConfig.OItem_class_working_lists.GUID,
                     ID_RelationType = objLocalConfig.OItem_relationtype_belonging_resource.GUID}};
             }
             else
             {
-                objORel_WorkingLIsts_To_Ref = new List<clsObjectRel> { new clsObjectRel {ID_Parent_Object = objLocalConfig.OItem_class_working_lists.GUID,
+                objORel_WorkingLIsts_To_Ref = new List<clsObjectRel> { new clsObjectRel {ID_Object = OItem_WorkingList != null ? OItem_WorkingList.GUID: null,
+                    ID_Parent_Object = objLocalConfig.OItem_class_working_lists.GUID,
                     ID_RelationType = objLocalConfig.OItem_relationtype_belonging_resource.GUID,
                     ID_Other = OItem_Ref.GUID}};
             }
