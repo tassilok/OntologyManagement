@@ -117,26 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="bb_back_" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\bb_back_.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="pulsante_02_architetto_f_01 Last" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\pulsante_02_architetto_f_01 Last.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="sync" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\sync.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="pulsante_02_architetto_f_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\pulsante_02_architetto_f_01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="pulsante_01_architetto_f_01 First1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\pulsante_01_architetto_f_01 First1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="pulsante_01_architetto_f_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\pulsante_01_architetto_f_01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="bb_forward_" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\bb_forward_.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
+  <metadata name="toolStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <metadata name="timer_ToogleVisibleToolStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>122, 17</value>
+  </metadata>
+  <metadata name="contextMenuStrip_Labels.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>330, 17</value>
+  </metadata>
 </root>

@@ -21,7 +21,7 @@ namespace NextGenerationOntoEdit
         private List<DataColumn> dataColumns { get; set; }
         private clsDataWork_OntologyItems objDataWork_OntologyItems;
 
-        private frm_ObjectEdit frmObjectEdit;
+        private ObjectEdit objectEdit;
 
         public delegate void AddBindingSource();
         private AddBindingSource addBindingSource;
@@ -310,8 +310,8 @@ namespace NextGenerationOntoEdit
                 Type = localConfig.Globals.Type_Object
             }).ToList();
 
-            frmObjectEdit = new frm_ObjectEdit(localConfig.Globals, objectList, e.RowIndex, localConfig.Globals.Type_Object, null);
-            frmObjectEdit.ShowDialog(this);
+            objectEdit = new ObjectEdit(localConfig, objectList, e.RowIndex);
+            objectEdit.ShowDialog(this);
         }
 
 

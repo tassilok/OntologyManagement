@@ -19,7 +19,7 @@ if ERRORLEVEL 1 Goto Fehler
 
 echo #!/bin/bash>%TEMP%\Sourceforge.sh
 
-if /i [%PROJECTFOLDER%] EQU [Ontolog-Module] GOTO ONTOLOGYMANAGER
+if /i [%PROJECTFOLDER%] EQU [Ontology-Module] GOTO ONTOLOGYMANAGER
 :MODULE
 IF /i [%UPLOAD%] EQU [0] Goto Ende
 cmd /c "C:\cygwin64\bin\scp.exe \Users\Tassilo\AppData\Local\Temp\OntologyManagement\%PROJECTFOLDER%_%VERSION%.exe tassilok,ontologymanager@web.sourceforge.net:/home/frs/project/ontologymanager/Modules/%PROJECTFOLDER%/%PROJECTFOLDER%_%VERSION%.exe"

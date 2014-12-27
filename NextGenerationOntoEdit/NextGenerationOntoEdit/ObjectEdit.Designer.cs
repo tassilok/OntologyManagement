@@ -31,20 +31,22 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ObjectEdit));
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton_Close = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton_NavFirst = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton_NavPrevious = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton_NavNext = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton_NavLast = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripLabel_Position = new System.Windows.Forms.ToolStripLabel();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
-            this.menuStrip1.SuspendLayout();
             this.toolStrip2.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -78,6 +80,21 @@
             this.toolStrip1.Size = new System.Drawing.Size(62, 25);
             this.toolStrip1.TabIndex = 0;
             // 
+            // toolStrip2
+            // 
+            this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButton_NavFirst,
+            this.toolStripButton_NavPrevious,
+            this.toolStripButton_NavNext,
+            this.toolStripButton_NavLast,
+            this.toolStripSeparator1,
+            this.toolStripLabel_Position});
+            this.toolStrip2.Location = new System.Drawing.Point(3, 0);
+            this.toolStrip2.Name = "toolStrip2";
+            this.toolStrip2.Size = new System.Drawing.Size(165, 25);
+            this.toolStrip2.TabIndex = 1;
+            // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -93,19 +110,6 @@
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
             this.fileToolStripMenuItem.Text = "x_File";
-            // 
-            // toolStrip2
-            // 
-            this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton_NavFirst,
-            this.toolStripButton_NavPrevious,
-            this.toolStripButton_NavNext,
-            this.toolStripButton_NavLast});
-            this.toolStrip2.Location = new System.Drawing.Point(3, 0);
-            this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(104, 25);
-            this.toolStrip2.TabIndex = 1;
             // 
             // toolStripButton_Close
             // 
@@ -152,6 +156,17 @@
             this.toolStripButton_NavLast.Size = new System.Drawing.Size(23, 22);
             this.toolStripButton_NavLast.Text = "toolStripButton4";
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripLabel_Position
+            // 
+            this.toolStripLabel_Position.Name = "toolStripLabel_Position";
+            this.toolStripLabel_Position.Size = new System.Drawing.Size(24, 22);
+            this.toolStripLabel_Position.Text = "0/0";
+            // 
             // ObjectEdit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -170,10 +185,10 @@
             this.toolStripContainer1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
             this.toolStrip2.ResumeLayout(false);
             this.toolStrip2.PerformLayout();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -191,5 +206,7 @@
         private System.Windows.Forms.ToolStripButton toolStripButton_NavPrevious;
         private System.Windows.Forms.ToolStripButton toolStripButton_NavNext;
         private System.Windows.Forms.ToolStripButton toolStripButton_NavLast;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel_Position;
     }
 }

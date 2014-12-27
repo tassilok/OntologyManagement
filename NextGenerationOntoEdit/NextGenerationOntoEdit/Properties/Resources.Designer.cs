@@ -63,6 +63,26 @@ namespace NextGenerationOntoEdit.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap bb_back_ {
+            get {
+                object obj = ResourceManager.GetObject("bb_back_", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap bb_forward_ {
+            get {
+                object obj = ResourceManager.GetObject("bb_forward_", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap pulsante_01_architetto_f_01 {
             get {
                 object obj = ResourceManager.GetObject("pulsante_01_architetto_f_01", resourceCulture);

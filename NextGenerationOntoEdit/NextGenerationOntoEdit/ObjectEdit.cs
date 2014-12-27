@@ -18,6 +18,8 @@ namespace NextGenerationOntoEdit
 
         private clsDBLevel dbLevel_Class;
 
+        private UserControl_ObjectEdit userControlObjectEdit;
+
         public List<clsOntologyItem> ObjectList { get; private set; }
         public int RowId { get; private set; }
 
@@ -26,6 +28,8 @@ namespace NextGenerationOntoEdit
             InitializeComponent();
 
             this.localConfig = localConfig;
+            this.ObjectList = ObjectList;
+            this.RowId = rowId;
 
             Initialize();
         }
@@ -33,6 +37,12 @@ namespace NextGenerationOntoEdit
         private void Initialize()
         {
             dbLevel_Class = new clsDBLevel(localConfig.Globals);
+            userControlObjectEdit = new UserControl_ObjectEdit(localConfig);
+            userControlObjectEdit.Dock = DockStyle.Fill;
+            toolStripContainer1.ContentPanel.Controls.Add(userControlObjectEdit);
+
+            userControlObjectEdit.Initialize_OItem(ObjectList[RowId]);
+
             SetHeaderText();
         }
 
