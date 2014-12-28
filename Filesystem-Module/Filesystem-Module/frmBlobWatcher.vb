@@ -60,6 +60,7 @@ Public Class frmBlobWatcher
         Me.BlobConnection = blobConnection
         Me.FileWork = fileWork
         Me.Transaction = transaction
+        initialize()
     End Sub
 
     Public Sub New(Globals As clsGlobals, blobConnection As clsBlobConnection, fileWork As clsFileWork, transaction As clsTransaction)

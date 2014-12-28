@@ -260,7 +260,7 @@ namespace Office_Module
 
                 }
 
-                if (strName == "")
+                if (strName != "")
                 {
                     objWord.ActiveDocument.BuiltInDocumentProperties["TITLE"] = strName;
                     objWord.ActiveDocument.BuiltInDocumentProperties["CATEGORY"] = strCategory;
