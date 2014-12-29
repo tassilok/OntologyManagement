@@ -74,6 +74,12 @@
     <Compile Include="UserControl_ConfiguratorTree.Designer.cs">
       <DependentUpon>UserControl_ConfiguratorTree.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControl_DatabaseItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_DatabaseItem.Designer.cs">
+      <DependentUpon>UserControl_DatabaseItem.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="frmDatabaseConfigurator.resx">
       <DependentUpon>frmDatabaseConfigurator.cs</DependentUpon>
     </EmbeddedResource>
@@ -89,6 +95,9 @@
     </Compile>
     <EmbeddedResource Include="UserControl_ConfiguratorTree.resx">
       <DependentUpon>UserControl_ConfiguratorTree.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_DatabaseItem.resx">
+      <DependentUpon>UserControl_DatabaseItem.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Config\ElasticSearch.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

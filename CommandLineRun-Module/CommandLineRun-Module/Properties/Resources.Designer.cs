@@ -63,6 +63,26 @@ namespace CommandLineRun_Module.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap padlock_aj_ashton_01 {
+            get {
+                object obj = ResourceManager.GetObject("padlock_aj_ashton_01", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap padlock_aj_ashton_open_01 {
+            get {
+                object obj = ResourceManager.GetObject("padlock_aj_ashton_open_01", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap pulsante_02_architetto_f_01 {
             get {
                 object obj = ResourceManager.GetObject("pulsante_02_architetto_f_01", resourceCulture);

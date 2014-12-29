@@ -196,6 +196,8 @@
     </Content>
     <None Include="Resources\tasto_8_architetto_franc_01.png" />
     <None Include="Resources\saveHS.png" />
+    <None Include="Resources\padlock_aj_ashton_01.png" />
+    <None Include="Resources\padlock_aj_ashton_open_01.png" />
     <Content Include="SciLexer.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

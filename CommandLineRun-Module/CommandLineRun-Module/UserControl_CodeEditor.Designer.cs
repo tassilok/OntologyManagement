@@ -28,17 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserControl_CodeEditor));
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel_LineCountLbl = new System.Windows.Forms.ToolStripLabel();
             this.toolStripLabel_LineCount = new System.Windows.Forms.ToolStripLabel();
             this.scintilla_Code = new ScintillaNET.Scintilla();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.timer_Save = new System.Windows.Forms.Timer(this.components);
-            this.toolStripButton_Save = new System.Windows.Forms.ToolStripButton();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton_Save = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton_Lock = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton_ReplaceVariables = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
@@ -84,6 +84,11 @@
             this.toolStrip1.Size = new System.Drawing.Size(129, 25);
             this.toolStrip1.TabIndex = 0;
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
             // toolStripLabel_LineCountLbl
             // 
             this.toolStripLabel_LineCountLbl.Name = "toolStripLabel_LineCountLbl";
@@ -114,17 +119,24 @@
             this.scintilla_Code.Styles.LineNumber.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
             this.scintilla_Code.Styles.Max.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
             this.scintilla_Code.TabIndex = 0;
-            this.scintilla_Code.TextChanged += new System.EventHandler(this.scintilla_Code_TextChanged);
+            this.scintilla_Code.Leave += new System.EventHandler(this.scintilla_Code_Leave);
             // 
-            // toolStripSeparator1
+            // toolStrip2
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButton_Lock,
+            this.toolStripSeparator2,
+            this.toolStripButton_ReplaceVariables});
+            this.toolStrip2.Location = new System.Drawing.Point(3, 0);
+            this.toolStrip2.Name = "toolStrip2";
+            this.toolStrip2.Size = new System.Drawing.Size(184, 25);
+            this.toolStrip2.TabIndex = 0;
             // 
-            // timer_Save
+            // toolStripSeparator2
             // 
-            this.timer_Save.Interval = 2000;
-            this.timer_Save.Tick += new System.EventHandler(this.timer_Save_Tick);
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
             // toolStripButton_Save
             // 
@@ -135,15 +147,15 @@
             this.toolStripButton_Save.Size = new System.Drawing.Size(23, 22);
             this.toolStripButton_Save.Text = "toolStripButton1";
             // 
-            // toolStrip2
+            // toolStripButton_Lock
             // 
-            this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton_ReplaceVariables});
-            this.toolStrip2.Location = new System.Drawing.Point(3, 0);
-            this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(124, 25);
-            this.toolStrip2.TabIndex = 0;
+            this.toolStripButton_Lock.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton_Lock.Image = global::CommandLineRun_Module.Properties.Resources.padlock_aj_ashton_01;
+            this.toolStripButton_Lock.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_Lock.Name = "toolStripButton_Lock";
+            this.toolStripButton_Lock.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton_Lock.Text = "toolStripButton1";
+            this.toolStripButton_Lock.Click += new System.EventHandler(this.toolStripButton_Lock_Click);
             // 
             // toolStripButton_ReplaceVariables
             // 
@@ -187,8 +199,9 @@
         private ScintillaNET.Scintilla scintilla_Code;
         private System.Windows.Forms.ToolStripButton toolStripButton_Save;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.Timer timer_Save;
         private System.Windows.Forms.ToolStrip toolStrip2;
         private System.Windows.Forms.ToolStripButton toolStripButton_ReplaceVariables;
+        private System.Windows.Forms.ToolStripButton toolStripButton_Lock;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
     }
 }

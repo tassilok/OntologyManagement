@@ -33,8 +33,8 @@
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.treeView_Configurator = new System.Windows.Forms.TreeView();
             this.contextMenuStrip_Nodes = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.imageList_ConfiguratorTree = new System.Windows.Forms.ImageList(this.components);
             this.resolveDependenciesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.imageList_ConfiguratorTree = new System.Windows.Forms.ImageList(this.components);
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
             this.contextMenuStrip_Nodes.SuspendLayout();
@@ -65,6 +65,7 @@
             this.treeView_Configurator.SelectedImageIndex = 0;
             this.treeView_Configurator.Size = new System.Drawing.Size(402, 402);
             this.treeView_Configurator.TabIndex = 0;
+            this.treeView_Configurator.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView_Configurator_AfterSelect);
             this.treeView_Configurator.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView_Configurator_NodeMouseDoubleClick);
             // 
             // contextMenuStrip_Nodes
@@ -72,8 +73,15 @@
             this.contextMenuStrip_Nodes.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.resolveDependenciesToolStripMenuItem});
             this.contextMenuStrip_Nodes.Name = "contextMenuStrip_Nodes";
-            this.contextMenuStrip_Nodes.Size = new System.Drawing.Size(202, 48);
+            this.contextMenuStrip_Nodes.Size = new System.Drawing.Size(202, 26);
             this.contextMenuStrip_Nodes.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Nodes_Opening);
+            // 
+            // resolveDependenciesToolStripMenuItem
+            // 
+            this.resolveDependenciesToolStripMenuItem.Name = "resolveDependenciesToolStripMenuItem";
+            this.resolveDependenciesToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.resolveDependenciesToolStripMenuItem.Text = "x_Resolve Dependencies";
+            this.resolveDependenciesToolStripMenuItem.Click += new System.EventHandler(this.resolveDependenciesToolStripMenuItem_Click);
             // 
             // imageList_ConfiguratorTree
             // 
@@ -103,13 +111,6 @@
             this.imageList_ConfiguratorTree.Images.SetKeyName(21, "wireless_transmitter_bra_01.png");
             this.imageList_ConfiguratorTree.Images.SetKeyName(22, "wireless_transmitter_bra_01.png");
             this.imageList_ConfiguratorTree.Images.SetKeyName(23, "server_olivier_boyer_04.png");
-            // 
-            // resolveDependenciesToolStripMenuItem
-            // 
-            this.resolveDependenciesToolStripMenuItem.Name = "resolveDependenciesToolStripMenuItem";
-            this.resolveDependenciesToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
-            this.resolveDependenciesToolStripMenuItem.Text = "x_Resolve Dependencies";
-            this.resolveDependenciesToolStripMenuItem.Click += new System.EventHandler(this.resolveDependenciesToolStripMenuItem_Click);
             // 
             // UserControl_ConfiguratorTree
             // 

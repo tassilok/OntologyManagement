@@ -53,7 +53,6 @@ public clsOntologyItem OItem_class_encoding { get; set; }
 public clsOntologyItem OItem_object_commandlinerun_module { get; set; }
 public clsOntologyItem OItem_object_datetime__yyyymmdd_hhmm { get; set; }
 
-
         // RelationTypes
 public clsOntologyItem OItem_relationtype_add { get; set; }
 public clsOntologyItem OItem_relationtype_belonging_source { get; set; }
@@ -452,6 +451,8 @@ var objOList_relationtype_needs = (from objOItem in objDBLevel_Config1.OList_Obj
   
 	private void get_Config_Objects()
         {
+            
+
             var objOList_object_datetime__yyyymmdd_hhmm = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                                            where objOItem.ID_Object == cstrID_Ontology
                                                            join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object

@@ -232,6 +232,12 @@
     <Compile Include="Forms\Attributes\dlg_Attribute_String.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\Attributes\UserControl_Name.Designer.vb">
+      <DependentUpon>UserControl_Name.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Attributes\UserControl_Name.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Forms\frmClassEdit.Designer.vb">
       <DependentUpon>frmClassEdit.vb</DependentUpon>
     </Compile>
@@ -535,6 +541,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Attributes\dlg_Attribute_String.resx">
       <DependentUpon>dlg_Attribute_String.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Attributes\UserControl_Name.resx">
+      <DependentUpon>UserControl_Name.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmClassEdit.resx">
       <DependentUpon>frmClassEdit.vb</DependentUpon>

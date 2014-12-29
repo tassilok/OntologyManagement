@@ -21,6 +21,9 @@ namespace DatabaseConfigurationModule
 
         private TreeNode treeNode_Root;
 
+        public delegate void SelectedNode(clsOntologyItem OItem_Selected);
+        public event SelectedNode selectedNode;
+
         public delegate void AddSchemaNode();
         private AddSchemaNode addSchemaNode;
         public delegate void AddSchemaTableNode();
@@ -730,6 +733,30 @@ namespace DatabaseConfigurationModule
         private void resolveDependenciesToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void treeView_Configurator_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            clsOntologyItem objOItem_Selected = null;
+            if (e.Node != null && selectedNode != null)
+            {
+                var imageToClasses = objLocalConfig.OList_ImageToClass.Where(item => item.ImageID == e.Node.ImageIndex).ToList();
+
+                if (imageToClasses.Any())
+                {
+                    objOItem_Selected = new clsOntologyItem
+                    {
+                        GUID = e.Node.Name,
+                        Name = e.Node.Text,
+                        GUID_Parent = imageToClasses.First().GUID,
+                        Type = objLocalConfig.Globals.Type_Object
+                    };
+                }
+                
+                selectedNode(objOItem_Selected);
+                
+            }
+            
         }
 
     }

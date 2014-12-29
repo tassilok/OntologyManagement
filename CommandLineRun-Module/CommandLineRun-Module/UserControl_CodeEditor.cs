@@ -16,6 +16,7 @@ namespace CommandLineRun_Module
     {
         private clsLocalConfig objLocalConfig;
         private clsOntologyItem objOItem_CodeSnipplet;
+        private clsOntologyItem objOItem_ProgrammingLanguage;
 
         private clsDataWork_CodeSniplets objDataWork_CodeSnipplets;
 
@@ -25,6 +26,10 @@ namespace CommandLineRun_Module
         private List<clsValue> values;
 
         private bool boolTextChanged;
+        private bool lockEditor;
+
+        public delegate void SavedCodeSnipplet(clsOntologyItem OItem_CodeSnipplet);
+        public event SavedCodeSnipplet savedCodeSnipplet;
 
         public List<clsValue> Values 
         {
@@ -103,14 +108,44 @@ namespace CommandLineRun_Module
             return result;
         }
 
-        public UserControl_CodeEditor(clsLocalConfig LocalConfig, clsOntologyItem OItem_CodeSnipplet)
+        public void Clear()
+        {
+            boolTextChanged = true;
+            scintilla_Code.Enabled = true;
+            scintilla_Code.Text = "";
+            lockEditor = true;
+            toogleLockImage();
+            boolTextChanged = false;
+        }
+
+        public UserControl_CodeEditor(clsLocalConfig LocalConfig)
         {
             InitializeComponent();
 
             objLocalConfig = LocalConfig;
-            objOItem_CodeSnipplet = OItem_CodeSnipplet;
+            
 
             Initialize();
+        }
+
+        public UserControl_CodeEditor(clsGlobals globals)
+        {
+            InitializeComponent();
+
+            objLocalConfig = new clsLocalConfig(globals);
+
+
+            Initialize();
+        }
+
+        public void Initialize_CodeSnipplet(clsOntologyItem OItem_CodeSnipplet, clsOntologyItem OItem_ProgrammingLanguage = null)
+        {
+            this.objOItem_CodeSnipplet = OItem_CodeSnipplet;
+            this.objOItem_ProgrammingLanguage = OItem_ProgrammingLanguage;
+            GetCodeSnipplet();
+            GetSyntaxHighlight();
+            lockEditor = true;
+            toogleLockImage();
         }
 
         private void Initialize()
@@ -121,33 +156,43 @@ namespace CommandLineRun_Module
 
             toolStripButton_Save.Enabled = false;
             toolStripButton_ReplaceVariables.Enabled = false;
-            GetCodeSnipplet();
+            
         }
 
         private void GetCodeSnipplet()
         {
             boolTextChanged = true;
             scintilla_Code.Text = "";
-            var result = objDataWork_CodeSnipplets.GetData_CodeSnipplet(objOItem_CodeSnipplet);
-            if (result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            if (objOItem_CodeSnipplet != null)
             {
-                scintilla_Code.Text = objDataWork_CodeSnipplets.OAItem_Code == null ? objDataWork_CodeSnipplets.OAItem_Code.Val_String : "";
-            }
-            else
-            {
-                scintilla_Code.Enabled = false;
+                var result = objDataWork_CodeSnipplets.GetData_CodeSnipplet(objOItem_CodeSnipplet);
+                if (result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+                    scintilla_Code.Enabled = true;
+                    scintilla_Code.Text = objDataWork_CodeSnipplets.OAItem_Code != null ? objDataWork_CodeSnipplets.OAItem_Code.Val_String : "";
+                }
+                else
+                {
+                    scintilla_Code.Enabled = false;
+                }
+                
             }
             boolTextChanged = false;
         }
 
-        private void scintilla_Code_TextChanged(object sender, EventArgs e)
+        private void GetSyntaxHighlight()
         {
-            timer_Save.Stop();
-            if (!boolTextChanged)
+            if (objOItem_ProgrammingLanguage != null)
             {
-                toolStripButton_Save.Enabled = true;
-
-                timer_Save.Start();
+                var result = objDataWork_CodeSnipplets.GetData_SyntaxHighlight(objOItem_ProgrammingLanguage);
+                if (result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+                    scintilla_Code.ConfigurationManager.Language = objDataWork_CodeSnipplets.OItem_SyntaxHighlight != null ? objDataWork_CodeSnipplets.OItem_SyntaxHighlight.Name : "";
+                }
+                else
+                {
+                    scintilla_Code.ConfigurationManager.Language = "";
+                }
             }
         }
 
@@ -156,22 +201,92 @@ namespace CommandLineRun_Module
             ReplaceVariables();
         }
 
-        private void timer_Save_Tick(object sender, EventArgs e)
+        private void SaveCode()
         {
-            timer_Save.Stop();
+            if (scintilla_Code.Enabled && !boolTextChanged)
+            {
+                objTransaction.ClearItems();
+
+                var result = objLocalConfig.Globals.LState_Success.Clone();
+
+                if (objOItem_CodeSnipplet == null)
+                {
+                    var guid = objLocalConfig.Globals.NewGUID;
+                    objOItem_CodeSnipplet = new clsOntologyItem
+                    {
+                        GUID = guid,
+                        Name = guid,
+                        GUID_Parent = objLocalConfig.OItem_class_code_snipplets.GUID,
+                        Type = objLocalConfig.Globals.Type_Object,
+                        New_Item = true
+                    };
+
+                    result = objTransaction.do_Transaction(objOItem_CodeSnipplet);
+
+                    if (result.GUID == objLocalConfig.Globals.LState_Success.GUID & objOItem_ProgrammingLanguage != null)
+                    {
+                        var savePL = objRelationConfig.Rel_ObjectRelation(objOItem_CodeSnipplet, objOItem_ProgrammingLanguage, objLocalConfig.OItem_relationtype_is_written_in);
+                        result = objTransaction.do_Transaction(savePL, true);
+                    }
+                }
+                else
+                {
+                    objOItem_CodeSnipplet.New_Item = false;
+                }
+
+
+                if (result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+                    var saveCode = objRelationConfig.Rel_ObjectAttribute(objOItem_CodeSnipplet, objLocalConfig.OItem_attributetype_code, scintilla_Code.Text);
+
+                    result = objTransaction.do_Transaction(saveCode);
+
+                    if (result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                    {
+                        savedCodeSnipplet(objOItem_CodeSnipplet);
+                    }
+                    else
+                    {
+                        MessageBox.Show(this, "Beim Speichern des Codes ist ein Fehler aufgetreten!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        scintilla_Code.Enabled = false;
+                    }
+                }
+                else
+                {
+                    objTransaction.rollback();
+                }
+            }
+            
+        }
+
+        private void scintilla_Code_Leave(object sender, EventArgs e)
+        {
             SaveCode();
         }
 
-        private void SaveCode()
+        private void toolStripButton_Lock_Click(object sender, EventArgs e)
         {
-            var saveCode = objRelationConfig.Rel_ObjectAttribute(objOItem_CodeSnipplet, objLocalConfig.OItem_attributetype_code, scintilla_Code.Text);
+            lockEditor = !lockEditor;
+            toogleLockImage();
+        }
 
-            var result = objTransaction.do_Transaction(saveCode);
-
-            if (result.GUID == objLocalConfig.Globals.LState_Error.GUID)
+        private void toogleLockImage()
+        {
+            if (!lockEditor)
             {
-                MessageBox.Show(this, "Beim Speichern des Codes ist ein Fehler aufgetreten!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                
+                scintilla_Code.Enabled = true;
+                toolStripButton_Save.Enabled = true;
+                toolStripButton_ReplaceVariables.Enabled = true;
+                toolStripButton_Lock.Image = CommandLineRun_Module.Properties.Resources.padlock_aj_ashton_open_01;
+            }
+            else
+            {
+                
                 scintilla_Code.Enabled = false;
+                toolStripButton_Save.Enabled = true;
+                toolStripButton_ReplaceVariables.Enabled = true;
+                toolStripButton_Lock.Image = CommandLineRun_Module.Properties.Resources.padlock_aj_ashton_01;
             }
         }
     }

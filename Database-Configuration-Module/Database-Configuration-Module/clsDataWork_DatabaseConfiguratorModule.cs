@@ -70,6 +70,8 @@ namespace DatabaseConfigurationModule
         private clsDBLevel objDBLevel_Server;
         private clsDBLevel objDBLevel_ServerDatabases;
 
+        private clsDBLevel objDBLevel_CodeSnipplets;
+
         private List<clsOntologyItem> OList_FilterProjects;
 
         private delegate void LoadedSubItems(LoadSubResult loadResult, clsOntologyItem OItem_Result);
@@ -217,6 +219,29 @@ namespace DatabaseConfigurationModule
             GetSubData_009_DatabaseOnServer();
             GetSubData_010_Server();
             GetSubData_011_ServerDatabases();
+        }
+
+        public clsOntologyItem GetCodeSnippletOfDBItem(clsOntologyItem OItem_DBItem)
+        {
+
+            var searchCodeSnipplet = new List<clsObjectRel> { new clsObjectRel { ID_Object = OItem_DBItem.GUID,
+                ID_RelationType = objLocalConfig.OItem_relationtype_creation_template.GUID,
+                ID_Parent_Other = objLocalConfig.OItem_class_code_snipplets.GUID }};
+
+            var result = objDBLevel_CodeSnipplets.get_Data_ObjectRel(searchCodeSnipplet, boolIDs: false).Clone();
+
+            if (result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                if (objDBLevel_CodeSnipplets.OList_ObjectRel.Any())
+                {
+                    result.add_OItem(objDBLevel_CodeSnipplets.OList_ObjectRel.Select(rel => new clsOntologyItem {GUID = rel.ID_Other,
+                        Name = rel.Name_Other,
+                        GUID_Parent = rel.ID_Parent_Other,
+                        Type = rel.Ontology }).ToList().First());
+                }
+            }
+            
+            return result;
         }
 
         public clsOntologyItem GetColumnFieldType(string GUID_Col)
@@ -867,6 +892,8 @@ namespace DatabaseConfigurationModule
             objDBLevel_DatabaseOnServer = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_Server = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_ServerDatabases = new clsDBLevel(objLocalConfig.Globals);
+
+            objDBLevel_CodeSnipplets = new clsDBLevel(objLocalConfig.Globals);
 
         }
     }

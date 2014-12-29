@@ -21,6 +21,8 @@ namespace DatabaseConfigurationModule
         private clsDataWork_DatabaseConfiguratorModule objDataWork_DatabaseConfiguratorModule;
 
         private UserControl_ConfiguratorTree objUserControl_ConfiguratorTree;
+
+        private UserControl_DatabaseItem objUserControl_DatabaseItem;
         private clsArgumentParsing objArgumentParsing;
         private clsSession objSession;
 
@@ -50,10 +52,23 @@ namespace DatabaseConfigurationModule
                 objDataWork_DatabaseConfiguratorModule = new clsDataWork_DatabaseConfiguratorModule(objLocalConfig);
 
                 objUserControl_ConfiguratorTree = new UserControl_ConfiguratorTree(objLocalConfig, objDataWork_DatabaseConfiguratorModule);
+                objUserControl_ConfiguratorTree.selectedNode += objUserControl_ConfiguratorTree_selectedNode;
                 objUserControl_ConfiguratorTree.Dock = DockStyle.Fill;
                 splitContainer1.Panel1.Controls.Add(objUserControl_ConfiguratorTree);
+
+                objUserControl_DatabaseItem = new UserControl_DatabaseItem(objLocalConfig,objDataWork_DatabaseConfiguratorModule);
+                objUserControl_DatabaseItem.Dock = DockStyle.Fill;
+                splitContainer1.Panel2.Controls.Add(objUserControl_DatabaseItem);
             }
             
+        }
+
+        void objUserControl_ConfiguratorTree_selectedNode(clsOntologyItem OItem_Selected)
+        {
+            if (OItem_Selected != null)
+            {
+                objUserControl_DatabaseItem.Initialize_Item(OItem_Selected);
+            }
         }
 
         private void ArgumentParsing()
