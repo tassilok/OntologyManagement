@@ -199,6 +199,23 @@ Public Class clsDataWork_MediaItem
         Return objOItem_Result
     End Function
 
+    Public Function GetCreationDatesOfFiles(OList_Files As List(Of clsOntologyItem)) As List(Of clsObjectAtt)
+        Dim OList_CreateDates As List(Of clsObjectAtt)
+
+        Dim searchCreationDates = OList_Files.Select(Function(fileItem) New clsObjectAtt With {.ID_Object = fileItem.GUID,
+                                                                                               .ID_AttributeType = objLocalConfig.OItem_Attribute_Datetimestamp__Create_.GUID}).ToList()
+
+        Dim result = objDBLevel_CreationDate.get_Data_ObjectAtt(searchCreationDates, boolIDs:=False)
+
+        If result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            OList_CreateDates = objDBLevel_CreationDate.OList_ObjectAtt
+        Else
+            OList_CreateDates = Nothing
+        End If
+
+        Return OList_CreateDates
+    End Function
+
     Public Function OList_MediaItemObjects(Optional OItem_MediaItem As clsOntologyItem = Nothing) As List(Of clsMediaItemObject)
 
         Dim objOList_MediaItemObjects As List(Of clsMediaItemObject)

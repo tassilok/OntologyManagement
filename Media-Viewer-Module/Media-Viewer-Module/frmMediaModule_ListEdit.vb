@@ -50,13 +50,13 @@ Public Class frmMediaModule_ListEdit
                                                                      .GUID = objOItem_MultiMediaItem.ID_File, _
                                                                      .Name = objOItem_MultiMediaItem.Name_File, _
                                                                      .GUID_Parent = objOItem_MultiMediaItem.ID_Parent_File}, _
-                                                                     If(objOItem_MultiMediaItem.OACreate Is Nothing, Now, objOItem_MultiMediaItem.OACreate.Val_Date))
+                                                                     If(objOItem_MultiMediaItem.OACreate Is Nothing, Nothing, objOItem_MultiMediaItem.OACreate.Val_Date))
                     Case objLocalConfig.OItem_Type_Media_Item.GUID
                         objUserControl_SingleViewer.initialize_MediaItem(objOitem_MediaItem, New clsOntologyItem With { _
                                                                      .GUID = objOItem_MultiMediaItem.ID_File, _
                                                                      .Name = objOItem_MultiMediaItem.Name_File, _
                                                                      .GUID_Parent = objOItem_MultiMediaItem.ID_Parent_File}, _
-                                                                     If(objOItem_MultiMediaItem.OACreate Is Nothing, Now, objOItem_MultiMediaItem.OACreate.Val_Date))
+                                                                     If(objOItem_MultiMediaItem.OACreate Is Nothing, Nothing, objOItem_MultiMediaItem.OACreate.Val_Date))
                     Case objLocalConfig.OItem_Type_PDF_Documents.GUID
 
                         objUserControl_SingleViewer.initialize_PDF(objOitem_MediaItem, New clsOntologyItem With { _

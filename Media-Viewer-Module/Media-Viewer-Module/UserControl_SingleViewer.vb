@@ -129,9 +129,26 @@ Public Class UserControl_SingleViewer
         configure_Controls()
     End Sub
 
-    Public Sub initialize_Image(ByVal OItem_Image As clsOntologyItem, ByVal OItem_File As clsOntologyItem, ByVal dateCreated As Date)
+    Public Sub initialize_Image(ByVal OItem_Image As clsOntologyItem, ByVal OItem_File As clsOntologyItem, ByVal dateCreated As Nullable(Of Date))
         objOItem_Ref = Nothing
-        objUserControl_ImageViewer.initialize_Image(OItem_Image, OItem_File, dateCreated)
+        Dim OList_ObjAtt As New List(Of clsObjectAtt)
+        Dim dateFile As Date
+        If dateCreated Is Nothing Then
+            OList_ObjAtt = objDataWork_Images.GetTakingDateOfMediaItem(New List(Of clsOntologyItem) From {OItem_Image})
+
+            If Not OList_ObjAtt.Any() Then
+                OList_ObjAtt = objDataWork_Images.GetCreationDatesOfFiles(New List(Of clsOntologyItem) From {OItem_File})
+                If OList_ObjAtt.Any() Then
+                    dateFile = OList_ObjAtt.First().Val_Date
+                Else
+                    dateFile = Now
+                End If
+            Else
+                dateFile = OList_ObjAtt.First().Val_Date
+            End If
+            
+        End If
+        objUserControl_ImageViewer.initialize_Image(OItem_Image, OItem_File, dateFile)
         objUserControl_ImageViewer.OItem_Ref = objOItem_Ref
         ToolStripTextBox_Curr.Text = 0
         ToolStripLabel_Count.Text = 0
@@ -307,10 +324,20 @@ Public Class UserControl_SingleViewer
         configure_Controls()
     End Sub
 
-    Public Sub initialize_MediaItem(ByVal OItem_MediaItem As clsOntologyItem, ByVal OItem_File As clsOntologyItem, ByVal dateCreated As Date, Optional doOpen As Boolean = True)
+    Public Sub initialize_MediaItem(ByVal OItem_MediaItem As clsOntologyItem, ByVal OItem_File As clsOntologyItem, ByVal dateCreated As Nullable(Of Date), Optional doOpen As Boolean = True)
         objOItem_Ref = Nothing
         Me.doOpen = doOpen
-        objUserControl_MediaPlayer.initialize_MediaItem(OItem_MediaItem, OItem_File, dateCreated, Me.doOpen)
+        Dim OList_ObjAtt As New List(Of clsObjectAtt)
+        Dim dateFile As Date
+        If dateCreated Is Nothing Then
+            OList_ObjAtt = objDataWork_Images.GetCreationDatesOfFiles(New List(Of clsOntologyItem) From {OItem_File})
+            If OList_ObjAtt.Any() Then
+                dateFile = OList_ObjAtt.First().Val_Date
+            Else
+                dateFile = Now
+            End If
+        End If
+        objUserControl_MediaPlayer.initialize_MediaItem(OItem_MediaItem, OItem_File, dateFile, Me.doOpen)
         ToolStripTextBox_Curr.Text = 0
         ToolStripLabel_Count.Text = 0
         ToolStripButton_Playlist.Enabled = True

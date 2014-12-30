@@ -398,6 +398,40 @@ Public Class clsDataWork_Images
         Return lngOrderID
     End Function
 
+    Public Function GetTakingDateOfMediaItem(OList_MediaItems As List(Of clsOntologyItem)) As List(Of clsObjectAtt)
+        Dim OList_CreateDates As List(Of clsObjectAtt)
+
+        Dim searchCreationDates = OList_MediaItems.Select(Function(fileItem) New clsObjectAtt With {.ID_Object = fileItem.GUID,
+                                                                                               .ID_AttributeType = objLocalConfig.OItem_Attribute_taking.GUID}).ToList()
+
+        Dim result = objDBLevel_CreationDate.get_Data_ObjectAtt(searchCreationDates, boolIDs:=False)
+
+        If result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            OList_CreateDates = objDBLevel_CreationDate.OList_ObjectAtt
+        Else
+            OList_CreateDates = Nothing
+        End If
+
+        Return OList_CreateDates
+    End Function
+
+    Public Function GetCreationDatesOfFiles(OList_Files As List(Of clsOntologyItem)) As List(Of clsObjectAtt)
+        Dim OList_CreateDates As List(Of clsObjectAtt)
+
+        Dim searchCreationDates = OList_Files.Select(Function(fileItem) New clsObjectAtt With {.ID_Object = fileItem.GUID,
+                                                                                               .ID_AttributeType = objLocalConfig.OItem_Attribute_Datetimestamp__Create_.GUID}).ToList()
+
+        Dim result = objDBLevel_CreationDate.get_Data_ObjectAtt(searchCreationDates, boolIDs:=False)
+
+        If result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            OList_CreateDates = objDBLevel_CreationDate.OList_ObjectAtt
+        Else
+            OList_CreateDates = Nothing
+        End If
+
+        Return OList_CreateDates
+    End Function
+
     Private Sub get_Images_Thread()
         Dim objOL_Images_To_Ref As New List(Of clsObjectRel)
         Dim objOL_Images_To_File As New List(Of clsObjectRel)

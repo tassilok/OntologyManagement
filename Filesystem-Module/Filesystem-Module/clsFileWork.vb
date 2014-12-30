@@ -17,6 +17,7 @@ Public Class clsFileWork
     Private objDBLevel_Server As clsDBLevel
     Private objDBLevel_Share As clsDBLevel
     Private objDBLevel_Drive As clsDBLevel
+    Private objDBLevel_CreationDate As clsDBLevel
 
     Private objOItem_Drive As clsOntologyItem
     Private objOItem_Server As clsOntologyItem
@@ -63,6 +64,23 @@ Public Class clsFileWork
             Return objLocalConfig
         End Get
     End Property
+
+    Public Function GetCreationDatesOfFiles(OList_Files As List(Of clsOntologyItem)) As List(Of clsObjectAtt)
+        Dim OList_CreateDates As List(Of clsObjectAtt)
+
+        Dim searchCreationDates = OList_Files.Select(Function(fileItem) New clsObjectAtt With {.ID_Object = fileItem.GUID,
+                                                                                               .ID_AttributeType = objLocalConfig.OItem_Attribute_Datetimestamp__Create_.GUID}).ToList()
+
+        Dim result = objDBLevel_CreationDate.get_Data_ObjectAtt(searchCreationDates, boolIDs:=False)
+
+        If result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            OList_CreateDates = objDBLevel_CreationDate.OList_ObjectAtt
+        Else
+            OList_CreateDates = Nothing
+        End If
+
+        Return OList_CreateDates
+    End Function
 
     Public Function copy_File(OItem_File As clsOntologyItem, strPathDst As String) As clsOntologyItem
         Dim objOItem_Result As clsOntologyItem
@@ -1153,5 +1171,6 @@ Public Class clsFileWork
         objDBLevel_Drive = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_Blob = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_Share = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_CreationDate = New clsDBLevel(objLocalConfig.Globals)
     End Sub
 End Class
