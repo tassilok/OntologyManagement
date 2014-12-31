@@ -58,6 +58,7 @@
             // 
             this.treeView_Configurator.ContextMenuStrip = this.contextMenuStrip_Nodes;
             this.treeView_Configurator.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeView_Configurator.HideSelection = false;
             this.treeView_Configurator.ImageIndex = 0;
             this.treeView_Configurator.ImageList = this.imageList_ConfiguratorTree;
             this.treeView_Configurator.Location = new System.Drawing.Point(0, 0);
