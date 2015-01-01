@@ -419,8 +419,8 @@ if /i [DatabaseConfigurationModule] EQU [Ontolog-Module] (
 
 del /s /q "%OMODULE_PATH%\DatabaseConfigurationModule\*.*"
 
-wget -O "%temp%\OModules\DatabaseConfigurationModule_0.0.0.23.exe" %DOWNLOAD_URL%/DatabaseConfigurationModule_0.0.0.23.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\DatabaseConfigurationModule_0.0.0.23.exe" -o"%OMODULE_PATH%\DatabaseConfigurationModule\"
+wget -O "%temp%\OModules\DatabaseConfigurationModule_0.0.0.24.exe" %DOWNLOAD_URL%/DatabaseConfigurationModule_0.0.0.24.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\DatabaseConfigurationModule_0.0.0.24.exe" -o"%OMODULE_PATH%\DatabaseConfigurationModule\"
 
 
 if /i [ScriptingModule] EQU [Ontolog-Module] (
@@ -479,8 +479,8 @@ if /i [FileSystem-Connector-Module] EQU [Ontolog-Module] (
 
 del /s /q "%OMODULE_PATH%\FileSystem-Connector-Module\*.*"
 
-wget -O "%temp%\OModules\FileSystem-Connector-Module_0.0.0.88.exe" %DOWNLOAD_URL%/FileSystem-Connector-Module_0.0.0.88.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\FileSystem-Connector-Module_0.0.0.88.exe" -o"%OMODULE_PATH%\FileSystem-Connector-Module\"
+wget -O "%temp%\OModules\FileSystem-Connector-Module_0.0.0.89.exe" %DOWNLOAD_URL%/FileSystem-Connector-Module_0.0.0.89.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\FileSystem-Connector-Module_0.0.0.89.exe" -o"%OMODULE_PATH%\FileSystem-Connector-Module\"
 
 
 if /i [Scenes-Literatur-Module] EQU [Ontolog-Module] (

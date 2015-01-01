@@ -6,6 +6,7 @@
 <Item Id="423244875d754a3c877b44770721d551" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[AttributeType_Nullable]]></Item>
 <Item Id="6129888111824dca94c389e9a9b64ada" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[AttributeType_Unicode]]></Item>
 <Item Id="55bb5ed5762b4542867fac870868b3f1" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[AttributeType_Variable]]></Item>
+<Item Id="b10e4545c9dc4eb5b121f8dcd5470f80" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_needs]]></Item>
 <Item Id="6de2a96757534390b821a700024e9564" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_is_of_Type]]></Item>
 <Item Id="11ed73bafc264f34b5511d17e4ade910" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_located_in]]></Item>
 <Item Id="48e4fa8a7d01457c960e1b4bf8b5993a" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belongs_to]]></Item>
@@ -16,8 +17,10 @@
 <Item Id="8b394297192a4721abf44504ef6cd13e" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_DB_Triggers]]></Item>
 <Item Id="5c1622fdd33940a69285ff4e13b26dae" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Constraint]]></Item>
 <Item Id="a719e10e3f99458fb63d5bc7394cb7c2" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Constraint__Type_]]></Item>
+<Item Id="6afb35f9ea554f769d92161f0c7f4522" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Userschema]]></Item>
 <Item Id="d5ea7bd7c0f642e4a7498f507c4e61aa" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_DB_Synonyms]]></Item>
 <Item Id="f53ae76575a14186a5258070654d4191" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Server]]></Item>
+<Item Id="04c3fbbfa3694675bfb663d0f0bcae05" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Database_Instance]]></Item>
 <Item Id="8db9c038b7e44671af6acf5889fa2dd8" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Database_Schema]]></Item>
 <Item Id="3866a126cee141e7859f89e484f96550" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_DataTypes__Ms_SQL_]]></Item>
 <Item Id="1bbefff2ab734e6ba01312e509ea44a3" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Field_Type]]></Item>

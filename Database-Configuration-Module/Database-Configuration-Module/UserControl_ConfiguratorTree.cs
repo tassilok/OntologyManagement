@@ -44,6 +44,8 @@ namespace DatabaseConfigurationModule
         private AddServerNode addServerNode;
         public delegate void AddServerDatabaseNode();
         private AddServerDatabaseNode addServerDatabaseNode;
+        public delegate void AddServerInstanceNode();
+        private AddServerInstanceNode addServerInstanceNode;
 
         private frm_ObjectEdit objFrmObjectEdit;
 
@@ -80,10 +82,24 @@ namespace DatabaseConfigurationModule
             addDBOnServerNode = new AddDBOnServerNode(AddTreeNode_DBOnServer);
             addServerNode = new AddServerNode(AddTreeNode_Server);
             addServerDatabaseNode = new AddServerDatabaseNode(AddTreeNode_ServerDatabase);
+            addServerInstanceNode = new AddServerInstanceNode(AddTreeNode_ServerInstance);
 
             FillTree();
 
 
+        }
+
+        private void AddTreeNode_ServerInstance()
+        {
+            var serverInstances = objDataWork_DatabaseConfigurationModule.ServerInstances;
+            serverInstances.ForEach(sdb =>
+            {
+                var dbOnSeverNodes = treeView_Configurator.Nodes.Find(sdb.ID_Object, true);
+                if (dbOnSeverNodes.Any())
+                {
+                    dbOnSeverNodes.First().Nodes.Add(sdb.ID_Other, sdb.Name_Other, objLocalConfig.ImageID_DatabaseInstance, objLocalConfig.ImageID_DatabaseInstance);
+                }
+            });
         }
 
         private void AddTreeNode_ServerDatabase()
@@ -564,6 +580,24 @@ namespace DatabaseConfigurationModule
                     MessageBox.Show(this, "Die Server-Datenbanken konnten nicht geladen werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+            if (loadItems == clsDataWork_DatabaseConfiguratorModule.LoadResult.ServerInstance)
+            {
+                if (OItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+                    if (this.InvokeRequired)
+                    {
+                        this.Invoke(addServerInstanceNode);
+                    }
+                    else
+                    {
+                        AddTreeNode_ServerInstance();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show(this, "Die Server-Datenbanken konnten nicht geladen werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
 
         private void FillTree()
@@ -719,14 +753,18 @@ namespace DatabaseConfigurationModule
         {
             var selectedNode = treeView_Configurator.SelectedNode;
 
+            compareWithDatabaseItemsToolStripMenuItem.Enabled = false;
             resolveDependenciesToolStripMenuItem.Enabled = false;
 
             if (selectedNode != null)
             {
                 if (selectedNode.ImageIndex == objLocalConfig.ImageID_Views)
                 {
+                    compareWithDatabaseItemsToolStripMenuItem.Enabled = true;
                     resolveDependenciesToolStripMenuItem.Enabled = true;
                 }
+
+
             }
         }
 
@@ -757,6 +795,11 @@ namespace DatabaseConfigurationModule
                 
             }
             
+        }
+
+        private void compareWithDatabaseItemsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
 
     }

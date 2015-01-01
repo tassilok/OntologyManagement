@@ -41,6 +41,7 @@ namespace DatabaseConfigurationModule
         public int ImageID_DatabaseConnections { get { return 21; }}
         public int ImageID_DatabaseConnection { get { return 22; }}
         public int ImageID_Server { get { return 23; }}
+        public int ImageID_DatabaseInstance { get { return 24; } }
 
         public clsGlobals Globals { get; set; }
 
@@ -74,6 +75,8 @@ public clsOntologyItem OItem_class_field_type { get; set; }
 public clsOntologyItem OItem_class_database_on_server { get; set; }
 public clsOntologyItem OItem_class_server { get; set; }
 public clsOntologyItem OItem_class_code_snipplets { get; set; }
+public clsOntologyItem OItem_class_userschema { get; set; }
+public clsOntologyItem OItem_class_database_instance { get; set; }
 
        // RelationTypes
 public clsOntologyItem OItem_relationtype_belongs_to { get; set; }
@@ -81,6 +84,7 @@ public clsOntologyItem OItem_relationtype_is_of_type { get; set; }
         public clsOntologyItem OItem_relationtype_contains { get; set; }
         public clsOntologyItem OItem_relationtype_located_in { get; set; }
         public clsOntologyItem OItem_relationtype_creation_template { get; set; }
+        public clsOntologyItem OItem_relationtype_needs { get; set; }
 
         // Objects
         public clsOntologyItem OItem_object_database_configurator_module { get; set; }
@@ -297,6 +301,27 @@ private void get_Data_DevelopmentConfig()
   
 	private void get_Config_RelationTypes()
         {
+            var objOList_relationtype_needs = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                               where objOItem.ID_Object == cstrID_Ontology
+                                               join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                               where objRef.Name_Object.ToLower() == "relationtype_needs".ToLower() && objRef.Ontology == Globals.Type_RelationType
+                                               select objRef).ToList();
+
+            if (objOList_relationtype_needs.Any())
+            {
+                OItem_relationtype_needs = new clsOntologyItem()
+                {
+                    GUID = objOList_relationtype_needs.First().ID_Other,
+                    Name = objOList_relationtype_needs.First().Name_Other,
+                    GUID_Parent = objOList_relationtype_needs.First().ID_Parent_Other,
+                    Type = Globals.Type_RelationType
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
             var objOList_relationtype_creation_template = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                                            where objOItem.ID_Object == cstrID_Ontology
                                                            join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
@@ -542,6 +567,48 @@ private void get_Data_DevelopmentConfig()
   
 	private void get_Config_Classes()
         {
+            var objOList_class_database_instance = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                    where objOItem.ID_Object == cstrID_Ontology
+                                                    join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                    where objRef.Name_Object.ToLower() == "class_database_instance".ToLower() && objRef.Ontology == Globals.Type_Class
+                                                    select objRef).ToList();
+
+            if (objOList_class_database_instance.Any())
+            {
+                OItem_class_database_instance = new clsOntologyItem()
+                {
+                    GUID = objOList_class_database_instance.First().ID_Other,
+                    Name = objOList_class_database_instance.First().Name_Other,
+                    GUID_Parent = objOList_class_database_instance.First().ID_Parent_Other,
+                    Type = Globals.Type_Class
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            var objOList_class_userschema = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                             where objOItem.ID_Object == cstrID_Ontology
+                                             join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                             where objRef.Name_Object.ToLower() == "class_userschema".ToLower() && objRef.Ontology == Globals.Type_Class
+                                             select objRef).ToList();
+
+            if (objOList_class_userschema.Any())
+            {
+                OItem_class_userschema = new clsOntologyItem()
+                {
+                    GUID = objOList_class_userschema.First().ID_Other,
+                    Name = objOList_class_userschema.First().Name_Other,
+                    GUID_Parent = objOList_class_userschema.First().ID_Parent_Other,
+                    Type = Globals.Type_Class
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
             var objOList_class_code_snipplets = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                                  where objOItem.ID_Object == cstrID_Ontology
                                                  join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object

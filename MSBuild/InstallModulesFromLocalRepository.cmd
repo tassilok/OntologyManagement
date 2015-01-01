@@ -105,7 +105,7 @@ del /s /q "%OMODULE_PATH%\Development-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Development-Module_0.2.0.121.exe" -o"%OMODULE_PATH%\Development-Module\"
 
 del /s /q "%OMODULE_PATH%\DatabaseConfigurationModule\*.*"
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\DatabaseConfigurationModule_0.0.0.23.exe" -o"%OMODULE_PATH%\DatabaseConfigurationModule\"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\DatabaseConfigurationModule_0.0.0.24.exe" -o"%OMODULE_PATH%\DatabaseConfigurationModule\"
 
 del /s /q "%OMODULE_PATH%\ScriptingModule\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\ScriptingModule_0.0.0.12.exe" -o"%OMODULE_PATH%\ScriptingModule\"
@@ -120,7 +120,7 @@ del /s /q "%OMODULE_PATH%\FileResourceModule\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\FileResourceModule_0.0.0.79.exe" -o"%OMODULE_PATH%\FileResourceModule\"
 
 del /s /q "%OMODULE_PATH%\FileSystem-Connector-Module\*.*"
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\FileSystem-Connector-Module_0.0.0.88.exe" -o"%OMODULE_PATH%\FileSystem-Connector-Module\"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\FileSystem-Connector-Module_0.0.0.89.exe" -o"%OMODULE_PATH%\FileSystem-Connector-Module\"
 
 del /s /q "%OMODULE_PATH%\Scenes-Literatur-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Scenes-Literatur-Module_0.0.1.87.exe" -o"%OMODULE_PATH%\Scenes-Literatur-Module\"

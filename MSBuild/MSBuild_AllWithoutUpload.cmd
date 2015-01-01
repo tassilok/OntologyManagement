@@ -140,7 +140,7 @@ CALL %USERPROFILE%\Documents\GitHub\OntologyManagement\MSBuild\MSBuild_DebugRele
 IF ERRORLEVEL 1 GOTO Fehler
 
 
-CALL %USERPROFILE%\Documents\GitHub\OntologyManagement\MSBuild\MSBuild_DebugRelease.cmd %ROOTDIR%\ DatabaseConfigurationModule \Database-Configuration-Module.sln 0.0.0.23 1 1 0
+CALL %USERPROFILE%\Documents\GitHub\OntologyManagement\MSBuild\MSBuild_DebugRelease.cmd %ROOTDIR%\ DatabaseConfigurationModule \Database-Configuration-Module.sln 0.0.0.24 1 1 0
 IF ERRORLEVEL 1 GOTO Fehler
 
 
@@ -160,7 +160,7 @@ CALL %USERPROFILE%\Documents\GitHub\OntologyManagement\MSBuild\MSBuild_DebugRele
 IF ERRORLEVEL 1 GOTO Fehler
 
 
-CALL %USERPROFILE%\Documents\GitHub\OntologyManagement\MSBuild\MSBuild_DebugRelease.cmd %ROOTDIR%\ FileSystem-Connector-Module \FileSystem-Connector-Module.sln 0.0.0.88 1 1 0
+CALL %USERPROFILE%\Documents\GitHub\OntologyManagement\MSBuild\MSBuild_DebugRelease.cmd %ROOTDIR%\ FileSystem-Connector-Module \FileSystem-Connector-Module.sln 0.0.0.89 1 1 0
 IF ERRORLEVEL 1 GOTO Fehler
 
 

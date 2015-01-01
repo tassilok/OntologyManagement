@@ -25,7 +25,8 @@ namespace DatabaseConfigurationModule
             RefToProject = 128,
             DatabaseOnServer = 256,
             Server = 512,
-            ServerDatabases = 1024
+            ServerDatabases = 1024,
+            ServerInstance = 2048
         }
         public enum LoadResult
         {
@@ -41,7 +42,8 @@ namespace DatabaseConfigurationModule
             RefToProject = 256,
             DatabaseOnServer = 512,
             Server = 1024,
-            ServerDatabases = 2048
+            ServerDatabases = 2048,
+            ServerInstance = 4096
         }
 
         private Thread threadDatabaseItems;
@@ -69,6 +71,7 @@ namespace DatabaseConfigurationModule
         private clsDBLevel objDBLevel_DatabaseOnServer;
         private clsDBLevel objDBLevel_Server;
         private clsDBLevel objDBLevel_ServerDatabases;
+        private clsDBLevel objDBLevel_ServerInstance;
 
         private clsDBLevel objDBLevel_CodeSnipplets;
 
@@ -193,6 +196,14 @@ namespace DatabaseConfigurationModule
             }
         }
 
+        public List<clsObjectRel> ServerInstances
+        {
+            get
+            {
+                return objDBLevel_ServerInstance.OList_ObjectRel;
+            }
+        }
+
         public List<clsConstraint> ColumnConstraints { get; private set; }
 
         public clsOntologyItem GetData()
@@ -219,6 +230,7 @@ namespace DatabaseConfigurationModule
             GetSubData_009_DatabaseOnServer();
             GetSubData_010_Server();
             GetSubData_011_ServerDatabases();
+            GetSubData_012_ServerInstance();
         }
 
         public clsOntologyItem GetCodeSnippletOfDBItem(clsOntologyItem OItem_DBItem)
@@ -319,6 +331,11 @@ namespace DatabaseConfigurationModule
             if (loadResult == LoadSubResult.ServerDatabases)
             {
                 loadItems(LoadResult.ServerDatabases, OItem_Result);
+            }
+
+            if (loadResult == LoadSubResult.ServerInstance)
+            {
+                loadItems(LoadResult.ServerInstance, OItem_Result);
             }
             
         }
@@ -858,6 +875,28 @@ namespace DatabaseConfigurationModule
 
             loadedSubItems(LoadSubResult.ServerDatabases, result);
         }
+
+        private void GetSubData_012_ServerInstance()
+        {
+            var searchServerInstance = objDBLevel_DatabaseOnServer.OList_ObjectRel.Select(dbOnServer => new clsObjectRel
+            {
+                ID_Object = dbOnServer.ID_Other,
+                ID_RelationType = objLocalConfig.OItem_relationtype_needs.GUID,
+                ID_Parent_Other = objLocalConfig.OItem_class_database_instance.GUID
+            }).ToList();
+
+            var result = objLocalConfig.Globals.LState_Success.Clone();
+            if (searchServerInstance.Any())
+            {
+                result = objDBLevel_ServerInstance.get_Data_ObjectRel(searchServerInstance, boolIDs: false);
+            }
+            else
+            {
+                objDBLevel_ServerInstance.OList_ObjectRel.Clear();
+            }
+
+            loadedSubItems(LoadSubResult.ServerInstance, result);
+        }
         
         public clsDataWork_DatabaseConfiguratorModule(clsLocalConfig LocalConfig)
         {
@@ -894,6 +933,7 @@ namespace DatabaseConfigurationModule
             objDBLevel_ServerDatabases = new clsDBLevel(objLocalConfig.Globals);
 
             objDBLevel_CodeSnipplets = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_ServerInstance = new clsDBLevel(objLocalConfig.Globals);
 
         }
     }

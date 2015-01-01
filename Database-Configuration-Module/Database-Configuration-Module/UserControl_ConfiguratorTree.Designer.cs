@@ -35,6 +35,7 @@
             this.contextMenuStrip_Nodes = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.resolveDependenciesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.imageList_ConfiguratorTree = new System.Windows.Forms.ImageList(this.components);
+            this.compareWithDatabaseItemsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
             this.contextMenuStrip_Nodes.SuspendLayout();
@@ -72,9 +73,10 @@
             // contextMenuStrip_Nodes
             // 
             this.contextMenuStrip_Nodes.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.resolveDependenciesToolStripMenuItem});
+            this.resolveDependenciesToolStripMenuItem,
+            this.compareWithDatabaseItemsToolStripMenuItem});
             this.contextMenuStrip_Nodes.Name = "contextMenuStrip_Nodes";
-            this.contextMenuStrip_Nodes.Size = new System.Drawing.Size(202, 26);
+            this.contextMenuStrip_Nodes.Size = new System.Drawing.Size(245, 70);
             this.contextMenuStrip_Nodes.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Nodes_Opening);
             // 
             // resolveDependenciesToolStripMenuItem
@@ -112,6 +114,14 @@
             this.imageList_ConfiguratorTree.Images.SetKeyName(21, "wireless_transmitter_bra_01.png");
             this.imageList_ConfiguratorTree.Images.SetKeyName(22, "wireless_transmitter_bra_01.png");
             this.imageList_ConfiguratorTree.Images.SetKeyName(23, "server_olivier_boyer_04.png");
+            this.imageList_ConfiguratorTree.Images.SetKeyName(24, "8port_hub_ruairi_hann_r.png");
+            // 
+            // compareWithDatabaseItemsToolStripMenuItem
+            // 
+            this.compareWithDatabaseItemsToolStripMenuItem.Name = "compareWithDatabaseItemsToolStripMenuItem";
+            this.compareWithDatabaseItemsToolStripMenuItem.Size = new System.Drawing.Size(244, 22);
+            this.compareWithDatabaseItemsToolStripMenuItem.Text = "x_Compare with Database-Items";
+            this.compareWithDatabaseItemsToolStripMenuItem.Click += new System.EventHandler(this.compareWithDatabaseItemsToolStripMenuItem_Click);
             // 
             // UserControl_ConfiguratorTree
             // 
@@ -135,5 +145,6 @@
         private System.Windows.Forms.ImageList imageList_ConfiguratorTree;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip_Nodes;
         private System.Windows.Forms.ToolStripMenuItem resolveDependenciesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem compareWithDatabaseItemsToolStripMenuItem;
     }
 }
