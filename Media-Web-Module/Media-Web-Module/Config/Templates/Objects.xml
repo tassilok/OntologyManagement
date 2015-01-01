@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="Object">
+  <Item Id="159e55ba1ca24926a990273d7db5a68f" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Media-Web-Module]]></Item>
+<Item Id="67da2bf707c34747ac027aab42dcbc99" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_is_of_Type]]></Item>
+<Item Id="b7c1342f614341fc9b80995a1fe0e92e" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Extensions]]></Item>
+<Item Id="5dcfb8c6a2f84d158846475ea6e32139" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_File]]></Item>
+<Item Id="6a06feca21b849cea042e7dd436db240" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_Media_Files]]></Item>
+<Item Id="0105611eda654a65aad1ee223f01b47e" Id_Parent="ba76b764134341d69973ca181c4fabc8"><![CDATA[Media-Files]]></Item>
+
+</Items>
