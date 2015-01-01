@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using Ontology_Module;
 using OntologyClasses.BaseClasses;
 using CommandLineRun_Module;
+using System.IO;
 
 namespace ScriptingModule
 {
@@ -20,6 +21,8 @@ namespace ScriptingModule
         private UserControl_OItemList userControl_OItemList;
         private UserControl_ScriptingEngine userControl_ScriptingEngine;
 
+        private clsArgumentParsing objArgumentParsing;
+
         private clsOntologyItem OItem_CodeSnipplet;
             
         public frmScriptingModule()
@@ -28,6 +31,25 @@ namespace ScriptingModule
             localConfig = new clsLocalConfig(new clsGlobals());
 
             Initialize();
+        }
+
+        private clsOntologyItem ParseArguments()
+        {
+            var oItem_Result = localConfig.Globals.LState_Nothing.Clone();
+            objArgumentParsing = new clsArgumentParsing(localConfig.Globals, Environment.GetCommandLineArgs().ToList());
+
+            if (objArgumentParsing.UnparsedArguments != null && objArgumentParsing.UnparsedArguments.Count>1)
+            {
+                var existingFiles = objArgumentParsing.UnparsedArguments.Where(arg => File.Exists(arg)).ToList();
+
+                if (existingFiles.Count > 1)
+                {
+                    oItem_Result = localConfig.Globals.LState_Success.Clone();
+                    oItem_Result.Additional1 = existingFiles[1];
+                }
+            }
+
+            return oItem_Result;
         }
 
         private void Initialize()
@@ -45,12 +67,22 @@ namespace ScriptingModule
             userControl_ScriptingEngine.Dock = DockStyle.Fill;
             splitContainer1.Panel2.Controls.Add(userControl_ScriptingEngine);
 
+
+            
+
+           
             userControl_OItemList.initialize(null,
                 localConfig.OItem_object_luapl,
                 localConfig.Globals.Direction_RightLeft,
                 new clsOntologyItem { GUID_Parent = localConfig.Transaction_CodeSnipplets.OItem_Class_CodeSnipplet.GUID, Type = localConfig.Globals.Type_Object },
                 localConfig.Transaction_CodeSnipplets.OItem_RelationType_isWrittenIn);
 
+            var parseResult = ParseArguments();
+
+            if (parseResult.GUID == localConfig.Globals.LState_Success.GUID)
+            {
+                userControl_ScriptingEngine.Initialize_Script(parseResult.Additional1);   
+            }
         }
 
         void userControl_OItemList_Selection_Changed()

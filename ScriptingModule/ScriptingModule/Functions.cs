@@ -741,6 +741,10 @@ namespace ScriptingModule
 
                     if (result.GUID == localConfig.Globals.LState_Success.GUID)
                     {
+                        if (ObjectRelations == null)
+                        {
+                            ObjectRelations = new List<clsObjectRel>();
+                        }
                         ObjectRelations.Add(new clsObjectRel
                         {
                             ID_Object = idObject,

@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using Ontology_Module;
 using OntologyClasses.BaseClasses;
 using CommandLineRun_Module;
+using System.IO;
 
 namespace ScriptingModule
 {
@@ -17,6 +18,8 @@ namespace ScriptingModule
     {
         private clsLocalConfig localConfig;
         private ScriptParser scriptParser;
+
+        private string filePathOfString;
 
         private clsOntologyItem OItem_CodeSnipplet;
 
@@ -53,10 +56,49 @@ namespace ScriptingModule
             ConfigureControls();
         }
 
+        public void Initialize_Script(string filePath)
+        {
+            ConfigureControls();
+            filePathOfString = filePath;
+            var result = loadFile();
+            if (result.GUID == localConfig.Globals.LState_Error.GUID)
+            {
+                MessageBox.Show(this, "Das Script konnte nicht geladen werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+            
+        }
+
+        private clsOntologyItem loadFile()
+        {
+            var result = localConfig.Globals.LState_Success.Clone();
+
+            if (File.Exists(filePathOfString))
+            {
+                try
+                {
+                    var textStream = (TextReader)(new StreamReader(filePathOfString));
+                    scintilla_Script.Text = textStream.ReadToEnd();
+                    scintilla_Script.Enabled = true;
+                    textStream.Close();
+                }
+                catch (Exception ex)
+                {
+                    result = localConfig.Globals.LState_Error.Clone();
+                }
+
+               
+            }
+            else
+            {
+                result = localConfig.Globals.LState_Error.Clone();
+            }
+
+            return result;
+        }
+
         private void ConfigureControls()
         {
             toolStripButton_Run.Enabled = false;
-            toolStripButton_Save.Enabled = false;
 
             scintilla_Script.Enabled = false;
             scintilla_Script.Text = "";
@@ -74,10 +116,6 @@ namespace ScriptingModule
                     toolStripButton_Save.Enabled = true;
                 }
 
-                if (string.Compare(OItem_CodeSnipplet.Additional1, scintilla_Script.Text, false) != 0)
-                {
-                    toolStripButton_Save.Enabled = true;
-                }
             }
 
 
@@ -112,6 +150,11 @@ namespace ScriptingModule
 
         private void toolStripButton_Save_Click(object sender, EventArgs e)
         {
+            if (OItem_CodeSnipplet == null)
+            {
+
+            }
+
             if (localConfig.Transaction_CodeSnipplets.SaveCodeSnipplet(OItem_CodeSnipplet, localConfig.OItem_object_luapl, scintilla_Script.Text).GUID == localConfig.Globals.LState_Error.GUID)
             {
                 MessageBox.Show(this, "Der Code konnte nicht gespeichert werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
