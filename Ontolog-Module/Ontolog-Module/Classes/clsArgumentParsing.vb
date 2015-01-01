@@ -3,6 +3,7 @@ Imports System.Text.RegularExpressions
 
 Public Class clsArgumentParsing
     Private arguments As List(Of String)
+    Private parsedArguments As List(Of String)
 
     Private objGlobals As clsGlobals
 
@@ -11,8 +12,26 @@ Public Class clsArgumentParsing
     Private strExternal As String
 
     Public Property Session As String
-    Public OList_Items As List(Of clsOntologyItem)
-    Public FunctionList As List(Of clsModuleFunction)
+    Private objOList_Items As List(Of clsOntologyItem)
+    Private objOList_FunctionList As List(Of clsModuleFunction)
+    Private sList_Unparsed As List(Of String)
+
+    Public ReadOnly Property OList_Items As List(Of clsOntologyItem)
+        Get
+            Return objOList_Items
+        End Get
+    End Property
+    Public ReadOnly Property FunctionList As List(Of clsModuleFunction)
+        Get
+            Return objOList_FunctionList
+        End Get
+    End Property
+
+    Public ReadOnly Property UnparsedArguments As List(Of String)
+        Get
+            Return sList_Unparsed
+        End Get
+    End Property
 
     Public ReadOnly Property External As String
         Get
@@ -26,6 +45,7 @@ Public Class clsArgumentParsing
         Initialize()
 
         Me.arguments = arguments
+        Me.parsedArguments = New List(Of String)()
 
         ParseArgument()
     End Sub
@@ -36,10 +56,18 @@ Public Class clsArgumentParsing
 
     Private Sub ParseArgument()
         SetExternal(arguments)
-        OList_Items = arguments.Select(Function(a) GetOItem(a)).Where(Function(o) Not o Is Nothing).ToList()
-        FunctionList = arguments.Select(Function(a) GetModuleFunction(a)).FirstOrDefault(Function(o) Not o Is Nothing)
+        objOList_Items = arguments.Select(Function(a) GetOItem(a)).Where(Function(o) Not o Is Nothing).ToList()
+        objOList_FunctionList = arguments.Select(Function(a) GetModuleFunction(a)).FirstOrDefault(Function(o) Not o Is Nothing)
+
         Me.Session = ""
         arguments.ForEach(Sub(a) GetSession(a))
+
+        sList_Unparsed = (From argument In arguments
+                         Group Join parsedArgument In parsedArguments On argument Equals parsedArgument Into objParsedArguments = Group
+                         From parsedArgument In objParsedArguments.DefaultIfEmpty()
+                         Select argument).ToList()
+
+
     End Sub
 
     Private Function GetSession(strArgument As String) As clsOntologyItem
@@ -49,6 +77,7 @@ Public Class clsArgumentParsing
         If strArgument.ToLower().StartsWith("session=") Then
             Dim session = strArgument.Substring("session=".Length)
             If objGlobals.is_GUID(session) Then
+                parsedArguments.Add(strArgument)
                 Me.Session = session
             End If
         End If
@@ -74,6 +103,7 @@ Public Class clsArgumentParsing
                         type.ToLower() = objGlobals.Type_RelationType.ToLower() Then
 
                         Dim objOItem = objDBLevel.GetOItem(guid, type)
+                        parsedArguments.Add(strArgument)
                         Return objOItem
                     End If
                 End If
@@ -116,6 +146,7 @@ Public Class clsArgumentParsing
 
 
             If objModulFunctions.Any() Then
+                parsedArguments.Add(strArgument)
                 Return objModulFunctions
             Else
                 Return Nothing
