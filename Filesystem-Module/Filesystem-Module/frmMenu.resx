@@ -142,4 +142,7 @@
   <metadata name="FolderBrowserDialog_Download.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>379, 21</value>
   </metadata>
+  <metadata name="OpenFileDialog_Add.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>605, 21</value>
+  </metadata>
 </root>

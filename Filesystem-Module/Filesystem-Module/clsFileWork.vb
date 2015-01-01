@@ -358,6 +358,12 @@ Public Class clsFileWork
                                 objOItem_LastFolder = GetFolderHierarchy(strFolders, objOItem_Share, doCreate)
                                 If objOItem_LastFolder.GUID_Parent = objLocalConfig.OItem_type_Folder.GUID Then
                                     objOItem_Result = RelateFileSystemObjectToLastFolder(objOItem_LastFolder, objOItem_FileSystemObject, doCreate)
+                                    If objOItem_Result.GUID_Parent = objLocalConfig.OItem_Type_File.GUID Or
+                                        objOItem_Result.GUID_Parent = objLocalConfig.OItem_type_Folder.GUID Or
+                                        objOItem_Result.GUID_Parent = objLocalConfig.OItem_Type_Drive.GUID Then
+                                        objOItem_FileSystemObject = objOItem_Result
+                                        objOItem_Result = objLocalConfig.Globals.LState_Success.Clone()
+                                    End If
                                 End If
 
                             Else
@@ -435,6 +441,10 @@ Public Class clsFileWork
             End If
         End If
 
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            objOItem_Result.OList_Rel = New List(Of clsOntologyItem)
+            objOItem_Result.add_OItem(objOItem_FileSystemObject)
+        End If
 
         Return objOItem_Result
     End Function

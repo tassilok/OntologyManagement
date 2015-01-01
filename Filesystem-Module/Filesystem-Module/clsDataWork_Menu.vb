@@ -5,10 +5,26 @@ Public Class clsDataWork_Menu
     Private objLocalConfig As clsLocalConfig
 
     Private objDBLevel_FileRef As clsDBLevel
+    Private objDBLevel_RelationTypes As clsDBLevel
 
     Private objFileWork As clsFileWork
 
     Private objOItem_Ref As clsOntologyItem
+
+    Private objOItem_Direction As clsOntologyItem
+    Private objOItem_RelationType As clsOntologyItem
+
+    Public ReadOnly Property OItem_RelationType As clsOntologyItem
+        Get
+            Return objOItem_RelationType
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_Direction As clsOntologyItem
+        Get
+            Return objOItem_Direction
+        End Get
+    End Property
 
     Public Property FileRelationList As List(Of clsRelatedFileSystemObject)
 
@@ -113,6 +129,47 @@ Public Class clsDataWork_Menu
         Return objOItem_Result
     End Function
 
+    Public Function GetRelationTypes(objOItem_Ref As clsOntologyItem) As clsOntologyItem
+        Dim searchRelationTypes = New List(Of clsClassRel) From {New clsClassRel With {.ID_Class_Left = objOItem_Ref.GUID_Parent,
+                                                                                       .ID_Class_Right = objLocalConfig.OItem_Type_File.GUID}}
+
+        Dim result = objDBLevel_RelationTypes.get_Data_ClassRel(searchRelationTypes, boolIDs:=False)
+
+        If result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            If Not objDBLevel_RelationTypes.OList_ClassRel.Any() Then
+                searchRelationTypes = New List(Of clsClassRel) From {New clsClassRel With {.ID_Class_Right = objOItem_Ref.GUID_Parent,
+                                                                                           .ID_Class_Left = objLocalConfig.OItem_Type_File.GUID}}
+
+                result = objDBLevel_RelationTypes.get_Data_ClassRel(searchRelationTypes, boolIDs:=False)
+
+                If result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    If objDBLevel_RelationTypes.OList_ClassRel.Any() Then
+                        objOItem_RelationType = New clsOntologyItem With {.GUID = objDBLevel_RelationTypes.OList_ClassRel.First().ID_RelationType,
+                                                                          .Name = objDBLevel_RelationTypes.OList_ClassRel.First().Name_RelationType,
+                                                                          .Type = objLocalConfig.Globals.Type_RelationType}
+                        objOItem_Direction = objLocalConfig.Globals.Direction_RightLeft
+                    Else
+                        objOItem_RelationType = objLocalConfig.OItem_RelationType_belongsTo.Clone()
+                        objOItem_Direction = objLocalConfig.Globals.Direction_LeftRight
+                    End If
+                Else
+                    objOItem_RelationType = Nothing
+                End If
+
+            Else
+                objOItem_RelationType = New clsOntologyItem With {.GUID = objDBLevel_RelationTypes.OList_ClassRel.First().ID_RelationType,
+                                                                  .Name = objDBLevel_RelationTypes.OList_ClassRel.First().Name_RelationType,
+                                                                  .Type = objLocalConfig.Globals.Type_RelationType}
+                objOItem_Direction = objLocalConfig.Globals.Direction_LeftRight
+            End If
+        Else
+            objOItem_RelationType = Nothing
+        End If
+        
+
+        Return result
+    End Function
+
     Public Sub New(LocalConfig As clsLocalConfig)
         objLocalConfig = LocalConfig
 
@@ -121,6 +178,7 @@ Public Class clsDataWork_Menu
 
     Private Sub Initialize()
         objDBLevel_FileRef = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_RelationTypes = New clsDBLevel(objLocalConfig.Globals)
         objFileWork = New clsFileWork(objLocalConfig)
     End Sub
 End Class

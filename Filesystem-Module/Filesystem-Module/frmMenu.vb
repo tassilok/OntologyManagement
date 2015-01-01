@@ -1,6 +1,7 @@
 ﻿Imports Ontology_Module
 Imports OntologyClasses.BaseClasses
 Imports Structure_Module
+Imports System.IO
 
 Public Class frmMenu
     Private objLocalConfig As clsLocalConfig
@@ -8,6 +9,9 @@ Public Class frmMenu
     Private objDataWork_Menu As clsDataWork_Menu
 
     Private objBlobConnection As clsBlobConnection
+    Private objRelationConfig As clsRelationConfig
+    Private objTransaction As clsTransaction
+    Private objFileWork As clsFileWork
 
     Private objOItem_Ref As clsOntologyItem
 
@@ -24,8 +28,12 @@ Public Class frmMenu
     End Sub
 
     Private Sub Initialize()
+        objFileWork = New clsFileWork(objLocalConfig)
         objDataWork_Menu = New clsDataWork_Menu(objLocalConfig)
         objBlobConnection = New clsBlobConnection(objLocalConfig)
+
+        objRelationConfig = New clsRelationConfig(objLocalConfig.Globals)
+        objTransaction = New clsTransaction(objLocalConfig.Globals)
 
         Me.Text = ""
 
@@ -135,4 +143,52 @@ Public Class frmMenu
     End Sub
 
    
+    Private Sub AddToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AddToolStripMenuItem.Click
+        If OpenFileDialog_Add.ShowDialog(Me) = DialogResult.OK Then
+            Dim fileName = OpenFileDialog_Add.FileName
+            If File.Exists(fileName) Then
+                Dim objOItem_Result = objFileWork.get_FileSystemObject_By_Path(fileName, True)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    Dim objOItem_File = objOItem_Result.OList_Rel.First()
+                    objOItem_Result = objDataWork_Menu.GetRelationTypes(objOItem_Ref)
+
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+
+                        Dim relationFileToRef = New clsObjectRel()
+                        If objDataWork_Menu.OItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
+                            relationFileToRef = objRelationConfig.Rel_ObjectRelation(objOItem_Ref, objOItem_File, objDataWork_Menu.OItem_RelationType)
+                        Else
+                            relationFileToRef = objRelationConfig.Rel_ObjectRelation(objOItem_File, objOItem_Ref, objDataWork_Menu.OItem_RelationType)
+                        End If
+
+                        If Not relationFileToRef Is Nothing Then
+                            objOItem_Result = objTransaction.do_Transaction(relationFileToRef)
+                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                If BlobToolStripMenuItem.Checked Then
+                                    objOItem_Result = objBlobConnection.save_File_To_Blob(objOItem_File, fileName)
+
+                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                                        MsgBox("Die Datei konnte nicht in den ontologischen Graphen geladen werden!", MsgBoxStyle.Exclamation)
+                                    End If
+                                End If
+                                
+                                FillDataGrid()
+                            Else
+                                MsgBox("Die Datei konnte nicht integriert werden!", MsgBoxStyle.Exclamation)
+                            End If
+                        Else
+                            MsgBox("Die Datei konnte nicht integriert werden!", MsgBoxStyle.Exclamation)
+                        End If
+                    Else
+                        MsgBox("Die Datei konnte nicht integriert werden!", MsgBoxStyle.Exclamation)
+                    End If
+                Else
+                    MsgBox("Die Datei konnte nicht integriert werden!", MsgBoxStyle.Exclamation)
+                End If
+            Else
+                MsgBox("Die Datei konnte nicht ermittelt werden!", MsgBoxStyle.Exclamation)
+            End If
+        End If
+
+    End Sub
 End Class

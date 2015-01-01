@@ -32,6 +32,9 @@ Partial Class frmMenu
         Me.DownloadToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.StartToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.FolderBrowserDialog_Download = New System.Windows.Forms.FolderBrowserDialog()
+        Me.AddToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.BlobToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.OpenFileDialog_Add = New System.Windows.Forms.OpenFileDialog()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
@@ -91,9 +94,9 @@ Partial Class frmMenu
         '
         'ContextMenuStrip_FileSystemObjects
         '
-        Me.ContextMenuStrip_FileSystemObjects.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DownloadToolStripMenuItem, Me.StartToolStripMenuItem})
+        Me.ContextMenuStrip_FileSystemObjects.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DownloadToolStripMenuItem, Me.StartToolStripMenuItem, Me.AddToolStripMenuItem})
         Me.ContextMenuStrip_FileSystemObjects.Name = "ContextMenuStrip_FileSystemObjects"
-        Me.ContextMenuStrip_FileSystemObjects.Size = New System.Drawing.Size(139, 48)
+        Me.ContextMenuStrip_FileSystemObjects.Size = New System.Drawing.Size(139, 70)
         '
         'DownloadToolStripMenuItem
         '
@@ -107,8 +110,25 @@ Partial Class frmMenu
         Me.StartToolStripMenuItem.Size = New System.Drawing.Size(138, 22)
         Me.StartToolStripMenuItem.Text = "x_Start"
         '
-        'FolderBrowserDialog_Download
+        'AddToolStripMenuItem
         '
+        Me.AddToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BlobToolStripMenuItem})
+        Me.AddToolStripMenuItem.Name = "AddToolStripMenuItem"
+        Me.AddToolStripMenuItem.Size = New System.Drawing.Size(138, 22)
+        Me.AddToolStripMenuItem.Text = "x_Add"
+        '
+        'BlobToolStripMenuItem
+        '
+        Me.BlobToolStripMenuItem.Checked = True
+        Me.BlobToolStripMenuItem.CheckOnClick = True
+        Me.BlobToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.BlobToolStripMenuItem.Name = "BlobToolStripMenuItem"
+        Me.BlobToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.BlobToolStripMenuItem.Text = "x_Blob"
+        '
+        'OpenFileDialog_Add
+        '
+        Me.OpenFileDialog_Add.FileName = "OpenFileDialog1"
         '
         'frmMenu
         '
@@ -138,4 +158,7 @@ Partial Class frmMenu
     Friend WithEvents DownloadToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents StartToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents FolderBrowserDialog_Download As System.Windows.Forms.FolderBrowserDialog
+    Friend WithEvents AddToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents BlobToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents OpenFileDialog_Add As System.Windows.Forms.OpenFileDialog
 End Class
