@@ -186,6 +186,53 @@ Public Class frm_FilesystemModule
             objFrmMenu.ShowDialog(Me)
 
             Environment.Exit(0)
+        ElseIf Not String.IsNullOrEmpty(objArgumentParsing.Session) Then
+            Dim objSession = New clsSession(objLocalConfig.Globals)
+
+            objDBLevel_Repair = New clsDBLevel(objLocalConfig.Globals)
+            objLocalConfig.OItem_Session = objDBLevel_Repair.GetOItem(objArgumentParsing.Session, objLocalConfig.Globals.Type_Object)
+
+            Dim items = objSession.GetItems(objLocalConfig.OItem_Session, True)
+
+            If objArgumentParsing.FunctionList.Any() Then
+                If objArgumentParsing.FunctionList.First().GUID_Function = objLocalConfig.OItem_object_download.GUID Then
+                    Dim fileItems = items.Where(Function(fileItem) fileItem.GUID_Parent = objLocalConfig.OItem_Type_File.GUID).ToList()
+
+                    If fileItems.Any() Then
+                        Dim strPath = "%TEMP%"
+                        For i As Integer = 1 To objArgumentParsing.UnparsedArguments.Count - 1
+                            Dim strPathTmp = objArgumentParsing.UnparsedArguments(i)
+                            strPathTmp = Environment.ExpandEnvironmentVariables(strPathTmp)
+                            If Directory.Exists(strPathTmp) Then
+                                strPath = strPathTmp
+                                Exit For
+                            End If
+                        Next
+                        Dim exitCode = 0
+                        fileItems.ForEach(Sub(fileItem)
+                                              Dim strFilePath = strPath & Path.DirectorySeparatorChar & fileItem.GUID
+                                              If objFileWork.is_File_Blob(fileItem) Then
+                                                  Try
+                                                      Dim objOItem_Result = objBlobConnection.save_Blob_To_File(fileItem, strFilePath)
+                                                  Catch ex As Exception
+                                                      exitCode = -1
+                                                  End Try
+
+                                              Else
+                                                  Dim filePath = objFileWork.get_Path_FileSystemObject(fileItem)
+                                                  Try
+                                                      File.Copy(filePath, strFilePath, True)
+                                                  Catch ex As Exception
+                                                      exitCode = -1
+                                                  End Try
+
+                                              End If
+                                          End Sub)
+                        Environment.Exit(exitCode)
+                    End If
+                End If
+            End If
+
         End If
     End Sub
 

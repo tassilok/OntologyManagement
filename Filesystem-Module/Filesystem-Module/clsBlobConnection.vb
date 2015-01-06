@@ -27,6 +27,12 @@ Public Class clsBlobConnection
 
     Private objFileInfo As IO.FileInfo
 
+    Public ReadOnly Property LocalConfig As clsLocalConfig
+        Get
+            Return objLocalConfig
+        End Get
+    End Property
+
     Public ReadOnly Property OItem_Class_File As clsOntologyItem
         Get
             Return objLocalConfig.OItem_class_filesync

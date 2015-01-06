@@ -61,6 +61,7 @@ Public Class clsLocalConfig
     Private objOItem_object_identitypresent As clsOntologyItem
     Private objOItem_object_file_has_no_identity As clsOntologyItem
     Private objOItem_object_file_not_present As clsOntologyItem
+    Private objOItem_object_download As clsOntologyItem
 
     'Types
     Private objOItem_Type_Filesystem_Management As New clsOntologyItem
@@ -86,6 +87,8 @@ Public Class clsLocalConfig
     Private objOItem_class_blobsyncdirection As clsOntologyItem
     Private objOItem_class_logentry As clsOntologyItem
     Private objOItem_class_logstate As clsOntologyItem
+
+    Public Property OItem_Session As clsOntologyItem
 
     'Attributes
     Public ReadOnly Property OItem_Attribute_Blob() As clsOntologyItem
@@ -310,6 +313,12 @@ Public Class clsLocalConfig
     Public ReadOnly Property OItem_object_file_has_no_identity As clsOntologyItem
         Get
             Return objOItem_object_file_has_no_identity
+        End Get
+    End Property
+
+    Public ReadOnly Property OItem_object_download As clsOntologyItem
+        Get
+            Return objOItem_object_download
         End Get
     End Property
 
@@ -1353,6 +1362,22 @@ Public Class clsLocalConfig
     End Sub
 
     Private Sub get_Config_Objects()
+        Dim objOList_object_download = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "object_download".ToLower() And objRef.Ontology = objGlobals.Type_Object
+                                           Select objRef).ToList()
+
+        If objOList_object_download.Count > 0 Then
+            objOItem_object_download = New clsOntologyItem
+            objOItem_object_download.GUID = objOList_object_download.First().ID_Other
+            objOItem_object_download.Name = objOList_object_download.First().Name_Other
+            objOItem_object_download.GUID_Parent = objOList_object_download.First().ID_Parent_Other
+            objOItem_object_download.Type = objGlobals.Type_Object
+        Else
+            Err.Raise(1, "config err")
+        End If
+
         Dim objOList_object_file_not_present = (From objOItem In objDBLevel_Config1.OList_ObjectRel
                                            Where objOItem.ID_Object = cstrID_Ontology
                                            Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
