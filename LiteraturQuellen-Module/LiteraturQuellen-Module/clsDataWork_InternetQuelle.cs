@@ -108,6 +108,11 @@ namespace LiteraturQuellen_Module
                         OItem_Result_InternetQuelle = objOItem_Result;
                     }
                 }
+                else
+                {
+                    OAItem_LogEntry = null;
+                    OItem_LogEntry = null;
+                }
 
                 OItem_Result_InternetQuelle = objOItem_Result;
                 

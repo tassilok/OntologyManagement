@@ -20,7 +20,6 @@ namespace LiteraturQuellen_Module
         private clsLocalConfig objLocalConfig;
 
         private UserControl_SingleViewer objUserControl_SingleViewer;
-        private UserControl_OItemList objUserControl_Begriffe;
 
         private frmMain objFrmOntologyModule;
 
@@ -54,10 +53,7 @@ namespace LiteraturQuellen_Module
             objDataWork_InternetQuelle = new clsDataWork_InternetQuelle(objLocalConfig);
             objUserControl_SingleViewer = new UserControl_SingleViewer(objLocalConfig.Globals,(int)UserControl_SingleViewer.MediaType.PDF, objLocalConfig.User);
             objUserControl_SingleViewer.Dock = DockStyle.Fill;
-            objUserControl_Begriffe = new UserControl_OItemList(objLocalConfig.Globals);
-            objUserControl_Begriffe.Dock = DockStyle.Fill;
-            Panel_Begriffe.Controls.Add(objUserControl_Begriffe);
-            TabPage_PDF.Controls.Add(objUserControl_SingleViewer);
+            panel_PDF.Controls.Add(objUserControl_SingleViewer);
             objLogManagement = new clsLogManagement(objLocalConfig.Globals);
             objRelationConfig = new clsRelationConfig(objLocalConfig.Globals);
             objTransaction = new clsTransaction(objLocalConfig.Globals);
@@ -81,16 +77,6 @@ namespace LiteraturQuellen_Module
                 objTransaction.ClearItems();
                 if (TabControl1.SelectedTab.Name == TabPage_Data.Name)
                 {
-                    objUserControl_Begriffe.initialize(null,
-                            objOItem_Quelle,
-                            objLocalConfig.Globals.Direction_LeftRight,
-                            new clsOntologyItem
-                            {
-                                GUID_Parent = objLocalConfig.OItem_type_begriff.GUID,
-                                Type = objLocalConfig.Globals.Type_Object
-                            },
-                            objLocalConfig.OItem_relationtype_contains);
-
                     objDataWork_InternetQuelle.GetData(objOItem_Quelle);
                     if (objDataWork_InternetQuelle.OItem_Result_InternetQuelle.GUID == objLocalConfig.Globals.LState_Success.GUID)
                     {
@@ -98,7 +84,9 @@ namespace LiteraturQuellen_Module
                         Button_AddURL.Enabled = true;
                         TextBox_Partner.Enabled = true;
                         Button_AddPartner.Enabled = true;
-                        objUserControl_Begriffe.Enabled = true;
+                        objUserControl_SingleViewer.Enabled = true;
+                        
+                        objUserControl_SingleViewer.initialize_PDF(objOItem_Quelle);
                         objUserControl_SingleViewer.Enabled = true;
 
                         if (objDataWork_InternetQuelle.OItem_Url != null)
@@ -129,7 +117,6 @@ namespace LiteraturQuellen_Module
                                         {
                                             DateTimePicker_Download.Value = objDataWork_InternetQuelle.OAItem_LogEntry.Val_Date ?? DateTime.Now;
                                             DateTimePicker_Download.Enabled = true;
-                                            objUserControl_Begriffe.Enabled = true;
                                             objUserControl_SingleViewer.Enabled = true;
                                         }
                                         else
@@ -157,7 +144,6 @@ namespace LiteraturQuellen_Module
                                 var dateTimeStamp = objDataWork_InternetQuelle.OAItem_LogEntry.Val_Date ?? DateTime.Now;
                                 DateTimePicker_Download.Value = dateTimeStamp;
                                 DateTimePicker_Download.Enabled = true;
-                                objUserControl_Begriffe.Enabled = true;
                                 objUserControl_SingleViewer.Enabled = true;
                             }
 
@@ -176,7 +162,6 @@ namespace LiteraturQuellen_Module
                                     {
                                         DateTimePicker_Download.Value = objDataWork_InternetQuelle.OAItem_LogEntry.Val_Date ?? DateTime.Now;
                                         DateTimePicker_Download.Enabled = true;
-                                        objUserControl_Begriffe.Enabled = true;
                                         objUserControl_SingleViewer.Enabled = true;
                                     }
                                     else
@@ -206,11 +191,7 @@ namespace LiteraturQuellen_Module
                         ClearControls();
                     }
                 }
-                else if (TabControl1.SelectedTab.Name == TabPage_PDF.Name)
-                {
-                    objUserControl_SingleViewer.initialize_PDF(objOItem_Quelle);
-                    objUserControl_SingleViewer.Enabled = true;
-                }
+              
             }
             
         }
@@ -228,8 +209,6 @@ namespace LiteraturQuellen_Module
             objUserControl_SingleViewer.clear_Media();
             objUserControl_SingleViewer.Enabled = false;
 
-            objUserControl_Begriffe.clear_Relation();
-            objUserControl_Begriffe.Enabled = false;
         }
 
         private void Panel_Begriffe_Paint(object sender, PaintEventArgs e)
@@ -307,11 +286,15 @@ namespace LiteraturQuellen_Module
                     var objOItem_Result = objTransaction.do_Transaction(objOAR_LogEntry__DateTimeStamp, true);
                     if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                     {
-                        var objORel_Quelle_To_LogEntry = objRelationConfig.Rel_ObjectRelation(objOItem_Quelle, objDataWork_InternetQuelle.OItem_LogEntry, objLocalConfig.OItem_relationtype_download);
+                        var OAItem_LogEntry = objTransaction.OItem_Last.OItem_ObjectAtt.Clone();
+
+
+                        var objORel_Quelle_To_LogEntry = objRelationConfig.Rel_ObjectRelation(objOItem_Quelle, objOItem_LogEntry, objLocalConfig.OItem_relationtype_download);
                         objOItem_Result = objTransaction.do_Transaction(objORel_Quelle_To_LogEntry, true);
                         if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                         {
-                            objDataWork_InternetQuelle.OAItem_LogEntry = objLogManagement.OAItem_DateTimeStamp;
+                            objDataWork_InternetQuelle.OItem_LogEntry = objOItem_LogEntry;
+                            objDataWork_InternetQuelle.OAItem_LogEntry = OAItem_LogEntry;
                         }
                         else
                         {

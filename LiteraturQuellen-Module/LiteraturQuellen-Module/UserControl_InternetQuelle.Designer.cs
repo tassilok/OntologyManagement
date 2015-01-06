@@ -30,7 +30,6 @@
         {
             this.TabControl1 = new System.Windows.Forms.TabControl();
             this.TabPage_Data = new System.Windows.Forms.TabPage();
-            this.Panel_Begriffe = new System.Windows.Forms.Panel();
             this.TextBox_URL = new System.Windows.Forms.TextBox();
             this.Label_Partner = new System.Windows.Forms.Label();
             this.Button_AddPartner = new System.Windows.Forms.Button();
@@ -39,7 +38,7 @@
             this.DateTimePicker_Download = new System.Windows.Forms.DateTimePicker();
             this.Button_AddURL = new System.Windows.Forms.Button();
             this.Label_URL = new System.Windows.Forms.Label();
-            this.TabPage_PDF = new System.Windows.Forms.TabPage();
+            this.panel_PDF = new System.Windows.Forms.Panel();
             this.TabControl1.SuspendLayout();
             this.TabPage_Data.SuspendLayout();
             this.SuspendLayout();
@@ -47,7 +46,6 @@
             // TabControl1
             // 
             this.TabControl1.Controls.Add(this.TabPage_Data);
-            this.TabControl1.Controls.Add(this.TabPage_PDF);
             this.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TabControl1.Location = new System.Drawing.Point(0, 0);
             this.TabControl1.Name = "TabControl1";
@@ -58,7 +56,7 @@
             // 
             // TabPage_Data
             // 
-            this.TabPage_Data.Controls.Add(this.Panel_Begriffe);
+            this.TabPage_Data.Controls.Add(this.panel_PDF);
             this.TabPage_Data.Controls.Add(this.TextBox_URL);
             this.TabPage_Data.Controls.Add(this.Label_Partner);
             this.TabPage_Data.Controls.Add(this.Button_AddPartner);
@@ -74,17 +72,6 @@
             this.TabPage_Data.TabIndex = 0;
             this.TabPage_Data.Text = "x_Quelldaten";
             this.TabPage_Data.UseVisualStyleBackColor = true;
-            // 
-            // Panel_Begriffe
-            // 
-            this.Panel_Begriffe.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.Panel_Begriffe.Location = new System.Drawing.Point(82, 87);
-            this.Panel_Begriffe.Name = "Panel_Begriffe";
-            this.Panel_Begriffe.Size = new System.Drawing.Size(252, 286);
-            this.Panel_Begriffe.TabIndex = 10;
-            this.Panel_Begriffe.Paint += new System.Windows.Forms.PaintEventHandler(this.Panel_Begriffe_Paint);
             // 
             // TextBox_URL
             // 
@@ -168,15 +155,15 @@
             this.Label_URL.TabIndex = 0;
             this.Label_URL.Text = "x_URL:";
             // 
-            // TabPage_PDF
+            // panel_PDF
             // 
-            this.TabPage_PDF.Location = new System.Drawing.Point(4, 22);
-            this.TabPage_PDF.Name = "TabPage_PDF";
-            this.TabPage_PDF.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPage_PDF.Size = new System.Drawing.Size(377, 379);
-            this.TabPage_PDF.TabIndex = 1;
-            this.TabPage_PDF.Text = "x_PDF";
-            this.TabPage_PDF.UseVisualStyleBackColor = true;
+            this.panel_PDF.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel_PDF.Location = new System.Drawing.Point(0, 86);
+            this.panel_PDF.Name = "panel_PDF";
+            this.panel_PDF.Size = new System.Drawing.Size(377, 293);
+            this.panel_PDF.TabIndex = 10;
             // 
             // UserControl_InternetQuelle
             // 
@@ -196,7 +183,6 @@
 
         internal System.Windows.Forms.TabControl TabControl1;
         internal System.Windows.Forms.TabPage TabPage_Data;
-        internal System.Windows.Forms.Panel Panel_Begriffe;
         internal System.Windows.Forms.TextBox TextBox_URL;
         internal System.Windows.Forms.Label Label_Partner;
         internal System.Windows.Forms.Button Button_AddPartner;
@@ -205,6 +191,6 @@
         internal System.Windows.Forms.DateTimePicker DateTimePicker_Download;
         internal System.Windows.Forms.Button Button_AddURL;
         internal System.Windows.Forms.Label Label_URL;
-        internal System.Windows.Forms.TabPage TabPage_PDF;
+        private System.Windows.Forms.Panel panel_PDF;
     }
 }
