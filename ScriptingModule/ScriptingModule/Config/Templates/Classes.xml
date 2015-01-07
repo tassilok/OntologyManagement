@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Items Type="Class">
-  <Item Id="eb411e2ff93d4a5ebbbac0b5d7ec0197" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Ontologies]]></Item>
+  <Item Id="fd759dacca774f9bbe872f130a46a9b4" Id_Parent="aa616051e5214facabdbcbba6f8c6e73"><![CDATA[Scripting-Module]]></Item>
+<Item Id="eb411e2ff93d4a5ebbbac0b5d7ec0197" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Ontologies]]></Item>
 <Item Id="d3f72a683f6146a48ff381db05997dc8" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Items]]></Item>
 <Item Id="aab30dd04faf4386896016218132b110" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Join]]></Item>
 <Item Id="925f489dec8d4130a418fcb022a4c731" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Relation-Rule]]></Item>
@@ -8,6 +9,7 @@
 <Item Id="86b05e853ce24a56be3c80375a686a82" Id_Parent="aa616051e5214facabdbcbba6f8c6e73"><![CDATA[Module-Function]]></Item>
 <Item Id="956a2e59176a4437a8668690616b9da4" Id_Parent="71415eebce464b2cb0a2f72116b55438"><![CDATA[Programing-Language]]></Item>
 <Item Id="55e06eb05bdc45858d935bc776eae561" Id_Parent="956a2e59176a4437a8668690616b9da4"><![CDATA[Syntax Highlighting (ScintillaNet)]]></Item>
+<Item Id="9a4a673e5a3c410081b89d308030e558" Id_Parent="fd759dacca774f9bbe872f130a46a9b4"><![CDATA[Lua-Functions (Scripting-Module)]]></Item>
 <Item Id="b5224e7f7d0d4beebf8eb9a0eeba5747" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Module-Management]]></Item>
 <Item Id="71415eebce464b2cb0a2f72116b55438" Id_Parent="73e32abfe5774d319a46bc07e9e15de3"><![CDATA[Software-Development]]></Item>
 <Item Id="665dd88b792e4256a27a68ee1e10ece6" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[System]]></Item>

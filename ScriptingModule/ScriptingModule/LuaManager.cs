@@ -17,6 +17,8 @@ namespace ScriptingModule
         private clsLocalConfig localConfig;
         private IWin32Window parentForm;
 
+        private clsDataWork_Scripting objDataWork_Scripting;
+
         public LuaManager(clsLocalConfig localConfig, IWin32Window parentForm)
         {
             this.localConfig = localConfig;
@@ -26,21 +28,29 @@ namespace ScriptingModule
 
         private void Initialize()
         {
-            functions = new Functions(localConfig, parentForm);
-            lua.RegisterFunction("InsertObject", functions, functions.GetType().GetMethod("InsertObject") );
-            lua.RegisterFunction("InsertClass", functions, functions.GetType().GetMethod("InsertClass"));
-            lua.RegisterFunction("InsertClassAtts", functions, functions.GetType().GetMethod("InsertClassAtts"));
-            lua.RegisterFunction("InsertClassRels", functions, functions.GetType().GetMethod("InsertClassRels"));
-            lua.RegisterFunction("InsertObject", functions, functions.GetType().GetMethod("InsertObject"));
-            lua.RegisterFunction("InsertObjectAttribute", functions, functions.GetType().GetMethod("InsertObjectAttribute"));
-            lua.RegisterFunction("InsertObjectRelation", functions, functions.GetType().GetMethod("InsertObjectRelation"));
-            lua.RegisterFunction("InsertRelationType", functions, functions.GetType().GetMethod("InsertRelationType"));
-            lua.RegisterFunction("TransactionStart", functions, functions.GetType().GetMethod("TransactionStart"));
-            lua.RegisterFunction("TransactionCommit", functions, functions.GetType().GetMethod("TransactionCommit"));
-            lua.RegisterFunction("CreateGuid", functions, functions.GetType().GetMethod("CreateGuid"));
-            lua.RegisterFunction("MsgBox", functions, functions.GetType().GetMethod("MsgBox"));
-            lua.RegisterFunction("SaveFile", functions, functions.GetType().GetMethod("SaveFile"));
-            lua.RegisterFunction("ExportOntology", functions, functions.GetType().GetMethod("ExportOntology"));
+            objDataWork_Scripting = new clsDataWork_Scripting(localConfig);
+
+            localConfig.DataWork_Scripting = objDataWork_Scripting;
+
+            var result = objDataWork_Scripting.GetData();
+
+            if (result.GUID == localConfig.Globals.LState_Success.GUID)
+            {
+                functions = new Functions(localConfig, parentForm);
+
+                objDataWork_Scripting.OList_Functions.ForEach(luaf =>
+                {
+                    lua.RegisterFunction(luaf.Name, functions, functions.GetType().GetMethod(luaf.Name));
+                });
+
+
+            }
+            else
+            {
+                throw new Exception("No Functions definied");
+            }
+
+            
         }
 
         public clsOntologyItem ExecuteScript(string script)

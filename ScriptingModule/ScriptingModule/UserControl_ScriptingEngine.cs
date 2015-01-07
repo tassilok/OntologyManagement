@@ -46,6 +46,8 @@ namespace ScriptingModule
             scriptParser = new ScriptParser(localConfig, this);
             scintilla_Script.ConfigurationManager.Language = localConfig.OItem_object_lua.Name;
 
+            
+
             ConfigureControls();
         }
 
@@ -103,6 +105,8 @@ namespace ScriptingModule
             scintilla_Script.Enabled = false;
             scintilla_Script.Text = "";
             scintilla_Log.Text = "";
+
+            scintilla_Script.AutoComplete.List = localConfig.DataWork_Scripting.OList_Functions.OrderBy(luaf => luaf.Name).Select(luaf => luaf.Name).ToList();
 
             if (OItem_CodeSnipplet != null)
             {

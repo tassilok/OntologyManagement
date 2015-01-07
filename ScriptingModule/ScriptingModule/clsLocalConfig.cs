@@ -18,7 +18,6 @@ namespace ScriptingModule
         public clsGlobals Globals { get; set; }
 
         private clsOntologyItem objOItem_DevConfig = new clsOntologyItem();
-        public clsOntologyItem OItem_BaseConfig { get; set; }
 
         private clsDBLevel objDBLevel_Config1;
         private clsDBLevel objDBLevel_Config2;
@@ -26,15 +25,20 @@ namespace ScriptingModule
         public clsTransaction_CodeSnipplets Transaction_CodeSnipplets { get; set; }
         public clsDataWork_CodeSniplets DataWork_CodeSnipplets { get; set; }
 	
+        // Class
+        public clsOntologyItem OItem_class_lua_functions__scripting_module_ { get; set; }
+
         // Objects
 	public clsOntologyItem OItem_object_scripting_module { get; set; }
     public clsOntologyItem OItem_object_lua { get; set; }
     public clsOntologyItem OItem_object_luapl { get; set; }
+    public clsOntologyItem OItem_object_baseconfig { get; set; }
 
         // RelationTypes
     public clsOntologyItem OItem_relationtype_belongs_to { get; set; }
+    public clsOntologyItem OItem_relationtype_offers { get; set; }
 
-  
+    public clsDataWork_Scripting DataWork_Scripting { get; set; }
 	
 private void get_Data_DevelopmentConfig()
         {
@@ -154,6 +158,27 @@ private void get_Data_DevelopmentConfig()
   
 	private void get_Config_RelationTypes()
         {
+            var objOList_relationtype_offers = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                where objOItem.ID_Object == cstrID_Ontology
+                                                join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                where objRef.Name_Object.ToLower() == "relationtype_offers".ToLower() && objRef.Ontology == Globals.Type_RelationType
+                                                select objRef).ToList();
+
+            if (objOList_relationtype_offers.Any())
+            {
+                OItem_relationtype_offers = new clsOntologyItem()
+                {
+                    GUID = objOList_relationtype_offers.First().ID_Other,
+                    Name = objOList_relationtype_offers.First().Name_Other,
+                    GUID_Parent = objOList_relationtype_offers.First().ID_Parent_Other,
+                    Type = Globals.Type_RelationType
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
             var objOList_relationtype_belongs_to = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                                     where objOItem.ID_Object == cstrID_Ontology
                                                     join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
@@ -179,6 +204,27 @@ private void get_Data_DevelopmentConfig()
 
     private void get_Config_Objects()
     {
+        var objOList_object_baseconfig = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                          where objOItem.ID_Object == cstrID_Ontology
+                                          join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                          where objRef.Name_Object.ToLower() == "object_baseconfig".ToLower() && objRef.Ontology == Globals.Type_Object
+                                          select objRef).ToList();
+
+        if (objOList_object_baseconfig.Any())
+        {
+            OItem_object_baseconfig = new clsOntologyItem()
+            {
+                GUID = objOList_object_baseconfig.First().ID_Other,
+                Name = objOList_object_baseconfig.First().Name_Other,
+                GUID_Parent = objOList_object_baseconfig.First().ID_Parent_Other,
+                Type = Globals.Type_Object
+            };
+        }
+        else
+        {
+            throw new Exception("config err");
+        }
+
         var objOList_object_lua = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                    where objOItem.ID_Object == cstrID_Ontology
                                    join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
@@ -248,7 +294,26 @@ private void get_Data_DevelopmentConfig()
   
 	private void get_Config_Classes()
         {
-		
+            var objOList_class_lua_functions__scripting_module_ = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                                   where objOItem.ID_Object == cstrID_Ontology
+                                                                   join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                                   where objRef.Name_Object.ToLower() == "class_lua_functions__scripting_module_".ToLower() && objRef.Ontology == Globals.Type_Class
+                                                                   select objRef).ToList();
+
+            if (objOList_class_lua_functions__scripting_module_.Any())
+            {
+                OItem_class_lua_functions__scripting_module_ = new clsOntologyItem()
+                {
+                    GUID = objOList_class_lua_functions__scripting_module_.First().ID_Other,
+                    Name = objOList_class_lua_functions__scripting_module_.First().Name_Other,
+                    GUID_Parent = objOList_class_lua_functions__scripting_module_.First().ID_Parent_Other,
+                    Type = Globals.Type_Class
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
 	}
     }
 

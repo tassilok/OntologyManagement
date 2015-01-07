@@ -67,6 +67,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clsDataWork_Scripting.cs" />
     <Compile Include="clsLocalConfig.cs" />
     <Compile Include="frmScriptingModule.cs">
       <SubType>Form</SubType>
