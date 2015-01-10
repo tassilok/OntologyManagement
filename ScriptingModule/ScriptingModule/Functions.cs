@@ -9,6 +9,7 @@ using OntologyClasses.DataClasses;
 using System.Windows.Forms;
 using Filesystem_Module;
 using System.IO;
+using LuaInterface;
 
 namespace ScriptingModule
 {
@@ -50,6 +51,7 @@ namespace ScriptingModule
 
         private clsBlobConnection blobConnection;
 
+        public bool ClipBoardActive { get; set; }
 
         public Functions(clsLocalConfig localConfig, IWin32Window parentForm)
         {
@@ -792,6 +794,117 @@ namespace ScriptingModule
 
             TransactionResult = result;
             return result.GUID;
+        }
+
+        public object AddRelationTypeToList()
+        {
+            var result = localConfig.Globals.LState_Success.Clone();
+
+            return result.GUID;
+        }
+
+        public object AddRelationToList()
+        {
+            var result = localConfig.Globals.LState_Success.Clone();
+
+            return result.GUID;
+        }
+
+        public object AddObjectToList()
+        {
+            var result = localConfig.Globals.LState_Success.Clone();
+
+            return result.GUID;
+        }
+
+        public object AddClassToList()
+        {
+            var result = localConfig.Globals.LState_Success.Clone();
+
+            return result.GUID;
+        }
+
+        public object AddAttributeTypeToList()
+        {
+            var result = localConfig.Globals.LState_Success.Clone();
+
+            return result.GUID;
+        }
+
+        public object RelateItems()
+        {
+            var result = localConfig.Globals.LState_Success.Clone();
+
+            return result.GUID;
+        }
+
+        public object ExportStart(string exportPath)
+        {
+            var result = localConfig.Globals.LState_Success.Clone();
+
+            exportWorker = new clsExport(localConfig.Globals);
+
+            return result.GUID;
+        }
+
+        public object ExportFinish()
+        {
+            var result = localConfig.Globals.LState_Success.Clone();
+
+            
+
+            return result.GUID;
+        }
+
+        public void ToClipboard(string content)
+        {
+            if (content == null)
+            {
+                content = "";
+            }
+            Clipboard.SetDataObject(content);    
+        }
+
+        public void QueryObjects(string id, string name, string idParent, LuaTable luaTable)
+        {
+            var luaTableName = "Objects";
+
+            var result = localConfig.Globals.LState_Success.Clone();
+
+            
+
+            if (!string.IsNullOrEmpty(id) || !string.IsNullOrEmpty(name) || !string.IsNullOrEmpty(idParent))
+            {
+                var searchObjects = new List<clsOntologyItem> { new clsOntologyItem { GUID = id,
+                    Name = name,
+                    GUID_Parent = idParent}};
+                result = dbLevel_Objects.get_Data_Objects(searchObjects);
+            }
+            else
+            {
+                
+                result = dbLevel_Objects.get_Data_Objects();
+            }
+            
+            if (result.GUID == localConfig.Globals.LState_Success.GUID)
+            {
+                if (dbLevel_Objects.OList_Objects.Any())
+                {
+                    var ix = 1;
+                    dbLevel_Objects.OList_Objects.ForEach(obj =>
+                    {
+                        localConfig.Lua.NewTable(luaTableName);
+                        luaTable[ix] = localConfig.Lua.GetTable(luaTableName);
+                        ((LuaTable)luaTable[ix])[localConfig.Globals.Field_ID_Item] = obj.GUID;
+                        ((LuaTable)luaTable[ix])[localConfig.Globals.Field_Name_Item] = obj.Name;
+                        ((LuaTable)luaTable[ix])[localConfig.Globals.Field_ID_Parent] = obj.GUID_Parent;
+                        ix++;
+                    });
+
+                }
+
+            }            
+
         }
     }
 }

@@ -28,6 +28,7 @@ namespace ScriptingModule
 
         private void Initialize()
         {
+            localConfig.Lua = lua;
             objDataWork_Scripting = new clsDataWork_Scripting(localConfig);
 
             localConfig.DataWork_Scripting = objDataWork_Scripting;

@@ -7,6 +7,7 @@ using OntologyClasses.BaseClasses;
 using System.Reflection;
 using System.Windows.Forms;
 using CommandLineRun_Module;
+using LuaInterface;
 
 namespace ScriptingModule
 {
@@ -39,6 +40,8 @@ namespace ScriptingModule
     public clsOntologyItem OItem_relationtype_offers { get; set; }
 
     public clsDataWork_Scripting DataWork_Scripting { get; set; }
+
+    public Lua Lua { get; set;  }
 	
 private void get_Data_DevelopmentConfig()
         {
