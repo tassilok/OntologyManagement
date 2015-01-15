@@ -53,30 +53,34 @@ namespace CommandLineRun_Module
         {
             var result = objLocalConfig.Globals.LState_Success.Clone();
 
-            foreach (var value in values)
+            if (values.Any())
             {
-                var replaceRanges = scintilla_Code.FindReplace.ReplaceAll(value.Name_Value, "@" + value.Name_Variable + "@");
+                foreach (var value in values)
+                {
+                    var replaceRanges = scintilla_Code.FindReplace.ReplaceAll(value.Name_Value, "@" + value.Name_Variable + "@");
 
-                if (replaceRanges.Any())
-                {
-                    result = SaveVariable(new clsOntologyItem { GUID = value.ID_Variable, Name = value.Name_Variable, GUID_Parent = objLocalConfig.OItem_class_variable.GUID });
-                    if (result.GUID == objLocalConfig.Globals.LState_Error.GUID)
+                    if (replaceRanges.Any())
                     {
-                        MessageBox.Show(this, "Beim Speichern einer Variable ist ein Fehler aufgetreten!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        break;
+                        result = SaveVariable(new clsOntologyItem { GUID = value.ID_Variable, Name = value.Name_Variable, GUID_Parent = objLocalConfig.OItem_class_variable.GUID });
+                        if (result.GUID == objLocalConfig.Globals.LState_Error.GUID)
+                        {
+                            MessageBox.Show(this, "Beim Speichern einer Variable ist ein Fehler aufgetreten!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            break;
+                        }
                     }
-                }
-                else
-                {
-                    result = DeleteVariable(new clsOntologyItem { GUID = value.ID_Variable, Name = value.Name_Variable, GUID_Parent = objLocalConfig.OItem_class_variable.GUID });
-                    if (result.GUID == objLocalConfig.Globals.LState_Error.GUID)
+                    else
                     {
-                        MessageBox.Show(this, "Beim Löschen einer Variable ist ein Fehler aufgetreten!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        break;
+                        result = DeleteVariable(new clsOntologyItem { GUID = value.ID_Variable, Name = value.Name_Variable, GUID_Parent = objLocalConfig.OItem_class_variable.GUID });
+                        if (result.GUID == objLocalConfig.Globals.LState_Error.GUID)
+                        {
+                            MessageBox.Show(this, "Beim Löschen einer Variable ist ein Fehler aufgetreten!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            break;
+                        }
                     }
+
                 }
-                
             }
+            
             
 
             if (result.GUID == objLocalConfig.Globals.LState_Error.GUID)
@@ -140,6 +144,7 @@ namespace CommandLineRun_Module
 
         public void Initialize_CodeSnipplet(clsOntologyItem OItem_CodeSnipplet, clsOntologyItem OItem_ProgrammingLanguage = null)
         {
+            ParentForm.FormClosing += UserControl_CodeEditor_FormClosing;
             this.objOItem_CodeSnipplet = OItem_CodeSnipplet;
             this.objOItem_ProgrammingLanguage = OItem_ProgrammingLanguage;
             GetCodeSnipplet();
@@ -150,6 +155,7 @@ namespace CommandLineRun_Module
 
         private void Initialize()
         {
+            
             objDataWork_CodeSnipplets = new clsDataWork_CodeSniplets(objLocalConfig);
             objTransaction = new clsTransaction(objLocalConfig.Globals);
             objRelationConfig = new clsRelationConfig(objLocalConfig.Globals);
@@ -157,6 +163,14 @@ namespace CommandLineRun_Module
             toolStripButton_Save.Enabled = false;
             toolStripButton_ReplaceVariables.Enabled = false;
             
+        }
+
+        void UserControl_CodeEditor_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (toolStripButton_Save.Enabled)
+            {
+                SaveCode();
+            }
         }
 
         private void GetCodeSnipplet()
@@ -203,6 +217,11 @@ namespace CommandLineRun_Module
 
         private void SaveCode()
         {
+            if (savedCodeSnipplet == null)
+            {
+                savedCodeSnipplet += UserControl_CodeEditor_savedCodeSnipplet;
+            }
+            
             if (scintilla_Code.Enabled && !boolTextChanged)
             {
                 objTransaction.ClearItems();
@@ -239,7 +258,7 @@ namespace CommandLineRun_Module
                 {
                     var saveCode = objRelationConfig.Rel_ObjectAttribute(objOItem_CodeSnipplet, objLocalConfig.OItem_attributetype_code, scintilla_Code.Text);
 
-                    result = objTransaction.do_Transaction(saveCode);
+                    result = objTransaction.do_Transaction(saveCode,true);
 
                     if (result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                     {
@@ -276,18 +295,40 @@ namespace CommandLineRun_Module
             {
                 
                 scintilla_Code.Enabled = true;
-                toolStripButton_Save.Enabled = true;
-                toolStripButton_ReplaceVariables.Enabled = true;
+                toolStripButton_ReplaceVariables.Enabled = values != null ? values.Any() ? true : false : false;
+                
                 toolStripButton_Lock.Image = CommandLineRun_Module.Properties.Resources.padlock_aj_ashton_open_01;
             }
             else
             {
                 
                 scintilla_Code.Enabled = false;
-                toolStripButton_Save.Enabled = true;
-                toolStripButton_ReplaceVariables.Enabled = true;
+                toolStripButton_ReplaceVariables.Enabled = false;
                 toolStripButton_Lock.Image = CommandLineRun_Module.Properties.Resources.padlock_aj_ashton_01;
             }
         }
+
+        private void toolStripButton_Save_Click(object sender, EventArgs e)
+        {
+            
+            SaveCode();
+            
+        }
+
+        void UserControl_CodeEditor_savedCodeSnipplet(clsOntologyItem OItem_CodeSnipplet)
+        {
+            toolStripButton_Save.Enabled = false;
+        }
+
+        private void scintilla_Code_TextChanged(object sender, EventArgs e)
+        {
+            if (boolTextChanged == false)
+            {
+                toolStripButton_Save.Enabled = true;
+            }
+            
+        }
+
+
     }
 }

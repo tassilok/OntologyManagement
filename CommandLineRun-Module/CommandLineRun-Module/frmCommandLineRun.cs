@@ -285,25 +285,35 @@ namespace CommandLineRun_Module
                     }
                     else if (objOItem_Argument.Type.ToLower() == objLocalConfig.Globals.Type_Object.ToLower())
                     {
-                        objOItem_Argument.Type = objLocalConfig.Globals.Type_Object;
-                        objDataWork_CommandLineRun.OItem_Object = objOItem_Argument;
-
-                        var objOItem_Class =
-                                objDataWork_CommandLineRun.GetOItem(objDataWork_CommandLineRun.OItem_Object.GUID_Parent,
-                                                                    objLocalConfig.Globals.Type_Class);
-
-
-                        this.Text = objOItem_Class.Name + "/";
-                        this.Text += objOItem_Argument.Name;
-
-                        if (objArgumentParsing.FunctionList != null && objArgumentParsing.FunctionList.Count > 0)
+                        if (objOItem_Argument.GUID_Parent == objLocalConfig.OItem_class_code_snipplets.GUID)
                         {
-                            if (objArgumentParsing.FunctionList[0].GUID_Function == objLocalConfig.OItem_object_commandlinerun_module.GUID)
+                            var objFrm_ScriptingEditor = new frmScriptingEditor(objLocalConfig, objOItem_Argument);
+                            objFrm_ScriptingEditor.ShowDialog(this);
+                            Environment.Exit(0);
+                        }
+                        else
+                        {
+                            objOItem_Argument.Type = objLocalConfig.Globals.Type_Object;
+                            objDataWork_CommandLineRun.OItem_Object = objOItem_Argument;
+
+                            var objOItem_Class =
+                                    objDataWork_CommandLineRun.GetOItem(objDataWork_CommandLineRun.OItem_Object.GUID_Parent,
+                                                                        objLocalConfig.Globals.Type_Class);
+
+
+                            this.Text = objOItem_Class.Name + "/";
+                            this.Text += objOItem_Argument.Name;
+
+                            if (objArgumentParsing.FunctionList != null && objArgumentParsing.FunctionList.Count > 0)
                             {
-                                initializeReports = true;
-                                objOItem_Report = objOItem_Argument;
+                                if (objArgumentParsing.FunctionList[0].GUID_Function == objLocalConfig.OItem_object_commandlinerun_module.GUID)
+                                {
+                                    initializeReports = true;
+                                    objOItem_Report = objOItem_Argument;
+                                }
                             }
                         }
+                        
 
                     }
                 }

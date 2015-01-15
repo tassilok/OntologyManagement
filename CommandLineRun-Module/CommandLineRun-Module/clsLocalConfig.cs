@@ -63,6 +63,7 @@ public clsOntologyItem OItem_relationtype_is_written_in { get; set; }
 public clsOntologyItem OItem_relationtype_offers { get; set; }
 public clsOntologyItem OItem_relationtype_script_folder { get; set; }
 public clsOntologyItem OItem_relationtype_belonging_destination { get; set; }
+
 	
 private void get_Data_DevelopmentConfig()
         {

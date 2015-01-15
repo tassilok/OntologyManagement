@@ -152,7 +152,7 @@ CALL %USERPROFILE%\Documents\GitHub\OntologyManagement\MSBuild\MSBuild_DebugRele
 IF ERRORLEVEL 1 GOTO Fehler
 
 
-CALL %USERPROFILE%\Documents\GitHub\OntologyManagement\MSBuild\MSBuild_DebugRelease.cmd %ROOTDIR%\ ScriptingModule \ScriptingModule.sln 0.0.0.17 1 1 0
+CALL %USERPROFILE%\Documents\GitHub\OntologyManagement\MSBuild\MSBuild_DebugRelease.cmd %ROOTDIR%\ ScriptingModule \ScriptingModule.sln 0.0.0.20 1 1 0
 IF ERRORLEVEL 1 GOTO Fehler
 
 

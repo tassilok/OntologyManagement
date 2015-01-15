@@ -114,7 +114,7 @@ del /s /q "%OMODULE_PATH%\DatabaseConfigurationModule\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\DatabaseConfigurationModule_0.0.0.29.exe" -o"%OMODULE_PATH%\DatabaseConfigurationModule\"
 
 del /s /q "%OMODULE_PATH%\ScriptingModule\*.*"
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\ScriptingModule_0.0.0.17.exe" -o"%OMODULE_PATH%\ScriptingModule\"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\ScriptingModule_0.0.0.20.exe" -o"%OMODULE_PATH%\ScriptingModule\"
 
 del /s /q "%OMODULE_PATH%\CommandLineCL-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\CommandLineCL-Module_0.0.0.40.exe" -o"%OMODULE_PATH%\CommandLineCL-Module\"

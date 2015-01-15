@@ -93,6 +93,12 @@
     <Compile Include="frmScriptExecution.Designer.cs">
       <DependentUpon>frmScriptExecution.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmScriptingEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmScriptingEditor.Designer.cs">
+      <DependentUpon>frmScriptingEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmVariableValueMapper.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -127,6 +133,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmScriptExecution.resx">
       <DependentUpon>frmScriptExecution.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmScriptingEditor.resx">
+      <DependentUpon>frmScriptingEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmVariableValueMapper.resx">
       <DependentUpon>frmVariableValueMapper.cs</DependentUpon>

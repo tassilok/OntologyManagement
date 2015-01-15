@@ -455,8 +455,8 @@ if /i [ScriptingModule] EQU [Ontolog-Module] (
 
 del /s /q "%OMODULE_PATH%\ScriptingModule\*.*"
 
-wget -O "%temp%\OModules\ScriptingModule_0.0.0.17.exe" %DOWNLOAD_URL%/ScriptingModule_0.0.0.17.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\ScriptingModule_0.0.0.17.exe" -o"%OMODULE_PATH%\ScriptingModule\"
+wget -O "%temp%\OModules\ScriptingModule_0.0.0.20.exe" %DOWNLOAD_URL%/ScriptingModule_0.0.0.20.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\ScriptingModule_0.0.0.20.exe" -o"%OMODULE_PATH%\ScriptingModule\"
 
 
 if /i [CommandLineCL-Module] EQU [Ontolog-Module] (
