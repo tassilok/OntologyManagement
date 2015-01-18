@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="Class">
+  <Item Id="b4cfd2bc7efa491ebabecef2bd86a4bf" Id_Parent="aa616051e5214facabdbcbba6f8c6e73"><![CDATA[LocalizedTemplate-Module]]></Item>
+<Item Id="eb411e2ff93d4a5ebbbac0b5d7ec0197" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Ontologies]]></Item>
+<Item Id="d3f72a683f6146a48ff381db05997dc8" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Items]]></Item>
+<Item Id="aab30dd04faf4386896016218132b110" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Join]]></Item>
+<Item Id="925f489dec8d4130a418fcb022a4c731" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Relation-Rule]]></Item>
+<Item Id="aa616051e5214facabdbcbba6f8c6e73" Id_Parent="b5224e7f7d0d4beebf8eb9a0eeba5747"><![CDATA[Module]]></Item>
+<Item Id="86b05e853ce24a56be3c80375a686a82" Id_Parent="aa616051e5214facabdbcbba6f8c6e73"><![CDATA[Module-Function]]></Item>
+<Item Id="7b249c4d4d94423f97afe4c55cbfc46e" Id_Parent="e963963489d8493eb74c56634f773d3c"><![CDATA[Autocorrection]]></Item>
+<Item Id="739667bc0f90401a938d30efad68fab9" Id_Parent="de988c64dd5941f4bf1f4b54c56e8fe7"><![CDATA[Localized Template-Tree]]></Item>
+<Item Id="b5224e7f7d0d4beebf8eb9a0eeba5747" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Module-Management]]></Item>
+<Item Id="de988c64dd5941f4bf1f4b54c56e8fe7" Id_Parent="83317bacb4b14db8bf849fca0a93ddd5"><![CDATA[Templates]]></Item>
+<Item Id="665dd88b792e4256a27a68ee1e10ece6" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[System]]></Item>
+<Item Id="e963963489d8493eb74c56634f773d3c" Id_Parent="83317bacb4b14db8bf849fca0a93ddd5"><![CDATA[Texte]]></Item>
+<Item Id="49fdcd27e1054770941d7485dcad08c1" Id_Parent=""><![CDATA[Root]]></Item>
+<Item Id="83317bacb4b14db8bf849fca0a93ddd5" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[Information-Management]]></Item>
+
+</Items>
