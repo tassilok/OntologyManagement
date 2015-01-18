@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using OntologyClasses.BaseClasses;
 using Ontology_Module;
+using LocalizedTemplate_Module;
 
 namespace CommandLineRun_Module
 {
@@ -23,10 +24,17 @@ namespace CommandLineRun_Module
         private clsTransaction objTransaction;
         private clsRelationConfig objRelationConfig;
 
+        private frmAutoCorrection objFrmAutoCorrection;
+
         private List<clsValue> values;
 
         private bool boolTextChanged;
         private bool lockEditor;
+
+        private int positionOfWord;
+        private string wordOfPosition;
+
+        private clsOntologyItem autoCorrectorUsable;
 
         public delegate void SavedCodeSnipplet(clsOntologyItem OItem_CodeSnipplet);
         public event SavedCodeSnipplet savedCodeSnipplet;
@@ -184,6 +192,16 @@ namespace CommandLineRun_Module
                 {
                     scintilla_Code.Enabled = true;
                     scintilla_Code.Text = objDataWork_CodeSnipplets.OAItem_Code != null ? objDataWork_CodeSnipplets.OAItem_Code.Val_String : "";
+
+                    if (objOItem_ProgrammingLanguage == null)
+                    {
+                        result = objDataWork_CodeSnipplets.GetData_ProgramingLanguage();
+                    }
+
+                    if (result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                    {
+                        objOItem_ProgrammingLanguage = objDataWork_CodeSnipplets.OItem_ProgrammingLanguage;
+                    }
                 }
                 else
                 {
@@ -327,6 +345,64 @@ namespace CommandLineRun_Module
                 toolStripButton_Save.Enabled = true;
             }
             
+        }
+
+        private void scintilla_Code_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (Control.ModifierKeys.HasFlag(Keys.Control))
+            {
+                if (e.KeyCode == Keys.Space)
+                {
+                    if (objOItem_ProgrammingLanguage != null)
+                    {
+                        if (objFrmAutoCorrection == null)
+                        {
+                            objFrmAutoCorrection = new frmAutoCorrection(objLocalConfig.Globals);
+                            objFrmAutoCorrection.selectedCorrectorItem += objFrmAutoCorrection_selectedCorrectorItem;
+                            autoCorrectorUsable = objFrmAutoCorrection.SetAutoCorrectorByRef(objOItem_ProgrammingLanguage);
+
+                            if (autoCorrectorUsable.GUID == objLocalConfig.Globals.LState_Error.GUID)
+                            {
+                                MessageBox.Show(this, "Der Autokorrektor kann nicht genutzt werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            }
+                        }
+
+                        positionOfWord = scintilla_Code.Caret.Position;
+                        wordOfPosition = scintilla_Code.GetWordFromPosition(positionOfWord);
+                        objFrmAutoCorrection.ValueToSearch = wordOfPosition;
+                        objFrmAutoCorrection.Show();
+
+
+                    }
+                    
+                }
+            }
+        }
+
+        void objFrmAutoCorrection_selectedCorrectorItem(frmAutoCorrection frmAutoCorrection, clsOntologyItem oItem_Selected)
+        {
+            frmAutoCorrection.Hide();
+
+            if (oItem_Selected != null)
+            {
+                var wordToCompare = scintilla_Code.GetWordFromPosition(positionOfWord);
+                if (wordToCompare == wordOfPosition)
+                {
+                    var lengthOfWord = wordToCompare.Length;
+                    var start = positionOfWord >= lengthOfWord ? positionOfWord - lengthOfWord : 0;
+                    for (int i = start; i < positionOfWord; i++)
+                    {
+                        if (scintilla_Code.GetRange(i, i+ lengthOfWord).Text == wordToCompare)
+                        {
+                            scintilla_Code.Selection.Start = i;
+                            scintilla_Code.Selection.End = i + lengthOfWord;
+                            scintilla_Code.Selection.Text = oItem_Selected.Name;
+
+                        }
+                    }
+                }
+                
+            }
         }
 
 

@@ -12,6 +12,7 @@ namespace LocalizedTemplate_Module
     {
         private clsLocalConfig localConfig;
 
+        private clsDBLevel dbLevel_AutoCorrectorOfRef;
         private clsDBLevel dbLevel_AutoCorrector_Base;
         private clsDBLevel dbLevel_AutoCorrector_IsClass;
         private clsDBLevel dbLevel_AutoCorrector_Ref1;
@@ -25,6 +26,33 @@ namespace LocalizedTemplate_Module
         }
         public clsOntologyItem ClassRef { get; private set; }
         public List<clsOntologyItem> AutoCorrectorList { get; private set; }
+
+        public List<clsOntologyItem> AutoCorrectorListOfRef { get; private set; }
+
+        public clsOntologyItem GetAutoCorrectorOfRef(clsOntologyItem oItem_Ref)
+        {
+            var result = localConfig.Globals.LState_Success.Clone();
+
+            var searchAutoCorrector = new List<clsObjectRel> { new clsObjectRel { ID_Object = oItem_Ref.GUID,
+                ID_Parent_Other = localConfig.OItem_class_autocorrection.GUID } };
+
+            result = dbLevel_AutoCorrectorOfRef.get_Data_ObjectRel(searchAutoCorrector, boolIDs: false);
+
+            AutoCorrectorListOfRef = new List<clsOntologyItem>();
+
+            if (result.GUID == localConfig.Globals.LState_Success.GUID)
+            {
+                AutoCorrectorListOfRef = dbLevel_AutoCorrectorOfRef.OList_ObjectRel.Select(corItem => new clsOntologyItem
+                {
+                    GUID = corItem.ID_Other,
+                    Name = corItem.Name_Other,
+                    GUID_Parent = corItem.ID_Parent_Other,
+                    Type = corItem.Ontology
+                }).ToList();
+            }
+
+            return result;
+        }
 
         private void GetData_BaseConfig()
         {
@@ -153,6 +181,7 @@ namespace LocalizedTemplate_Module
             dbLevel_AutoCorrector_Ref1 = new clsDBLevel(localConfig.Globals);
             dbLevel_AutoCorrector_Ref2 = new clsDBLevel(localConfig.Globals);
             dbLevel_AutoCorrector_IsClass = new clsDBLevel(localConfig.Globals);
+            dbLevel_AutoCorrectorOfRef = new clsDBLevel(localConfig.Globals);
 
             GetData_BaseConfig();
         }

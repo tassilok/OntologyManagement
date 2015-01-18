@@ -14,10 +14,12 @@ namespace CommandLineRun_Module
 
         private clsDBLevel objDBLevel_CodeSnipplets;
         private clsDBLevel objDBLevel_SyntaxHighlight;
+        private clsDBLevel objDBLevel_ProgrammingLanguage;
 
         public clsOntologyItem OItem_CodeSnipplet { get; private set; }
         public clsObjectAtt OAItem_Code { get; private set; }
         public clsOntologyItem OItem_SyntaxHighlight { get; private set; }
+        public clsOntologyItem OItem_ProgrammingLanguage { get; private set; }
 
         public clsOntologyItem GetData_CodeSnipplet(clsOntologyItem OItem_CodeSnipplet)
         {
@@ -33,6 +35,30 @@ namespace CommandLineRun_Module
             if (result.GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
                 OAItem_Code = objDBLevel_CodeSnipplets.OList_ObjectAtt.FirstOrDefault();
+            }
+
+            return result;
+        }
+
+        public clsOntologyItem GetData_ProgramingLanguage()
+        {
+            var result = objLocalConfig.Globals.LState_Success.Clone();
+
+            var searchPl = new List<clsObjectRel> { new clsObjectRel {ID_Object = OItem_CodeSnipplet.GUID,
+                ID_RelationType = objLocalConfig.OItem_relationtype_is_written_in.GUID,
+                ID_Parent_Other = objLocalConfig.OItem_class_programing_language.GUID}};
+
+            result = objDBLevel_ProgrammingLanguage.get_Data_ObjectRel(searchPl, boolIDs: false);
+
+            if (result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                OItem_ProgrammingLanguage = objDBLevel_ProgrammingLanguage.OList_ObjectRel.Select(pl => new clsOntologyItem
+                {
+                    GUID = pl.ID_Other,
+                    Name = pl.Name_Other,
+                    GUID_Parent = pl.ID_Parent_Other,
+                    Type = pl.Ontology
+                }).FirstOrDefault();
             }
 
             return result;
@@ -81,6 +107,7 @@ namespace CommandLineRun_Module
         {
             objDBLevel_CodeSnipplets = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_SyntaxHighlight = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_ProgrammingLanguage = new clsDBLevel(objLocalConfig.Globals);
         }
     }
 }

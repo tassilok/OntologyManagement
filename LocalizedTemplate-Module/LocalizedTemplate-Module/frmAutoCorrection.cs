@@ -32,6 +32,27 @@ namespace LocalizedTemplate_Module
             }
         }
 
+
+        public clsOntologyItem SetAutoCorrectorByRef(clsOntologyItem oItem_Ref)
+        {
+            var result = dataWork_AutoCorrection.GetAutoCorrectorOfRef(oItem_Ref);
+
+            if (result.GUID == localConfig.Globals.LState_Success.GUID)
+            {
+                if (dataWork_AutoCorrection.AutoCorrectorListOfRef.Any())
+                {
+                    this.AutoCorrector = dataWork_AutoCorrection.AutoCorrectorListOfRef.First();
+                    return result;
+                }
+                else
+                {
+                    return localConfig.Globals.LState_Nothing.Clone();
+                }
+            }
+
+            return result;
+        }
+
         public clsOntologyItem AutoCorrector {
             get { return dataWork_AutoCorrection.AutoCorrector; }
             set 
@@ -120,6 +141,10 @@ namespace LocalizedTemplate_Module
             {
                 SelectItem();
             }
+            else if (e.KeyCode == Keys.Escape)
+            {
+                this.Hide();
+            }
         }
 
         private void SelectItem()
@@ -165,6 +190,22 @@ namespace LocalizedTemplate_Module
                 {
                     MessageBox.Show(this, "Bitte wählen Sie nur einen Autokorrektor aus!", "1 Korrektor", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
+            }
+        }
+
+        private void toolStripContainer1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                this.Hide();
+            }
+        }
+
+        private void frmAutoCorrection_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                this.Hide();
             }
         }
     }

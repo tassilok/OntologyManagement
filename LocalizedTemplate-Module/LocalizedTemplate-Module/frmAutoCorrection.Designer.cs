@@ -58,6 +58,7 @@
             // toolStripContainer1.TopToolStripPanel
             // 
             this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip1);
+            this.toolStripContainer1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.toolStripContainer1_KeyDown);
             // 
             // listView_AutoCorrector
             // 
@@ -82,7 +83,7 @@
             this.toolStripButton_ChangeCorrector});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(288, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(257, 25);
             this.toolStrip1.TabIndex = 0;
             // 
             // toolStripLabel1
@@ -118,6 +119,7 @@
             this.Name = "frmAutoCorrection";
             this.ShowIcon = false;
             this.Text = "frmAutoCorrection";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmAutoCorrection_KeyDown);
             this.toolStripContainer1.ContentPanel.ResumeLayout(false);
             this.toolStripContainer1.TopToolStripPanel.ResumeLayout(false);
             this.toolStripContainer1.TopToolStripPanel.PerformLayout();

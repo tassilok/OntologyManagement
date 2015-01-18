@@ -185,6 +185,10 @@
       <Project>{f31c8a5a-bb2b-474e-bc1f-a14e805ea2e9}</Project>
       <Name>Filesystem-Module</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\LocalizedTemplate-Module\LocalizedTemplate-Module\LocalizedTemplate-Module.csproj">
+      <Project>{dab4a1e8-cfe6-4186-b61d-3e410bd61e90}</Project>
+      <Name>LocalizedTemplate-Module</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Ontolog-Module\Ontolog-Module\Ontolog-Module.vbproj">
       <Project>{3f2f6722-c36b-420d-afe7-b21c19457208}</Project>
       <Name>Ontolog-Module</Name>

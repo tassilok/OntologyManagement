@@ -31,14 +31,14 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserControl_CodeEditor));
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButton_Save = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel_LineCountLbl = new System.Windows.Forms.ToolStripLabel();
             this.toolStripLabel_LineCount = new System.Windows.Forms.ToolStripLabel();
             this.scintilla_Code = new ScintillaNET.Scintilla();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton_Save = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton_Lock = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton_ReplaceVariables = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
@@ -84,6 +84,17 @@
             this.toolStrip1.Size = new System.Drawing.Size(129, 25);
             this.toolStrip1.TabIndex = 0;
             // 
+            // toolStripButton_Save
+            // 
+            this.toolStripButton_Save.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton_Save.Enabled = false;
+            this.toolStripButton_Save.Image = global::CommandLineRun_Module.Properties.Resources.saveHS;
+            this.toolStripButton_Save.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_Save.Name = "toolStripButton_Save";
+            this.toolStripButton_Save.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton_Save.Text = "toolStripButton1";
+            this.toolStripButton_Save.Click += new System.EventHandler(this.toolStripButton_Save_Click);
+            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
@@ -120,6 +131,7 @@
             this.scintilla_Code.Styles.Max.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
             this.scintilla_Code.TabIndex = 0;
             this.scintilla_Code.TextChanged += new System.EventHandler(this.scintilla_Code_TextChanged);
+            this.scintilla_Code.KeyDown += new System.Windows.Forms.KeyEventHandler(this.scintilla_Code_KeyDown);
             this.scintilla_Code.Leave += new System.EventHandler(this.scintilla_Code_Leave);
             // 
             // toolStrip2
@@ -134,22 +146,6 @@
             this.toolStrip2.Size = new System.Drawing.Size(153, 25);
             this.toolStrip2.TabIndex = 0;
             // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripButton_Save
-            // 
-            this.toolStripButton_Save.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton_Save.Enabled = false;
-            this.toolStripButton_Save.Image = global::CommandLineRun_Module.Properties.Resources.saveHS;
-            this.toolStripButton_Save.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_Save.Name = "toolStripButton_Save";
-            this.toolStripButton_Save.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton_Save.Text = "toolStripButton1";
-            this.toolStripButton_Save.Click += new System.EventHandler(this.toolStripButton_Save_Click);
-            // 
             // toolStripButton_Lock
             // 
             this.toolStripButton_Lock.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -159,6 +155,11 @@
             this.toolStripButton_Lock.Size = new System.Drawing.Size(23, 22);
             this.toolStripButton_Lock.Text = "toolStripButton1";
             this.toolStripButton_Lock.Click += new System.EventHandler(this.toolStripButton_Lock_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
             // toolStripButton_ReplaceVariables
             // 
