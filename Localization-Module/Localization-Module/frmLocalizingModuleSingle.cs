@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Ontology_Module;
 using OntologyClasses.BaseClasses;
+using ClassLibrary_ShellWork;
+using System.IO;
 
 namespace Localization_Module
 {
@@ -18,7 +20,12 @@ namespace Localization_Module
 
         private clsOntologyItem objOItem_Ref;
 
+        private frmModules objFrm_Modules;
         private UserControl_LocalizationDetails objUserControl_LocalizationDetails;
+
+        private clsShellWork objShellWork;
+
+        private string strLastModule;
 
         public frmLocalizingModuleSingle(clsLocalConfig LocalConfig, clsOntologyItem OItem_Ref)
         {
@@ -53,6 +60,36 @@ namespace Localization_Module
         private void toolStripButton_Close_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void OpenModuleByCommandLineToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!OpenLastModuleToolStripMenuItem.Checked || string.IsNullOrEmpty(strLastModule))
+            {
+                objFrm_Modules = new frmModules(objLocalConfig.Globals);
+                objFrm_Modules.ShowDialog(this);
+                if (objFrm_Modules.DialogResult == DialogResult.OK)
+                {
+                    var strModule = objFrm_Modules.Selected_Module;
+                    if (strModule != null)
+                    {
+                        objShellWork = new clsShellWork();
+                        if (objShellWork.start_Process(strModule, "Item=" + objOItem_Ref.GUID + ",Object", Path.GetDirectoryName(strModule), false, false))
+                        {
+                            strLastModule = strModule;
+                            OpenLastModuleToolStripMenuItem.ToolTipText = strLastModule;
+                        }
+                        else
+                        {
+                            MessageBox.Show(this, "Das Module konnte nicht gestartet werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        }
+                    }
+                }
+            }
+            else
+            {
+
+            }
         }
     }
 }
