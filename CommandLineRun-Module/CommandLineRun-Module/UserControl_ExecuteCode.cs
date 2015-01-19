@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using OntologyClasses.BaseClasses;
 using Ontology_Module;
 using System.IO;
+using LocalizedTemplate_Module;
 
 namespace CommandLineRun_Module
 {
@@ -22,6 +23,7 @@ namespace CommandLineRun_Module
         private clsExecutableConfiguration objExecutionConfiguration;
 
         private frmScriptExecution objFrmScriptExecution;
+        private frmAutoCorrection objFrmAutoCorrection;
 
         public delegate void ScriptExecuted(string output, string error);
 
@@ -30,6 +32,12 @@ namespace CommandLineRun_Module
         private Encoding scriptEncoding;
 
         private List<EncodingInfo> encodings;
+
+        private int positionOfWord;
+        private string wordOfPosition;
+
+        private clsOntologyItem objOItem_ProgrammingLanguage;
+        private clsOntologyItem autoCorrectorUsable;
 
         protected virtual void OnScriptExecuted(string output, string error)
         {
@@ -194,7 +202,13 @@ namespace CommandLineRun_Module
                                                 into pls
                                                 where pls.Key.ID_ProgrammingLanguage != null
                                                 select pls.Key).ToList();
-
+                objOItem_ProgrammingLanguage = programmingLanguages.Count == 1 ? new clsOntologyItem
+                    {
+                        GUID = programmingLanguages.First().ID_ProgrammingLanguage,
+                        Name = programmingLanguages.First().Name_ProgrammingLanguage,
+                        GUID_Parent = objLocalConfig.OItem_class_programing_language.GUID,
+                        Type = objLocalConfig.Globals.Type_Object
+                    } : null;
                 textBox_ProgrammingLanguage.Text = programmingLanguages.Count == 1 ? programmingLanguages.First().Name_ProgrammingLanguage : "";
 
                 if (programmingLanguages.Count == 1)
@@ -321,6 +335,14 @@ namespace CommandLineRun_Module
                                                 where pls.Key.ID_ProgrammingLanguage != null
                                                 select pls.Key).ToList();
 
+                objOItem_ProgrammingLanguage = programmingLanguages.Count == 1 ? new clsOntologyItem
+                {
+                    GUID = programmingLanguages.First().ID_ProgrammingLanguage,
+                    Name = programmingLanguages.First().Name_ProgrammingLanguage,
+                    GUID_Parent = objLocalConfig.OItem_class_programing_language.GUID,
+                    Type = objLocalConfig.Globals.Type_Object
+                } : null;
+
                 textBox_ProgrammingLanguage.Text = programmingLanguages.Count == 1 ? programmingLanguages.First().Name_ProgrammingLanguage : "";    
 
                 if (programmingLanguages.Count == 1)
@@ -440,5 +462,37 @@ namespace CommandLineRun_Module
         {
             scriptEncoding = ((EncodingInfo) comboBox_Encoding.SelectedItem).GetEncoding();
         }
+
+        private void scintilla_CodeParsed_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (Control.ModifierKeys.HasFlag(Keys.Control))
+            {
+                if (e.KeyCode == Keys.Space)
+                {
+                    if (objOItem_ProgrammingLanguage != null)
+                    {
+                        if (objFrmAutoCorrection == null)
+                        {
+                            objFrmAutoCorrection = new frmAutoCorrection(objLocalConfig.Globals);
+                            autoCorrectorUsable = objFrmAutoCorrection.SetAutoCorrectorByRef(objOItem_ProgrammingLanguage);
+
+                            if (autoCorrectorUsable.GUID == objLocalConfig.Globals.LState_Error.GUID)
+                            {
+                                MessageBox.Show(this, "Der Autokorrektor kann nicht genutzt werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            }
+                        }
+
+                        positionOfWord = scintilla_CodeParsed.Caret.Position;
+                        wordOfPosition = scintilla_CodeParsed.GetWordFromPosition(positionOfWord);
+                        objFrmAutoCorrection.ValueToSearch = wordOfPosition;
+                        objFrmAutoCorrection.Show();
+
+
+                    }
+
+                }
+            }
+        }
+
     }
 }

@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Ontology_Module;
 using OntologyClasses.BaseClasses;
+using ClassLibrary_ShellWork;
+using System.IO;
 
 namespace LocalizedTemplate_Module
 {
@@ -19,7 +21,12 @@ namespace LocalizedTemplate_Module
         private clsDataWork_AutoCorrection dataWork_AutoCorrection;
         private string valueToSearch;
 
+        public frm_ObjectEdit objFrmObjectEdit;
         public event SelectedCorrectorItem selectedCorrectorItem;
+
+        private clsShellWork objShellWork = new clsShellWork();
+        private frmModules objFrm_Modules;
+        private string strLastModule;
 
         private frmMain objFrmMain;
 
@@ -132,14 +139,60 @@ namespace LocalizedTemplate_Module
 
         private void listView_AutoCorrector_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            SelectItem();
+            var listViewItem = listView_AutoCorrector.HitTest(e.Location).Item;
+            if (Control.ModifierKeys.HasFlag(Keys.Control))
+            {
+                
+                
+                OpenItem(listViewItem);
+            }
+            else
+            {
+                SelectItem(listViewItem);
+            }
+            
+        }
+
+        private void OpenItem(ListViewItem listViewItem)
+        {
+            if (listViewItem != null)
+            {
+                var oItem = new clsOntologyItem
+                {
+                    GUID = listViewItem.Name,
+                    Name = listViewItem.Text,
+                    GUID_Parent = listViewItem.SubItems[1].Text == localConfig.Globals.Type_RelationType ? null : listViewItem.SubItems[1].Name,
+                    Type = listViewItem.SubItems[1].Text
+                };
+
+                if (oItem.Type == localConfig.Globals.Type_Object)
+                {
+                    if (objFrmObjectEdit == null)
+                    {
+                        objFrmObjectEdit = new frm_ObjectEdit(localConfig.Globals, new List<clsOntologyItem> { oItem }, 0, localConfig.Globals.Type_Object, null);
+                    }
+                    else
+                    {
+                        objFrmObjectEdit.RefreshForm(new List<clsOntologyItem> { oItem }, 0, localConfig.Globals.Type_Object, null);
+                    }
+
+                    
+                    
+                    objFrmObjectEdit.ShowDialog(this);
+                }
+                else
+                {
+                    MessageBox.Show(this, "Es können nur Objekte geöffnet werden! Das Item ist ein(e) " + oItem.Type, "Falsches Item", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
         }
 
         private void listView_AutoCorrector_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
-                SelectItem();
+                ListViewItem item = listView_AutoCorrector.SelectedItems.Count==1 ? listView_AutoCorrector.SelectedItems[0] : null;
+                SelectItem(item);
             }
             else if (e.KeyCode == Keys.Escape)
             {
@@ -147,17 +200,16 @@ namespace LocalizedTemplate_Module
             }
         }
 
-        private void SelectItem()
+        private void SelectItem(ListViewItem listViewItem)
         {
-            if (listView_AutoCorrector.SelectedIndices.Count == 1)
+            if (listViewItem != null)
             {
-                var item = listView_AutoCorrector.SelectedItems[0];
                 var oItem = new clsOntologyItem
                 {
-                    GUID = item.Name,
-                    Name = item.Text,
-                    GUID_Parent = item.SubItems[1].Text == localConfig.Globals.Type_RelationType ? null : item.SubItems[1].Name,
-                    Type = item.SubItems[1].Text
+                    GUID = listViewItem.Name,
+                    Name = listViewItem.Text,
+                    GUID_Parent = listViewItem.SubItems[1].Text == localConfig.Globals.Type_RelationType ? null : listViewItem.SubItems[1].Name,
+                    Type = listViewItem.SubItems[1].Text
                 };
 
                 if (selectedCorrectorItem != null)
@@ -207,6 +259,60 @@ namespace LocalizedTemplate_Module
             {
                 this.Hide();
             }
+        }
+
+        private void OpenModuleByArgumentToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (listView_AutoCorrector.SelectedItems.Count == 1)
+            {
+                ListViewItem item = listView_AutoCorrector.SelectedItems.Count == 1 ? listView_AutoCorrector.SelectedItems[0] : null;
+
+                var oItem = new clsOntologyItem
+                {
+                    GUID = item.Name,
+                    Name = item.Text,
+                    GUID_Parent = item.SubItems[1].Text == localConfig.Globals.Type_RelationType ? null : item.SubItems[1].Name,
+                    Type = item.SubItems[1].Text
+                };
+
+                if (oItem != null)
+                {
+                    if (!OpenLastModuleToolStripMenuItem.Checked || string.IsNullOrEmpty(strLastModule))
+                    {
+                        objFrm_Modules = new frmModules(localConfig.Globals);
+                        objFrm_Modules.ShowDialog(this);
+                        if (objFrm_Modules.DialogResult == DialogResult.OK)
+                        {
+                            var strModule = objFrm_Modules.Selected_Module;
+                            if (strModule != null)
+                            {
+                                if (objShellWork.start_Process(strModule, "Item=" + oItem.GUID + ",Object",
+                                                               Path.GetDirectoryName(strModule), false, false))
+                                {
+                                    strLastModule = strModule;
+                                    OpenLastModuleToolStripMenuItem.ToolTipText = strLastModule;
+                                }
+                                else
+                                {
+                                    MessageBox.Show(this, "Das Module konnte nicht gestartet werden!", "Fehler!",
+                                                    MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (!objShellWork.start_Process(strLastModule, "Item=" + oItem.GUID + ",Object",
+                                                        Path.GetDirectoryName(strLastModule), false, false))
+                        {
+                            MessageBox.Show(this, "Das Module konnte nicht gestartet werden!", "Fehler!",
+                                                    MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        }
+
+                    }
+                }
+            }
+
         }
     }
 }

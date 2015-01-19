@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmAutoCorrection));
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.listView_AutoCorrector = new System.Windows.Forms.ListView();
@@ -35,10 +36,16 @@
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripTextBox_Corrector = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripButton_ChangeCorrector = new System.Windows.Forms.ToolStripButton();
+            this.contextMenuStrip_Items = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ModuleMenuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ShowModuleConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.OpenModuleByArgumentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.OpenLastModuleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
+            this.contextMenuStrip_Items.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -62,6 +69,7 @@
             // 
             // listView_AutoCorrector
             // 
+            this.listView_AutoCorrector.ContextMenuStrip = this.contextMenuStrip_Items;
             this.listView_AutoCorrector.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listView_AutoCorrector.Location = new System.Drawing.Point(0, 0);
             this.listView_AutoCorrector.MultiSelect = false;
@@ -108,6 +116,44 @@
             this.toolStripButton_ChangeCorrector.Text = "...";
             this.toolStripButton_ChangeCorrector.Click += new System.EventHandler(this.toolStripButton_ChangeCorrector_Click);
             // 
+            // contextMenuStrip_Items
+            // 
+            this.contextMenuStrip_Items.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ModuleMenuToolStripMenuItem});
+            this.contextMenuStrip_Items.Name = "contextMenuStrip_Items";
+            this.contextMenuStrip_Items.Size = new System.Drawing.Size(162, 48);
+            // 
+            // ModuleMenuToolStripMenuItem
+            // 
+            this.ModuleMenuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ShowModuleConfigToolStripMenuItem,
+            this.OpenModuleByArgumentToolStripMenuItem});
+            this.ModuleMenuToolStripMenuItem.Name = "ModuleMenuToolStripMenuItem";
+            this.ModuleMenuToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.ModuleMenuToolStripMenuItem.Text = "x_Module-Menu";
+            // 
+            // ShowModuleConfigToolStripMenuItem
+            // 
+            this.ShowModuleConfigToolStripMenuItem.Name = "ShowModuleConfigToolStripMenuItem";
+            this.ShowModuleConfigToolStripMenuItem.Size = new System.Drawing.Size(230, 22);
+            this.ShowModuleConfigToolStripMenuItem.Text = "x_Show Module-Config";
+            // 
+            // OpenModuleByArgumentToolStripMenuItem
+            // 
+            this.OpenModuleByArgumentToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.OpenLastModuleToolStripMenuItem});
+            this.OpenModuleByArgumentToolStripMenuItem.Name = "OpenModuleByArgumentToolStripMenuItem";
+            this.OpenModuleByArgumentToolStripMenuItem.Size = new System.Drawing.Size(230, 22);
+            this.OpenModuleByArgumentToolStripMenuItem.Text = "x_Open Module by Argument";
+            this.OpenModuleByArgumentToolStripMenuItem.Click += new System.EventHandler(this.OpenModuleByArgumentToolStripMenuItem_Click);
+            // 
+            // OpenLastModuleToolStripMenuItem
+            // 
+            this.OpenLastModuleToolStripMenuItem.CheckOnClick = true;
+            this.OpenLastModuleToolStripMenuItem.Name = "OpenLastModuleToolStripMenuItem";
+            this.OpenLastModuleToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.OpenLastModuleToolStripMenuItem.Text = "x_Open Last Module";
+            // 
             // frmAutoCorrection
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -127,6 +173,7 @@
             this.toolStripContainer1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.contextMenuStrip_Items.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -139,5 +186,10 @@
         private System.Windows.Forms.ToolStripTextBox toolStripTextBox_Corrector;
         private System.Windows.Forms.ToolStripButton toolStripButton_ChangeCorrector;
         private System.Windows.Forms.ListView listView_AutoCorrector;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip_Items;
+        internal System.Windows.Forms.ToolStripMenuItem ModuleMenuToolStripMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem ShowModuleConfigToolStripMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem OpenModuleByArgumentToolStripMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem OpenLastModuleToolStripMenuItem;
     }
 }

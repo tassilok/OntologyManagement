@@ -103,6 +103,7 @@
             this.scintilla_CodeParsed.Styles.LineNumber.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
             this.scintilla_CodeParsed.Styles.Max.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
             this.scintilla_CodeParsed.TabIndex = 6;
+            this.scintilla_CodeParsed.KeyDown += new System.Windows.Forms.KeyEventHandler(this.scintilla_CodeParsed_KeyDown);
             // 
             // scintilla_Code
             // 

@@ -42,7 +42,7 @@ del /s /q "%OMODULE_PATH%\RDF-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\RDF-Module_0.0.0.83.exe" -o"%OMODULE_PATH%\RDF-Module\"
 
 del /s /q "%OMODULE_PATH%\Localization-Module\*.*"
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Localization-Module_0.0.1.49.exe" -o"%OMODULE_PATH%\Localization-Module\"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Localization-Module_0.0.1.50.exe" -o"%OMODULE_PATH%\Localization-Module\"
 
 del /s /q "%OMODULE_PATH%\Formale-Begriffsanalyse-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Formale-Begriffsanalyse-Module_0.0.0.49.exe" -o"%OMODULE_PATH%\Formale-Begriffsanalyse-Module\"
@@ -62,11 +62,14 @@ del /s /q "%OMODULE_PATH%\Hierarchichal-Splitter-Module\*.*"
 del /s /q "%OMODULE_PATH%\Ping-Test-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Ping-Test-Module_0.0.0.45.exe" -o"%OMODULE_PATH%\Ping-Test-Module\"
 
-del /s /q "%OMODULE_PATH%\Log-Manager\*.*"
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Log-Manager_0.2.0.56.exe" -o"%OMODULE_PATH%\Log-Manager\"
+del /s /q "%OMODULE_PATH%\Log-Module\*.*"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Log-Module_0.2.0.56.exe" -o"%OMODULE_PATH%\Log-Module\"
 
 del /s /q "%OMODULE_PATH%\TimeManagement-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\TimeManagement-Module_0.0.0.93.exe" -o"%OMODULE_PATH%\TimeManagement-Module\"
+
+del /s /q "%OMODULE_PATH%\LocalizedTemplate-Module\*.*"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\LocalizedTemplate-Module_0.0.0.7.exe" -o"%OMODULE_PATH%\LocalizedTemplate-Module\"
 
 del /s /q "%OMODULE_PATH%\ElasticSearchLogging-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\ElasticSearchLogging-Module_0.0.0.50.exe" -o"%OMODULE_PATH%\ElasticSearchLogging-Module\"
@@ -102,22 +105,22 @@ del /s /q "%OMODULE_PATH%\AudioPlayer-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\AudioPlayer-Module_0.0.0.70.exe" -o"%OMODULE_PATH%\AudioPlayer-Module\"
 
 del /s /q "%OMODULE_PATH%\CommandLineRun-Module\*.*"
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\CommandLineRun-Module_0.0.0.47.exe" -o"%OMODULE_PATH%\CommandLineRun-Module\"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\CommandLineRun-Module_0.0.0.52.exe" -o"%OMODULE_PATH%\CommandLineRun-Module\"
 
 del /s /q "%OMODULE_PATH%\BankTransaction-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\BankTransaction-Module_0.0.1.73.exe" -o"%OMODULE_PATH%\BankTransaction-Module\"
 
 del /s /q "%OMODULE_PATH%\Development-Module\*.*"
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Development-Module_0.2.0.125.exe" -o"%OMODULE_PATH%\Development-Module\"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Development-Module_0.2.0.126.exe" -o"%OMODULE_PATH%\Development-Module\"
 
 del /s /q "%OMODULE_PATH%\DatabaseConfigurationModule\*.*"
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\DatabaseConfigurationModule_0.0.0.29.exe" -o"%OMODULE_PATH%\DatabaseConfigurationModule\"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\DatabaseConfigurationModule_0.0.0.34.exe" -o"%OMODULE_PATH%\DatabaseConfigurationModule\"
 
 del /s /q "%OMODULE_PATH%\ScriptingModule\*.*"
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\ScriptingModule_0.0.0.20.exe" -o"%OMODULE_PATH%\ScriptingModule\"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\ScriptingModule_0.0.0.25.exe" -o"%OMODULE_PATH%\ScriptingModule\"
 
 del /s /q "%OMODULE_PATH%\CommandLineCL-Module\*.*"
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\CommandLineCL-Module_0.0.0.40.exe" -o"%OMODULE_PATH%\CommandLineCL-Module\"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\CommandLineCL-Module_0.0.0.45.exe" -o"%OMODULE_PATH%\CommandLineCL-Module\"
 
 del /s /q "%OMODULE_PATH%\Media-Viewer-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Media-Viewer-Module_0.0.1.126.exe" -o"%OMODULE_PATH%\Media-Viewer-Module\"
@@ -126,7 +129,7 @@ del /s /q "%OMODULE_PATH%\FileResourceModule\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\FileResourceModule_0.0.0.83.exe" -o"%OMODULE_PATH%\FileResourceModule\"
 
 del /s /q "%OMODULE_PATH%\FileSystem-Connector-Module\*.*"
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\FileSystem-Connector-Module_0.0.0.93.exe" -o"%OMODULE_PATH%\FileSystem-Connector-Module\"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\FileSystem-Connector-Module_0.0.0.94.exe" -o"%OMODULE_PATH%\FileSystem-Connector-Module\"
 
 del /s /q "%OMODULE_PATH%\Scenes-Literatur-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Scenes-Literatur-Module_0.0.1.91.exe" -o"%OMODULE_PATH%\Scenes-Literatur-Module\"
@@ -141,13 +144,13 @@ del /s /q "%OMODULE_PATH%\Partner-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Partner-Module_0.2.0.93.exe" -o"%OMODULE_PATH%\Partner-Module\"
 
 del /s /q "%OMODULE_PATH%\Report-Module\*.*"
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Report-Module_0.0.1.131.exe" -o"%OMODULE_PATH%\Report-Module\"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Report-Module_0.0.1.136.exe" -o"%OMODULE_PATH%\Report-Module\"
 
 del /s /q "%OMODULE_PATH%\Appointment-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Appointment-Module_0.0.1.96.exe" -o"%OMODULE_PATH%\Appointment-Module\"
 
 del /s /q "%OMODULE_PATH%\Schriftverkehrs-Module\*.*"
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Schriftverkehrs-Module_0.0.0.125.exe" -o"%OMODULE_PATH%\Schriftverkehrs-Module\"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Schriftverkehrs-Module_0.0.0.130.exe" -o"%OMODULE_PATH%\Schriftverkehrs-Module\"
 
 del /s /q "%OMODULE_PATH%\Bill-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Bill-Module_0.0.0.108.exe" -o"%OMODULE_PATH%\Bill-Module\"
@@ -159,4 +162,4 @@ del /s /q "%OMODULE_PATH%\Change-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Change-Module_0.0.0.111.exe" -o"%OMODULE_PATH%\Change-Module\"
 
 del /s /q "%OMODULE_PATH%\Checklist-Module\*.*"
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Checklist-Module_0.0.0.141.exe" -o"%OMODULE_PATH%\Checklist-Module\"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Checklist-Module_0.0.0.146.exe" -o"%OMODULE_PATH%\Checklist-Module\"
