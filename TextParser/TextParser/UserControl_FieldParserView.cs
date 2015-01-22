@@ -15,6 +15,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using PortListenerForText_Module;
 using System.Globalization;
+using System.Threading;
 
 namespace TextParser
 {
@@ -49,6 +50,13 @@ namespace TextParser
         private SortableBindingList<clsField> fieldList;
 
         private DataTable dataTable;
+
+        private Thread threadParse;
+
+        private delegate void RefreshThreadInfo(long parsedCount, long savedCount);
+        private RefreshThreadInfo refreshThreadInfo;
+        private delegate void FinishedThread();
+        private FinishedThread finishedThread;
 
         private long lngLineCount;
 
@@ -87,6 +95,9 @@ namespace TextParser
             page = 0;
             pages = 0;
             var objOItem_Result = objDataWork_TextParser.OItem_Result_TextParser;
+
+            refreshThreadInfo = new RefreshThreadInfo(RefreshThreadInfos);
+            finishedThread = new FinishedThread(FinishedThreadWork);
 
             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
@@ -252,9 +263,24 @@ namespace TextParser
             }
         }
 
+        private void FinishedThreadWork()
+        {
+            toolStripButton_Stop.Enabled = false;
+            toolStripButton_Parse.Enabled = true;
+        }
+
+        private void RefreshThreadInfos(long parsedCount, long savedCount)
+        {
+            toolStripLabel_ParseCount.Text = parsedCount.ToString() + "/" + savedCount.ToString();
+            if (toolStripComboBox_Indexes.Items.Count == 0)
+            {
+                GetIndexes();
+            }
+        }
+
         private void Initialize()
         {
-            
+            toolStripButton_Stop.Enabled = false;
             indexes.Clear();
 
             objDataWork_FieldParser = new clsDataWork_FieldParser(objLocalConfig);
@@ -406,6 +432,8 @@ namespace TextParser
 
         private void toolStripButton_Parse_Click(object sender, EventArgs e)
         {
+            toolStripButton_Parse.Enabled = false;
+            toolStripLabel_ParseCount.Text = "0/0";
             Parse();
         }
 
@@ -428,9 +456,43 @@ namespace TextParser
                     GUID_Parent = objLocalConfig.OItem_class_text_seperators.GUID,
                     Type = objLocalConfig.Globals.Type_Object
                 }).ToList();
-                objFieldParser.ParseFiles();
+                objFieldParser.parsedLines += objFieldParser_parsedLines;
+                objFieldParser.finishedParsing += objFieldParser_finishedParsing;
+                try
+                {
+                    threadParse.Abort();
+                }
+                catch (Exception ex) { }
+                threadParse = new Thread(objFieldParser.ParseFiles);
+                threadParse.Start();
+                toolStripButton_Stop.Enabled = true;
+                
             }
             GetIndexes();
+        }
+
+        void objFieldParser_finishedParsing()
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(finishedThread);
+            }
+            else
+            {
+                FinishedThreadWork();
+            }
+        }
+
+        void objFieldParser_parsedLines(long countParsed, long countSaved)
+        {
+            if (this.InvokeRequired)
+            {
+               this.Invoke(refreshThreadInfo, countParsed, countSaved);
+            }
+            else
+            {
+                RefreshThreadInfos(countParsed, countSaved);
+            }
         }
 
         private void GetIndexes()
@@ -793,6 +855,11 @@ namespace TextParser
         private void toolStripButton_Listen_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void toolStripButton_Stop_Click(object sender, EventArgs e)
+        {
+            objFieldParser.AbortParseProcess = true;
         }
     }
 }
