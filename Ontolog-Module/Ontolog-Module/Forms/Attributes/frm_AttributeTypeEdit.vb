@@ -36,7 +36,9 @@ Public Class frm_AttributeTypeEdit
         get_Data_AttributeType()
         If boolOpen = True Then
             ToolStripTextBox_GUID.Text = objOItem_AttributeType.GUID
+            ToolStripTextBox_Name.ReadOnly = True
             ToolStripTextBox_Name.Text = objOItem_AttributeType.Name
+            ToolStripTextBox_Name.ReadOnly = False
 
             objUserControl_AttributeTypeSel = New UserControl_AttributeTypeSel(strDType, objLocalConfig)
             objUserControl_AttributeTypeSel.Dock = DockStyle.Fill
@@ -109,5 +111,29 @@ Public Class frm_AttributeTypeEdit
         End Select
 
         objOItem_Result = objDBLevel.save_AttributeType(objOItem_AttributeType)
+    End Sub
+
+    Private Sub ToolStripTextBox_Name_TextChanged(sender As Object, e As EventArgs) Handles ToolStripTextBox_Name.TextChanged
+        Timer_Name.Stop()
+        If Not ToolStripTextBox_Name.ReadOnly Then
+            Timer_Name.Start()
+        End If
+
+    End Sub
+
+    Private Sub Timer_Name_Tick(sender As Object, e As EventArgs) Handles Timer_Name.Tick
+        Timer_Name.Stop()
+        If Not String.IsNullOrEmpty(ToolStripTextBox_Name.Text) Then
+            objOItem_AttributeType.Name = ToolStripTextBox_Name.Text
+            Dim objOItem_Result = objDBLevel.save_AttributeType(objOItem_AttributeType)
+            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                MsgBox("Beim Speichern ist ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)
+            End If
+        Else
+            MsgBox("Der Attributtyp muss eine Bezeichnung tragen!", MsgBoxStyle.Information)
+            ToolStripTextBox_Name.ReadOnly = True
+            ToolStripTextBox_Name.Text = objOItem_AttributeType.Name
+            ToolStripTextBox_Name.ReadOnly = False
+        End If
     End Sub
 End Class

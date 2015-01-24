@@ -689,7 +689,15 @@ namespace ElasticSearchNestConnector
 
                 if (objOList_RelationTypeGUIDTest.Any())
                 {
-                    objOItem_Result = objLogStates.LogState_Success;
+                    if (objOList_RelationTypeGUIDTest.First().Name != objOItem_RelationType.Name)
+                    {
+                        objOItem_Result = objLogStates.LogState_Nothing.Clone();
+                    }
+                    else
+                    {
+                        objOItem_Result = objLogStates.LogState_Success;
+                    }
+                    
                 }
 
 
