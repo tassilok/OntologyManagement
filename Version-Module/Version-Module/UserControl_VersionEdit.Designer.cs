@@ -84,7 +84,7 @@
             this.ToolStripButton_Cancel});
             this.ToolStrip1.Location = new System.Drawing.Point(3, 0);
             this.ToolStrip1.Name = "ToolStrip1";
-            this.ToolStrip1.Size = new System.Drawing.Size(166, 25);
+            this.ToolStrip1.Size = new System.Drawing.Size(197, 25);
             this.ToolStrip1.TabIndex = 0;
             // 
             // ToolStripButton_Apply
@@ -117,6 +117,7 @@
             this.ToolStripButton_Cancel.Name = "ToolStripButton_Cancel";
             this.ToolStripButton_Cancel.Size = new System.Drawing.Size(56, 22);
             this.ToolStripButton_Cancel.Text = "Cancel_f";
+            this.ToolStripButton_Cancel.Click += new System.EventHandler(this.ToolStripButton_Cancel_Click);
             // 
             // TableLayoutPanel1
             // 

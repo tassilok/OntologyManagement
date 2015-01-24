@@ -24,7 +24,7 @@ Public Class UserControl_OItemList
 
     Private objShellWork As clsShellWork
 
-    Private objTransaction_Objects As clsTransaction_Objects
+    Private WithEvents objTransaction_Objects As clsTransaction_Objects
     Private objTransaction_RelationTypes As clsTransaction_RelationTypes
     Private objTransaction_AttributeTypes As clsTransaction_AttributeTypes
     Private objTransaction As clsTransaction
@@ -97,6 +97,10 @@ Public Class UserControl_OItemList
     Public Property HandOff_Add As Boolean
 
     Private boolNullRelation As Boolean
+
+    Private Sub NameError() Handles objTransaction_Objects.ErrorNaming
+        MsgBox("Die Objekte verstoßen gegen eine Namenskonvention!", MsgBoxStyle.Information)
+    End Sub
 
     Public ReadOnly Property AdvancedFilterApplied as Boolean
         Get

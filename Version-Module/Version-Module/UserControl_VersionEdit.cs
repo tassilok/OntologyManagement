@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using OntologyClasses.BaseClasses;
 
 namespace Version_Module
 {
@@ -15,47 +16,73 @@ namespace Version_Module
     public partial class UserControl_VersionEdit : UserControl
     {
 
-        private long majorFirst;
-        private long minorFirst;
-        private long buildFirst;
-        private long revisionFirst;
+        public long MajorFirst { get; private set; }
+        public long MinorFirst { get; private set; }
+        public long BuildFirst { get; private set; }
+        public long RevisionFirst { get; private set; }
 
         public event Applied_Version applied_Version;
 
         public long Major
         {
             get { return long.Parse(NumericUpDown_Marjor.Value.ToString()); }
-            set { NumericUpDown_Marjor.Value = value; }
+            set 
+            {
+                MajorFirst = value;
+                NumericUpDown_Marjor.Value = value; 
+            }
         }
+
+        
 
         public long Minor
         {
             get { return long.Parse(NumericUpDown_Minor.Value.ToString()); }
-            set { NumericUpDown_Minor.Value = value; }
+            set 
+            {
+                MinorFirst = value;
+                NumericUpDown_Minor.Value = value; 
+            }
         }
 
         public long Build
         {
             get { return long.Parse(NumericUpDown_Build.Value.ToString()); }
-            set { NumericUpDown_Build.Value = value; }
+            set 
+            {
+                BuildFirst = value;
+                NumericUpDown_Build.Value = value; 
+            }
         }
 
         public long Revision
         {
             get { return long.Parse(NumericUpDown_Revision.Value.ToString()); }
-            set { NumericUpDown_Revision.Value = value; }
+            set 
+            {
+                RevisionFirst = value;
+                NumericUpDown_Revision.Value = value; 
+            }
+        }
+
+        public void IncreaseVersion(int major, int minor, int build, int revision)
+        {
+            NumericUpDown_Marjor.Value += major;
+            NumericUpDown_Minor.Value += minor;
+            NumericUpDown_Build.Value += build;
+            NumericUpDown_Revision.Value += revision;
         }
 
         public void firstVersion(long major, long minor, long build, long revision)
         {
-            majorFirst = major;
-            Major = majorFirst;
-            minorFirst = minor;
-            Minor = minorFirst;
-            buildFirst = build;
-            Build = buildFirst;
-            revisionFirst = revision;
-            Revision = revisionFirst;
+            MajorFirst = major;
+            Major = MajorFirst;
+            MinorFirst = minor;
+            Minor = MinorFirst;
+            BuildFirst = build;
+            Build = BuildFirst;
+            RevisionFirst = revision;
+            Revision = RevisionFirst;
 
         }
 
@@ -78,10 +105,10 @@ namespace Version_Module
         {
             ToolStripButton_Clear.Enabled = false;
             ToolStripButton_Apply.Enabled = false;
-            if (NumericUpDown_Marjor.Value != majorFirst ||
-                NumericUpDown_Minor.Value != minorFirst ||
-                NumericUpDown_Build.Value != buildFirst ||
-                NumericUpDown_Revision.Value != revisionFirst)
+            if (NumericUpDown_Marjor.Value != MajorFirst ||
+                NumericUpDown_Minor.Value != MinorFirst ||
+                NumericUpDown_Build.Value != BuildFirst ||
+                NumericUpDown_Revision.Value != RevisionFirst)
             {
                 ToolStripButton_Apply.Enabled = true;
                 ToolStripButton_Clear.Enabled = true;
@@ -90,10 +117,10 @@ namespace Version_Module
 
         private void ToolStripButton_Clear_Click(object sender, EventArgs e)
         {
-            Major = majorFirst;
-            Minor = minorFirst;
-            Build = buildFirst;
-            Revision = revisionFirst;
+            Major = MajorFirst;
+            Minor = MinorFirst;
+            Build = BuildFirst;
+            Revision = RevisionFirst;
 
             Configure_ApplyClear();
         }
@@ -111,6 +138,11 @@ namespace Version_Module
         private void NumericUpDown_Revision_ValueChanged(object sender, EventArgs e)
         {
             Configure_ApplyClear();
+        }
+
+        private void ToolStripButton_Cancel_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

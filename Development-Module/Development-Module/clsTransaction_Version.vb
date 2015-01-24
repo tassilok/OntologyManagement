@@ -24,11 +24,17 @@ Public Class clsTransaction_Version
 
     Public Property OItem_Version_Last As clsOntologyItem
 
+    Private strMessage As String = Nothing
+    Private intMajor As Integer = -1
+    Private intMinor As Integer = -1
+    Private intBuild As Integer = -1
+    Private intRevision As Integer = -1
+
     Private boolSaveVersionFile As Boolean
 
     Private Sub PressedOkItemListForVersioning() Handles objFrmOntologyItemList.PressedOK
 
-        Dim objOItem_LogEntry_Par = Save_Version(objOItem_Dev)
+        Dim objOItem_LogEntry_Par = Save_Version(objOItem_Dev, False)
         objFrmOntologyItemList.RemoveItem(objOItem_Dev.GUID)
         objOList_VersionedDevs = objFrmOntologyItemList.ItemListVisible.Select(Function(i) New clsOntologyItem With {.GUID = i.GUID,
                                                                                                                      .Name = i.Name,
@@ -41,12 +47,13 @@ Public Class clsTransaction_Version
         
 
         For Each objOItem_Dev_Dependend In objOList_VersionedDevs
-            Save_Version(objOItem_Dev_Dependend, objOItem_LogEntry_Par, True)
+            Save_Version(objOItem_Dev_Dependend, True, objOItem_LogEntry_Par, True)
+
             If boolSaveVersionFile Then
                 SaveVersionFile(objOItem_Dev_Dependend)
             End If
             objFrmOntologyItemList.RemoveItem(objOItem_Dev_Dependend.GUID)
-            
+
 
         Next
 
@@ -221,17 +228,43 @@ Public Class clsTransaction_Version
 
     End Sub
 
-    Private Function Save_Version(OItem_Development As clsOntologyItem, Optional OItem_LogEntry_Parent As clsOntologyItem = Nothing, Optional isDependend As Boolean = False) As clsOntologyItem
+    Private Function Save_Version(OItem_Development As clsOntologyItem, boolUseNoticed As Boolean, Optional OItem_LogEntry_Parent As clsOntologyItem = Nothing, Optional isDependend As Boolean = False) As clsOntologyItem
         Dim objOItem_LogEntry As clsOntologyItem = Nothing
         Dim objOItem_Result As clsOntologyItem
+        Dim objOItem_LogState As clsOntologyItem
         OItem_Version_Last = Nothing
         If objFrm_VersionEdit Is Nothing Then
             objFrm_VersionEdit = New frmVersionEdit(objLocalConfig.Globals, objLocalConfig.OItem_User)
         End If
+
+        If boolUseNoticed = False Then
+            strMessage = ""
+            objFrm_VersionEdit.MessageForLogEntry = strMessage
+            objFrm_VersionEdit.OItem_LogState = Nothing
+        End If
+
         objFrm_VersionEdit.Initialize_VersionEdit(OItem_Development)
-        objFrm_VersionEdit.ShowDialog(objFrmPar)
+        If Not String.IsNullOrEmpty(strMessage) Then
+            objFrm_VersionEdit.IncreaseVersion(intMajor, intMinor, intBuild, intRevision)
+            objFrm_VersionEdit.ApplyVersion()
+        Else
+            objFrm_VersionEdit.ShowDialog(objFrmPar)
+        End If
+        
+
         If objFrm_VersionEdit.DialogResult = DialogResult.OK Then
             If objFrm_VersionEdit.OItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                strMessage = objFrm_VersionEdit.MessageForLogEntry
+                If boolUseNoticed = False Then
+                    strMessage = OItem_Development.Name & ": " & strMessage
+                End If
+
+                objOItem_LogState = objFrm_VersionEdit.OItem_LogState
+                intMajor = objFrm_VersionEdit.Major - objFrm_VersionEdit.MajorFirst
+                intMinor = objFrm_VersionEdit.Minor - objFrm_VersionEdit.MinorFirst
+                intBuild = objFrm_VersionEdit.Build - objFrm_VersionEdit.BuildFirst
+                intRevision = objFrm_VersionEdit.Revision - objFrm_VersionEdit.RevisionFirst
+
                 If Not objFrm_VersionEdit.OItem_Version Is Nothing Then
                     objOItem_LogEntry = objFrm_VersionEdit.OItem_LogEntry
                     If Not objOItem_LogEntry Is Nothing Then
@@ -254,6 +287,7 @@ Public Class clsTransaction_Version
 
                                 Else
                                     OItem_Version_Last = objFrm_VersionEdit.OItem_Version.Clone()
+                                    objFrm_VersionEdit.MessageForLogEntry = strMessage
                                 End If
                             End If
                         Else

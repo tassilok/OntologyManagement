@@ -5,17 +5,23 @@ Public Class clsTransaction
 
     Private objOList_Item As New List(Of clsTransactionItem)
     Private objOItem_TransItem As New clsTransactionItem()
-    Private objDBLevel As clsDBLevel
+    Private WithEvents objDBLevel As clsDBLevel
     Private objLogStates As New clsLogStates
     Private objClassTypes As New clsClassTypes
     Private objTypes As New clsTypes
     Private objDataTypes As New clsDataTypes
+
+    Public Event ErrorNaming()
 
     Public ReadOnly Property OItem_Last As clsTransactionItem
         Get
             Return objOList_Item.Last()
         End Get
     End Property
+
+    Private Sub NameError() Handles objDBLevel.NamingError
+        RaiseEvent ErrorNaming()
+    End Sub
 
     Public Function del_ObjectAndRelations(OItem_Object As clsOntologyItem) As clsOntologyItem
         Dim objOList_AttributesDel = New List(Of clsObjectAtt) From {New clsObjectAtt With {.ID_Object = OItem_Object.GUID}}
