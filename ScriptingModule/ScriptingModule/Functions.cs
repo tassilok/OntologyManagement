@@ -574,17 +574,173 @@ namespace ScriptingModule
             
         }
 
-        public object InsertObjectAttribute(string idAttribute,
+        public object InsertObjectAttribute(string dataType, object value, string attributeType, long orderId, string idObject = null)
+        {
+            var result = localConfig.Globals.LState_Success.Clone();
+            string guidObject = idObject;
+            string guidClass = null;
+
+            if (string.IsNullOrEmpty(idObject))
+            {
+                var oItem = ObjectList.LastOrDefault();
+                if (oItem != null)
+                {
+                    guidObject = oItem.GUID;
+                    guidClass = oItem.GUID_Parent;
+                }
+            }
+
+            if (!string.IsNullOrEmpty(guidObject) && string.IsNullOrEmpty(guidClass))
+            {
+                var oItem = dbLevel_ObjectAttributes.GetOItem(idObject, localConfig.Globals.Type_Object);
+                if (oItem != null)
+                {
+                    guidObject = oItem.GUID;
+                    guidClass = oItem.GUID_Parent;
+                }
+            }
+
+            if (!string.IsNullOrEmpty(guidObject) && !string.IsNullOrEmpty(guidClass) 
+                && localConfig.Globals.is_GUID(guidObject) && localConfig.Globals.is_GUID(guidClass))
+            {
+                var oItemDataType = objDataTypes.DataTypes.Where(dt => dt.Name.ToLower() == dataType.ToLower()).FirstOrDefault();
+                var searchAttributeType = new List<clsOntologyItem> { new clsOntologyItem {Name=attributeType}};
+                result = dbLevel_AttributeTypes.get_Data_AttributeType(searchAttributeType);
+                if (result.GUID == localConfig.Globals.LState_Success.GUID)
+                {
+                    var attributeTypes = dbLevel_AttributeTypes.OList_AttributeTypes.Where(attType => attType.Name.ToLower() == attributeType.ToLower()).ToList();
+                    if (attributeTypes.Count == 1)
+                    {
+                        if (oItemDataType != null)
+                        {
+                            if (oItemDataType.GUID == localConfig.Globals.DType_Bool.GUID)
+                            {
+                                bool valBool;
+                                if (bool.TryParse(value.ToString(),out valBool))
+                                {
+                                    result = InsertObjectAttributeLoc(localConfig.Globals.NewGUID,
+                                        guidObject,
+                                        guidClass,
+                                        attributeTypes.First().GUID,
+                                        orderId,
+                                        oItemDataType.GUID,
+                                        valBool: valBool);
+                                }
+                                else
+                                {
+                                    result = localConfig.Globals.LState_Error.Clone();
+                                }
+                                
+                            }
+                            else if (oItemDataType.GUID == localConfig.Globals.DType_DateTime.GUID)
+                            {
+                                DateTime valDateTime;
+                                if (DateTime.TryParse(value.ToString(),out valDateTime))
+                                {
+                                    result = (clsOntologyItem)InsertObjectAttributeLoc(localConfig.Globals.NewGUID,
+                                        guidObject,
+                                        guidClass,
+                                        attributeTypes.First().GUID,
+                                        orderId,
+                                        oItemDataType.GUID,
+                                        valDateTime: valDateTime);
+                                }
+                                else
+                                {
+                                    result = localConfig.Globals.LState_Error.Clone();
+                                }
+                            }
+                            else if (oItemDataType.GUID == localConfig.Globals.DType_Int.GUID)
+                            {
+                                long valLong;
+                                if (long.TryParse(value.ToString(),out valLong))
+                                {
+                                    result = (clsOntologyItem)InsertObjectAttributeLoc(localConfig.Globals.NewGUID,
+                                        guidObject,
+                                        guidClass,
+                                        attributeTypes.First().GUID,
+                                        orderId,
+                                        oItemDataType.GUID,
+                                        valLong: valLong);
+                                }
+                                else
+                                {
+                                    result = localConfig.Globals.LState_Error.Clone();
+                                }
+                            }
+                            else if (oItemDataType.GUID == localConfig.Globals.DType_Real.GUID)
+                            {
+                                double valDouble;
+                                if (double.TryParse(value.ToString(),out valDouble))
+                                {
+                                    result = (clsOntologyItem)InsertObjectAttributeLoc(localConfig.Globals.NewGUID,
+                                        guidObject,
+                                        guidClass,
+                                        attributeTypes.First().GUID,
+                                        orderId,
+                                        oItemDataType.GUID,
+                                        valDouble: valDouble);
+                                }
+                                else
+                                {
+                                    result = localConfig.Globals.LState_Error.Clone();
+                                }
+                            }
+                            else if (oItemDataType.GUID == localConfig.Globals.DType_String.GUID)
+                            {
+                                if (value is string)
+                                {
+                                    var valString = value.ToString();
+                                    result = (clsOntologyItem)InsertObjectAttributeLoc(localConfig.Globals.NewGUID,
+                                        guidObject,
+                                        guidClass,
+                                        attributeTypes.First().GUID,
+                                        orderId,
+                                        oItemDataType.GUID,
+                                        valString: valString);
+                                }
+                                else
+                                {
+                                    result = localConfig.Globals.LState_Error.Clone();
+                                }
+                            }
+                            else
+                            {
+                                result = localConfig.Globals.LState_Error.Clone();
+                            }
+                        }
+                        else
+                        {
+                            result = localConfig.Globals.LState_Error.Clone();
+                        }
+                    }
+                    else
+                    {
+                        result = localConfig.Globals.LState_Error.Clone();
+                    }
+                    
+                }
+                
+            }
+            else
+            {
+                result = localConfig.Globals.LState_Error.Clone();
+            }
+
+            return result.GUID;
+        }
+
+        private clsOntologyItem InsertObjectAttributeLoc(string idAttribute,
             string idObject,
             string idClass,
             string idAttributeType,
             long orderID,
             string idDataType,
-            bool? valBool,
-            DateTime? valDateTime,
-            long? valLong,
-            double? valDouble,
-            string valString)
+            bool? valBool=null,
+            DateTime? valDateTime = null,
+            long? valLong = null,
+            double? valDouble = null,
+            string valString = null)
         {
             var result = localConfig.Globals.LState_Success.Clone();
             if (!string.IsNullOrEmpty(idObject) && localConfig.Globals.is_GUID(idObject)
@@ -704,7 +860,7 @@ namespace ScriptingModule
             }
 
             TransactionResult = result;
-            return result.GUID;
+            return result;
         }
 
         public object InsertObjectRelation(string idObject,
@@ -863,6 +1019,24 @@ namespace ScriptingModule
                 content = "";
             }
             Clipboard.SetDataObject(content);    
+        }
+
+        public object SuccessState()
+        {
+            return localConfig.Globals.LState_Success.GUID;
+        }
+
+        public object ErrorState()
+        {
+            return localConfig.Globals.LState_Error.GUID;
+        }
+
+        public void RemoveLastObject()
+        {
+            if (ObjectList.Any())
+            {
+                ObjectList.Remove(ObjectList.Last());
+            }
         }
 
         public void QueryObjects(string id, string name, string idParent, LuaTable luaTable)
