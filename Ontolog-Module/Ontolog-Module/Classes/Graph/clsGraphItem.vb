@@ -85,6 +85,18 @@ Public Class clsGraphItem
             Name_RelationType = min.ToString() + ": " + Name_RelationType + ": " + max.ToString()
         End If
 
+
+        If String.IsNullOrEmpty(IdRight) Then
+            Dim guidDummy = objGlobals.NewGUID
+            Dim nameDummy = objGlobals.Type_AttributeType & ", " & objGlobals.Type_Class & ", " & objGlobals.Type_RelationType & ", " & objGlobals.Type_Object
+            Dim node = objGraph.AddNode(guidDummy)
+            node.Attr.Fillcolor = objGraphAttributes.ColorDummyNode
+            node.Attr.Shape = objGraphAttributes.ShapeDummy
+            node.Attr.Padding = 0
+            node.Attr.Label = nameDummy
+            node.Attr.LabelMargin = 10
+            IdRight = guidDummy
+        End If
         If Name_RelationType Is Nothing Then
             GraphEdge = objGraph.AddEdge(IdLeft, IdRight)
 

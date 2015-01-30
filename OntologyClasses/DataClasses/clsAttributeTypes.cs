@@ -15,6 +15,7 @@ namespace OntologyClasses.DataClasses
         public clsOntologyItem OITem_AttributeType_WMI_BaseBoardSerial { get; private set; }
         public clsOntologyItem OITem_AttributeType_OrderID { get; private set; }
         public clsOntologyItem OITem_AttributeType_Navigation { get; private set; }
+        public clsOntologyItem OITem_AttributeType_Regex { get; private set; }
 
         public List<clsOntologyItem> AttributeTypes { get; private set; }
 
@@ -63,7 +64,16 @@ namespace OntologyClasses.DataClasses
             };
 
             AttributeTypes.Add(OITem_AttributeType_OrderID);
-            
+
+            OITem_AttributeType_Regex = new clsOntologyItem
+            {
+                GUID = "22e93da2894a45d497d15e1711aa5657",
+                Name = "RegEx",
+                GUID_Parent = objDataTypes.DType_String.GUID,
+                Type = objTypes.AttributeType
+            };
+
+            AttributeTypes.Add(OITem_AttributeType_OrderID);
         }
     }
 }

@@ -31,6 +31,12 @@ Public  Class clsGraphAttributes
         End Get
     End Property
 
+    Public ReadOnly Property ShapeDummy As Microsoft.Glee.Drawing.Shape
+        Get
+            Return Shape.Trapezium
+        End Get
+    End Property
+
     Public ReadOnly Property ColorClass As Microsoft.Glee.Drawing.Color
         Get
             Return Color.MintCream
@@ -58,6 +64,12 @@ Public  Class clsGraphAttributes
     Public ReadOnly Property ColorAttributeType As Microsoft.Glee.Drawing.Color
         Get
             Return Color.Azure
+        End Get
+    End Property
+
+    Public ReadOnly Property ColorDummyNode As Microsoft.Glee.Drawing.Color
+        Get
+            Return Color.SandyBrown
         End Get
     End Property
 End Class

@@ -31,6 +31,9 @@ namespace Version_Module
 
         public clsObjectAtt OAItem_Message { get; private set; }
 
+        public clsOntologyItem OItem_LogState { get; set; }
+        public string MessageForLogEntry { get; set;  }
+
         public clsOntologyItem OItem_LogEntry
         {
             get { return objVersionWork.OItem_LogEntry; }
@@ -59,6 +62,31 @@ namespace Version_Module
         {
             get { return userControl_VersionEdit.Revision; }
             set { userControl_VersionEdit.Revision = value; }
+        }
+
+        public long MajorFirst
+        {
+            get { return userControl_VersionEdit.MajorFirst; }
+        }
+
+        public long MinorFirst
+        {
+            get { return userControl_VersionEdit.MinorFirst; }
+        }
+
+        public long BuildFirst
+        {
+            get { return userControl_VersionEdit.BuildFirst; }
+        }
+
+        public long RevisionFirst
+        {
+            get { return userControl_VersionEdit.RevisionFirst; }
+        }
+
+        public void IncreaseVersion(int major, int minor, int build, int revision)
+        {
+            userControl_VersionEdit.IncreaseVersion(major, minor, build, revision);
         }
 
         public frmVersionEdit(clsLocalConfig LocalConfig)
@@ -123,13 +151,18 @@ namespace Version_Module
             
         }
 
-        private void userControl_VersionEdit_applied_Version()
+        public void ApplyVersion()
         {
+
+            objVersionWork.MessageForLogEntry = MessageForLogEntry;
+            objVersionWork.OItem_LogState = OItem_LogState;
             OItem_Result = objVersionWork.save_Version(true,
                                                         userControl_VersionEdit.Major,
                                                         userControl_VersionEdit.Minor,
                                                         userControl_VersionEdit.Build,
                                                         userControl_VersionEdit.Revision, removeOldVersions: removeOldVersions);
+            MessageForLogEntry = objVersionWork.MessageForLogEntry;
+            OItem_LogState = objVersionWork.OItem_LogState;
             if (OItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
                 OAItem_Message = objVersionWork.OAItem_Message;
@@ -140,7 +173,18 @@ namespace Version_Module
                 OItem_Version = null;
             }
             this.DialogResult = DialogResult.OK;
-            Close();
+            if (this.Visible)
+            {
+                Close();
+            }
+
+            
+        }
+
+        private void userControl_VersionEdit_applied_Version()
+        {
+            ApplyVersion();
+            
         }
 
         private void userControl_VersionEdit_Load(object sender, EventArgs e)

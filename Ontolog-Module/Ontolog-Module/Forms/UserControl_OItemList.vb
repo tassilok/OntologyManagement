@@ -21,10 +21,11 @@ Public Class UserControl_OItemList
     Private objFrm_Replace As frmReplace
     Private objFrm_RelationFilter As frmRelationFilter
     Private objFrm_Modules As frmModules
+    Private objFrm_Name As frm_Name
 
     Private objShellWork As clsShellWork
 
-    Private objTransaction_Objects As clsTransaction_Objects
+    Private WithEvents objTransaction_Objects As clsTransaction_Objects
     Private objTransaction_RelationTypes As clsTransaction_RelationTypes
     Private objTransaction_AttributeTypes As clsTransaction_AttributeTypes
     Private objTransaction As clsTransaction
@@ -97,6 +98,10 @@ Public Class UserControl_OItemList
     Public Property HandOff_Add As Boolean
 
     Private boolNullRelation As Boolean
+
+    Private Sub NameError() Handles objTransaction_Objects.ErrorNaming
+        MsgBox("Die Objekte verstoßen gegen eine Namenskonvention!", MsgBoxStyle.Information)
+    End Sub
 
     Public ReadOnly Property AdvancedFilterApplied as Boolean
         Get
@@ -796,6 +801,63 @@ Public Class UserControl_OItemList
                         End If
                     End If
                 End If
+            ElseIf DataGridView_Items.Columns(e.ColumnIndex).DataPropertyName.ToLower = "name" Then
+                If Not objOItem_Parent Is Nothing Then
+                    Select Case objOItem_Parent.Type
+                        Case objLocalConfig.Globals.Type_RelationType
+                            objDGVR_Selected = DataGridView_Items.Rows(e.RowIndex)
+                            objDRV_Selected = objDGVR_Selected.DataBoundItem
+                            objFrm_Name = New frm_Name("Geben Sie bitte einen neuen Namen für den Beziehungstyp ein.", objLocalConfig.Globals, Value1:=objDRV_Selected.Item("Name"))
+                            objFrm_Name.ShowDialog(Me)
+                            If objFrm_Name.DialogResult = DialogResult.OK Then
+                                If Not String.IsNullOrEmpty(objFrm_Name.Value1) Then
+                                    Dim objOItem_RelationType = New clsOntologyItem With {
+                                        .GUID = objDRV_Selected.Item("ID_Item"),
+                                        .Name = objFrm_Name.Value1,
+                                        .Type = objLocalConfig.Globals.Type_RelationType
+                                        }
+
+                                    objTransaction.ClearItems()
+                                    objOItem_Result = objTransaction.do_Transaction(objOItem_RelationType)
+                                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                        objDRV_Selected.Item("Name") = objFrm_Name.Value1
+                                    ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Relation.GUID Then
+                                        MsgBox("Es existiert bereits ein Beziehungstyp mit dem Namen.", MsgBoxStyle.Information)
+                                    ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                                        MsgBox("Beim Speichern des Beziehungstypes ist ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)
+                                    End If
+                                Else
+                                    MsgBox("Geben Sie bitte einen gültigen Namen ein!", MsgBoxStyle.Information)
+                                End If
+
+                            End If
+                        Case objLocalConfig.Globals.Type_Object
+                            objDGVR_Selected = DataGridView_Items.Rows(e.RowIndex)
+                            objDRV_Selected = objDGVR_Selected.DataBoundItem
+                            objFrm_Name = New frm_Name("Geben Sie bitte einen neuen Namen für das Objekt ein.", objLocalConfig.Globals, Value1:=objDRV_Selected.Item("Name"))
+                            objFrm_Name.ShowDialog(Me)
+                            If objFrm_Name.DialogResult = DialogResult.OK Then
+
+                                Dim objOItem_Object = New clsOntologyItem With {
+                                    .GUID = objDRV_Selected.Item("ID_Item"),
+                                    .Name = objFrm_Name.Value1,
+                                    .GUID_Parent = objDRV_Selected.Item("ID_Parent"),
+                                    .Type = objLocalConfig.Globals.Type_Object
+                                    }
+
+                                objTransaction.ClearItems()
+                                objOItem_Result = objTransaction.do_Transaction(objOItem_Object)
+                                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                    objDRV_Selected.Item("Name") = objFrm_Name.Value1
+                                ElseIf objOItem_Result.GUID = objLocalConfig.Globals.LState_Error.GUID Then
+                                    MsgBox("Beim Speichern des Objekts ist ein Fehler aufgetreten!", MsgBoxStyle.Exclamation)
+                                End If
+                            
+                            End If
+                    End Select
+                    
+                End If
+                
             End If
         End If
 

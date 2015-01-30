@@ -33,6 +33,8 @@ namespace Version_Module
 
         public clsOntologyItem OItem_LogEntry { get; set; }
 
+        public string MessageForLogEntry { get; set; }
+
         private clsOntologyItem objOItem_Ref;
 
         private clsLogManagement objLogManagement;
@@ -50,9 +52,8 @@ namespace Version_Module
                 objOItem_Ref = OItem_Ref;
             }
 
-            
+
             var objOItem_Result = objLocalConfig.Globals.LState_Nothing.Clone();
-            var strDescription = "";
 
             if (OItem_LogState == null)
             {
@@ -99,13 +100,13 @@ namespace Version_Module
 
             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
-                if (boolDescribe)
+                if (boolDescribe && string.IsNullOrEmpty(MessageForLogEntry))
                 {
                     objDlgAttribute_String = new dlg_Attribute_String("Description", objLocalConfig.Globals);
                     objDlgAttribute_String.ShowDialog(objParWindow);
                     if (objDlgAttribute_String.DialogResult == DialogResult.OK)
                     {
-                        strDescription = objDlgAttribute_String.Value;
+                        MessageForLogEntry = objDlgAttribute_String.Value;
                     }
                     else
                     {
@@ -156,7 +157,7 @@ namespace Version_Module
                                         objOItem_Result = objTransaction.do_Transaction(Rel_Version_To_Ref, removeOldVersions);
                                         if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                                         {
-                                            objOItem_Result = objLogManagement.log_Entry(DateTime.Now, OItem_LogState, objLocalConfig.objUser, strDescription);
+                                            objOItem_Result = objLogManagement.log_Entry(DateTime.Now, OItem_LogState, objLocalConfig.objUser, boolDescribe ? MessageForLogEntry : "");
                                             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                                             {
                                                 OItem_LogEntry = objLogManagement.OItem_LogEntry;

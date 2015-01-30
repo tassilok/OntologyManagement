@@ -1,6 +1,7 @@
 ﻿Imports ElasticSearchNestConnector
 Imports OntologyClasses.DataClasses
 Imports OntologyClasses.BaseClasses
+Imports System.Text.RegularExpressions
 
 Public Class clsDBLevel
     <Flags()>
@@ -48,6 +49,9 @@ Public Class clsDBLevel
     Private objLogStates As New clsLogStates
     Private objFields As New clsFields
     Private objDirections As New clsDirections
+    Private objClasses As New clsClasses
+    Private objRelationTypes As New clsRelationTypes
+    Private objAttributeTypes As New clsAttributeTypes
 
     Private strServer As String
     Private strIndex As String
@@ -65,6 +69,7 @@ Public Class clsDBLevel
 
     Public Property OAList_Saved As List(Of clsObjectAtt)
 
+    Public Event NamingError()
 
     Public Property Sort As SortEnum
         Get
@@ -371,9 +376,55 @@ Public Class clsDBLevel
     End Function
 
     Public Function save_Objects(ByVal oList_Objects As List(Of clsOntologyItem)) As clsOntologyItem
-        Dim objOItem_Result = objElUpdater.save_Objects(oList_Objects)
+        Dim searchRules = oList_Objects.GroupBy(Function(obj) New With {.GUID = obj.GUID_Parent}).Select(Function(clsGuid) New clsObjectRel With {.ID_Other = clsGuid.Key.GUID,
+                                                                                                                                                  .ID_RelationType = objRelationTypes.OItem_RelationType_belongingClass.GUID,
+                                                                                                                                                  .ID_Parent_Object = objClasses.OItem_Class_Ontology_Naming_Rule.GUID}).ToList()
 
-        Return objOItem_Result
+        Dim OList_NamingRules = objElSelector.get_Data_ObjectRel(searchRules, boolIDs:=True)
+
+        Dim objOItem_Result = objLogStates.LogState_Error.Clone()
+
+        If Not OList_NamingRules Is Nothing Then
+            objOItem_Result = objLogStates.LogState_Success.Clone()
+            Dim searchReEx = OList_NamingRules.Select(Function(nr) New clsObjectAtt With {.ID_Object = nr.ID_Object,
+                                                                                          .ID_AttributeType = objAttributeTypes.OITem_AttributeType_Regex.GUID}).ToList()
+            Dim OList_NamingRegex As New List(Of clsObjectAtt)
+            If searchReEx.Any() Then
+                OList_NamingRegex = objElSelector.get_Data_ObjectAtt(searchReEx, boolIDs:=True)
+
+                If OList_NamingRegex Is Nothing Then
+
+                    objOItem_Result = objLogStates.LogState_Error.Clone()
+                End If
+            End If
+
+            If objOItem_Result.GUID = objLogStates.LogState_Success.GUID Then
+                Dim OListToTest = (From objObj In oList_Objects
+                                   Join objNamingRule In OList_NamingRules On objObj.GUID_Parent Equals objNamingRule.ID_Other
+                                   Join objRegEx In OList_NamingRegex On objNamingRule.ID_Object Equals objRegEx.ID_Object
+                                   Select objObj, objNamingRule, objRegEx).ToList()
+
+
+                Dim OListError = OListToTest.Where(Function(objs)
+                                                       Dim objRegEx = New Regex(objs.objRegEx.Val_String)
+                                                       Return Not objRegEx.IsMatch(objs.objObj.Name)
+                                                   End Function).ToList()
+
+                If Not OListError.Any() Then
+                    objOItem_Result = objElUpdater.save_Objects(oList_Objects)
+                Else
+                    objOItem_Result = objLogStates.LogState_Nothing.Clone()
+                    RaiseEvent NamingError()
+                End If
+
+
+            End If
+
+        End If
+
+
+
+            Return objOItem_Result
     End Function
 
     Private Sub initialize_Client()

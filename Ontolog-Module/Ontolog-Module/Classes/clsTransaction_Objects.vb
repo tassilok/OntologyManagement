@@ -3,7 +3,7 @@
 Public Class clsTransaction_Objects
     Private objLocalConfig As clsLocalConfig
 
-    Private objDBLevel As clsDBLevel
+    Private WithEvents objDBLevel As clsDBLevel
     Private objDBLevel2 As clsDBLevel
     Private objDBLevel3 As clsDBLevel
     Private objDBLevel4 As clsDBLevel
@@ -20,6 +20,12 @@ Public Class clsTransaction_Objects
     Dim oList_ObjectDbl As New List(Of clsOntologyItem)
 
     Dim boolApply As Boolean
+
+    Public Event ErrorNaming()
+
+    Private Sub NameError() Handles objDBLevel.NamingError
+        RaiseEvent ErrorNaming()
+    End Sub
 
     Public ReadOnly Property Apply As Boolean
         Get

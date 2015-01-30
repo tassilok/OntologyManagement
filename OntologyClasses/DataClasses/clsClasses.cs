@@ -25,6 +25,7 @@ namespace OntologyClasses.DataClasses
         public clsOntologyItem OItem_Class_MappingRule { get; private set; }
         public clsOntologyItem OItem_Class_Module { get; private set; }
         public clsOntologyItem OItem_Class_ModuleFunction { get; private set; }
+        public clsOntologyItem OItem_Class_Ontology_Naming_Rule { get; private set; }
 
         public List<clsOntologyItem> OList_Classes { get; private set; } 
 
@@ -64,6 +65,8 @@ namespace OntologyClasses.DataClasses
             OList_Classes.Add(OItem_Class_Module);
             OItem_Class_ModuleFunction = new clsOntologyItem { GUID = "86b05e853ce24a56be3c80375a686a82", Name = "Module-Function", GUID_Parent = OItem_Class_Module.GUID, Type = objTypes.ClassType };
             OList_Classes.Add(OItem_Class_ModuleFunction);
+            OItem_Class_Ontology_Naming_Rule = new clsOntologyItem { GUID = "5abc8144b51f469ea9ff2883295b6f26", Name = "Ontology-Naming-Rule", GUID_Parent = OItem_Class_Ontologies.GUID, Type = objTypes.ClassType };
+            OList_Classes.Add(OItem_Class_Ontology_Naming_Rule);
 
             OItem_Class_Variable = new clsOntologyItem { GUID = "4158aad2656a4fb997bf524c6f5fecaa", Name = "Variable", GUID_Parent = OItem_Class_System.GUID, Type = objTypes.ClassType };
             OList_Classes.Add(OItem_Class_Variable);

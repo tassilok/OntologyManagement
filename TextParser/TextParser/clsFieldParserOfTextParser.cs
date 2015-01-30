@@ -15,6 +15,11 @@ namespace TextParser
 {
     public class clsFieldParserOfTextParser
     {
+        public delegate void ParsedLines(long countParsed, long countSaved);
+        public event ParsedLines parsedLines;
+        public delegate void FinishedParsing();
+        public event FinishedParsing finishedParsing;
+
         private clsLocalConfig objLocalConfig;
         private List<clsField> ParseFieldList;
         private clsOntologyItem objOItem_TextParser;
@@ -49,6 +54,10 @@ namespace TextParser
 
         private string numberSeperator;
         private string numberSeperatorReplace;
+
+        public clsOntologyItem OItem_Result { get; private set; }
+
+        public bool AbortParseProcess { get; set; }
 
         public clsFieldParserOfTextParser(clsLocalConfig LocalConfig, List<clsField> ParseFieldList, clsOntologyItem OItem_TextParser, clsOntologyItem OITem_Type, bool CreateFileList = true)
         {
@@ -195,7 +204,7 @@ namespace TextParser
             return objOItem_Result;
         }
 
-        public clsOntologyItem ParseFiles()
+        public void ParseFiles()
         {
             clsOntologyItem objOItem_Result = objLocalConfig.Globals.LState_Success.Clone();
             var fileDate_Create = false;
@@ -203,6 +212,8 @@ namespace TextParser
             docCount = 0;
             long fileLine = 0;
             objFileMeta = new clsFileMeta();
+            long parsedDocumentCount = 0;
+            long savedDocumentCount = 0;
             
             if (OList_Variables != null && OList_Variables.Any())
             {
@@ -225,12 +236,19 @@ namespace TextParser
 
             foreach (var file in fileList)
             {
+                if (AbortParseProcess)
+                {
+                    AbortParseProcess = false;
+                    break;
+                }
                 objFileMeta.FilePath = file.FileName;
                 objFileMeta.FileName = Path.GetFileName(file.FileName);
                 objFileMeta.CreateDate = File.GetCreationTime(file.FileName).Date;
                 objFileMeta.LastWriteDate = File.GetLastWriteTime(file.FileName).Date;
                 objFileMeta.CreateDatetime = File.GetCreationTime(file.FileName);
                 objFileMeta.LastWriteTime = File.GetLastWriteTime(file.FileName);
+
+                ParseFieldList.ForEach(field => field.LastValid = null);
 
                 fileLine = 0;
                 if (fileDate_Create)
@@ -289,26 +307,55 @@ namespace TextParser
 
 
                         objOItem_Result = ParseText(text,fileLine);
-
-                        if (docCount == objLocalConfig.Globals.SearchRange)
+                        if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                         {
-                            objOItem_Result = objAppDBLevel.Save_Documents(dictList, objOItem_Type != null ? objOItem_Type.Name : objOItem_Type != null ? objOItem_Type.Name : "Doc", index.ToLower());
-                            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
+                            if (docCount >0 && docCount % objLocalConfig.Globals.SearchRange == 0)
                             {
-                                return objOItem_Result;
+
+                                var count = dictList.Count;
+                                
+                                objOItem_Result = objAppDBLevel.Save_Documents(dictList, objOItem_Type != null ? objOItem_Type.Name : objOItem_Type != null ? objOItem_Type.Name : "Doc", index.ToLower());
+                                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                {
+                                    savedDocumentCount += count;
+                                    if (parsedLines != null)
+                                    {
+                                        parsedLines(parsedDocumentCount, savedDocumentCount);
+                                    }
+                                    
+                                    
+                                }
+                                else
+                                {
+                                    OItem_Result =  objOItem_Result;
+                                }
+                                dictList.Clear();
                             }
-                            dictList.Clear();
+                            parsedDocumentCount++;
                         }
+                        else
+                        {
+                            OItem_Result = objOItem_Result;
+                        }
+                        
                         
                     }
                     
                     if (dictList.Count > 0)
                     {
-
+                        var count = dictList.Count;
                         objOItem_Result = objAppDBLevel.Save_Documents(dictList, objOItem_Type != null ? objOItem_Type.Name : objOItem_Type != null ? objOItem_Type.Name : "Doc", index);
-                        if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
+                        if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                         {
-                            return objOItem_Result;
+                            if (parsedLines != null)
+                            {
+                                parsedLines(parsedDocumentCount, savedDocumentCount);
+                            }
+                            savedDocumentCount += count;
+                        }
+                        else
+                        {
+                            OItem_Result = objOItem_Result;
                         }
                     }
                     textReader.Close();
@@ -322,8 +369,12 @@ namespace TextParser
 
                 
             }
+            if (finishedParsing != null)
+            {
+                finishedParsing();
+            }
 
-            return objOItem_Result;
+            OItem_Result = objOItem_Result;
         }
 
         public clsOntologyItem ParseText(string text, long fileLine = 0)

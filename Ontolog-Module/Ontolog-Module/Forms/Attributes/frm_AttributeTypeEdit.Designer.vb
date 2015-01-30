@@ -22,6 +22,7 @@ Partial Class frm_AttributeTypeEdit
     'Das Bearbeiten mit dem Code-Editor ist nicht möglich.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frm_AttributeTypeEdit))
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
@@ -34,6 +35,7 @@ Partial Class frm_AttributeTypeEdit
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripLabel_Name = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripTextBox_Name = New System.Windows.Forms.ToolStripTextBox()
+        Me.Timer_Name = New System.Windows.Forms.Timer(Me.components)
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -141,6 +143,9 @@ Partial Class frm_AttributeTypeEdit
         Me.ToolStripTextBox_Name.Name = "ToolStripTextBox_Name"
         Me.ToolStripTextBox_Name.Size = New System.Drawing.Size(200, 25)
         '
+        'Timer_Name
+        '
+        '
         'frm_AttributeTypeEdit
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -177,4 +182,5 @@ Partial Class frm_AttributeTypeEdit
     Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ToolStripLabel_Name As System.Windows.Forms.ToolStripLabel
     Friend WithEvents ToolStripTextBox_Name As System.Windows.Forms.ToolStripTextBox
+    Friend WithEvents Timer_Name As System.Windows.Forms.Timer
 End Class
