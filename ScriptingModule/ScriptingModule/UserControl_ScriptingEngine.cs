@@ -11,17 +11,29 @@ using Ontology_Module;
 using OntologyClasses.BaseClasses;
 using CommandLineRun_Module;
 using System.IO;
+using LocalizedTemplate_Module;
 
 namespace ScriptingModule
 {
     public partial class UserControl_ScriptingEngine : UserControl
     {
+        private frmAutoCorrection objFrmAutoCorrection;
         private clsLocalConfig localConfig;
         private ScriptParser scriptParser;
 
         private string filePathOfString;
 
         private clsOntologyItem OItem_CodeSnipplet;
+
+        private bool boolTextChanged;
+        private bool lockEditor;
+
+        private int positionOfWord;
+        private string wordOfPosition;
+
+        private clsOntologyItem autoCorrectorUsable;
+
+        private LastRoutine routineWithParameterlist;
 
         public UserControl_ScriptingEngine()
         {
@@ -106,7 +118,7 @@ namespace ScriptingModule
             scintilla_Script.Text = "";
             scintilla_Log.Text = "";
 
-            scintilla_Script.AutoComplete.List = localConfig.DataWork_Scripting.OList_Functions.OrderBy(luaf => luaf.Name).Select(luaf => luaf.Name).ToList();
+            //scintilla_Script.AutoComplete.List = localConfig.DataWork_Scripting.OList_Functions.OrderBy(luaf => luaf.Name).Select(luaf => luaf.Name).ToList();
 
             if (OItem_CodeSnipplet != null)
             {
@@ -168,6 +180,126 @@ namespace ScriptingModule
             {
                 toolStripButton_Save.Enabled = false;
             }
+        }
+
+        private void scintilla_Script_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (Control.ModifierKeys.HasFlag(Keys.Control))
+            {
+                if (e.KeyCode == Keys.Space)
+                {
+                    
+                    if (objFrmAutoCorrection == null)
+                    {
+                        objFrmAutoCorrection = new frmAutoCorrection(localConfig.Globals);
+                        objFrmAutoCorrection.selectedCorrectorItem += objFrmAutoCorrection_selectedCorrectorItem;
+                        objFrmAutoCorrection.activatedCorrectorItem += objFrmAutoCorrection_activatedCorrectorItem;
+                        autoCorrectorUsable = objFrmAutoCorrection.AutoCorrector = localConfig.OItem_object_ontology_scripting;
+
+                        if (autoCorrectorUsable.GUID == localConfig.Globals.LState_Error.GUID)
+                        {
+                            MessageBox.Show(this, "Der Autokorrektor kann nicht genutzt werden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        }
+                    }
+
+                    positionOfWord = scintilla_Script.Caret.Position;
+                    wordOfPosition = scintilla_Script.GetWordFromPosition(positionOfWord);
+                    objFrmAutoCorrection.ValueToSearch = wordOfPosition;
+                    if (objFrmAutoCorrection.Visible == false)
+                    {
+                        objFrmAutoCorrection.Show(this);
+                    }
+                    
+
+
+                    
+
+                }
+            }
+        }
+
+        void objFrmAutoCorrection_activatedCorrectorItem(frmAutoCorrection frmAutoCorrection, clsOntologyItem oItem_Selected)
+        {
+            var functionClass = typeof(Functions).GetMethods();
+            var selectedFunction = functionClass.Where(func => func.Name == oItem_Selected.Name).ToList();
+
+            string toolTip = "";
+            if (selectedFunction.Any())
+            {
+                var parameterInfos = selectedFunction.First().GetParameters();
+
+                foreach (var parameterInfo in parameterInfos)
+	            {
+		            if (!string.IsNullOrEmpty(toolTip))
+                    {
+                        toolTip += ", ";
+                    }
+                    toolTip += parameterInfo.ParameterType.Name + " " + parameterInfo.Name;
+	            }
+                
+            }
+
+            if (!string.IsNullOrEmpty( toolTip))
+            {
+                toolTip = "(" + toolTip + ")";
+                objFrmAutoCorrection.ToolTipForCurrentItem(toolTip);
+            }
+        }
+
+        private void objFrmAutoCorrection_selectedCorrectorItem(frmAutoCorrection frmAutoCorrection, clsOntologyItem oItem_Selected)
+        {
+            frmAutoCorrection.Hide();
+
+            if (oItem_Selected != null)
+            {
+                var wordToCompare = scintilla_Script.GetWordFromPosition(positionOfWord);
+                if (wordToCompare == wordOfPosition)
+                {
+                    var lengthOfWord = wordToCompare.Length;
+                    var start = positionOfWord >= lengthOfWord ? positionOfWord - lengthOfWord : 0;
+                    if (lengthOfWord == 0)
+                    {
+                        scintilla_Script.InsertText(oItem_Selected.Name);
+
+                        routineWithParameterlist = new LastRoutine { Routine = oItem_Selected.Name, Parameterlist = oItem_Selected.Additional1 ?? "" };
+
+                        toolStripLabel_LastRoutine.Text = routineWithParameterlist.Routine + " " + routineWithParameterlist.Parameterlist;
+                    }
+                    else
+                    {
+                        for (int i = start; i < positionOfWord; i++)
+                        {
+                            if (scintilla_Script.GetRange(i, i + lengthOfWord).Text == wordToCompare)
+                            {
+                                scintilla_Script.Selection.Start = i;
+                                scintilla_Script.Selection.End = i + lengthOfWord;
+                                scintilla_Script.Selection.Text = oItem_Selected.Name;
+
+                                routineWithParameterlist = new LastRoutine { Routine = oItem_Selected.Name, Parameterlist = oItem_Selected.Additional1 ?? "" };
+
+                                toolStripLabel_LastRoutine.Text = routineWithParameterlist.Routine + " " + routineWithParameterlist.Parameterlist;
+
+                            }
+                        }
+                    }
+                    
+                }
+
+            }
+        }
+
+        private void toolStripLabel_LastRoutine_TextChanged(object sender, EventArgs e)
+        {
+            toolStripButton_InsertParameterList.Enabled = toolStripLabel_LastRoutine.Text != "-";
+        }
+
+        private void toolStripButton_InsertParameterList_Click(object sender, EventArgs e)
+        {
+            if ( routineWithParameterlist != null)
+            {
+                scintilla_Script.InsertText(routineWithParameterlist.Parameterlist);
+            }
+            
         }
     }
 }

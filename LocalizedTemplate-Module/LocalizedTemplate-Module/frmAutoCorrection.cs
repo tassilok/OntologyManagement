@@ -23,6 +23,7 @@ namespace LocalizedTemplate_Module
 
         public frm_ObjectEdit objFrmObjectEdit;
         public event SelectedCorrectorItem selectedCorrectorItem;
+        public event SelectedCorrectorItem activatedCorrectorItem;
 
         private clsShellWork objShellWork = new clsShellWork();
         private frmModules objFrm_Modules;
@@ -39,6 +40,19 @@ namespace LocalizedTemplate_Module
             }
         }
 
+        public void ToolTipForCurrentItem(string toolTip)
+        {
+            if (listView_AutoCorrector.SelectedItems.Count == 1)
+            {
+                if (!listView_AutoCorrector.ShowItemToolTips)
+                {
+                    listView_AutoCorrector.ShowItemToolTips = true;
+                }
+                var listviewItem = listView_AutoCorrector.SelectedItems[0];
+                listviewItem.ToolTipText = toolTip;
+            }
+            
+        }
 
         public clsOntologyItem SetAutoCorrectorByRef(clsOntologyItem oItem_Ref)
         {
@@ -134,7 +148,24 @@ namespace LocalizedTemplate_Module
 
         private void listView_AutoCorrector_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            if (listView_AutoCorrector.SelectedItems.Count>0)
+            {
+                var listViewItem = listView_AutoCorrector.SelectedItems[0];
+                var oItem = new clsOntologyItem
+                {
+                    GUID = listViewItem.Name,
+                    Name = listViewItem.Text,
+                    GUID_Parent = listViewItem.SubItems[1].Text == localConfig.Globals.Type_RelationType ? null : listViewItem.SubItems[1].Name,
+                    Type = listViewItem.SubItems[1].Text
+                };
+                if (activatedCorrectorItem != null)
+                {
+                    activatedCorrectorItem(this, oItem);
+                }
+                
+            }
+            
+            
         }
 
         private void listView_AutoCorrector_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -209,7 +240,8 @@ namespace LocalizedTemplate_Module
                     GUID = listViewItem.Name,
                     Name = listViewItem.Text,
                     GUID_Parent = listViewItem.SubItems[1].Text == localConfig.Globals.Type_RelationType ? null : listViewItem.SubItems[1].Name,
-                    Type = listViewItem.SubItems[1].Text
+                    Type = listViewItem.SubItems[1].Text,
+                    Additional1 = !string.IsNullOrEmpty( listViewItem.ToolTipText) ? listViewItem.ToolTipText : ""
                 };
 
                 if (selectedCorrectorItem != null)
