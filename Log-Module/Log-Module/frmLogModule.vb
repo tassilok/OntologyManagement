@@ -169,7 +169,9 @@ Public Class frmLogModule
                 objOItem_Ref = objArgumentParsing.OList_Items.First()
                 Dim objDataWork_LogEntry = new clsDataWork_LogEntry(objLocalConfig)
                 objOItem_ClassOfRef = objDataWork_LogEntry.GetOItem(objOItem_Ref.GUID_Parent, objLocalConfig.Globals.Type_Class)
-
+                If Not objOItem_ClassOfRef Is Nothing Then
+                    Me.Text = objOItem_ClassOfRef.Name & " \ " & objOItem_Ref.Name
+                End If
                 objUserControl_LogEntryList.Initialize_AdvancedFilter(objOItem_ClassOfRef, objOItem_Ref,objLocalConfig.OItem_RelationType_belongsTo, objLocalConfig.Globals.Direction_LeftRight)
 
             End If

@@ -26,6 +26,7 @@ Public Class UserControl_LogEntry
             TextBox_Caption.Text = objOItem_LogEntry.Name
             TextBox_Caption.ReadOnly = False
             objDataWork_LogEntry.get_Data_LogEntry(objOItem_LogEntry)
+            objUserControl_Relations.initialize(Nothing, OItem_LogEntry, objLocalConfig.Globals.Direction_LeftRight, Nothing, objLocalConfig.OItem_RelationType_belongsTo, True)
             Timer_Data.Start()
         Else
             clear_LogEntry()

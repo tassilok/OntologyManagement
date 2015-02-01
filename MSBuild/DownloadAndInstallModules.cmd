@@ -251,8 +251,8 @@ if /i [Log-Module] EQU [Ontolog-Module] (
 
 del /s /q "%OMODULE_PATH%\Log-Module\*.*"
 
-wget -O "%temp%\OModules\Log-Module_0.3.0.62.exe" %DOWNLOAD_URL%/Log-Module_0.3.0.62.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Log-Module_0.3.0.62.exe" -o"%OMODULE_PATH%\Log-Module\"
+wget -O "%temp%\OModules\Log-Module_0.3.0.63.exe" %DOWNLOAD_URL%/Log-Module_0.3.0.63.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Log-Module_0.3.0.63.exe" -o"%OMODULE_PATH%\Log-Module\"
 
 
 if /i [TimeManagement-Module] EQU [Ontolog-Module] (
@@ -299,8 +299,8 @@ if /i [Version-Module] EQU [Ontolog-Module] (
 
 del /s /q "%OMODULE_PATH%\Version-Module\*.*"
 
-wget -O "%temp%\OModules\Version-Module_0.1.1.64.exe" %DOWNLOAD_URL%/Version-Module_0.1.1.64.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Version-Module_0.1.1.64.exe" -o"%OMODULE_PATH%\Version-Module\"
+wget -O "%temp%\OModules\Version-Module_0.1.1.65.exe" %DOWNLOAD_URL%/Version-Module_0.1.1.65.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Version-Module_0.1.1.65.exe" -o"%OMODULE_PATH%\Version-Module\"
 
 
 if /i [FileSystem-BaseModel] EQU [Ontolog-Module] (
@@ -311,8 +311,8 @@ if /i [FileSystem-BaseModel] EQU [Ontolog-Module] (
 
 del /s /q "%OMODULE_PATH%\FileSystem-BaseModel\*.*"
 
-wget -O "%temp%\OModules\FileSystem-BaseModel_0.1.0.8.exe" %DOWNLOAD_URL%/FileSystem-BaseModel_0.1.0.8.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\FileSystem-BaseModel_0.1.0.8.exe" -o"%OMODULE_PATH%\FileSystem-BaseModel\"
+wget -O "%temp%\OModules\FileSystem-BaseModel_0.1.0.9.exe" %DOWNLOAD_URL%/FileSystem-BaseModel_0.1.0.9.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\FileSystem-BaseModel_0.1.0.9.exe" -o"%OMODULE_PATH%\FileSystem-BaseModel\"
 
 
 if /i [Manual-Repair-Module] EQU [Ontolog-Module] (
@@ -335,8 +335,8 @@ if /i [Filesystem-Module] EQU [Ontolog-Module] (
 
 del /s /q "%OMODULE_PATH%\Filesystem-Module\*.*"
 
-wget -O "%temp%\OModules\Filesystem-Module_0.3.0.99.exe" %DOWNLOAD_URL%/Filesystem-Module_0.3.0.99.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Filesystem-Module_0.3.0.99.exe" -o"%OMODULE_PATH%\Filesystem-Module\"
+wget -O "%temp%\OModules\Filesystem-Module_0.3.0.100.exe" %DOWNLOAD_URL%/Filesystem-Module_0.3.0.100.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Filesystem-Module_0.3.0.100.exe" -o"%OMODULE_PATH%\Filesystem-Module\"
 
 
 if /i [HTMLExport-Module] EQU [Ontolog-Module] (
@@ -347,8 +347,8 @@ if /i [HTMLExport-Module] EQU [Ontolog-Module] (
 
 del /s /q "%OMODULE_PATH%\HTMLExport-Module\*.*"
 
-wget -O "%temp%\OModules\HTMLExport-Module_0.1.0.97.exe" %DOWNLOAD_URL%/HTMLExport-Module_0.1.0.97.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\HTMLExport-Module_0.1.0.97.exe" -o"%OMODULE_PATH%\HTMLExport-Module\"
+wget -O "%temp%\OModules\HTMLExport-Module_0.1.0.98.exe" %DOWNLOAD_URL%/HTMLExport-Module_0.1.0.98.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\HTMLExport-Module_0.1.0.98.exe" -o"%OMODULE_PATH%\HTMLExport-Module\"
 
 
 if /i [Media-Web-Module] EQU [Ontolog-Module] (
@@ -359,8 +359,8 @@ if /i [Media-Web-Module] EQU [Ontolog-Module] (
 
 del /s /q "%OMODULE_PATH%\Media-Web-Module\*.*"
 
-wget -O "%temp%\OModules\Media-Web-Module_0.1.0.12.exe" %DOWNLOAD_URL%/Media-Web-Module_0.1.0.12.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Media-Web-Module_0.1.0.12.exe" -o"%OMODULE_PATH%\Media-Web-Module\"
+wget -O "%temp%\OModules\Media-Web-Module_0.1.0.13.exe" %DOWNLOAD_URL%/Media-Web-Module_0.1.0.13.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Media-Web-Module_0.1.0.13.exe" -o"%OMODULE_PATH%\Media-Web-Module\"
 
 
 if /i [TextParser] EQU [Ontolog-Module] (
@@ -371,8 +371,8 @@ if /i [TextParser] EQU [Ontolog-Module] (
 
 del /s /q "%OMODULE_PATH%\TextParser\*.*"
 
-wget -O "%temp%\OModules\TextParser_0.1.0.111.exe" %DOWNLOAD_URL%/TextParser_0.1.0.111.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\TextParser_0.1.0.111.exe" -o"%OMODULE_PATH%\TextParser\"
+wget -O "%temp%\OModules\TextParser_0.1.0.112.exe" %DOWNLOAD_URL%/TextParser_0.1.0.112.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\TextParser_0.1.0.112.exe" -o"%OMODULE_PATH%\TextParser\"
 
 
 if /i [Office-Module] EQU [Ontolog-Module] (
@@ -383,8 +383,8 @@ if /i [Office-Module] EQU [Ontolog-Module] (
 
 del /s /q "%OMODULE_PATH%\Office-Module\*.*"
 
-wget -O "%temp%\OModules\Office-Module_0.1.1.78.exe" %DOWNLOAD_URL%/Office-Module_0.1.1.78.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Office-Module_0.1.1.78.exe" -o"%OMODULE_PATH%\Office-Module\"
+wget -O "%temp%\OModules\Office-Module_0.1.1.79.exe" %DOWNLOAD_URL%/Office-Module_0.1.1.79.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Office-Module_0.1.1.79.exe" -o"%OMODULE_PATH%\Office-Module\"
 
 
 if /i [Typed-Tagging-Module] EQU [Ontolog-Module] (
@@ -395,8 +395,8 @@ if /i [Typed-Tagging-Module] EQU [Ontolog-Module] (
 
 del /s /q "%OMODULE_PATH%\Typed-Tagging-Module\*.*"
 
-wget -O "%temp%\OModules\Typed-Tagging-Module_0.1.0.93.exe" %DOWNLOAD_URL%/Typed-Tagging-Module_0.1.0.93.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Typed-Tagging-Module_0.1.0.93.exe" -o"%OMODULE_PATH%\Typed-Tagging-Module\"
+wget -O "%temp%\OModules\Typed-Tagging-Module_0.1.0.94.exe" %DOWNLOAD_URL%/Typed-Tagging-Module_0.1.0.94.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Typed-Tagging-Module_0.1.0.94.exe" -o"%OMODULE_PATH%\Typed-Tagging-Module\"
 
 
 if /i [AudioPlayer-Module] EQU [Ontolog-Module] (
@@ -407,8 +407,8 @@ if /i [AudioPlayer-Module] EQU [Ontolog-Module] (
 
 del /s /q "%OMODULE_PATH%\AudioPlayer-Module\*.*"
 
-wget -O "%temp%\OModules\AudioPlayer-Module_0.1.0.76.exe" %DOWNLOAD_URL%/AudioPlayer-Module_0.1.0.76.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\AudioPlayer-Module_0.1.0.76.exe" -o"%OMODULE_PATH%\AudioPlayer-Module\"
+wget -O "%temp%\OModules\AudioPlayer-Module_0.1.0.77.exe" %DOWNLOAD_URL%/AudioPlayer-Module_0.1.0.77.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\AudioPlayer-Module_0.1.0.77.exe" -o"%OMODULE_PATH%\AudioPlayer-Module\"
 
 
 if /i [CommandLineRun-Module] EQU [Ontolog-Module] (
@@ -419,8 +419,8 @@ if /i [CommandLineRun-Module] EQU [Ontolog-Module] (
 
 del /s /q "%OMODULE_PATH%\CommandLineRun-Module\*.*"
 
-wget -O "%temp%\OModules\CommandLineRun-Module_0.1.0.59.exe" %DOWNLOAD_URL%/CommandLineRun-Module_0.1.0.59.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\CommandLineRun-Module_0.1.0.59.exe" -o"%OMODULE_PATH%\CommandLineRun-Module\"
+wget -O "%temp%\OModules\CommandLineRun-Module_0.1.0.60.exe" %DOWNLOAD_URL%/CommandLineRun-Module_0.1.0.60.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\CommandLineRun-Module_0.1.0.60.exe" -o"%OMODULE_PATH%\CommandLineRun-Module\"
 
 
 if /i [BankTransaction-Module] EQU [Ontolog-Module] (
@@ -431,8 +431,8 @@ if /i [BankTransaction-Module] EQU [Ontolog-Module] (
 
 del /s /q "%OMODULE_PATH%\BankTransaction-Module\*.*"
 
-wget -O "%temp%\OModules\BankTransaction-Module_0.1.1.79.exe" %DOWNLOAD_URL%/BankTransaction-Module_0.1.1.79.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\BankTransaction-Module_0.1.1.79.exe" -o"%OMODULE_PATH%\BankTransaction-Module\"
+wget -O "%temp%\OModules\BankTransaction-Module_0.1.1.80.exe" %DOWNLOAD_URL%/BankTransaction-Module_0.1.1.80.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\BankTransaction-Module_0.1.1.80.exe" -o"%OMODULE_PATH%\BankTransaction-Module\"
 
 
 if /i [Development-Module] EQU [Ontolog-Module] (
@@ -443,8 +443,8 @@ if /i [Development-Module] EQU [Ontolog-Module] (
 
 del /s /q "%OMODULE_PATH%\Development-Module\*.*"
 
-wget -O "%temp%\OModules\Development-Module_0.3.0.134.exe" %DOWNLOAD_URL%/Development-Module_0.3.0.134.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Development-Module_0.3.0.134.exe" -o"%OMODULE_PATH%\Development-Module\"
+wget -O "%temp%\OModules\Development-Module_0.3.0.135.exe" %DOWNLOAD_URL%/Development-Module_0.3.0.135.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Development-Module_0.3.0.135.exe" -o"%OMODULE_PATH%\Development-Module\"
 
 
 if /i [DatabaseConfigurationModule] EQU [Ontolog-Module] (
@@ -455,8 +455,8 @@ if /i [DatabaseConfigurationModule] EQU [Ontolog-Module] (
 
 del /s /q "%OMODULE_PATH%\DatabaseConfigurationModule\*.*"
 
-wget -O "%temp%\OModules\DatabaseConfigurationModule_0.1.0.41.exe" %DOWNLOAD_URL%/DatabaseConfigurationModule_0.1.0.41.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\DatabaseConfigurationModule_0.1.0.41.exe" -o"%OMODULE_PATH%\DatabaseConfigurationModule\"
+wget -O "%temp%\OModules\DatabaseConfigurationModule_0.1.0.42.exe" %DOWNLOAD_URL%/DatabaseConfigurationModule_0.1.0.42.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\DatabaseConfigurationModule_0.1.0.42.exe" -o"%OMODULE_PATH%\DatabaseConfigurationModule\"
 
 
 if /i [ScriptingModule] EQU [Ontolog-Module] (
@@ -467,8 +467,8 @@ if /i [ScriptingModule] EQU [Ontolog-Module] (
 
 del /s /q "%OMODULE_PATH%\ScriptingModule\*.*"
 
-wget -O "%temp%\OModules\ScriptingModule_0.1.0.35.exe" %DOWNLOAD_URL%/ScriptingModule_0.1.0.35.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\ScriptingModule_0.1.0.35.exe" -o"%OMODULE_PATH%\ScriptingModule\"
+wget -O "%temp%\OModules\ScriptingModule_0.1.0.36.exe" %DOWNLOAD_URL%/ScriptingModule_0.1.0.36.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\ScriptingModule_0.1.0.36.exe" -o"%OMODULE_PATH%\ScriptingModule\"
 
 
 if /i [CommandLineCL-Module] EQU [Ontolog-Module] (
@@ -479,8 +479,8 @@ if /i [CommandLineCL-Module] EQU [Ontolog-Module] (
 
 del /s /q "%OMODULE_PATH%\CommandLineCL-Module\*.*"
 
-wget -O "%temp%\OModules\CommandLineCL-Module_0.1.0.52.exe" %DOWNLOAD_URL%/CommandLineCL-Module_0.1.0.52.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\CommandLineCL-Module_0.1.0.52.exe" -o"%OMODULE_PATH%\CommandLineCL-Module\"
+wget -O "%temp%\OModules\CommandLineCL-Module_0.1.0.53.exe" %DOWNLOAD_URL%/CommandLineCL-Module_0.1.0.53.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\CommandLineCL-Module_0.1.0.53.exe" -o"%OMODULE_PATH%\CommandLineCL-Module\"
 
 
 if /i [Media-Viewer-Module] EQU [Ontolog-Module] (
@@ -491,8 +491,8 @@ if /i [Media-Viewer-Module] EQU [Ontolog-Module] (
 
 del /s /q "%OMODULE_PATH%\Media-Viewer-Module\*.*"
 
-wget -O "%temp%\OModules\Media-Viewer-Module_0.1.1.133.exe" %DOWNLOAD_URL%/Media-Viewer-Module_0.1.1.133.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Media-Viewer-Module_0.1.1.133.exe" -o"%OMODULE_PATH%\Media-Viewer-Module\"
+wget -O "%temp%\OModules\Media-Viewer-Module_0.1.1.134.exe" %DOWNLOAD_URL%/Media-Viewer-Module_0.1.1.134.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Media-Viewer-Module_0.1.1.134.exe" -o"%OMODULE_PATH%\Media-Viewer-Module\"
 
 
 if /i [FileResourceModule] EQU [Ontolog-Module] (
@@ -503,8 +503,8 @@ if /i [FileResourceModule] EQU [Ontolog-Module] (
 
 del /s /q "%OMODULE_PATH%\FileResourceModule\*.*"
 
-wget -O "%temp%\OModules\FileResourceModule_0.1.0.90.exe" %DOWNLOAD_URL%/FileResourceModule_0.1.0.90.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\FileResourceModule_0.1.0.90.exe" -o"%OMODULE_PATH%\FileResourceModule\"
+wget -O "%temp%\OModules\FileResourceModule_0.1.0.91.exe" %DOWNLOAD_URL%/FileResourceModule_0.1.0.91.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\FileResourceModule_0.1.0.91.exe" -o"%OMODULE_PATH%\FileResourceModule\"
 
 
 if /i [FileSystem-Connector-Module] EQU [Ontolog-Module] (
@@ -515,8 +515,8 @@ if /i [FileSystem-Connector-Module] EQU [Ontolog-Module] (
 
 del /s /q "%OMODULE_PATH%\FileSystem-Connector-Module\*.*"
 
-wget -O "%temp%\OModules\FileSystem-Connector-Module_0.1.0.101.exe" %DOWNLOAD_URL%/FileSystem-Connector-Module_0.1.0.101.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\FileSystem-Connector-Module_0.1.0.101.exe" -o"%OMODULE_PATH%\FileSystem-Connector-Module\"
+wget -O "%temp%\OModules\FileSystem-Connector-Module_0.1.0.102.exe" %DOWNLOAD_URL%/FileSystem-Connector-Module_0.1.0.102.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\FileSystem-Connector-Module_0.1.0.102.exe" -o"%OMODULE_PATH%\FileSystem-Connector-Module\"
 
 
 if /i [Scenes-Literatur-Module] EQU [Ontolog-Module] (
@@ -527,8 +527,8 @@ if /i [Scenes-Literatur-Module] EQU [Ontolog-Module] (
 
 del /s /q "%OMODULE_PATH%\Scenes-Literatur-Module\*.*"
 
-wget -O "%temp%\OModules\Scenes-Literatur-Module_0.1.1.98.exe" %DOWNLOAD_URL%/Scenes-Literatur-Module_0.1.1.98.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Scenes-Literatur-Module_0.1.1.98.exe" -o"%OMODULE_PATH%\Scenes-Literatur-Module\"
+wget -O "%temp%\OModules\Scenes-Literatur-Module_0.1.1.99.exe" %DOWNLOAD_URL%/Scenes-Literatur-Module_0.1.1.99.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Scenes-Literatur-Module_0.1.1.99.exe" -o"%OMODULE_PATH%\Scenes-Literatur-Module\"
 
 
 if /i [Process-Module] EQU [Ontolog-Module] (
@@ -539,8 +539,8 @@ if /i [Process-Module] EQU [Ontolog-Module] (
 
 del /s /q "%OMODULE_PATH%\Process-Module\*.*"
 
-wget -O "%temp%\OModules\Process-Module_0.3.0.99.exe" %DOWNLOAD_URL%/Process-Module_0.3.0.99.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Process-Module_0.3.0.99.exe" -o"%OMODULE_PATH%\Process-Module\"
+wget -O "%temp%\OModules\Process-Module_0.3.0.100.exe" %DOWNLOAD_URL%/Process-Module_0.3.0.100.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Process-Module_0.3.0.100.exe" -o"%OMODULE_PATH%\Process-Module\"
 
 
 if /i [OutlookConnector-Module] EQU [Ontolog-Module] (
@@ -551,8 +551,8 @@ if /i [OutlookConnector-Module] EQU [Ontolog-Module] (
 
 del /s /q "%OMODULE_PATH%\OutlookConnector-Module\*.*"
 
-wget -O "%temp%\OModules\OutlookConnector-Module_0.1.0.110.exe" %DOWNLOAD_URL%/OutlookConnector-Module_0.1.0.110.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\OutlookConnector-Module_0.1.0.110.exe" -o"%OMODULE_PATH%\OutlookConnector-Module\"
+wget -O "%temp%\OModules\OutlookConnector-Module_0.1.0.111.exe" %DOWNLOAD_URL%/OutlookConnector-Module_0.1.0.111.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\OutlookConnector-Module_0.1.0.111.exe" -o"%OMODULE_PATH%\OutlookConnector-Module\"
 
 
 if /i [Partner-Module] EQU [Ontolog-Module] (
@@ -563,8 +563,8 @@ if /i [Partner-Module] EQU [Ontolog-Module] (
 
 del /s /q "%OMODULE_PATH%\Partner-Module\*.*"
 
-wget -O "%temp%\OModules\Partner-Module_0.3.0.100.exe" %DOWNLOAD_URL%/Partner-Module_0.3.0.100.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Partner-Module_0.3.0.100.exe" -o"%OMODULE_PATH%\Partner-Module\"
+wget -O "%temp%\OModules\Partner-Module_0.3.0.101.exe" %DOWNLOAD_URL%/Partner-Module_0.3.0.101.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Partner-Module_0.3.0.101.exe" -o"%OMODULE_PATH%\Partner-Module\"
 
 
 if /i [Report-Module] EQU [Ontolog-Module] (
@@ -575,8 +575,8 @@ if /i [Report-Module] EQU [Ontolog-Module] (
 
 del /s /q "%OMODULE_PATH%\Report-Module\*.*"
 
-wget -O "%temp%\OModules\Report-Module_0.1.1.144.exe" %DOWNLOAD_URL%/Report-Module_0.1.1.144.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Report-Module_0.1.1.144.exe" -o"%OMODULE_PATH%\Report-Module\"
+wget -O "%temp%\OModules\Report-Module_0.1.1.145.exe" %DOWNLOAD_URL%/Report-Module_0.1.1.145.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Report-Module_0.1.1.145.exe" -o"%OMODULE_PATH%\Report-Module\"
 
 
 if /i [Appointment-Module] EQU [Ontolog-Module] (
@@ -587,8 +587,8 @@ if /i [Appointment-Module] EQU [Ontolog-Module] (
 
 del /s /q "%OMODULE_PATH%\Appointment-Module\*.*"
 
-wget -O "%temp%\OModules\Appointment-Module_0.1.1.103.exe" %DOWNLOAD_URL%/Appointment-Module_0.1.1.103.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Appointment-Module_0.1.1.103.exe" -o"%OMODULE_PATH%\Appointment-Module\"
+wget -O "%temp%\OModules\Appointment-Module_0.1.1.104.exe" %DOWNLOAD_URL%/Appointment-Module_0.1.1.104.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Appointment-Module_0.1.1.104.exe" -o"%OMODULE_PATH%\Appointment-Module\"
 
 
 if /i [Schriftverkehrs-Module] EQU [Ontolog-Module] (
@@ -599,8 +599,8 @@ if /i [Schriftverkehrs-Module] EQU [Ontolog-Module] (
 
 del /s /q "%OMODULE_PATH%\Schriftverkehrs-Module\*.*"
 
-wget -O "%temp%\OModules\Schriftverkehrs-Module_0.1.0.138.exe" %DOWNLOAD_URL%/Schriftverkehrs-Module_0.1.0.138.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Schriftverkehrs-Module_0.1.0.138.exe" -o"%OMODULE_PATH%\Schriftverkehrs-Module\"
+wget -O "%temp%\OModules\Schriftverkehrs-Module_0.1.0.139.exe" %DOWNLOAD_URL%/Schriftverkehrs-Module_0.1.0.139.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Schriftverkehrs-Module_0.1.0.139.exe" -o"%OMODULE_PATH%\Schriftverkehrs-Module\"
 
 
 if /i [Bill-Module] EQU [Ontolog-Module] (
@@ -611,8 +611,8 @@ if /i [Bill-Module] EQU [Ontolog-Module] (
 
 del /s /q "%OMODULE_PATH%\Bill-Module\*.*"
 
-wget -O "%temp%\OModules\Bill-Module_0.1.0.115.exe" %DOWNLOAD_URL%/Bill-Module_0.1.0.115.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Bill-Module_0.1.0.115.exe" -o"%OMODULE_PATH%\Bill-Module\"
+wget -O "%temp%\OModules\Bill-Module_0.1.0.116.exe" %DOWNLOAD_URL%/Bill-Module_0.1.0.116.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Bill-Module_0.1.0.116.exe" -o"%OMODULE_PATH%\Bill-Module\"
 
 
 if /i [Literaturquellen-Module] EQU [Ontolog-Module] (
@@ -623,8 +623,8 @@ if /i [Literaturquellen-Module] EQU [Ontolog-Module] (
 
 del /s /q "%OMODULE_PATH%\Literaturquellen-Module\*.*"
 
-wget -O "%temp%\OModules\Literaturquellen-Module_0.1.0.156.exe" %DOWNLOAD_URL%/Literaturquellen-Module_0.1.0.156.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Literaturquellen-Module_0.1.0.156.exe" -o"%OMODULE_PATH%\Literaturquellen-Module\"
+wget -O "%temp%\OModules\Literaturquellen-Module_0.1.0.157.exe" %DOWNLOAD_URL%/Literaturquellen-Module_0.1.0.157.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Literaturquellen-Module_0.1.0.157.exe" -o"%OMODULE_PATH%\Literaturquellen-Module\"
 
 
 if /i [Change-Module] EQU [Ontolog-Module] (
@@ -635,8 +635,8 @@ if /i [Change-Module] EQU [Ontolog-Module] (
 
 del /s /q "%OMODULE_PATH%\Change-Module\*.*"
 
-wget -O "%temp%\OModules\Change-Module_0.1.0.118.exe" %DOWNLOAD_URL%/Change-Module_0.1.0.118.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Change-Module_0.1.0.118.exe" -o"%OMODULE_PATH%\Change-Module\"
+wget -O "%temp%\OModules\Change-Module_0.1.0.119.exe" %DOWNLOAD_URL%/Change-Module_0.1.0.119.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Change-Module_0.1.0.119.exe" -o"%OMODULE_PATH%\Change-Module\"
 
 
 if /i [Checklist-Module] EQU [Ontolog-Module] (
@@ -647,5 +647,5 @@ if /i [Checklist-Module] EQU [Ontolog-Module] (
 
 del /s /q "%OMODULE_PATH%\Checklist-Module\*.*"
 
-wget -O "%temp%\OModules\Checklist-Module_0.1.0.154.exe" %DOWNLOAD_URL%/Checklist-Module_0.1.0.154.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Checklist-Module_0.1.0.154.exe" -o"%OMODULE_PATH%\Checklist-Module\"
+wget -O "%temp%\OModules\Checklist-Module_0.1.0.155.exe" %DOWNLOAD_URL%/Checklist-Module_0.1.0.155.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Checklist-Module_0.1.0.155.exe" -o"%OMODULE_PATH%\Checklist-Module\"
