@@ -103,7 +103,6 @@ namespace Typed_Tagging_Module
                 objLocalConfig.OItem_User = objFrmAuthenticate.OItem_User;
                 objLocalConfig.OItem_Group = objFrmAuthenticate.OItem_Group;
 
-                
                 objUserControl_RefTree = new UserControl_RefTree(objLocalConfig.Globals);
                 objUserControl_RefTree.Dock = DockStyle.Fill;
                 tabPage_TaggingSource.Controls.Add(objUserControl_RefTree);

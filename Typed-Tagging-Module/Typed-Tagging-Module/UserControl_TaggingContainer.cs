@@ -123,15 +123,14 @@ namespace Typed_Tagging_Module
         private void Configure_TabPages(clsOntologyItem OItem_Class)
         {
             var tabPageNew = new TabPage(OItem_Class.Name);
-            var objUserControl = new UserControl_Tagging(objLocalConfig);
-            objUserControl.Dock = DockStyle.Fill;
-            tabPageNew.Controls.Add(objUserControl);
+            
+            
 
             TabControlList.Add(new clsTabControl
             {
                 TabName = OItem_Class.Name,
-                ClassItem = OItem_Class,
-                objUserControl_Tagging = objUserControl
+                ClassItem = OItem_Class//,
+                //objUserControl_Tagging = objUserControl
             });
 
             tabControl1.TabPages.Add(tabPageNew);
@@ -144,6 +143,14 @@ namespace Typed_Tagging_Module
                 var selControls = TabControlList.Where(cl => cl.TabName == tabControl1.SelectedTab.Text).ToList();
                 if (selControls.Any())
                 {
+                    if (selControls.First().objUserControl_Tagging == null)
+                    {
+                        var objUserControl = new UserControl_Tagging(objLocalConfig);
+                        objUserControl.Dock = DockStyle.Fill;
+                        tabControl1.SelectedTab.Controls.Add(objUserControl);
+                        selControls.First().objUserControl_Tagging = objUserControl;
+                    }
+                    
                     selControls.First().objUserControl_Tagging.Initialize_Tagging(objOItem_TaggingSource, objDataWork_Tagging, selControls.First().ClassItem);
                 }
             }

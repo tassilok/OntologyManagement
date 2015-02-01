@@ -63,6 +63,7 @@
             // 
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Multiline = true;
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(775, 442);
@@ -78,7 +79,7 @@
             this.toolStripButton_Edit});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(126, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(95, 25);
             this.toolStrip1.TabIndex = 0;
             // 
             // toolStripButton_AddTypedTag
