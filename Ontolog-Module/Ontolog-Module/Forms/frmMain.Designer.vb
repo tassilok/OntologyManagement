@@ -533,9 +533,7 @@ Partial Class frmMain
         '
         'ToolStripButton_AttribRel
         '
-        Me.ToolStripButton_AttribRel.Checked = True
         Me.ToolStripButton_AttribRel.CheckOnClick = True
-        Me.ToolStripButton_AttribRel.CheckState = System.Windows.Forms.CheckState.Checked
         Me.ToolStripButton_AttribRel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
         Me.ToolStripButton_AttribRel.Image = Global.Ontology_Module.My.Resources.Resources.Attributes_bamboo_danny_allen_r
         Me.ToolStripButton_AttribRel.ImageTransparentColor = System.Drawing.Color.Magenta

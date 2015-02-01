@@ -90,7 +90,7 @@
             this.toolStripButton_InsertParameterList});
             this.toolStrip2.Location = new System.Drawing.Point(3, 0);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(259, 25);
+            this.toolStrip2.Size = new System.Drawing.Size(228, 25);
             this.toolStrip2.TabIndex = 0;
             // 
             // toolStripLabel_LastRoutineLbl

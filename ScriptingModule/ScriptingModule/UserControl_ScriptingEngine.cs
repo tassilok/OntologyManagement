@@ -209,9 +209,9 @@ namespace ScriptingModule
                     {
                         objFrmAutoCorrection.Show(this);
                     }
-                    
 
-
+                    e.SuppressKeyPress = true;
+                    e.Handled = true;
                     
 
                 }
