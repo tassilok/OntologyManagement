@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Items Type="Class">
+  <Item Id="ae01c33717c8414592cadddba0a6024f" Id_Parent="aa616051e5214facabdbcbba6f8c6e73"><![CDATA[OntologySync-Module]]></Item>
+<Item Id="eb411e2ff93d4a5ebbbac0b5d7ec0197" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Ontologies]]></Item>
+<Item Id="d3f72a683f6146a48ff381db05997dc8" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Items]]></Item>
+<Item Id="aab30dd04faf4386896016218132b110" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Join]]></Item>
+<Item Id="925f489dec8d4130a418fcb022a4c731" Id_Parent="eb411e2ff93d4a5ebbbac0b5d7ec0197"><![CDATA[Ontology-Relation-Rule]]></Item>
+<Item Id="aa616051e5214facabdbcbba6f8c6e73" Id_Parent="b5224e7f7d0d4beebf8eb9a0eeba5747"><![CDATA[Module]]></Item>
+<Item Id="094d728d6efc463c85c72dcfed903c78" Id_Parent="4b335d37208742f6a680a1b03e35d73c"><![CDATA[Url]]></Item>
+<Item Id="12d13e150813460fa56064cb4b862d23" Id_Parent="31da809331494400957fa26027fb506e"><![CDATA[User-Authentication]]></Item>
+<Item Id="3e1587d83e3546dd983341903904254d" Id_Parent="31da809331494400957fa26027fb506e"><![CDATA[Password]]></Item>
+<Item Id="c441518dbfe04d55b538df5c5555dd83" Id_Parent="31da809331494400957fa26027fb506e"><![CDATA[user]]></Item>
+<Item Id="83961991c33d4ec7893a2dba0fc4cd69" Id_Parent="fa121432183946629ecfe0deac63ea7c"><![CDATA[Web-Connection]]></Item>
+<Item Id="31da809331494400957fa26027fb506e" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Security-Management]]></Item>
+<Item Id="b5224e7f7d0d4beebf8eb9a0eeba5747" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Module-Management]]></Item>
+<Item Id="665dd88b792e4256a27a68ee1e10ece6" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[System]]></Item>
+<Item Id="4b335d37208742f6a680a1b03e35d73c" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[Web-Management]]></Item>
+<Item Id="fa121432183946629ecfe0deac63ea7c" Id_Parent="4b335d37208742f6a680a1b03e35d73c"><![CDATA[Web-Service]]></Item>
+<Item Id="49fdcd27e1054770941d7485dcad08c1" Id_Parent=""><![CDATA[Root]]></Item>
+<Item Id="d1d8b1e7ebf84b818a8895824a51ba2d" Id_Parent="9b0eeaffd3924596a266ed29f177f7eb"><![CDATA[Job]]></Item>
+<Item Id="9b0eeaffd3924596a266ed29f177f7eb" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Infrastructure]]></Item>
+
+</Items>
