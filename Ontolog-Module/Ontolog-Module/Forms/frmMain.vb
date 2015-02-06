@@ -264,7 +264,7 @@ Public Class frmMain
             End If
             Me.DialogResult = Windows.Forms.DialogResult.OK
             Me.Close()
-        Else
+        ElseIf Not objUserControl_ObjRel Is Nothing Then
             oList_Applied_Simple = objUserControl_OObjectList.OList_Simple
             objUserControl_ObjRel.applied_Object(oList_Applied_Simple)
         End If
@@ -1031,7 +1031,7 @@ Public Class frmMain
 
 
     Private Sub ToolStripButton_ModuleStart_Click(sender As Object, e As EventArgs) Handles ToolStripButton_ModuleStart.Click
-        objFrm_Modules = New frmModules(objLocalConfig.Globals)
+        objFrm_Modules = New frmModules(objLocalConfig.Globals, Nothing)
         objFrm_Modules.ShowDialog(Me)
 
         If objFrm_Modules.DialogResult = Windows.Forms.DialogResult.OK Then

@@ -1,4 +1,6 @@
-﻿Public Class clsModuleForCommandLine
+﻿Imports OntologyClasses.BaseClasses
+
+Public Class clsModuleForCommandLine
     Public Property ModuleGuid As String
     Public Property ModuleName As String
     Public Property ModulePath As String
@@ -13,8 +15,10 @@
         Get
             Return Major & "." & Minor & "." & Build & "." & Revision
         End Get
-        
+
     End Property
+
+    Public Property OrderId As Integer
 
     Public Function Clone() As clsModuleForCommandLine
         Dim objModule As New clsModuleForCommandLine With {.Build = Build,
@@ -28,4 +32,9 @@
 
         Return objModule
     End Function
+
+
+    Public Sub New()
+
+    End Sub
 End Class

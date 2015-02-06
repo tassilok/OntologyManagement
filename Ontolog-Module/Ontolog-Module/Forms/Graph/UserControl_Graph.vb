@@ -732,7 +732,7 @@ Public Class UserControl_Graph
                     Case objGraphAttributes.ShapeObject      'Object
                         objOItem_Selected = objDBLevel_Classes.GetOItem(node.Id, objLocalConfig.Globals.Type_Object)
                         If Not OpenLastModuleToolStripMenuItem.Checked Or String.IsNullOrEmpty(strLastModule) Then
-                            objFrm_Modules = New frmModules(objLocalConfig.Globals)
+                            objFrm_Modules = New frmModules(objLocalConfig.Globals, objOItem_Selected)
                             objFrm_Modules.ShowDialog(Me)
                             If objFrm_Modules.DialogResult = DialogResult.OK Then
                                 Dim strModule = objFrm_Modules.Selected_Module

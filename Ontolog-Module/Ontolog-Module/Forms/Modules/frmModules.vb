@@ -10,8 +10,13 @@ Public Class frmModules
                     
     Private moduleListGlobal As List(Of clsModuleForCommandLine)
 
-    Private objDBLevel_ModuleList As clsDBLevel
+    Private objOItem_Ref As clsOntologyItem
+    Private objOItem_Class As clsOntologyItem
 
+    Private objDBLevel_ModuleList As clsDBLevel
+    Private objDBLevel_ModulesOfClass As clsDBLevel
+    Private objTransaction As clsTransaction
+    Private objRelationConfig As clsRelationConfig
 
     Public ReadOnly Property Selected_Module As String
         Get
@@ -23,11 +28,12 @@ Public Class frmModules
         Me.Close()
     End Sub
 
-    Public Sub New(Globals As clsGlobals)
+    Public Sub New(Globals As clsGlobals, OItem_Ref As clsOntologyItem)
 
         ' Dieser Aufruf ist für den Designer erforderlich.
         InitializeComponent()
 
+        objOItem_Ref = OItem_Ref
         ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
         objGlobals = Globals
 
@@ -35,9 +41,11 @@ Public Class frmModules
     End Sub
 
     Private Sub Initialize()
+
         Dim objOItem_Result = objGlobals.LState_Success.Clone()
         If objGlobals.DbModuleList Is Nothing Then
             objDBLevel_ModuleList = New clsDBLevel(objGlobals)
+            objDBLevel_ModulesOfClass = New clsDBLevel(objGlobals)
             Dim searchModules = New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Parent_Object = objGlobals.Class_Module.GUID,
                                                                                         .ID_Parent_Other = objGlobals.Class_ModuleFunction.GUID,
                                                                                         .ID_RelationType = objGlobals.RelationType_isOfType.GUID,
@@ -48,19 +56,39 @@ Public Class frmModules
         End If
 
         If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+            If Not objOItem_Ref Is Nothing Then
+                objOItem_Class = objDBLevel_ModulesOfClass.GetOItem(objOItem_Ref.GUID_Parent, objGlobals.Type_Class)
+                If objOItem_Ref.Type = objGlobals.Type_Object And objDBLevel_ModuleList.OList_ObjectRel.Any() Then
+                    Dim searchClasses = objDBLevel_ModuleList.OList_ObjectRel.Select(Function(mods) New clsObjectRel With {.ID_Object = mods.ID_Object,
+                                                                                                                   .ID_RelationType = objGlobals.RelationType_belongingClass.GUID,
+                                                                                                                   .ID_Other = objOItem_Ref.GUID_Parent}).ToList()
+
+                    objOItem_Result = objDBLevel_ModulesOfClass.get_Data_ObjectRel(searchClasses, boolIDs:=False)
+                End If
+
+            End If
+        End If
+        If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
+
             Dim moduleList = objGlobals.get_ModuleExecutablesInSearchPath.OrderBy(Function(mods) mods.ModuleGuid).ThenByDescending(Function(mods) mods.Major).ThenByDescending(Function(mods) mods.Minor).ThenByDescending(Function(mods) mods.Build).ThenByDescending(Function(mods) mods.Revision).ToList()
 
-            
+
             If Not objDBLevel_ModuleList.OList_ObjectRel.Any() Or Not moduleList Is Nothing Then
                 moduleListGlobal = New List(Of clsModuleForCommandLine)
-                objDBLevel_ModuleList.OList_ObjectRel.ForEach(Sub(modExist)
-                                                                  Dim modules = moduleList.Where(Function(mods) mods.ModuleGuid = modExist.ID_Object)
-                                                                  If modules.Any() Then
-                                                                      Dim objModule = modules.First().Clone
-                                                                      objModule.MainModuleFunction = modExist.Name_Other
-                                                                      moduleListGlobal.Add(objModule)
-                                                                  End If
-                                                              End Sub)
+
+                Dim moduleListWithOrder = (From moduleItem In objDBLevel_ModuleList.OList_ObjectRel
+                                 Group Join moduleOfClass In objDBLevel_ModulesOfClass.OList_ObjectRel On moduleItem.ID_Object Equals moduleOfClass.ID_Object Into modulesOfClasses = Group
+                                 From moduleOfClass In modulesOfClasses.DefaultIfEmpty()
+                                 Select moduleItem, moduleOfClass).ToList()
+                moduleListWithOrder.ForEach(Sub(modExist)
+                                                Dim modules = moduleList.Where(Function(mods) mods.ModuleGuid = modExist.moduleItem.ID_Object)
+                                                If modules.Any() Then
+                                                    Dim objModule = modules.First().Clone
+                                                    objModule.MainModuleFunction = modExist.moduleItem.Name_Other
+                                                    objModule.OrderId = If(modExist.moduleOfClass Is Nothing, 0, modExist.moduleOfClass.OrderID)
+                                                    moduleListGlobal.Add(objModule)
+                                                End If
+                                            End Sub)
 
                 If moduleListGlobal.Any() Then
                     FillGrid()
@@ -85,23 +113,23 @@ Public Class frmModules
         Dim moduleListSortable As SortableBindingList(Of clsModuleForCommandLine)
         If String.IsNullOrEmpty(strFilter) Then
 
-            moduleListSortable = New SortableBindingList(Of clsModuleForCommandLine)(moduleListGlobal)
+            moduleListSortable = New SortableBindingList(Of clsModuleForCommandLine)(moduleListGlobal.OrderByDescending(Function(modl) modl.OrderId).ThenBy(Function(modl) modl.ModuleName))
         Else
-            moduleListSortable = New SortableBindingList(Of clsModuleForCommandLine)(moduleListGlobal.Where(Function(modl) modl.ModuleName.ToLower().Contains(strFilter.ToLower())))
+            moduleListSortable = New SortableBindingList(Of clsModuleForCommandLine)(moduleListGlobal.Where(Function(modl) modl.ModuleName.ToLower().Contains(strFilter.ToLower())).OrderByDescending(Function(modl) modl.OrderId).ThenBy(Function(modl) modl.ModuleName))
         End If
 
 
         DataGridView_Modules.DataSource = moduleListSortable
 
         For Each objCol As DataGridViewColumn In DataGridView_Modules.Columns
-            If objCol.Name = "ModuleName" Or objCol.Name = "ModulePath" Or objCol.Name = "MainModuleFunction" Or objCol.Name = "Version" Then
+            If objCol.Name = "ModuleName" Or objCol.Name = "ModulePath" Or objCol.Name = "MainModuleFunction" Or objCol.Name = "Version" Or objCol.Name = "OrderId" Then
                 objCol.Visible = True
 
             Else
                 objCol.Visible = False
             End If
         Next
-        DataGridView_Modules.Sort(DataGridView_Modules.Columns(0), System.ComponentModel.ListSortDirection.Ascending)
+
     End Sub
 
     Private Sub ContextMenuStrip_Modules_Opening(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles ContextMenuStrip_Modules.Opening
@@ -112,7 +140,32 @@ Public Class frmModules
     End Sub
 
     Private Sub ApplyToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ApplyToolStripMenuItem.Click
-        strModule = DataGridView_Modules.SelectedRows(0).Cells(2).Value.ToString()
+        Dim objModule = CType(DataGridView_Modules.SelectedRows(0).DataBoundItem, clsModuleForCommandLine)
+        If Not objModule Is Nothing Then
+            objRelationConfig = New clsRelationConfig(objGlobals)
+            objTransaction = New clsTransaction(objGlobals)
+
+            If Not objOItem_Class Is Nothing Then
+
+
+                Dim objOItem_Module = New clsOntologyItem With {.GUID = objModule.ModuleGuid,
+                                                                .Name = objModule.ModuleName,
+                                                                .GUID_Parent = objGlobals.Class_Module.GUID,
+                                                                .Type = objGlobals.Type_Object}
+                Dim objRelUsedClass = objRelationConfig.Rel_ObjectRelation(objOItem_Module, objOItem_Class, objGlobals.RelationType_belongingClass, OrderID:=objModule.OrderId + 1)
+                objTransaction.ClearItems()
+                objTransaction.do_Transaction(objRelUsedClass)
+
+            End If
+
+
+
+            strModule = DataGridView_Modules.SelectedRows(0).Cells(2).Value.ToString()
+        Else
+            strModule = ""
+        End If
+
+
         DialogResult = Windows.Forms.DialogResult.OK
     End Sub
 
