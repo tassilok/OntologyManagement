@@ -36,6 +36,10 @@
             this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel_PagesLbl = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripButton_PageFirst = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton_PagePrevious = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton_PageNext = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton_PageLast = new System.Windows.Forms.ToolStripButton();
             this.toolStripLabel_PageCur = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel_CountLbl = new System.Windows.Forms.ToolStripLabel();
@@ -54,30 +58,27 @@
             this.toolStrip3 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripComboBox_Indexes = new System.Windows.Forms.ToolStripComboBox();
+            this.toolStripDropDownButton_IndexWork = new System.Windows.Forms.ToolStripDropDownButton();
+            this.toolStripMenuItem_DeleteIndex = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel_Query = new System.Windows.Forms.ToolStripLabel();
             this.toolStripTextBox_Query = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripButton_Search = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton_Import = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripTextBox_Parser = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton_PageFirst = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton_PagePrevious = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton_PageNext = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton_PageLast = new System.Windows.Forms.ToolStripButton();
-            this.toolStripDropDownButton_IndexWork = new System.Windows.Forms.ToolStripDropDownButton();
-            this.toolStripMenuItem_DeleteIndex = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripButton_Search = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton_Import = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton_Parse = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton_Stop = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton_Listen = new System.Windows.Forms.ToolStripButton();
-            this.bindingSource_Items = new System.Windows.Forms.BindingSource(this.components);
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel_ParseCountLbl = new System.Windows.Forms.ToolStripLabel();
             this.toolStripLabel_ParseCount = new System.Windows.Forms.ToolStripLabel();
+            this.bindingSource_Items = new System.Windows.Forms.BindingSource(this.components);
+            this.parseTestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -165,6 +166,46 @@
             this.toolStripLabel_PagesLbl.Size = new System.Drawing.Size(51, 22);
             this.toolStripLabel_PagesLbl.Text = "x-Pages:";
             // 
+            // toolStripButton_PageFirst
+            // 
+            this.toolStripButton_PageFirst.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton_PageFirst.Image = global::TextParser.Properties.Resources.pulsante_01_architetto_f_01_First1;
+            this.toolStripButton_PageFirst.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_PageFirst.Name = "toolStripButton_PageFirst";
+            this.toolStripButton_PageFirst.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton_PageFirst.Text = "toolStripButton1";
+            this.toolStripButton_PageFirst.Click += new System.EventHandler(this.toolStripButton_PageFirst_Click);
+            // 
+            // toolStripButton_PagePrevious
+            // 
+            this.toolStripButton_PagePrevious.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton_PagePrevious.Image = global::TextParser.Properties.Resources.pulsante_01_architetto_f_01;
+            this.toolStripButton_PagePrevious.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_PagePrevious.Name = "toolStripButton_PagePrevious";
+            this.toolStripButton_PagePrevious.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton_PagePrevious.Text = "toolStripButton2";
+            this.toolStripButton_PagePrevious.Click += new System.EventHandler(this.toolStripButton_PagePrevious_Click);
+            // 
+            // toolStripButton_PageNext
+            // 
+            this.toolStripButton_PageNext.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton_PageNext.Image = global::TextParser.Properties.Resources.pulsante_02_architetto_f_01;
+            this.toolStripButton_PageNext.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_PageNext.Name = "toolStripButton_PageNext";
+            this.toolStripButton_PageNext.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton_PageNext.Text = "toolStripButton3";
+            this.toolStripButton_PageNext.Click += new System.EventHandler(this.toolStripButton_PageNext_Click);
+            // 
+            // toolStripButton_PageLast
+            // 
+            this.toolStripButton_PageLast.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton_PageLast.Image = global::TextParser.Properties.Resources.pulsante_02_architetto_f_01_Last;
+            this.toolStripButton_PageLast.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_PageLast.Name = "toolStripButton_PageLast";
+            this.toolStripButton_PageLast.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton_PageLast.Text = "toolStripButton4";
+            this.toolStripButton_PageLast.Click += new System.EventHandler(this.toolStripButton_PageLast_Click);
+            // 
             // toolStripLabel_PageCur
             // 
             this.toolStripLabel_PageCur.Name = "toolStripLabel_PageCur";
@@ -223,9 +264,10 @@
             // contextMenuStrip_Fields
             // 
             this.contextMenuStrip_Fields.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.editToolStripMenuItem});
+            this.editToolStripMenuItem,
+            this.parseTestToolStripMenuItem});
             this.contextMenuStrip_Fields.Name = "contextMenuStrip_Fields";
-            this.contextMenuStrip_Fields.Size = new System.Drawing.Size(105, 26);
+            this.contextMenuStrip_Fields.Size = new System.Drawing.Size(153, 70);
             this.contextMenuStrip_Fields.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Fields_Opening);
             // 
             // editToolStripMenuItem
@@ -233,13 +275,13 @@
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.editOItemToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.editToolStripMenuItem.Text = "x_Edit";
             // 
             // editOItemToolStripMenuItem
             // 
             this.editOItemToolStripMenuItem.Name = "editOItemToolStripMenuItem";
-            this.editOItemToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.editOItemToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.editOItemToolStripMenuItem.Text = "x_Edit OItem";
             this.editOItemToolStripMenuItem.Click += new System.EventHandler(this.editOItemToolStripMenuItem_Click);
             // 
@@ -342,109 +384,6 @@
             this.toolStripComboBox_Indexes.Size = new System.Drawing.Size(200, 25);
             this.toolStripComboBox_Indexes.SelectedIndexChanged += new System.EventHandler(this.toolStripComboBox_Indexes_SelectedIndexChanged);
             // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripLabel_Query
-            // 
-            this.toolStripLabel_Query.Name = "toolStripLabel_Query";
-            this.toolStripLabel_Query.Size = new System.Drawing.Size(52, 22);
-            this.toolStripLabel_Query.Text = "x_Query:";
-            // 
-            // toolStripTextBox_Query
-            // 
-            this.toolStripTextBox_Query.Name = "toolStripTextBox_Query";
-            this.toolStripTextBox_Query.Size = new System.Drawing.Size(300, 25);
-            this.toolStripTextBox_Query.KeyDown += new System.Windows.Forms.KeyEventHandler(this.toolStripTextBox_Query_KeyDown);
-            this.toolStripTextBox_Query.TextChanged += new System.EventHandler(this.toolStripTextBox_Query_TextChanged);
-            // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStrip1
-            // 
-            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripLabel1,
-            this.toolStripTextBox_Parser,
-            this.toolStripButton_Parse,
-            this.toolStripSeparator5,
-            this.toolStripButton_Stop,
-            this.toolStripSeparator6,
-            this.toolStripButton_Listen,
-            this.toolStripSeparator7,
-            this.toolStripLabel_ParseCountLbl,
-            this.toolStripLabel_ParseCount});
-            this.toolStrip1.Location = new System.Drawing.Point(3, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(697, 25);
-            this.toolStrip1.TabIndex = 0;
-            // 
-            // toolStripLabel1
-            // 
-            this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(52, 22);
-            this.toolStripLabel1.Text = "x_Parser:";
-            // 
-            // toolStripTextBox_Parser
-            // 
-            this.toolStripTextBox_Parser.Name = "toolStripTextBox_Parser";
-            this.toolStripTextBox_Parser.Size = new System.Drawing.Size(300, 25);
-            // 
-            // toolStripSeparator5
-            // 
-            this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripSeparator6
-            // 
-            this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripButton_PageFirst
-            // 
-            this.toolStripButton_PageFirst.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton_PageFirst.Image = global::TextParser.Properties.Resources.pulsante_01_architetto_f_01_First1;
-            this.toolStripButton_PageFirst.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_PageFirst.Name = "toolStripButton_PageFirst";
-            this.toolStripButton_PageFirst.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton_PageFirst.Text = "toolStripButton1";
-            this.toolStripButton_PageFirst.Click += new System.EventHandler(this.toolStripButton_PageFirst_Click);
-            // 
-            // toolStripButton_PagePrevious
-            // 
-            this.toolStripButton_PagePrevious.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton_PagePrevious.Image = global::TextParser.Properties.Resources.pulsante_01_architetto_f_01;
-            this.toolStripButton_PagePrevious.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_PagePrevious.Name = "toolStripButton_PagePrevious";
-            this.toolStripButton_PagePrevious.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton_PagePrevious.Text = "toolStripButton2";
-            this.toolStripButton_PagePrevious.Click += new System.EventHandler(this.toolStripButton_PagePrevious_Click);
-            // 
-            // toolStripButton_PageNext
-            // 
-            this.toolStripButton_PageNext.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton_PageNext.Image = global::TextParser.Properties.Resources.pulsante_02_architetto_f_01;
-            this.toolStripButton_PageNext.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_PageNext.Name = "toolStripButton_PageNext";
-            this.toolStripButton_PageNext.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton_PageNext.Text = "toolStripButton3";
-            this.toolStripButton_PageNext.Click += new System.EventHandler(this.toolStripButton_PageNext_Click);
-            // 
-            // toolStripButton_PageLast
-            // 
-            this.toolStripButton_PageLast.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton_PageLast.Image = global::TextParser.Properties.Resources.pulsante_02_architetto_f_01_Last;
-            this.toolStripButton_PageLast.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_PageLast.Name = "toolStripButton_PageLast";
-            this.toolStripButton_PageLast.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton_PageLast.Text = "toolStripButton4";
-            this.toolStripButton_PageLast.Click += new System.EventHandler(this.toolStripButton_PageLast_Click);
-            // 
             // toolStripDropDownButton_IndexWork
             // 
             this.toolStripDropDownButton_IndexWork.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -464,6 +403,24 @@
             this.toolStripMenuItem_DeleteIndex.Text = "x_Delete Index";
             this.toolStripMenuItem_DeleteIndex.Click += new System.EventHandler(this.toolStripMenuItem_DeleteIndex_Click);
             // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripLabel_Query
+            // 
+            this.toolStripLabel_Query.Name = "toolStripLabel_Query";
+            this.toolStripLabel_Query.Size = new System.Drawing.Size(52, 22);
+            this.toolStripLabel_Query.Text = "x_Query:";
+            // 
+            // toolStripTextBox_Query
+            // 
+            this.toolStripTextBox_Query.Name = "toolStripTextBox_Query";
+            this.toolStripTextBox_Query.Size = new System.Drawing.Size(300, 25);
+            this.toolStripTextBox_Query.KeyDown += new System.Windows.Forms.KeyEventHandler(this.toolStripTextBox_Query_KeyDown);
+            this.toolStripTextBox_Query.TextChanged += new System.EventHandler(this.toolStripTextBox_Query_TextChanged);
+            // 
             // toolStripButton_Search
             // 
             this.toolStripButton_Search.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -473,6 +430,11 @@
             this.toolStripButton_Search.Size = new System.Drawing.Size(56, 22);
             this.toolStripButton_Search.Text = "x_Search";
             this.toolStripButton_Search.Click += new System.EventHandler(this.toolStripButton_Search_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
             // 
             // toolStripButton_Import
             // 
@@ -484,6 +446,36 @@
             this.toolStripButton_Import.Text = "x_Import";
             this.toolStripButton_Import.Click += new System.EventHandler(this.toolStripButton_Import_Click);
             // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripLabel1,
+            this.toolStripTextBox_Parser,
+            this.toolStripButton_Parse,
+            this.toolStripSeparator5,
+            this.toolStripButton_Stop,
+            this.toolStripSeparator6,
+            this.toolStripButton_Listen,
+            this.toolStripSeparator7,
+            this.toolStripLabel_ParseCountLbl,
+            this.toolStripLabel_ParseCount});
+            this.toolStrip1.Location = new System.Drawing.Point(3, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(666, 25);
+            this.toolStrip1.TabIndex = 0;
+            // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(52, 22);
+            this.toolStripLabel1.Text = "x_Parser:";
+            // 
+            // toolStripTextBox_Parser
+            // 
+            this.toolStripTextBox_Parser.Name = "toolStripTextBox_Parser";
+            this.toolStripTextBox_Parser.Size = new System.Drawing.Size(300, 25);
+            // 
             // toolStripButton_Parse
             // 
             this.toolStripButton_Parse.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -494,6 +486,11 @@
             this.toolStripButton_Parse.Text = "x_Parse";
             this.toolStripButton_Parse.Click += new System.EventHandler(this.toolStripButton_Parse_Click);
             // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 25);
+            // 
             // toolStripButton_Stop
             // 
             this.toolStripButton_Stop.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -503,6 +500,11 @@
             this.toolStripButton_Stop.Size = new System.Drawing.Size(23, 22);
             this.toolStripButton_Stop.Text = "toolStripButton1";
             this.toolStripButton_Stop.Click += new System.EventHandler(this.toolStripButton_Stop_Click);
+            // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 25);
             // 
             // toolStripButton_Listen
             // 
@@ -532,6 +534,13 @@
             this.toolStripLabel_ParseCount.Name = "toolStripLabel_ParseCount";
             this.toolStripLabel_ParseCount.Size = new System.Drawing.Size(24, 22);
             this.toolStripLabel_ParseCount.Text = "0/0";
+            // 
+            // parseTestToolStripMenuItem
+            // 
+            this.parseTestToolStripMenuItem.Name = "parseTestToolStripMenuItem";
+            this.parseTestToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.parseTestToolStripMenuItem.Text = "x_Parse-Test";
+            this.parseTestToolStripMenuItem.Click += new System.EventHandler(this.parseTestToolStripMenuItem_Click);
             // 
             // UserControl_FieldParserView
             // 
@@ -621,5 +630,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.ToolStripLabel toolStripLabel_ParseCountLbl;
         private System.Windows.Forms.ToolStripLabel toolStripLabel_ParseCount;
+        private System.Windows.Forms.ToolStripMenuItem parseTestToolStripMenuItem;
     }
 }

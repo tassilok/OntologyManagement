@@ -617,6 +617,7 @@ namespace TextParser
         private void contextMenuStrip_Fields_Opening(object sender, CancelEventArgs e)
         {
             editToolStripMenuItem.Enabled = false;
+            parseTestToolStripMenuItem.Enabled = false;
             if (dataGridView_Fields.SelectedCells.Count == 1)
             {
                 if (dataGridView_Fields.Columns[dataGridView_Fields.SelectedCells[0].ColumnIndex].DataPropertyName ==
@@ -625,28 +626,45 @@ namespace TextParser
                     editToolStripMenuItem.Enabled = true;
                 }
             }
+
+            if (dataGridView_Fields.SelectedRows.Count == 1)
+            {
+                editToolStripMenuItem.Enabled = true;
+                parseTestToolStripMenuItem.Enabled = true;
+            }
         }
 
         private void editOItemToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var field = (clsField) dataGridView_Fields.Rows[dataGridView_Fields.SelectedCells[0].RowIndex].DataBoundItem;
-            if (dataGridView_Fields.Columns[dataGridView_Fields.SelectedCells[0].ColumnIndex].DataPropertyName ==
+            clsField field = null;
+            if (dataGridView_Fields.SelectedColumns.Count == 1 && dataGridView_Fields.Columns[dataGridView_Fields.SelectedCells[0].ColumnIndex].DataPropertyName ==
                     "Name_Field")
             {
-                var objOList = new List<clsOntologyItem>
-                    {
-                        new clsOntologyItem
-                            {
-                                GUID = field.ID_Field,
-                                Name = field.Name_Field,
-                                GUID_Parent = objLocalConfig.OItem_class_field.GUID,
-                                Type = objLocalConfig.Globals.Type_Object
-                            }
-                    };
+                field = (clsField)dataGridView_Fields.Rows[dataGridView_Fields.SelectedCells[0].RowIndex].DataBoundItem;    
+            }
+            else if (dataGridView_Fields.SelectedRows.Count == 1)
+            {
+                field = (clsField) dataGridView_Fields.SelectedRows[0].DataBoundItem;
+            }
 
-                objFrmObjectEdit = new frm_ObjectEdit(objLocalConfig.Globals,objOList,0,objLocalConfig.Globals.Type_Object,null);
+            if (field != null)
+            {
+                var objOList = new List<clsOntologyItem>
+                {
+                    new clsOntologyItem
+                        {
+                            GUID = field.ID_Field,
+                            Name = field.Name_Field,
+                            GUID_Parent = objLocalConfig.OItem_class_field.GUID,
+                            Type = objLocalConfig.Globals.Type_Object
+                        }
+                };
+
+                objFrmObjectEdit = new frm_ObjectEdit(objLocalConfig.Globals, objOList, 0, objLocalConfig.Globals.Type_Object, null);
                 objFrmObjectEdit.ShowDialog(this);
             }
+            
+            
         }
 
         private void toolStripButton_Import_Click(object sender, EventArgs e)
@@ -860,6 +878,20 @@ namespace TextParser
         private void toolStripButton_Stop_Click(object sender, EventArgs e)
         {
             objFieldParser.AbortParseProcess = true;
+        }
+
+        private void parseTestToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            clsField field = null;
+            if (dataGridView_Fields.SelectedRows.Count == 1)
+            {
+                field = (clsField) dataGridView_Fields.SelectedRows[0].DataBoundItem;
+            }
+
+            if (field != null)
+            {
+
+            }
         }
     }
 }
