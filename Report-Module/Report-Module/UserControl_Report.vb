@@ -2035,7 +2035,7 @@ Public Class UserControl_Report
 
         If Not objOItem_Object Is Nothing Then
             If Not OpenLastModuleToolStripMenuItem.Checked Or String.IsNullOrEmpty(strLastModule) Then
-                objFrm_Modules = New frmModules(objLocalConfig.Globals)
+                objFrm_Modules = New frmModules(objLocalConfig.Globals, objOItem_Object)
                 objFrm_Modules.ShowDialog(Me)
                 If objFrm_Modules.DialogResult = DialogResult.OK Then
                     Dim strModule = objFrm_Modules.Selected_Module

@@ -174,7 +174,7 @@ namespace Typed_Tagging_Module
                 {
                     if (!OpenLastModuleToolStripMenuItem.Checked || String.IsNullOrEmpty(strLastModule)) 
                     {
-                        objFrm_Modules = new frmModules(objLocalConfig.Globals);
+                        objFrm_Modules = new frmModules(objLocalConfig.Globals, item);
                         objFrm_Modules.ShowDialog(this);
                         if (objFrm_Modules.DialogResult == DialogResult.OK)
                         {

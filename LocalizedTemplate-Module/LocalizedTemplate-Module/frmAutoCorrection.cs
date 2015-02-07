@@ -311,7 +311,7 @@ namespace LocalizedTemplate_Module
                 {
                     if (!OpenLastModuleToolStripMenuItem.Checked || string.IsNullOrEmpty(strLastModule))
                     {
-                        objFrm_Modules = new frmModules(localConfig.Globals);
+                        objFrm_Modules = new frmModules(localConfig.Globals, oItem);
                         objFrm_Modules.ShowDialog(this);
                         if (objFrm_Modules.DialogResult == DialogResult.OK)
                         {

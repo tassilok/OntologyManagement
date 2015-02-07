@@ -170,7 +170,7 @@ namespace Version_Module
 
             if (!OpenLastModuleToolStripMenuItem.Checked || string.IsNullOrEmpty(strLastModule))
             {
-                objFrm_Modules = new frmModules(objDataWork_Versions.LocalConfig.Globals);
+                objFrm_Modules = new frmModules(objDataWork_Versions.LocalConfig.Globals, objOItem_Version);
                 objFrm_Modules.ShowDialog(this);
 
                 if (objFrm_Modules.DialogResult == DialogResult.OK)
