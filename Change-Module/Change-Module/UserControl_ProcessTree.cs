@@ -805,7 +805,7 @@ namespace Change_Module
                 {
                     if (!OpenLastModuleToolStripMenuItem.Checked || string.IsNullOrEmpty(strLastModule))
                     {
-                        objFrm_Modules = new frmModules(objLocalConfig.Globals);
+                        objFrm_Modules = new frmModules(objLocalConfig.Globals, objOItem_Selected);
                         objFrm_Modules.ShowDialog(this);
                         if (objFrm_Modules.DialogResult == DialogResult.OK)
                         {
