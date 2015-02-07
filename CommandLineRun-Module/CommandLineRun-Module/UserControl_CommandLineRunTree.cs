@@ -307,7 +307,7 @@ namespace CommandLineRun_Module
 
                 if (!OpenLastModuleToolStripMenuItem.Checked || string.IsNullOrEmpty(strLastModule))
                 {
-                    objFrmModules = new frmModules(objLocalConfig.Globals);
+                    objFrmModules = new frmModules(objLocalConfig.Globals, objOItem_CMDLR );
                     objFrmModules.ShowDialog(this);
 
                     if (objFrmModules.DialogResult == DialogResult.OK)
