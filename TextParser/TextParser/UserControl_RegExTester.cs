@@ -12,6 +12,7 @@ using OntologyClasses.BaseClasses;
 using Ontology_Module;
 using System.Text.RegularExpressions;
 using System.IO;
+using ScintillaNET;
 
 namespace TextParser
 {
@@ -41,6 +42,10 @@ namespace TextParser
         private Color colorRichText;
         private Color colorSeperator;
 
+        ParseResult parseResult = new ParseResult(true);
+
+        private ParseLogWindow parseLogWindow;
+
         public clsOntologyItem OItem_Field
         {
             get { return objOItem_Field; }
@@ -51,18 +56,18 @@ namespace TextParser
         }
 
         private List<clsSelection> objSelections = new List<clsSelection>();
-        
+        private int selectionPosition;
 
         public void SetContentByFileStream(FileStream fs)
         {
             TextReader textReader = new StreamReader(fs);
-            richTextBox_Text.Text = textReader.ReadToEnd();
+            scintilla_Text.Text = textReader.ReadToEnd();
             textReader.Close();
         }
 
         public void SetContent(string content)
         {
-            richTextBox_Text.Text = content;
+            scintilla_Text.Text = content;
         }
 
 
@@ -81,7 +86,6 @@ namespace TextParser
             button_AddRegexPre.Enabled = false;
             dataGridView_Filter.Enabled = false;
             dataGridView_Filter.DataSource = null;
-            richTextBox_Text.ReadOnly = false;
             toolStripButton_removeMarked.Enabled = false;
             toolStripButton_RemoveUnmarked.Enabled = false;
             toolStripButton_CopyMarked.Enabled = false;
@@ -98,7 +102,7 @@ namespace TextParser
             try
             {
                 TextReader textReader = new StreamReader(path);
-                richTextBox_Text.Text = textReader.ReadToEnd();
+                scintilla_Text.Text = textReader.ReadToEnd();
                 textReader.Close();
             }
             catch (Exception)
@@ -134,6 +138,13 @@ namespace TextParser
 
         private void Initialize()
         {
+            scintilla_Text.Styles[0].BackColor = scintilla_Text.BackColor;
+            scintilla_Text.Styles[0].ForeColor = scintilla_Text.ForeColor;
+            scintilla_Text.Styles[0].Font = new Font(scintilla_Text.Font, FontStyle.Regular);
+            scintilla_Text.Styles[1].BackColor = Color.Yellow;
+            scintilla_Text.Styles[1].ForeColor = Color.Black;
+            scintilla_Text.Styles[1].Font = new Font(scintilla_Text.Font, FontStyle.Bold);
+
             objOItem_Field = objLocalConfig.OItem_object_temporary_regular_expression.Clone();
             objDataWork_FieldParser = new clsDataWork_FieldParser(objLocalConfig);
             objDataWork_RegExFilter = new clsDatawork_RegExFilter(objLocalConfig);
@@ -144,7 +155,7 @@ namespace TextParser
             colorPre = textBox_RegexPre.BackColor;
             colorMain = textBox_RegExMain.BackColor;
             colorPost = textBox_RegExPost.BackColor;
-            colorRichText = richTextBox_Text.BackColor;
+            colorRichText = scintilla_Text.BackColor;
             colorSeperator = toolStripTextBox_LineSeperator.BackColor;
 
             ClearControls();
@@ -369,7 +380,7 @@ namespace TextParser
 
 
             if ((textBox_RegexPre.Text != "" || textBox_RegExMain.Text != "" || textBox_RegExPost.Text != "") &&
-                richTextBox_Text.Text != "")
+                scintilla_Text.Text != "")
             {
                 if (textBox_RegexPre.Text != "")
                 {
@@ -431,25 +442,17 @@ namespace TextParser
 
         private void clearMark()
         {
-            richTextBox_Text.SelectionStart = 0;
-            richTextBox_Text.SelectionLength = richTextBox_Text.TextLength - 1;
-            richTextBox_Text.SelectionBackColor = colorRichText;
+            scintilla_Text.BackColor = scintilla_Text.Styles[0].BackColor;
+            scintilla_Text.ForeColor = scintilla_Text.Styles[0].ForeColor;
+            scintilla_Text.Font = scintilla_Text.Styles[0].Font;
+
         }
 
         private void parseText()
         {
-            var boolRegExPre = false;
-            var boolRegExMain = false;
-            var boolRegExPost = false;
-
-            var objSelectionsPre = new List<clsSelection>();
-            var objSelectionsMain = new List<clsSelection>();
-            var objSelectionsPost = new List<clsSelection>();
 
             objSelections.Clear();
             clearMark();
-
-            richTextBox_Text.ReadOnly = true;
 
             regExFilters = (SortableBindingList<clsRegExFilter>) dataGridView_Filter.DataSource;
 
@@ -460,344 +463,88 @@ namespace TextParser
             var postEqualFilters = regExFilters.Where(p => p.ID_Regex_RelationType == objLocalConfig.OItem_relationtype_posts.GUID && p.Equal == true).ToList();
             var postNotEqualFilters = regExFilters.Where(p => p.ID_Regex_RelationType == objLocalConfig.OItem_relationtype_posts.GUID && p.Equal == false).ToList();
 
-            Regex objRegEx_Pre = null;
-            Regex objRegEx_Main = null;
-            Regex objRegEx_Post = null;
+            string regexPre = !string.IsNullOrEmpty(textBox_RegexPre.Text) ? textBox_RegexPre.Text : null;
+            string regexMain = !string.IsNullOrEmpty(textBox_RegExMain.Text) ? textBox_RegExMain.Text : null;
+            string regexPost = !string.IsNullOrEmpty(textBox_RegExPost.Text) ? textBox_RegExPost.Text : null;
 
-            MatchCollection objRegEx_Pre_Matches = null;
-            MatchCollection objRegEx_Main_Matches = null;
-            MatchCollection objRegEx_Post_Matches = null;
-
-            if (textBox_RegexPre.Text != "")
+            if (regexMain != null)
             {
-                objRegEx_Pre = new Regex(textBox_RegexPre.Text);
-            }
+                scintilla_Text.CurrentPos = 0;
 
-            if (textBox_RegExMain.Text != "")
-            {
-                objRegEx_Main = new Regex(textBox_RegExMain.Text);
-            }
-
-            if (textBox_RegExPost.Text != "")
-            {
-                objRegEx_Post = new Regex(textBox_RegExPost.Text);
-            }
-
-            if (toolStripTextBox_LineSeperator.Text == "")
-            {
-                
-
-                if (textBox_RegexPre.Text != "")
+                if (!string.IsNullOrEmpty(toolStripTextBox_LineSeperator.Text))
                 {
-                    objRegEx_Pre_Matches = objRegEx_Pre.Matches(richTextBox_Text.Text);
-                }
+                    var range = scintilla_Text.FindReplace.FindNext(toolStripTextBox_LineSeperator.Text);
 
-                if (textBox_RegExMain.Text != "")
-                {
-                    objRegEx_Main_Matches = objRegEx_Main.Matches(richTextBox_Text.Text);
-                }
-
-                if (textBox_RegExPost.Text != "")
-                {
-                    objRegEx_Post_Matches = objRegEx_Post.Matches(richTextBox_Text.Text);
-                }
-
-
-
-                if (objRegEx_Pre_Matches != null)
-                {
-                    objSelectionsPre.AddRange(from Match objRegExPreMatch in objRegEx_Pre_Matches
-                                              select new clsSelection
-                                              {
-                                                  SelectionStart = objRegExPreMatch.Index,
-                                                  SelectionLength = objRegExPreMatch.Length
-                                              });
-                }
-
-                if (objRegEx_Main_Matches != null)
-                {
-                    objSelectionsMain.AddRange(from Match objRegExMainMatch in objRegEx_Main_Matches
-                                               select new clsSelection
-                                               {
-                                                   SelectionStart = objRegExMainMatch.Index,
-                                                   SelectionLength = objRegExMainMatch.Length
-                                               });
-                }
-
-                if (objRegEx_Post_Matches != null)
-                {
-                    objSelectionsPost.AddRange(from Match objRegExPostMatch in objRegEx_Post_Matches
-                                               select new clsSelection
-                                               {
-                                                   SelectionStart = objRegExPostMatch.Index,
-                                                   SelectionLength = objRegExPostMatch.Length
-                                               });
-                }
-
-                if (objSelectionsPre.Any())
-                {
-                    for (int i = 0; i < objSelectionsPre.Count; i++)
+                    while (range != null && range.Length > 0)
                     {
-                        if (!TextMatchRegex(objSelectionsPre[i].SelectionStart,
-                                            objSelectionsPre[i].SelectionStart + objSelectionsPre[i].SelectionLength,
-                                            preEqualFilters))
+                        var selection = GetSelections(scintilla_Text.GetRange(scintilla_Text.Caret.Position, range.Start), regexPre, regexMain, regexPost);
+                        if (selection != null && selection.SelectionLength > 0)
                         {
-                            var ixSelectionPrevEnd = i > 0 ? objSelectionsPre[i - 1].SelectionStart +
-                            objSelectionsPre[i - 1].SelectionLength : 0;
-
-                            var ixSelectionStart = objSelectionsPre[i].SelectionStart;
-                            var ixSelectionEnd = ixSelectionStart + objSelectionsPre[i].SelectionLength;
-
-                            var ixSelectionNextStart = i < objSelectionsPre.Count - 1 ? objSelectionsPre[i + 1].SelectionStart : objSelectionsPre.Last().SelectionStart;
-
-                            var objSelection = new clsSelection();
-                            objSelection.SelectionStart = objSelectionsPre[i].SelectionStart;
-                            var objSelectionsPost2 = new List<clsSelection>();
-                            var objSelectionsMain2 = new List<clsSelection>();
-
-                            if (objSelectionsPost.Any())
-                            {
-                                objSelectionsPost2 =
-                                    objSelectionsPost.Where(
-                                        p =>
-                                        p.SelectionStart >= ixSelectionEnd &&
-                                        p.SelectionStart + p.SelectionLength <= ixSelectionNextStart
-                                        && p.SelectionLength > 0).ToList();
-
-                            }
-
-                            if (objSelectionsMain.Any())
-                            {
-                                if (objSelectionsPost2.Any())
-                                {
-                                    objSelectionsMain2 = (from objSelectionMain in objSelectionsMain
-                                                          from objSelectionPost in objSelectionsPost2
-                                                          where
-                                                              objSelectionMain.SelectionStart >= ixSelectionEnd &&
-                                                              objSelectionMain.SelectionStart + objSelectionMain.SelectionLength <=
-                                                              objSelectionPost.SelectionStart && objSelectionMain.SelectionLength >= 0
-                                                          select objSelectionMain).ToList();
-                                }
-                                else
-                                {
-                                    objSelectionsMain2 = objSelectionsMain.Where(p => p.SelectionStart >= ixSelectionEnd &&
-                                                                                      p.SelectionStart <= ixSelectionNextStart &&
-                                                                                      p.SelectionLength > 0)
-                                                                          .ToList();
-                                }
-                            }
-
-                            if (checkBox_ContainerField.Checked)
-                            {
-                                objSelection.SelectionStart = ixSelectionStart;
-
-                                if (objSelectionsPost2.Any())
-                                {
-                                    objSelection.SelectionLength = objSelectionsPost2.First().SelectionStart +
-                                                                   objSelectionsPost2.First().SelectionLength - ixSelectionStart;
-                                }
-                                else if (objSelectionsMain2.Any())
-                                {
-                                    objSelection.SelectionLength = objSelectionsMain2.First().SelectionStart +
-                                                                   objSelectionsMain2.First().SelectionLength - ixSelectionStart;
-                                }
-                                else
-                                {
-                                    objSelection.SelectionLength = ixSelectionNextStart - ixSelectionStart;
-                                }
-
-
-                            }
-                            else
-                            {
-                                objSelection.SelectionStart = ixSelectionEnd;
-
-                                if (objSelectionsMain2.Any())
-                                {
-                                    objSelection.SelectionStart = objSelectionsMain2.First().SelectionStart;
-                                    objSelection.SelectionLength = objSelectionsMain2.First().SelectionLength;
-                                }
-                                else if (objSelectionsPost2.Any())
-                                {
-                                    objSelection.SelectionLength = objSelectionsPost2.First().SelectionStart -
-                                                                   objSelection.SelectionStart;
-                                }
-                                else
-                                {
-                                    objSelection.SelectionLength = ixSelectionNextStart - ixSelectionEnd;
-                                }
-
-
-                            }
-
-                            if (objSelection.SelectionLength > 0)
-                            {
-                                objSelections.Add(objSelection);
-                            }
+                            objSelections.Add(selection);
+                        }
+                        scintilla_Text.Caret.Position = range.End;
+                        range = scintilla_Text.FindReplace.FindNext(toolStripTextBox_LineSeperator.Text);
+                        if (range.Start < scintilla_Text.CurrentPos)
+                        {
+                            break;
                         }
 
 
                     }
-
-
-                }
-            }
-            else
-            {
-                toolStripTextBox_LineSeperator.BackColor = colorSeperator;
-                var ixFind = 0;
-                var ixSelStart = 0;
-                var ixSelLength = 0;
-                var lineBreaks = DoLineBreak();
-                if (lineBreaks.Any())
-                {
-                    
-                    while (ixFind > -1)
-                    {
-                        var ixLineStart = ixFind + ixFind > 0 ? ixFind : 0;
-                        
-                        var i = 0;
-                        while(true)
-                        {
-                            var ixFindPre = richTextBox_Text.Find(lineBreaks.ToArray(), ixLineStart + i);
-                            if (ixFindPre != ixFind)
-                            {
-                                ixFind = ixFindPre;
-                                ixLineStart = ixLineStart + i;
-                                break;
-                            }
-                            i++;
-                        }
-                        ixSelStart = ixLineStart;
-                        var ixEnd = ixFind - ixLineStart;
-                        ixSelLength = ixEnd;
-                        if (ixFind > ixLineStart)
-                        {
-                            var text = richTextBox_Text.Text.Substring(ixLineStart, ixFind - ixLineStart);
-                            var ixStart = 0;
-
-                            var boolParse = true;
-
-                            if (textBox_RegexPre.Text != "")
-                            {
-                                
-                                objRegEx_Pre_Matches = objRegEx_Pre.Matches(text);
-                                if (objRegEx_Pre_Matches.Count > 0)
-                                {
-                                    var textTest = text.Substring(objRegEx_Pre_Matches[0].Index,
-                                                                  objRegEx_Pre_Matches[0].Length);
-
-                                    if (preEqualFilters.Any(p => Regex.Match(textTest, p.Filter).Success))
-                                    {
-                                        boolParse = false;
-                                    }
-                                    if (boolParse)
-                                    {
-                                        if (!toolStripButton_DoLine.Checked)
-                                        {
-                                            text =
-                                                text.Substring(objRegEx_Pre_Matches[0].Index +
-                                                objRegEx_Pre_Matches[0].Length);
-                                            ixSelStart = ixSelStart + objRegEx_Pre_Matches[0].Index +
-                                                          objRegEx_Pre_Matches[0].Length;
-                                        }
-                                    }
-
-                                }
-                                else
-                                {
-                                    boolParse = false;
-                                }
-                            }
-
-                            if (boolParse)
-                            {
-                                if (textBox_RegExPost.Text != "")
-                                {
-                                    objRegEx_Post_Matches = objRegEx_Post.Matches(text);
-                                    if (objRegEx_Post_Matches.Count > 0)
-                                    {
-                                        var textTest = text.Substring(0, objRegEx_Post_Matches[0].Index);
-                                        if (postEqualFilters.Any(p => Regex.Match(textTest, p.Filter).Success))
-                                        {
-                                            boolParse = false;
-                                        }
-
-                                        if (boolParse)
-                                        {
-                                            if (!toolStripButton_DoLine.Checked)
-                                            {
-                                                text = text.Substring(0, objRegEx_Post_Matches[0].Index);
-                                                ixSelLength = objRegEx_Post_Matches[0].Index - 1;
-                                            }
-                                        }
-                                    }
-                                    else
-                                    {
-                                        boolParse = false;
-                                    }
-                                }
-
-
-                                if (boolParse)
-                                {
-                                    if (textBox_RegExMain.Text != "")
-                                    {
-                                        objRegEx_Main_Matches = objRegEx_Main.Matches(text);
-                                        if (objRegEx_Main_Matches.Count > 0)
-                                        {
-                                            var textTest = text.Substring(objRegEx_Main_Matches[0].Index, objRegEx_Main_Matches[0].Length);
-                                            if (postEqualFilters.Any(p => Regex.Match(textTest, p.Filter).Success))
-                                            {
-                                                boolParse = false;
-                                            }
-
-                                            if (boolParse)
-                                            {
-                                                if (!toolStripButton_DoLine.Checked)
-                                                {
-                                                    text = text.Substring(objRegEx_Main_Matches[0].Index, objRegEx_Main_Matches[0].Length);
-                                                    ixSelStart = ixSelStart + objRegEx_Main_Matches[0].Index;   
-                                                    ixSelLength= objRegEx_Main_Matches[0].Length;
-                                                }
-                                            }
-                                        }
-                                        else
-                                        {
-                                            boolParse = false;
-                                        }
-                                    }
-
-                                    if (boolParse)
-                                    {
-                                        objSelections.Add(new clsSelection
-                                        {
-                                            SelectionStart = ixSelStart,
-                                            SelectionLength = ixSelLength
-                                        });
-                                    }
-                                }
-                            }
-                        }
-
-                        
-                        
-                    }    
                 }
                 else
                 {
-                    toolStripTextBox_LineSeperator.BackColor = Color.Yellow;
+                    foreach (Line line in scintilla_Text.Lines)
+                    {
+
+                        var selection = GetSelections(line.Range, regexPre, regexMain, regexPost);
+                        if (selection != null)
+                        {
+                            objSelections.Add(selection);
+                        }
+                        
+                    }
                 }
                 
+                
             }
+            
             
             
             
         }
 
+        public clsSelection GetSelections(Range textRange, string regexPre, string regexMain, string regexPost)
+        {
+
+            if (!string.IsNullOrEmpty(regexMain))
+            {
+                parseResult.ResultText = textRange.Text;
+                parseResult.Parse(regexPre, regexMain, regexPost);
+                if (parseLogWindow != null && parseLogWindow.Visible)
+                {
+                    parseLogWindow.AddLines(parseResult.LogResult);
+                }
+                if (parseResult.ParseOk)
+                {
+                    //var range = scintilla_Text.FindReplace.Find(textRange,parseResult.ResultText,SearchFlags.Posix);
+                    if (!string.IsNullOrEmpty( parseResult.ResultText))
+                    {
+                        var range = new Range(textRange.Start + parseResult.IxEndPre, textRange.End, scintilla_Text);
+                        var rangeFind = scintilla_Text.FindReplace.Find(range, parseResult.ResultText, SearchFlags.Posix);
+                        return new clsSelection { Range = rangeFind, SelectionStart = range.Start, SelectionLength = range.Length };
+                    }
+                    
+                }
+            }
+
+            return null;
+
+        }
+
         private bool TextMatchRegex(int ixStart, int ixEnd, List<clsRegExFilter> regExFilters)
         {
-            var text = richTextBox_Text.Text.Substring(ixStart, ixEnd - ixStart);
+            var text = scintilla_Text.Text.Substring(ixStart, ixEnd - ixStart);
             if (regExFilters.Any(p => Regex.Match(text, p.Filter).Success))
             {
                 return true;
@@ -809,448 +556,6 @@ namespace TextParser
 
         }
 
-        private int FindNextLineBreak(int ixStart)
-        {
-            var lineBreak = DoLineBreak();
-
-            if (lineBreak != null)
-            {
-                return richTextBox_Text.Find(lineBreak.ToArray(), ixStart);
-            }
-
-            return -1;
-        }
-
-        private int FindPreviousLineBreak(int ixStart)
-        {
-            var lineBreak = DoLineBreak();
-
-            if (lineBreak != null)
-            {
-                var find = 0;
-                var ixLast = 0;
-                while (find != -1 && find < ixStart)
-                {
-                    find = richTextBox_Text.Find(lineBreak.ToArray(), find > 0 ? find + 2 : 0);
-                    if (find != -1)
-                    {
-                        ixLast = find;
-                    }
-                }
-                return ixLast;
-            }
-
-            return -1;
-        }
-        //private void parseText()
-        //{
-        //    var boolRegExPre = false;
-        //    var boolRegExMain = false;
-        //    var boolRegExPost = false;
-        //    var ixNextParse = 0;
-
-        //    objSelections.Clear();
-
-        //    richTextBox_Text.ReadOnly = true;
-        //    try
-        //    {
-        //        regExFilters = (SortableBindingList<clsRegExFilter>) dataGridView_Filter.DataSource;
-        //        var preEqualFilters = regExFilters.Where(p => p.ID_Regex_RelationType == objLocalConfig.OItem_relationtype_pre.GUID && p.Equal == true).ToList();
-        //        var preNotEqualFilters = regExFilters.Where(p => p.ID_Regex_RelationType == objLocalConfig.OItem_relationtype_pre.GUID && p.Equal == false).ToList();
-        //        var mainEqualFilters = regExFilters.Where(p => p.ID_Regex_RelationType == objLocalConfig.OItem_relationtype_main.GUID && p.Equal == true).ToList();
-        //        var mainNotEqualFilters = regExFilters.Where(p => p.ID_Regex_RelationType == objLocalConfig.OItem_relationtype_main.GUID && p.Equal == false).ToList();
-        //        var postEqualFilters = regExFilters.Where(p => p.ID_Regex_RelationType == objLocalConfig.OItem_relationtype_posts.GUID && p.Equal == true).ToList();
-        //        var postNotEqualFilters = regExFilters.Where(p => p.ID_Regex_RelationType == objLocalConfig.OItem_relationtype_posts.GUID && p.Equal == false).ToList();
-
-        //        richTextBox_Text.SelectionStart = 0;
-        //        richTextBox_Text.SelectionLength = richTextBox_Text.TextLength;
-        //        richTextBox_Text.SelectionBackColor = richTextBox_Text.BackColor;
-
-        //        Regex objRegEx_Pre = null;
-        //        Regex objRegEx_Main = null;
-        //        Regex objRegEx_Post = null;
-
-        //        MatchCollection objRegEx_Pre_Matches = null;
-        //        MatchCollection objRegEx_Main_Matches = null;
-        //        MatchCollection objRegEx_Post_Matches = null;
-
-        //        if (textBox_RegexPre.Text != "")
-        //        {
-        //            objRegEx_Pre = new Regex(textBox_RegexPre.Text);
-        //        }
-                    
-        //        if (textBox_RegExMain.Text != "")
-        //        {
-        //            objRegEx_Main = new Regex(textBox_RegExMain.Text);
-        //        }
-                    
-        //        if (textBox_RegExPost.Text != "")
-        //        {
-        //            objRegEx_Post = new Regex(textBox_RegExPost.Text);
-        //        }
-
-        //        boolRegExPre = true;
-        //        if (textBox_RegexPre.Text != "")
-        //        {
-        //            objRegEx_Pre_Matches = objRegEx_Pre.Matches(richTextBox_Text.Text);
-        //        }
-        //        else
-        //        {
-        //            boolRegExMain = true;
-        //            if (textBox_RegExMain.Text != "")
-        //            {
-        //                objRegEx_Main_Matches = objRegEx_Main.Matches(richTextBox_Text.Text);
-        //            }
-
-        //            boolRegExPost = true;
-        //            if (textBox_RegExPost.Text != "")
-        //            {
-        //                objRegEx_Post_Matches = objRegEx_Post.Matches(richTextBox_Text.Text);
-        //            }
-
-        //        }
-
-                
-            
-            
-
-            
-
-        //        if (objRegEx_Pre_Matches != null)
-        //        {
-        //            for (int i = 0; i < objRegEx_Pre_Matches.Count; i++)
-        //            {
-
-        //                objSelections.Add(new clsSelection { SelectionStart = 0, SelectionLength = 0 });
-        //                var objSelection = objSelections.Last();
-
-        //                if (objRegEx_Pre_Matches[i].Index >= ixNextParse)
-        //                {
-        //                    var ixStart = objRegEx_Pre_Matches[i].Index + objRegEx_Pre_Matches[i].Length;
-        //                    var ixEnd = ixStart;
-        //                    if (i < objRegEx_Pre_Matches.Count)
-        //                    {
-        //                        ixEnd = objRegEx_Pre_Matches[i + 1].Index;
-        //                    }
-        //                    else
-        //                    {
-        //                        ixEnd = richTextBox_Text.TextLength - 1;
-        //                    }
-
-        //                    //richTextBox_Text.SelectionStart = ixStart;
-        //                    //richTextBox_Text.SelectionLength = ixEnd;
-
-        //                    var textPre = richTextBox_Text.Text.Substring(ixStart, ixEnd);
-        //                    var offsetPre = GetOffset(textPre);
-        //                    if (offsetPre > 0)
-        //                    {
-        //                        textPre = textPre.Substring(0, offsetPre);
-        //                    }
-
-        //                    objSelection.SelectionStart = ixStart;
-        //                    objSelection.SelectionLength = offsetPre == 0 ? ixEnd : offsetPre;
-
-        //                    if (!preEqualFilters.Any(p => Regex.Match(textPre, p.Filter).Success))
-        //                    {
-        //                        var parse = true;
-        //                        if (preNotEqualFilters.Any())
-        //                        {
-        //                            if (!preNotEqualFilters.Any(p => Regex.Match(textPre, p.Filter).Success))
-        //                            {
-        //                                parse = false;
-        //                            }
-        //                        }
-        //                        if (!parse)
-        //                        {
-        //                            objSelection.SelectionStart = 0;
-        //                            objSelection.SelectionLength = 0;
-
-        //                        }
-
-        //                    }
-
-
-
-
-
-        //                    if (objRegEx_Post != null)
-        //                    {
-        //                        if (objSelections.Last().SelectionLength > 0)
-        //                        {
-        //                            var textPost = richTextBox_Text.Text.Substring(objSelection.SelectionStart,
-        //                                                                           objSelection.SelectionLength);
-        //                            objRegEx_Post_Matches = objRegEx_Post.Matches(textPost);
-        //                            if (objRegEx_Post_Matches.Count > 0)
-        //                            {
-        //                                textPost = richTextBox_Text.Text.Substring(objRegEx_Post_Matches[0].Index, objRegEx_Post_Matches[0].Length);
-        //                                if (!postEqualFilters.Any(p => Regex.Match(textPost, p.Filter).Success))
-        //                                {
-        //                                    var parse = true;
-        //                                    if (preNotEqualFilters.Any())
-        //                                    {
-        //                                        if (!postNotEqualFilters.Any(p => Regex.Match(textPost, p.Filter).Success))
-        //                                        {
-        //                                            parse = false;
-        //                                        }
-        //                                    }
-        //                                    if (parse)
-        //                                    {
-        //                                        objSelection.SelectionLength = objRegEx_Post_Matches[0].Index;
-        //                                    }
-
-        //                                }
-
-        //                            }
-        //                            else
-        //                            {
-        //                                objSelection.SelectionStart = 0;
-        //                                objSelection.SelectionLength = 0;
-        //                            }
-
-        //                        }
-
-                                
-
-        //                    }
-
-        //                    if (objSelection.SelectionLength > 0)
-        //                    {
-        //                        if (objRegEx_Main != null)
-        //                        {
-        //                            var textMain = richTextBox_Text.Text.Substring(objSelection.SelectionStart,
-        //                                                                        objSelection.SelectionLength);
-        //                            objRegEx_Main_Matches = objRegEx_Main.Matches(textMain);
-        //                            if (objRegEx_Main_Matches.Count > 0)
-        //                            {
-        //                                textMain = textMain.Substring(objRegEx_Main_Matches[0].Index,
-        //                                                              objRegEx_Main_Matches[0].Length);
-        //                                if (!mainEqualFilters.Any(p => Regex.Match(textMain, p.Filter).Success))
-        //                                {
-        //                                    var parse = true;
-        //                                    if (mainNotEqualFilters.Any())
-        //                                    {
-        //                                        if (!mainNotEqualFilters.Any(p => Regex.Match(textMain, p.Filter).Success))
-        //                                        {
-        //                                            parse = false;
-        //                                        }
-        //                                    }
-        //                                    if (parse)
-        //                                    {
-        //                                        objSelection.SelectionStart = richTextBox_Text.SelectionStart +
-        //                                                                      objRegEx_Main_Matches[0].Index;
-        //                                        objSelection.SelectionLength = objRegEx_Main_Matches[0].Length;
-        //                                    }
-        //                                }
-
-        //                            }
-        //                            else
-        //                            {
-        //                                richTextBox_Text.SelectionStart = 0;
-        //                                richTextBox_Text.SelectionLength = 0;
-        //                            }
-
-                                    
-
-        //                        }
-
-        //                    }
-
-        //                    if (objSelection.SelectionLength <= 0)
-        //                    {
-        //                        objSelections.RemoveAt(objSelections.Count-1);
-        //                    }
-
-        //                    if (objSelection.SelectionLength > 0)
-        //                    {
-        //                        ixNextParse = objSelection.SelectionStart + offsetPre == 0 ? objSelection.SelectionLength : offsetPre;
-        //                    }
-        //                }
-
-                        
-                        
-        //            }
-                
-        //        }    
-        //        else if (objRegEx_Post_Matches != null)
-        //        {
-        //            for (int i = 0; i < objRegEx_Post_Matches.Count; i++)
-        //            {
-        //                objSelections.Add(new clsSelection { SelectionStart = 0, SelectionLength = 0 });
-        //                var objSelection = objSelections.Last();
-                        
-        //                if (objRegEx_Post_Matches[i].Index >= ixNextParse)
-        //                {
-                            
-        //                    var ixStart = i == 0 ? 0 : objRegEx_Post_Matches[i - 1].Index + objRegEx_Post_Matches[i - 1].Length;
-        //                    var ixEnd = objRegEx_Post_Matches[i].Index;
-
-        //                    var textPost = "";
-        //                    var offset = 0;
-        //                    if (ixStart < ixEnd)
-        //                    {
-        //                        objSelection.SelectionStart = ixStart;
-        //                        objSelection.SelectionLength = ixEnd - ixStart;
-        //                        textPost = richTextBox_Text.Text.Substring(objSelection.SelectionStart,
-        //                                                                   objSelection.SelectionLength);
-        //                        offset = GetOffset(textPost);
-        //                        if (offset > 0) objSelection.SelectionLength = offset;
-
-        //                    }
-
-                            
-
-        //                    if (objSelection.SelectionLength > 0)
-        //                    {
-        //                        if (objRegEx_Main != null)
-        //                        {
-
-        //                            objRegEx_Main_Matches = objRegEx_Main.Matches(textPost);
-        //                            if (objRegEx_Main_Matches.Count > 0)
-        //                            {
-        //                                objSelection.SelectionStart = objSelection.SelectionStart +
-        //                                                                  objRegEx_Main_Matches[0].Index;
-        //                                objSelection.SelectionLength = objRegEx_Main_Matches[0].Length;
-        //                            }
-        //                            else
-        //                            {
-        //                                objSelection.SelectionStart = 0;
-        //                                objSelection.SelectionLength = 0;
-        //                            }
-        //                        }
-        //                        else
-        //                        {
-        //                            if (objRegEx_Post == null)
-        //                            {
-        //                                objSelection.SelectionStart = 0;
-        //                                objSelection.SelectionLength = 0;
-        //                            }
-
-        //                        }
-
-
-        //                    }
-
-        //                    if (objSelection.SelectionLength <= 0)
-        //                    {
-        //                        objSelections.RemoveAt(objSelections.Count-1);
-        //                    }
-
-        //                    if (objSelection.SelectionLength > 0)
-        //                    {
-
-        //                        ixNextParse = objSelection.SelectionStart + objSelection.SelectionLength + offset > 0 ? offset - 1 : 0;
-        //                    }
-        //                }
-                        
-        //            }
-                
-        //        }
-        //        else if (objRegEx_Main_Matches != null)
-        //        {
-        //            for (int i = 0; i < objRegEx_Main_Matches.Count; i++)
-        //            {
-                        
-
-        //                if (objRegEx_Main_Matches[i].Index >= ixNextParse)
-        //                {
-        //                    objSelections.Add(new clsSelection { SelectionStart = 0, SelectionLength = 0 });
-
-        //                    richTextBox_Text.SelectionStart = objRegEx_Main_Matches[i].Index;
-        //                    richTextBox_Text.SelectionLength = objRegEx_Main_Matches[i].Length;
-
-        //                    objSelections.Last().SelectionStart = richTextBox_Text.SelectionStart;
-        //                    objSelections.Last().SelectionLength = richTextBox_Text.SelectionLength;
-
-        //                    richTextBox_Text.SelectionBackColor = Color.Yellow;
-
-        //                    if (richTextBox_Text.SelectionLength > 0)
-        //                    {
-        //                        var offset = 0;
-        //                        if (toolStripTextBox_LineSeperator.Text != "")
-        //                        {
-        //                            var seperatorText = toolStripTextBox_LineSeperator.Text;
-        //                            var charList = new List<char>();
-        //                            while (seperatorText.Contains("\\n"))
-        //                            {
-        //                                charList.Add((char)10);
-        //                                seperatorText = seperatorText.Remove(seperatorText.IndexOf("\\n"), 2);
-        //                            }
-        //                            while (seperatorText.Contains("\\r"))
-        //                            {
-        //                                charList.Add((char)13);
-        //                                seperatorText = seperatorText.Remove(seperatorText.IndexOf("\\r"), 2);
-        //                            }
-        //                            if (charList.Any())
-        //                            {
-        //                                offset = richTextBox_Text.Find(charList.ToArray(),
-        //                                                  richTextBox_Text.SelectionStart + richTextBox_Text.SelectionLength);
-        //                            }
-
-                                    
-        //                        }
-
-        //                        ixNextParse = richTextBox_Text.SelectionStart + richTextBox_Text.SelectionLength + offset > 0 ? offset - 1 : 0;
-        //                    }    
-        //                }
-                        
-        //            }
-                    
-        //        }
-                
-            
-        //    }
-        //    catch (Exception ex)
-        //    {
-                
-        //    }
-
-        //    richTextBox_Text.ReadOnly = false;
-        //    toolStripButton_removeMarked.Enabled = true;
-        //    toolStripButton_RemoveUnmarked.Enabled = true;
-        //    toolStripButton_CopyMarked.Enabled = true;
-
-        //    MarkSelections();
-        
-        //}
-
-        private void MarkSelections()
-        {
-            foreach (var objSelection in objSelections)
-            {
-                richTextBox_Text.SelectionStart = objSelection.SelectionStart;
-                richTextBox_Text.SelectionLength = objSelection.SelectionLength;
-
-                richTextBox_Text.SelectionBackColor = Color.Yellow;
-            }
-        }
-
-        private int GetOffset(string text)
-        {
-            var offset = 0;
-            if (toolStripTextBox_LineSeperator.Text != "")
-            {
-                var seperatorText = toolStripTextBox_LineSeperator.Text;
-                var charList = new List<char>();
-                while (seperatorText.Contains("\\n"))
-                {
-                    charList.Add((char)10);
-                    seperatorText = seperatorText.Remove(seperatorText.IndexOf("\\n"), 2);
-                }
-                while (seperatorText.Contains("\\r"))
-                {
-                    charList.Add((char)13);
-                    seperatorText = seperatorText.Remove(seperatorText.IndexOf("\\r"), 2);
-                }
-                if (charList.Any())
-                {
-                    offset = richTextBox_Text.Find(charList.ToArray(),
-                                      richTextBox_Text.SelectionStart + richTextBox_Text.SelectionLength);
-                }
-
-            }
-
-            return offset;
-        }
 
         private void button_RemoveUnmarked_Click(object sender, EventArgs e)
         {
@@ -1262,12 +567,12 @@ namespace TextParser
             for (int i = 0; i < objList_Marked.Count; i++)
             {
 
-                richTextBox_Text.SelectionStart = objList_Marked[i].SelectionStart;
-                richTextBox_Text.SelectionLength = objList_Marked[i].SelectionLength;
+                scintilla_Text.Selection.Start = objList_Marked[i].SelectionStart;
+                scintilla_Text.Selection.Length = objList_Marked[i].SelectionLength;
 
-                strToKeep += richTextBox_Text.SelectedText + "\r\n";
+                strToKeep += scintilla_Text.Selection.Text + "\r\n";
             }
-            richTextBox_Text.Text = strToKeep;
+            scintilla_Text.Text = strToKeep;
             objSelections.Clear();
         }
 
@@ -1276,31 +581,31 @@ namespace TextParser
         {
             
 
-            if (toolStripTextBox_LineSeperator.Text != null)
-            {
-                var seperatorText = toolStripTextBox_LineSeperator.Text;
-                var charList = new List<char>();
-                while (seperatorText.Contains("\\r"))
-                {
-                    charList.Add((char)13);
-                    seperatorText = seperatorText.Remove(seperatorText.IndexOf("\\r"), 2);
-                }
-                while (seperatorText.Contains("\\n"))
-                {
-                    charList.Add((char)10);
-                    seperatorText = seperatorText.Remove(seperatorText.IndexOf("\\n"), 2);
-                }
+            //if (toolStripTextBox_LineSeperator.Text != null)
+            //{
+            //    var seperatorText = toolStripTextBox_LineSeperator.Text;
+            //    var charList = new List<char>();
+            //    while (seperatorText.Contains("\\r"))
+            //    {
+            //        charList.Add((char)13);
+            //        seperatorText = seperatorText.Remove(seperatorText.IndexOf("\\r"), 2);
+            //    }
+            //    while (seperatorText.Contains("\\n"))
+            //    {
+            //        charList.Add((char)10);
+            //        seperatorText = seperatorText.Remove(seperatorText.IndexOf("\\n"), 2);
+            //    }
 
 
-                if (charList.Count > 0)
-                {
-                    if (richTextBox_Text.Find(charList.ToArray()) > 0)
-                    {
-                        return charList;
-                    }
-                }
+            //    if (charList.Count > 0)
+            //    {
+            //        if (scintilla_Text.Find(charList.ToArray()) > 0)
+            //        {
+            //            return charList;
+            //        }
+            //    }
 
-            }
+            //}
 
             return null;
         }
@@ -1327,10 +632,10 @@ namespace TextParser
             
             for (int i = 0; i < objList_Marked.Count; i++)
             {
-                richTextBox_Text.SelectionStart = objList_Marked[i].SelectionStart;
-                richTextBox_Text.SelectionLength = objList_Marked[i].SelectionLength;
+                scintilla_Text.Selection.Start = objList_Marked[i].SelectionStart;
+                scintilla_Text.Selection.Length = objList_Marked[i].SelectionLength;
                 
-                richTextBox_Text.SelectedText = "";
+                scintilla_Text.Selection.Text = "";
 
             }
             objSelections.Clear();
@@ -1343,11 +648,11 @@ namespace TextParser
             var strToCopy = "";
             for (int i = 0; i < objList_Marked.Count; i++)
             {
-                richTextBox_Text.SelectionStart = objList_Marked[i].SelectionStart;
-                richTextBox_Text.SelectionLength = objList_Marked[i].SelectionLength;
-                strToCopy += richTextBox_Text.SelectedText + "\r\n";
+                scintilla_Text.Selection.Start = objList_Marked[i].SelectionStart;
+                scintilla_Text.Selection.Length = objList_Marked[i].SelectionLength;
+                strToCopy += scintilla_Text.Selection.Text + "\r\n";
             }
-            Clipboard.SetDataObject(strToCopy);
+            System.Windows.Forms.Clipboard.SetDataObject(strToCopy);
         }
 
         private void button_AddField_Click(object sender, EventArgs e)
@@ -1386,6 +691,22 @@ namespace TextParser
         private void button_Parse_Click(object sender, EventArgs e)
         {
             var parse = true;
+            toolStripButton_Previous.Enabled = false;
+            toolStripButton_Next.Enabled = false;
+            selectionPosition = 0;
+            try
+            {
+                parseLogWindow.Close();
+            }
+            catch (Exception)
+            {
+                
+            }
+            parseLogWindow = new ParseLogWindow();
+
+
+            parseLogWindow.Show();
+
             if (textBox_RegexPre.Text != "")
             {
                 var objOAItem_Pattern = SyncPatternOfField(objLocalConfig.OItem_relationtype_pre,
@@ -1452,15 +773,34 @@ namespace TextParser
                 if ((textBox_RegexPre.Text != "" ||
                  textBox_RegExMain.Text != "" ||
                  textBox_RegExPost.Text != "") &&
-                richTextBox_Text.Text != "")
+                scintilla_Text.Text != "")
                 {
                     parseText();
                     SelectText();
                     toolStripLabel_Found.Text = objSelections.Count.ToString();
-                    richTextBox_Text.ReadOnly = false;
                     toolStripButton_removeMarked.Enabled = true;
                     toolStripButton_RemoveUnmarked.Enabled = true;
                     toolStripButton_CopyMarked.Enabled = true;
+                    ConfigurePositionButtons();     
+                }
+            }
+        }
+
+        private void ConfigurePositionButtons()
+        {
+            toolStripButton_Previous.Enabled = false;
+            toolStripButton_Next.Enabled = false;
+
+            if (objSelections.Any())
+            {
+                if (selectionPosition < objSelections.Count() - 1)
+                {
+                    toolStripButton_Next.Enabled = true;
+                }
+
+                if (selectionPosition > 0)
+                {
+                    toolStripButton_Previous.Enabled = true;
                 }
             }
         }
@@ -1469,16 +809,15 @@ namespace TextParser
         {
             foreach (var objSelection in objSelections)
             {
-                richTextBox_Text.SelectionStart = objSelection.SelectionStart;
-                richTextBox_Text.SelectionLength = objSelection.SelectionLength;
+                objSelection.Range.SetStyle(1);
 
-                richTextBox_Text.SelectionBackColor = Color.Yellow;
+
             }
         }
 
-        private void richTextBox_Text_TextChanged(object sender, EventArgs e)
+        private void scintilla_Text_TextChanged(object sender, EventArgs e)
         {
-            richTextBox_Text.Enabled = true;
+            scintilla_Text.Enabled = true;
             ConfigureParseAndRegexButtons();
         }
 
@@ -1514,13 +853,58 @@ namespace TextParser
 
         }
 
-        private void richTextBox_Text_SelectionChanged(object sender, EventArgs e)
+        private void scintilla_Text_TextChanged_1(object sender, EventArgs e)
         {
-            toolStripLabel_Pos.Text = richTextBox_Text.SelectionStart.ToString();
-            toolStripLabel_Sel.Text = richTextBox_Text.SelectionStart.ToString() +
-                                      " - " + (richTextBox_Text.SelectionStart + richTextBox_Text.SelectionLength)
-                                          .ToString();
-            toolStripLabel_SelLength.Text = richTextBox_Text.SelectionLength.ToString();
+
+            ToggleParseButton();
+
         }
+
+        private void ToggleParseButton()
+        {
+            toolStripButton_Parse.Enabled = true;
+            try
+            {
+                if (string.IsNullOrEmpty(textBox_RegExMain.Text))
+                {
+                    toolStripButton_Parse.Enabled = false;
+                }
+
+                var regexMain = new Regex(textBox_RegExMain.Text);
+
+                if (!string.IsNullOrEmpty(textBox_RegexPre.Text))
+                {
+                    var regexPre = new Regex(textBox_RegexPre.Text);
+                }
+
+                if (!string.IsNullOrEmpty(textBox_RegExPost.Text))
+                {
+                    var regexPost = new Regex(textBox_RegExPost.Text);
+                }
+
+                toolStripButton_Parse.Enabled = true;
+            }
+            catch (Exception)
+            {
+                toolStripButton_Parse.Enabled = false;
+
+            }
+        }
+
+        private void toolStripButton_Previous_Click(object sender, EventArgs e)
+        {
+            selectionPosition --;
+            scintilla_Text.GoTo.Position(objSelections[selectionPosition].Range.Start);
+            ToggleParseButton();
+        }
+
+        private void toolStripButton_Next_Click(object sender, EventArgs e)
+        {
+            selectionPosition++;
+            scintilla_Text.GoTo.Position(objSelections[selectionPosition].Range.Start);
+            ToggleParseButton();
+        }
+
+        
     }
 }

@@ -46,13 +46,12 @@
             this.label_RegexMain = new System.Windows.Forms.Label();
             this.textBox_RegexPre = new System.Windows.Forms.TextBox();
             this.label_RegexPre = new System.Windows.Forms.Label();
-            this.richTextBox_Text = new System.Windows.Forms.RichTextBox();
             this.dataGridView_Filter = new System.Windows.Forms.DataGridView();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton_RemoveUnmarked = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton_removeMarked = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton_CopyMarked = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripLabel_FoundLbl = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripLabel_Found = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel_PosLbl = new System.Windows.Forms.ToolStripLabel();
             this.toolStripLabel_Pos = new System.Windows.Forms.ToolStripLabel();
             this.toolStripLabel_SelLbl = new System.Windows.Forms.ToolStripLabel();
@@ -62,20 +61,25 @@
             this.checkBox_ContainerField = new System.Windows.Forms.CheckBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton_Parse = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel_LineSeperatorLbl = new System.Windows.Forms.ToolStripLabel();
             this.toolStripTextBox_LineSeperator = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.scintilla_Text = new ScintillaNET.Scintilla();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton_Parse = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton_DoLine = new System.Windows.Forms.ToolStripButton();
-            this.toolStripLabel_FoundLbl = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripLabel_Found = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripButton_RemoveUnmarked = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton_removeMarked = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton_CopyMarked = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton_Previous = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton_Next = new System.Windows.Forms.ToolStripButton();
             this.contextMenuStrip_Filter.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Filter)).BeginInit();
             this.toolStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.toolStrip2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.scintilla_Text)).BeginInit();
             this.SuspendLayout();
             // 
             // contextMenuStrip_Filter
@@ -218,19 +222,6 @@
             this.label_RegexPre.TabIndex = 17;
             this.label_RegexPre.Text = "x_Regex (Pre):";
             // 
-            // richTextBox_Text
-            // 
-            this.richTextBox_Text.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.richTextBox_Text.Location = new System.Drawing.Point(4, 186);
-            this.richTextBox_Text.Name = "richTextBox_Text";
-            this.richTextBox_Text.Size = new System.Drawing.Size(894, 300);
-            this.richTextBox_Text.TabIndex = 34;
-            this.richTextBox_Text.Text = "";
-            this.richTextBox_Text.SelectionChanged += new System.EventHandler(this.richTextBox_Text_SelectionChanged);
-            this.richTextBox_Text.TextChanged += new System.EventHandler(this.richTextBox_Text_TextChanged);
-            // 
             // dataGridView_Filter
             // 
             this.dataGridView_Filter.AllowUserToAddRows = false;
@@ -261,47 +252,37 @@
             this.toolStripLabel_SelLbl,
             this.toolStripLabel_Sel,
             this.toolStripLabel_SelLengthLbl,
-            this.toolStripLabel_SelLength});
+            this.toolStripLabel_SelLength,
+            this.toolStripSeparator5,
+            this.toolStripButton_Previous,
+            this.toolStripButton_Next});
             this.toolStrip1.Location = new System.Drawing.Point(0, 493);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(901, 25);
             this.toolStrip1.TabIndex = 41;
             this.toolStrip1.Text = "toolStrip1";
             // 
-            // toolStripButton_RemoveUnmarked
-            // 
-            this.toolStripButton_RemoveUnmarked.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton_RemoveUnmarked.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_RemoveUnmarked.Image")));
-            this.toolStripButton_RemoveUnmarked.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_RemoveUnmarked.Name = "toolStripButton_RemoveUnmarked";
-            this.toolStripButton_RemoveUnmarked.Size = new System.Drawing.Size(121, 22);
-            this.toolStripButton_RemoveUnmarked.Text = "x_Remove unmarked";
-            this.toolStripButton_RemoveUnmarked.Click += new System.EventHandler(this.button_RemoveUnmarked_Click);
-            // 
-            // toolStripButton_removeMarked
-            // 
-            this.toolStripButton_removeMarked.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton_removeMarked.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_removeMarked.Image")));
-            this.toolStripButton_removeMarked.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_removeMarked.Name = "toolStripButton_removeMarked";
-            this.toolStripButton_removeMarked.Size = new System.Drawing.Size(107, 22);
-            this.toolStripButton_removeMarked.Text = "x_Remove marked";
-            this.toolStripButton_removeMarked.Click += new System.EventHandler(this.button_RemoveMarked_Click);
-            // 
-            // toolStripButton_CopyMarked
-            // 
-            this.toolStripButton_CopyMarked.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton_CopyMarked.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_CopyMarked.Image")));
-            this.toolStripButton_CopyMarked.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_CopyMarked.Name = "toolStripButton_CopyMarked";
-            this.toolStripButton_CopyMarked.Size = new System.Drawing.Size(92, 22);
-            this.toolStripButton_CopyMarked.Text = "x_Copy Marked";
-            this.toolStripButton_CopyMarked.Click += new System.EventHandler(this.button_CopyMarked_Click);
-            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripLabel_FoundLbl
+            // 
+            this.toolStripLabel_FoundLbl.Name = "toolStripLabel_FoundLbl";
+            this.toolStripLabel_FoundLbl.Size = new System.Drawing.Size(54, 22);
+            this.toolStripLabel_FoundLbl.Text = "x_Found:";
+            // 
+            // toolStripLabel_Found
+            // 
+            this.toolStripLabel_Found.Name = "toolStripLabel_Found";
+            this.toolStripLabel_Found.Size = new System.Drawing.Size(13, 22);
+            this.toolStripLabel_Found.Text = "0";
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
             // toolStripLabel_PosLbl
             // 
@@ -374,16 +355,6 @@
             this.toolStrip2.TabIndex = 0;
             this.toolStrip2.Text = "toolStrip2";
             // 
-            // toolStripButton_Parse
-            // 
-            this.toolStripButton_Parse.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton_Parse.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_Parse.Image")));
-            this.toolStripButton_Parse.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_Parse.Name = "toolStripButton_Parse";
-            this.toolStripButton_Parse.Size = new System.Drawing.Size(49, 22);
-            this.toolStripButton_Parse.Text = "x_Parse";
-            this.toolStripButton_Parse.Click += new System.EventHandler(this.button_Parse_Click);
-            // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
@@ -406,6 +377,43 @@
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
             // 
+            // scintilla_Text
+            // 
+            this.scintilla_Text.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.scintilla_Text.Location = new System.Drawing.Point(4, 188);
+            this.scintilla_Text.Margins.Margin0.Width = 20;
+            this.scintilla_Text.Name = "scintilla_Text";
+            this.scintilla_Text.Size = new System.Drawing.Size(890, 302);
+            this.scintilla_Text.Styles.BraceBad.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
+            this.scintilla_Text.Styles.BraceLight.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
+            this.scintilla_Text.Styles.CallTip.FontName = "Segoe UI\0\0\0\0\0\0\0\0\0\0\0\0";
+            this.scintilla_Text.Styles.ControlChar.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
+            this.scintilla_Text.Styles.Default.BackColor = System.Drawing.SystemColors.Window;
+            this.scintilla_Text.Styles.Default.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
+            this.scintilla_Text.Styles.IndentGuide.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
+            this.scintilla_Text.Styles.LastPredefined.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
+            this.scintilla_Text.Styles.LineNumber.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
+            this.scintilla_Text.Styles.Max.FontName = "Verdana\0\0\0\0\0\0\0\0\0\0\0\0\0";
+            this.scintilla_Text.TabIndex = 44;
+            this.scintilla_Text.TextChanged += new System.EventHandler(this.scintilla_Text_TextChanged_1);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripButton_Parse
+            // 
+            this.toolStripButton_Parse.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton_Parse.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_Parse.Image")));
+            this.toolStripButton_Parse.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_Parse.Name = "toolStripButton_Parse";
+            this.toolStripButton_Parse.Size = new System.Drawing.Size(49, 22);
+            this.toolStripButton_Parse.Text = "x_Parse";
+            this.toolStripButton_Parse.Click += new System.EventHandler(this.button_Parse_Click);
+            // 
             // toolStripButton_DoLine
             // 
             this.toolStripButton_DoLine.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -417,32 +425,65 @@
             this.toolStripButton_DoLine.Text = "x_Do Line";
             this.toolStripButton_DoLine.Click += new System.EventHandler(this.toolStripButton_DoLine_Click);
             // 
-            // toolStripLabel_FoundLbl
+            // toolStripButton_RemoveUnmarked
             // 
-            this.toolStripLabel_FoundLbl.Name = "toolStripLabel_FoundLbl";
-            this.toolStripLabel_FoundLbl.Size = new System.Drawing.Size(54, 22);
-            this.toolStripLabel_FoundLbl.Text = "x_Found:";
+            this.toolStripButton_RemoveUnmarked.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton_RemoveUnmarked.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_RemoveUnmarked.Image")));
+            this.toolStripButton_RemoveUnmarked.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_RemoveUnmarked.Name = "toolStripButton_RemoveUnmarked";
+            this.toolStripButton_RemoveUnmarked.Size = new System.Drawing.Size(121, 22);
+            this.toolStripButton_RemoveUnmarked.Text = "x_Remove unmarked";
+            this.toolStripButton_RemoveUnmarked.Click += new System.EventHandler(this.button_RemoveUnmarked_Click);
             // 
-            // toolStripSeparator2
+            // toolStripButton_removeMarked
             // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            this.toolStripButton_removeMarked.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton_removeMarked.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_removeMarked.Image")));
+            this.toolStripButton_removeMarked.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_removeMarked.Name = "toolStripButton_removeMarked";
+            this.toolStripButton_removeMarked.Size = new System.Drawing.Size(107, 22);
+            this.toolStripButton_removeMarked.Text = "x_Remove marked";
+            this.toolStripButton_removeMarked.Click += new System.EventHandler(this.button_RemoveMarked_Click);
             // 
-            // toolStripLabel_Found
+            // toolStripButton_CopyMarked
             // 
-            this.toolStripLabel_Found.Name = "toolStripLabel_Found";
-            this.toolStripLabel_Found.Size = new System.Drawing.Size(13, 22);
-            this.toolStripLabel_Found.Text = "0";
+            this.toolStripButton_CopyMarked.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton_CopyMarked.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_CopyMarked.Image")));
+            this.toolStripButton_CopyMarked.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_CopyMarked.Name = "toolStripButton_CopyMarked";
+            this.toolStripButton_CopyMarked.Size = new System.Drawing.Size(92, 22);
+            this.toolStripButton_CopyMarked.Text = "x_Copy Marked";
+            this.toolStripButton_CopyMarked.Click += new System.EventHandler(this.button_CopyMarked_Click);
+            // 
+            // toolStripButton_Previous
+            // 
+            this.toolStripButton_Previous.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton_Previous.Image = global::TextParser.Properties.Resources.tasto_4_architetto_franc_01;
+            this.toolStripButton_Previous.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_Previous.Name = "toolStripButton_Previous";
+            this.toolStripButton_Previous.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton_Previous.Text = "toolStripButton1";
+            this.toolStripButton_Previous.Click += new System.EventHandler(this.toolStripButton_Previous_Click);
+            // 
+            // toolStripButton_Next
+            // 
+            this.toolStripButton_Next.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton_Next.Image = global::TextParser.Properties.Resources.tasto_3_architetto_franc_01;
+            this.toolStripButton_Next.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_Next.Name = "toolStripButton_Next";
+            this.toolStripButton_Next.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton_Next.Text = "toolStripButton2";
+            this.toolStripButton_Next.Click += new System.EventHandler(this.toolStripButton_Next_Click);
             // 
             // UserControl_RegExTester
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.scintilla_Text);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.checkBox_ContainerField);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.dataGridView_Filter);
-            this.Controls.Add(this.richTextBox_Text);
             this.Controls.Add(this.button_AddField);
             this.Controls.Add(this.textBox_Field);
             this.Controls.Add(this.label_Field);
@@ -466,6 +507,7 @@
             this.panel1.PerformLayout();
             this.toolStrip2.ResumeLayout(false);
             this.toolStrip2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.scintilla_Text)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -489,7 +531,6 @@
         private System.Windows.Forms.Label label_RegexMain;
         private System.Windows.Forms.TextBox textBox_RegexPre;
         private System.Windows.Forms.Label label_RegexPre;
-        private System.Windows.Forms.RichTextBox richTextBox_Text;
         private System.Windows.Forms.DataGridView dataGridView_Filter;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton toolStripButton_RemoveUnmarked;
@@ -514,6 +555,10 @@
         private System.Windows.Forms.ToolStripLabel toolStripLabel_FoundLbl;
         private System.Windows.Forms.ToolStripLabel toolStripLabel_Found;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private ScintillaNET.Scintilla scintilla_Text;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.ToolStripButton toolStripButton_Previous;
+        private System.Windows.Forms.ToolStripButton toolStripButton_Next;
 
     }
 }

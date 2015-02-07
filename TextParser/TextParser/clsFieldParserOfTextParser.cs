@@ -57,6 +57,8 @@ namespace TextParser
 
         public clsOntologyItem OItem_Result { get; private set; }
 
+        private ParseResult parseResult = new ParseResult();
+
         public bool AbortParseProcess { get; set; }
 
         public clsFieldParserOfTextParser(clsLocalConfig LocalConfig, List<clsField> ParseFieldList, clsOntologyItem OItem_TextParser, clsOntologyItem OITem_Type, bool CreateFileList = true)
@@ -379,16 +381,11 @@ namespace TextParser
 
         public clsOntologyItem ParseText(string text, long fileLine = 0)
         {
-            var parse = true;
             var add = false;
             var dontAddUser = false;
             var textParse = text;
             var Id = objLocalConfig.Globals.NewGUID;
             var ixStart = 0;
-            var ixEnd_Pre = 0;
-            var ixStart_Main = 0;
-            var length_Main = 0;
-            var ixStart_Post = 0;
             var ixStartLast = 0;
             var fieldNotFound = false;
             var textParseBase = text;
@@ -459,117 +456,24 @@ namespace TextParser
                 else
                 {
 
+                    string regexPre = field.ID_RegExPre != null &&
+                                   field.ID_RegExPre != objLocalConfig.OItem_object_empty.GUID
+                                   ? field.RegexPre : null;
+                    string regexPost = field.ID_RegExPost != null &&
+                                       field.ID_RegExPost != objLocalConfig.OItem_object_empty.GUID
+                        ? field.RegexPost
+                        : null;
 
-                    // Regex-Pre
-                    if (field.ID_RegExPre != null &&
-                        field.ID_RegExPre != objLocalConfig.OItem_object_empty.GUID)
-                    {
-                        var objRegExPre = new Regex(field.RegexPre);
-
-                        // Regex im Text suchen
-                        var objMatches = objRegExPre.Matches(textParse);
-                        if (objMatches.Count > 0 && objMatches[0].Length > 0)
-                        {
-
-                            textParse =
-                                textParse.Substring(objMatches[0].Index +
-                                                    objMatches[0].Length);
-                            ixEnd_Pre = objMatches[0].Index + objMatches[0].Length;
-                            //ixStart = ixStart + objMatches[0].Index +
-                            //            objMatches[0].Length-1;
-
-                            parse = true;
-                        }
-                        else if (objMatches.Count > 0 && objMatches[0].Length == 0)
-                        {
-                            ixEnd_Pre = objMatches[0].Index + objMatches[0].Length;
-                            parse = true;
-                        }
-                        else
-                        {
-
-                            parse = false;
-                        }
-                    }
-                    else
-                    {
-                        ixEnd_Pre = -1;
-                        parse = true;
-                    }
-
-                    if (parse)
-                    {
-                        if (field.ID_RegExPost != null &&
-                            field.ID_RegExPost != objLocalConfig.OItem_object_empty.GUID)
-                        {
-                            var objRegExPost = new Regex(field.RegexPost);
-                            var objMatches = objRegExPost.Matches(textParse);
-
-                            if (objMatches.Count > 0 && objMatches[0].Length > 0)
-                            {
-                                textParse = textParse.Substring(0, objMatches[0].Index);
-                                ixStart_Post = objMatches[0].Index;
-                                //ixStart += objMatches[0].Index + objMatches[0].Length-1;
-                                getIxStart = false;
-                            }
-                            else if (objMatches.Count > 0 && objMatches[0].Length == 0)
-                            {
-                                ixStart_Post = objMatches[0].Index;
-                            }
-                            else
-                            {
-
-                                parse = false;
-                            }
-                        }
-                        else
-                        {
-                            ixStart_Post = -1;
-                            parse = true;
-                        }
-                    }
-
-                    if (parse)
-                    {
-                        if (field.ID_RegExMain != null &&
-                            field.ID_RegExMain != objLocalConfig.OItem_object_empty.GUID)
-                        {
-                            var objRegEx = new Regex(field.Regex);
-                            var objMatches = objRegEx.Matches(textParse);
-
-                            if (objMatches.Count > 0 && objMatches[0].Length > 0)
-                            {
-                                textParse = textParse.Substring(objMatches[0].Index,
-                                                                objMatches[0].Length);
-
-                                ixStart_Main = objMatches[0].Index;
-                                length_Main = objMatches[0].Length;
-                                if (getIxStart)
-                                {
-
-                                    //ixStart += objMatches[0].Index + objMatches[0].Length - 1;
-                                }
+                    string regexMain = field.ID_RegExMain != null &&
+                                       field.ID_RegExMain != objLocalConfig.OItem_object_empty.GUID
+                                       ? field.Regex : null;
 
 
-                            }
-                            else if (objMatches.Count > 0 && objMatches[0].Length == 0)
-                            {
-                                ixStart_Main = objMatches[0].Index;
-                                length_Main = 0;
-                            }
-                            else
-                            {
+                    parseResult.ResultText = textParse;
+                    parseResult.Parse(regexPre, regexMain, regexPost);
+                    textParse = parseResult.ResultText;
 
-                                parse = false;
-                            }
-                        }
-                        else
-                        {
-                            ixStart_Main = -1;
-                        }
-                    }
-
-                    if (parse)
+                    if (parseResult.ParseOk)
                     {
                         if (field.UseLastValid)
                         {
@@ -589,7 +493,7 @@ namespace TextParser
                             }
                             else
                             {
-                                parse = false;
+                                parseResult.ParseOk = false;
                             }
                         }
                         else if (field.ID_DataType == objLocalConfig.OItem_object_int.GUID)
@@ -602,7 +506,7 @@ namespace TextParser
                             }
                             else
                             {
-                                parse = false;
+                                parseResult.ParseOk = false;
                             }
                         }
                         else if (field.ID_DataType == objLocalConfig.OItem_object_datetime.GUID)
@@ -614,7 +518,7 @@ namespace TextParser
                             }
                             else
                             {
-                                parse = false;
+                                parseResult.ParseOk = false;
                             }
                         }
                         else if (field.ID_DataType == objLocalConfig.OItem_object_double.GUID)
@@ -627,7 +531,7 @@ namespace TextParser
                             }
                             else
                             {
-                                parse = false;
+                                parseResult.ParseOk = false;
                             }
                         }
                     }
@@ -637,11 +541,11 @@ namespace TextParser
                     }
 
 
-                    if (!parse) dontAddUser = true;
+                    if (!parseResult.ParseOk) dontAddUser = true;
 
                     if (field.RemoveFromSource)
                     {
-                        ixStart = ixStartLast + (ixEnd_Pre > -1 ? ixEnd_Pre : 0) + ixStart_Main + length_Main;
+                        ixStart = ixStartLast + (parseResult.IxEndPre > -1 ? parseResult.IxEndPre : 0) + parseResult.IxStartMain + parseResult.LengthMain;
                         if (text.Length > ixStart)
                             textParseBase = text.Substring(ixStart);
                         else

@@ -109,5 +109,25 @@ namespace TextParser.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap tasto_3_architetto_franc_01 {
+            get {
+                object obj = ResourceManager.GetObject("tasto_3_architetto_franc_01", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap tasto_4_architetto_franc_01 {
+            get {
+                object obj = ResourceManager.GetObject("tasto_4_architetto_franc_01", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }
