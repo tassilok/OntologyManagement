@@ -86,6 +86,7 @@ public clsOntologyItem OItem_relationtype_belonging { get; set; }
 public clsOntologyItem OItem_relationtype_replace_with { get; set; }
 public clsOntologyItem OItem_relationtype_import_to { get; set; }
 public clsOntologyItem OItem_relationtype_logging { get; set; }
+public clsOntologyItem OItem_relationtype_parsesource { get; set; }
 
         // Objects
 public clsOntologyItem OItem_object_temporary_regular_expression { get; set; }
@@ -444,6 +445,26 @@ var objOList_attributetype_value_first = (from objOItem in objDBLevel_Config1.OL
   
 	private void get_Config_RelationTypes()
         {
+            var objOList_relationtype_parsesource = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                     where objOItem.ID_Object == cstrID_Ontology
+                                                     join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                     where objRef.Name_Object.ToLower() == "relationtype_parsesource".ToLower() && objRef.Ontology == Globals.Type_RelationType
+                                                     select objRef).ToList();
+
+            if (objOList_relationtype_parsesource.Any())
+            {
+                OItem_relationtype_parsesource = new clsOntologyItem()
+                {
+                    GUID = objOList_relationtype_parsesource.First().ID_Other,
+                    Name = objOList_relationtype_parsesource.First().Name_Other,
+                    GUID_Parent = objOList_relationtype_parsesource.First().ID_Parent_Other,
+                    Type = Globals.Type_RelationType
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
 
             var objOList_relationtype_logging = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                                  where objOItem.ID_Object == cstrID_Ontology

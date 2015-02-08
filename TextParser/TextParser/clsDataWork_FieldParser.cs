@@ -20,6 +20,7 @@ namespace TextParser
         private clsDBLevel objDBLevel_Filter_Att;
         private clsDBLevel objDBLevel_RegEx_Att;
         private clsDBLevel objDBLevel_ReplaceWith;
+        private clsDBLevel objDBLevel_UserContentOfField;
         
         private clsLocalConfig objLocalConfig;
 
@@ -127,6 +128,7 @@ namespace TextParser
             List<clsObjectAtt> objORel_Filter_att = new List<clsObjectAtt>();
             List<clsObjectAtt> objORel_RegEx_Att = new List<clsObjectAtt>();
             List<clsObjectRel> objORel_Replacewith = new List<clsObjectRel>();
+            List<clsObjectRel> objORel_ContentField = new List<clsObjectRel>();
 
             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
@@ -142,6 +144,16 @@ namespace TextParser
                         }
                 };
 
+                objORel_ContentField = new List<clsObjectRel>
+                        {
+                            new clsObjectRel
+                                {
+                                    ID_Parent_Object = objLocalConfig.OItem_class_field.GUID,
+                                    ID_RelationType = objLocalConfig.OItem_relationtype_parsesource.GUID,
+                                    ID_Parent_Other = objLocalConfig.OItem_class_field.GUID
+                                }
+                        };
+
                 objOItem_Result = objDBLevel_FieldParser_To_Field.get_Data_ObjectRel(objORel_FieldParser_To_Field,
                                                                                      boolIDs: false);
 
@@ -153,6 +165,8 @@ namespace TextParser
 
                     if (OItem_Parser == null || !objDBLevel_FieldParser_To_Field.OList_ObjectRel.Any())
                     {
+                        
+
                         objORel_Fields_att = new List<clsObjectAtt>
                         {
                             new clsObjectAtt
@@ -389,165 +403,176 @@ namespace TextParser
 
                                 if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                                 {
-                                    objOItem_Result = objDBLevel_ReplaceWith.get_Data_ObjectRel(objORel_Replacewith, boolIDs: false);
-
+                                    objOItem_Result = objDBLevel_UserContentOfField.get_Data_ObjectRel(objORel_ContentField, boolIDs: false);
                                     if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                                     {
-                                        List<clsRegExField> regExMain = (from objRegExMain in objDBLevel_Fields_Rel.OList_ObjectRel.
-                                                                                            Where(
-                                                                                                r =>
-                                                                                                r.ID_RelationType ==
-                                                                                                objLocalConfig
-                                                                                                    .OItem_relationtype_main
-                                                                                                    .GUID &&
-                                                                                                r.ID_Parent_Other ==
-                                                                                                objLocalConfig
-                                                                                                    .OItem_class_regular_expressions
-                                                                                                    .GUID).ToList()
-                                                                         join objRegExValMain in objDBLevel_RegEx_Att.OList_ObjectAtt on
-                                                                             objRegExMain.ID_Other equals objRegExValMain.ID_Object
-                                                                         select new clsRegExField
-                                                                         {
-                                                                             ID_Field = objRegExMain.ID_Object,
-                                                                             ID_RegEx = objRegExMain.ID_Other,
-                                                                             ID_Attribute = objRegExValMain.ID_Attribute,
-                                                                             RegEx = objRegExValMain.Val_String
-                                                                         }).ToList();
+                                        objOItem_Result = objDBLevel_ReplaceWith.get_Data_ObjectRel(objORel_Replacewith, boolIDs: false);
 
-                                        List<clsRegExField> regExPre = (from objRegExPre in objDBLevel_Fields_Rel.OList_ObjectRel.
-                                                                                                    Where(
-                                                                                                        r =>
-                                                                                                        r.ID_RelationType ==
-                                                                                                        objLocalConfig
-                                                                                                            .OItem_relationtype_pre
-                                                                                                            .GUID &&
-                                                                                                        r.ID_Parent_Other ==
-                                                                                                        objLocalConfig
-                                                                                                            .OItem_class_regular_expressions
-                                                                                                            .GUID).ToList()
-                                                                        join objRegExValPre in objDBLevel_RegEx_Att.OList_ObjectAtt on
-                                                                            objRegExPre.ID_Other equals objRegExValPre.ID_Object
-                                                                        select new clsRegExField
-                                                                        {
-                                                                            ID_Field = objRegExPre.ID_Object,
-                                                                            ID_RegEx = objRegExPre.ID_Other,
-                                                                            ID_Attribute = objRegExValPre.ID_Attribute,
-                                                                            RegEx = objRegExValPre.Val_String
-                                                                        }).ToList();
+                                        if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                        {
+                                            List<clsRegExField> regExMain = (from objRegExMain in objDBLevel_Fields_Rel.OList_ObjectRel.
+                                                                                                Where(
+                                                                                                    r =>
+                                                                                                    r.ID_RelationType ==
+                                                                                                    objLocalConfig
+                                                                                                        .OItem_relationtype_main
+                                                                                                        .GUID &&
+                                                                                                    r.ID_Parent_Other ==
+                                                                                                    objLocalConfig
+                                                                                                        .OItem_class_regular_expressions
+                                                                                                        .GUID).ToList()
+                                                                             join objRegExValMain in objDBLevel_RegEx_Att.OList_ObjectAtt on
+                                                                                 objRegExMain.ID_Other equals objRegExValMain.ID_Object
+                                                                             select new clsRegExField
+                                                                             {
+                                                                                 ID_Field = objRegExMain.ID_Object,
+                                                                                 ID_RegEx = objRegExMain.ID_Other,
+                                                                                 ID_Attribute = objRegExValMain.ID_Attribute,
+                                                                                 RegEx = objRegExValMain.Val_String
+                                                                             }).ToList();
 
-                                        List<clsRegExField> regExPost = (from objRegExPost in objDBLevel_Fields_Rel.OList_ObjectRel.
-                                                                                                    Where(
-                                                                                                        r =>
-                                                                                                        r.ID_RelationType ==
-                                                                                                        objLocalConfig
-                                                                                                            .OItem_relationtype_posts
-                                                                                                            .GUID &&
-                                                                                                        r.ID_Parent_Other ==
-                                                                                                        objLocalConfig
-                                                                                                            .OItem_class_regular_expressions
-                                                                                                            .GUID).ToList()
-                                                                         join objRegExValPost in objDBLevel_RegEx_Att.OList_ObjectAtt on
-                                                                             objRegExPost.ID_Other equals objRegExValPost.ID_Object
-                                                                         select new clsRegExField
-                                                                         {
-                                                                             ID_Field = objRegExPost.ID_Object,
-                                                                             ID_RegEx = objRegExPost.ID_Other,
-                                                                             ID_Attribute = objRegExValPost.ID_Attribute,
-                                                                             RegEx = objRegExValPost.Val_String
-                                                                         }).ToList();
+                                            List<clsRegExField> regExPre = (from objRegExPre in objDBLevel_Fields_Rel.OList_ObjectRel.
+                                                                                                        Where(
+                                                                                                            r =>
+                                                                                                            r.ID_RelationType ==
+                                                                                                            objLocalConfig
+                                                                                                                .OItem_relationtype_pre
+                                                                                                                .GUID &&
+                                                                                                            r.ID_Parent_Other ==
+                                                                                                            objLocalConfig
+                                                                                                                .OItem_class_regular_expressions
+                                                                                                                .GUID).ToList()
+                                                                            join objRegExValPre in objDBLevel_RegEx_Att.OList_ObjectAtt on
+                                                                                objRegExPre.ID_Other equals objRegExValPre.ID_Object
+                                                                            select new clsRegExField
+                                                                            {
+                                                                                ID_Field = objRegExPre.ID_Object,
+                                                                                ID_RegEx = objRegExPre.ID_Other,
+                                                                                ID_Attribute = objRegExValPre.ID_Attribute,
+                                                                                RegEx = objRegExValPre.Val_String
+                                                                            }).ToList();
 
-                                        FieldList = (from objField in objDBLevel_Fields.OList_Objects
-                                                     join objFieldParser in objDBLevel_FieldParser_To_Field.OList_ObjectRel on
-                                                         objField.GUID equals objFieldParser.ID_Other
-                                                     join objRemoveFromSource
-                                                         in objDBLevel_Fields_Att.OList_ObjectAtt.
-                                                                                  Where(
-                                                                                      at =>
-                                                                                      at.ID_AttributeType ==
-                                                                                      objLocalConfig
-                                                                                          .OItem_attributetype_remove_from_source
-                                                                                          .GUID).ToList()
-                                                         on objField.GUID equals objRemoveFromSource.ID_Object
-                                                     join objUseOrderId
-                                                         in objDBLevel_Fields_Att.OList_ObjectAtt.
-                                                                                  Where(
-                                                                                      at =>
-                                                                                      at.ID_AttributeType ==
-                                                                                      objLocalConfig
-                                                                                          .OItem_attributetype_useorderid.GUID)
-                                                                                 .ToList()
-                                                         on objField.GUID equals objUseOrderId.ID_Object
-                                                     join objDataType
-                                                         in objDBLevel_Fields_Rel.OList_ObjectRel.
-                                                                                  Where(
-                                                                                      dt =>
-                                                                                      dt.ID_RelationType ==
-                                                                                      objLocalConfig
-                                                                                          .OItem_relationtype_value_type.GUID &&
-                                                                                      dt.ID_Parent_Other ==
-                                                                                      objLocalConfig.OItem_class_datatypes.GUID)
-                                                                                 .ToList()
-                                                         on objField.GUID equals objDataType.ID_Object
-                                                     join objMeta in objDBLevel_Fields_Rel.OList_ObjectRel.
-                                                                                           Where(
-                                                                                               m =>
-                                                                                               m.ID_RelationType ==
-                                                                                               objLocalConfig
-                                                                                                   .OItem_relationtype_is.GUID &&
-                                                                                               m.ID_Parent_Other ==
-                                                                                               objLocalConfig
-                                                                                                   .OItem_class_metadata__parser_
-                                                                                                   .GUID).ToList()
-                                                         on objField.GUID equals objMeta.ID_Object into objMetas
-                                                     from objMeta in objMetas.DefaultIfEmpty()
-                                                     join objUseLastValid in objDBLevel_Fields_Att.OList_ObjectAtt.
-                                                                                            Where(
-                                                                                              at =>
-                                                                                              at.ID_AttributeType ==
-                                                                                              objLocalConfig
-                                                                                                  .OItem_attributetype_uselastvalid.GUID)
-                                                                                         .ToList() on objField.GUID equals objUseLastValid.ID_Object into UseLastValidItems
-                                                     from objUseLastValid in UseLastValidItems.DefaultIfEmpty()
-                                                     join objRegExMain in regExMain on objField.GUID equals objRegExMain.ID_Field into objRegExMains
-                                                     from objRegExMain in objRegExMains.DefaultIfEmpty()
-                                                     join objRegExPre in regExPre on objField.GUID equals objRegExPre.ID_Field into objRegExPres
-                                                     from objRegExPre in objRegExPres.DefaultIfEmpty()
-                                                     join objRegExPost in regExPost on objField.GUID equals objRegExPost.ID_Field into objRegExPosts
-                                                     from objRegExPost in objRegExPosts.DefaultIfEmpty()
-                                                     join objReplace in objDBLevel_ReplaceWith.OList_ObjectRel on objField.GUID equals objReplace.ID_Object into objReplaces
-                                                     from objReplace in objReplaces.DefaultIfEmpty()
-                                                     select new clsField
-                                                     {
-                                                         ID_FieldParser = objFieldParser.ID_Object,
-                                                         Name_FieldParser = objFieldParser.Name_Object,
-                                                         ID_Field = objField.GUID,
-                                                         Name_Field = objField.Name,
-                                                         ID_DataType = objDataType.ID_Other,
-                                                         DataType = objDataType.Name_Other,
-                                                         ID_Attribute_RemoveFromSource = objRemoveFromSource.ID_Attribute,
-                                                         RemoveFromSource = objRemoveFromSource.Val_Bit ?? false,
-                                                         ID_Attribute_UseOrderID = objUseOrderId.ID_Attribute,
-                                                         UseOrderId = objUseOrderId.Val_Bit ?? false,
-                                                         ID_MetaField = objMeta != null ? objMeta.ID_Other : null,
-                                                         Name_MetaField = objMeta != null ? objMeta.Name_Other : null,
-                                                         IsMeta = objMeta != null,
-                                                         ID_RegExPre = objRegExPre != null ? objRegExPre.ID_RegEx : null,
-                                                         ID_Attribute_RegExPreVal = objRegExPre != null ? objRegExPre.ID_Attribute : null,
-                                                         RegexPre = objRegExPre != null ? objRegExPre.RegEx : null,
-                                                         ID_RegExMain = objRegExMain != null ? objRegExMain.ID_RegEx : null,
-                                                         ID_Attribute_RegExMainVal = objRegExMain != null ? objRegExMain.ID_Attribute : null,
-                                                         Regex = objRegExMain != null ? objRegExMain.RegEx : null,
-                                                         ID_RegExPost = objRegExPost != null ? objRegExPost.ID_RegEx : null,
-                                                         ID_Attribute_RegExPostVal = objRegExPost != null ? objRegExPost.ID_Attribute : null,
-                                                         RegexPost = objRegExPost != null ? objRegExPost.RegEx : null,
-                                                         OrderId = objFieldParser.OrderID ?? 0,
-                                                         Insert = objReplace != null ? objReplace.Name_Other : null,
-                                                         IsInsert = objReplace != null ? true : false,
-                                                         ID_Attribute_UseLastValid = objUseLastValid != null ? objUseLastValid.ID_Attribute : null,
-                                                         UseLastValid = objUseLastValid != null ? objUseLastValid.Val_Bit != null ? (bool)objUseLastValid.Val_Bit : false : false
-                                                     }).ToList();
+                                            List<clsRegExField> regExPost = (from objRegExPost in objDBLevel_Fields_Rel.OList_ObjectRel.
+                                                                                                        Where(
+                                                                                                            r =>
+                                                                                                            r.ID_RelationType ==
+                                                                                                            objLocalConfig
+                                                                                                                .OItem_relationtype_posts
+                                                                                                                .GUID &&
+                                                                                                            r.ID_Parent_Other ==
+                                                                                                            objLocalConfig
+                                                                                                                .OItem_class_regular_expressions
+                                                                                                                .GUID).ToList()
+                                                                             join objRegExValPost in objDBLevel_RegEx_Att.OList_ObjectAtt on
+                                                                                 objRegExPost.ID_Other equals objRegExValPost.ID_Object
+                                                                             select new clsRegExField
+                                                                             {
+                                                                                 ID_Field = objRegExPost.ID_Object,
+                                                                                 ID_RegEx = objRegExPost.ID_Other,
+                                                                                 ID_Attribute = objRegExValPost.ID_Attribute,
+                                                                                 RegEx = objRegExValPost.Val_String
+                                                                             }).ToList();
+
+                                            FieldList = (from objField in objDBLevel_Fields.OList_Objects
+                                                         join objFieldParser in objDBLevel_FieldParser_To_Field.OList_ObjectRel on
+                                                             objField.GUID equals objFieldParser.ID_Other
+                                                         join objRemoveFromSource
+                                                             in objDBLevel_Fields_Att.OList_ObjectAtt.
+                                                                                      Where(
+                                                                                          at =>
+                                                                                          at.ID_AttributeType ==
+                                                                                          objLocalConfig
+                                                                                              .OItem_attributetype_remove_from_source
+                                                                                              .GUID).ToList()
+                                                             on objField.GUID equals objRemoveFromSource.ID_Object
+                                                         join objUseOrderId
+                                                             in objDBLevel_Fields_Att.OList_ObjectAtt.
+                                                                                      Where(
+                                                                                          at =>
+                                                                                          at.ID_AttributeType ==
+                                                                                          objLocalConfig
+                                                                                              .OItem_attributetype_useorderid.GUID)
+                                                                                     .ToList()
+                                                             on objField.GUID equals objUseOrderId.ID_Object
+                                                         join objDataType
+                                                             in objDBLevel_Fields_Rel.OList_ObjectRel.
+                                                                                      Where(
+                                                                                          dt =>
+                                                                                          dt.ID_RelationType ==
+                                                                                          objLocalConfig
+                                                                                              .OItem_relationtype_value_type.GUID &&
+                                                                                          dt.ID_Parent_Other ==
+                                                                                          objLocalConfig.OItem_class_datatypes.GUID)
+                                                                                     .ToList()
+                                                             on objField.GUID equals objDataType.ID_Object
+                                                         join objMeta in objDBLevel_Fields_Rel.OList_ObjectRel.
+                                                                                               Where(
+                                                                                                   m =>
+                                                                                                   m.ID_RelationType ==
+                                                                                                   objLocalConfig
+                                                                                                       .OItem_relationtype_is.GUID &&
+                                                                                                   m.ID_Parent_Other ==
+                                                                                                   objLocalConfig
+                                                                                                       .OItem_class_metadata__parser_
+                                                                                                       .GUID).ToList()
+                                                             on objField.GUID equals objMeta.ID_Object into objMetas
+                                                         from objMeta in objMetas.DefaultIfEmpty()
+                                                         join objUseLastValid in objDBLevel_Fields_Att.OList_ObjectAtt.
+                                                                                                Where(
+                                                                                                  at =>
+                                                                                                  at.ID_AttributeType ==
+                                                                                                  objLocalConfig
+                                                                                                      .OItem_attributetype_uselastvalid.GUID)
+                                                                                             .ToList() on objField.GUID equals objUseLastValid.ID_Object into UseLastValidItems
+                                                         from objUseLastValid in UseLastValidItems.DefaultIfEmpty()
+                                                         join objRegExMain in regExMain on objField.GUID equals objRegExMain.ID_Field into objRegExMains
+                                                         from objRegExMain in objRegExMains.DefaultIfEmpty()
+                                                         join objRegExPre in regExPre on objField.GUID equals objRegExPre.ID_Field into objRegExPres
+                                                         from objRegExPre in objRegExPres.DefaultIfEmpty()
+                                                         join objRegExPost in regExPost on objField.GUID equals objRegExPost.ID_Field into objRegExPosts
+                                                         from objRegExPost in objRegExPosts.DefaultIfEmpty()
+                                                         join objReplace in objDBLevel_ReplaceWith.OList_ObjectRel on objField.GUID equals objReplace.ID_Object into objReplaces
+                                                         from objReplace in objReplaces.DefaultIfEmpty()
+                                                         join objReferenceField in objDBLevel_UserContentOfField.OList_ObjectRel on objField.GUID equals objReferenceField.ID_Object into objReferenceFields
+                                                         from objReferenceField in objReferenceFields.DefaultIfEmpty()
+                                                         select new clsField
+                                                         {
+                                                             ID_FieldParser = objFieldParser.ID_Object,
+                                                             Name_FieldParser = objFieldParser.Name_Object,
+                                                             ID_Field = objField.GUID,
+                                                             Name_Field = objField.Name,
+                                                             ID_DataType = objDataType.ID_Other,
+                                                             DataType = objDataType.Name_Other,
+                                                             ID_Attribute_RemoveFromSource = objRemoveFromSource.ID_Attribute,
+                                                             RemoveFromSource = objRemoveFromSource.Val_Bit ?? false,
+                                                             ID_Attribute_UseOrderID = objUseOrderId.ID_Attribute,
+                                                             UseOrderId = objUseOrderId.Val_Bit ?? false,
+                                                             ID_MetaField = objMeta != null ? objMeta.ID_Other : null,
+                                                             Name_MetaField = objMeta != null ? objMeta.Name_Other : null,
+                                                             IsMeta = objMeta != null,
+                                                             ID_RegExPre = objRegExPre != null ? objRegExPre.ID_RegEx : null,
+                                                             ID_Attribute_RegExPreVal = objRegExPre != null ? objRegExPre.ID_Attribute : null,
+                                                             RegexPre = objRegExPre != null ? objRegExPre.RegEx : null,
+                                                             ID_RegExMain = objRegExMain != null ? objRegExMain.ID_RegEx : null,
+                                                             ID_Attribute_RegExMainVal = objRegExMain != null ? objRegExMain.ID_Attribute : null,
+                                                             Regex = objRegExMain != null ? objRegExMain.RegEx : null,
+                                                             ID_RegExPost = objRegExPost != null ? objRegExPost.ID_RegEx : null,
+                                                             ID_Attribute_RegExPostVal = objRegExPost != null ? objRegExPost.ID_Attribute : null,
+                                                             RegexPost = objRegExPost != null ? objRegExPost.RegEx : null,
+                                                             OrderId = objFieldParser.OrderID ?? 0,
+                                                             Insert = objReplace != null ? objReplace.Name_Other : null,
+                                                             IsInsert = objReplace != null ? true : false,
+                                                             ID_Attribute_UseLastValid = objUseLastValid != null ? objUseLastValid.ID_Attribute : null,
+                                                             UseLastValid = objUseLastValid != null ? objUseLastValid.Val_Bit != null ? (bool)objUseLastValid.Val_Bit : false : false,
+                                                             ID_ReferenceField = objReferenceField != null ? objReferenceField.ID_Other : null,
+                                                             Name_ReferenceField = objReferenceField != null ? objReferenceField.Name_Other : null
+                                                         }).ToList();
+                                        }
                                     }
                                 }
+
+
+                                
                                 
                             }
                         }
@@ -570,6 +595,7 @@ namespace TextParser
             objDBLevel_Filter_Att = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_RegEx_Att = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_ReplaceWith = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_UserContentOfField = new clsDBLevel(objLocalConfig.Globals);
         }
     }
 }

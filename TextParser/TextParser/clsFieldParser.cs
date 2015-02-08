@@ -69,9 +69,17 @@ namespace TextParser
                 var ixStart_Main = 0;
                 var length_Main = 0;
                 var parse = false;
-               
+                field.LastContent = "";
 
                 var textParse = text;
+                if (!string.IsNullOrEmpty(field.ID_ReferenceField))
+                {
+                    var contentFields = ParseFieldList.Where(fieldRef => fieldRef.ID_Field == field.ID_ReferenceField).ToList();
+                    if (contentFields.Any())
+                    {
+                        textParse = contentFields.First().LastContent;
+                    }
+                }
                 // Regex-Pre
                 if (field.ID_RegExPre != null &&
                     field.ID_RegExPre != objLocalConfig.OItem_object_empty.GUID)
@@ -180,13 +188,15 @@ namespace TextParser
                         ixStart_Main = -1;
                     }
                 }
-
+                
                 if (parse || (field.UseLastValid && !string.IsNullOrEmpty(field.LastValid)))
                 {
                     string fieldToAdd = "";
                     if (parse)
                     {
+                        
                         fieldToAdd = text.Substring(ixEnd_Pre, length_Main);
+                        field.LastContent = fieldToAdd;
                         if (field.UseLastValid)
                         {
                             field.LastValid = fieldToAdd;
@@ -194,6 +204,7 @@ namespace TextParser
                     }
                     else
                     {
+                        field.LastContent = "";
                         if (field.UseLastValid)
                         {
                             fieldToAdd = field.LastValid;

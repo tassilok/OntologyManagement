@@ -394,6 +394,7 @@ namespace TextParser
             addMessageRest = false;
             foreach (var field in ParseFieldList.OrderBy(p => p.IsMeta).ThenBy(p => p.OrderId).ToList())
             {
+                field.LastContent = "";
                 fieldNotFound = false;
                 var getIxStart = true;
                 if (field.IsMeta)
@@ -469,12 +470,22 @@ namespace TextParser
                                        ? field.Regex : null;
 
 
+                    if (!string.IsNullOrEmpty(field.ID_ReferenceField))
+                    {
+                        var contentFields = ParseFieldList.Where(fieldSource => fieldSource.ID_Field == field.ID_ReferenceField).ToList();
+                        if (contentFields.Any())
+                        {
+                            textParse = contentFields.First().LastContent;
+                        }
+                    }
+                    
                     parseResult.ResultText = textParse;
                     parseResult.Parse(regexPre, regexMain, regexPost);
                     textParse = parseResult.ResultText;
 
                     if (parseResult.ParseOk)
                     {
+                        field.LastContent = textParse;
                         if (field.UseLastValid)
                         {
                             field.LastValid = textParse;
@@ -541,7 +552,11 @@ namespace TextParser
                     }
 
 
-                    if (!parseResult.ParseOk) dontAddUser = true;
+                    if (!parseResult.ParseOk)
+                    {
+                        field.LastContent = "";
+                        dontAddUser = true;
+                    }
 
                     if (field.RemoveFromSource)
                     {

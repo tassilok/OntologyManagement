@@ -36,6 +36,8 @@ namespace TextParser
         public string ID_Attribute_UseLastValid { get; set; }
         public bool UseLastValid { get; set; }
         public string LastValid { get; set; }
-
+        public string ID_ReferenceField { get; set; }
+        public string Name_ReferenceField { get; set; }
+        public string LastContent { get; set; }
     }
 }
