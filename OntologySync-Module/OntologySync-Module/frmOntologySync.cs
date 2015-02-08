@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.ServiceModel;
 using System.Threading;
 using System.Windows.Forms;
 using OntologySync_Module.OntoWeb;
@@ -114,14 +116,36 @@ namespace OntologySync_Module
                         !string.IsNullOrEmpty(jobConnections.First().userAuth.NamePassword))
                     {
                         var password = securityWork.decode_Password(jobConnections.First().userAuth.NamePassword);
-                        ontoWebSoapClient = new OntoWebSoapClient();
-                        if (ontoWebSoapClient.ClientCredentials != null)
-                        {
-                            ontoWebSoapClient.ClientCredentials.UserName.UserName = jobConnections.First().userAuth.NameUser;
-                            ontoWebSoapClient.ClientCredentials.UserName.Password = password;
+                        
+                       
 
-                            threadRefresh.Start();
-                        }
+                        // Create the binding.
+                        BasicHttpBinding myBinding = new BasicHttpBinding();
+                        myBinding.Security.Mode = BasicHttpSecurityMode.None;
+                        myBinding.Security.Transport.ClientCredentialType =
+                            HttpClientCredentialType.Basic;
+
+                        // Create the endpoint address. Note that the machine name 
+                        // must match the subject or DNS field of the X.509 certificate
+                        // used to authenticate the service. 
+                        EndpointAddress ea = new
+                            EndpointAddress(new Uri(jobConnections.First().webConnection.NameUrl));
+
+                        // Create the client. The code for the calculator 
+                        // client is not shown here. See the sample applications
+                        // for examples of the calculator code.
+                        ontoWebSoapClient = new OntoWebSoapClient(myBinding, ea);
+                        // The client must provide a user name and password. The code
+                        // to return the user name and password is not shown here. Use
+                        // a database to store the user name and passwords, or use the 
+                        // ASP.NET Membership provider database.
+                        ontoWebSoapClient.ClientCredentials.UserName.UserName = jobConnections.First().userAuth.NameUser;
+                        ontoWebSoapClient.ClientCredentials.UserName.Password = password;
+                        
+                        ontoWebSoapClient.Open();
+
+                        threadRefresh.Start();
+                        
                             
                     }
                 }
@@ -306,49 +330,58 @@ namespace OntologySync_Module
                                                           where objRelOld == null
                                                           select objRelNew);
                         this.Invoke(getOntologiesHandler, ontology.Name, localConfig.Globals.Type_ObjectRel, webServiceObjectRels.Count, "Export");
+                        if (webServiceAttributeTypes.Any())
+                        {
+                            var webResult = ontoWebSoapClient.SaveAttributeTypes(webServiceAttributeTypes.ToArray());
+                            webServiceAttributeTypes.Clear();
+                        }
+
+                        if (webServiceClasses.Any())
+                        {
+                            var webResult = ontoWebSoapClient.SaveClasses(webServiceClasses.ToArray());
+                            webServiceClasses.Clear();
+                        }
+
+                        if (webServiceRelationTypes.Any())
+                        {
+                            var webResult = ontoWebSoapClient.SaveRelationTypes(webServiceRelationTypes.ToArray());
+                            webServiceRelationTypes.Clear();
+                        }
+
+                        if (webServiceObjects.Any())
+                        {
+                            var webResult = ontoWebSoapClient.SaveObjects(webServiceObjects.ToArray());
+                            webServiceObjects.Clear();
+                        }
+
+                        if (webServiceClassAtts.Any())
+                        {
+                            var webResult = ontoWebSoapClient.SaveClassAtts(webServiceClassAtts.ToArray());
+                            webServiceClassAtts.Clear();
+                        }
+
+                        if (webServiceClassRels.Any())
+                        {
+                            var webResult = ontoWebSoapClient.SaveClassRels(webServiceClassRels.ToArray());
+                            webServiceClassRels.Clear();
+                        }
+
+                        if (webServiceObjectAtts.Any())
+                        {
+                            var webResult = ontoWebSoapClient.SaveObjectAttributes(webServiceObjectAtts.ToArray());
+                            webServiceObjectAtts.Clear();
+                        }
+
+                        if (webServiceObjectRels.Any())
+                        {
+                            var webResult = ontoWebSoapClient.SaveObjectRels(webServiceObjectRels.ToArray());
+                            webServiceObjectRels.Clear();
+                        }
+
                     }
                 }
 
-                if (webServiceAttributeTypes.Any())
-                {
-                    var webResult = ontoWebSoapClient.SaveAttributeTypes(webServiceAttributeTypes.ToArray());
-                }
-
-                if (webServiceClasses.Any())
-                {
-                    var webResult = ontoWebSoapClient.SaveClasses(webServiceClasses.ToArray());
-
-                }
-
-                if (webServiceRelationTypes.Any())
-                {
-                    var webResult = ontoWebSoapClient.SaveRelationTypes(webServiceRelationTypes.ToArray());
-                }
-
-                if (webServiceObjects.Any())
-                {
-                    var webResult = ontoWebSoapClient.SaveObjects(webServiceObjects.ToArray());
-                }
-
-                if (webServiceClassAtts.Any())
-                {
-                    var webResult = ontoWebSoapClient.SaveClassAtts(webServiceClassAtts.ToArray());
-                }
-
-                if (webServiceClassRels.Any())
-                {
-                    var webResult = ontoWebSoapClient.SaveClassRels(webServiceClassRels.ToArray());
-                }
-
-                if (webServiceObjectAtts.Any())
-                {
-                    var webResult = ontoWebSoapClient.SaveObjectAttributes(webServiceObjectAtts.ToArray());
-                }
-
-                if (webServiceObjectRels.Any())
-                {
-                    var webResult = ontoWebSoapClient.SaveObjectRels(webServiceObjectRels.ToArray());
-                }
+                
             }
           
         }

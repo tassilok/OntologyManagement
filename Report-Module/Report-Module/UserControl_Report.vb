@@ -821,44 +821,48 @@ Public Class UserControl_Report
                     If Not String.IsNullOrEmpty(objReport.Name_Server) And objReport.Port > 0 _
                         And Not String.IsNullOrEmpty(objReport.Name_DatabaseOrIndex) _
                         And Not String.IsNullOrEmpty(objReport.Name_DBViewOrEsType) Then
-                        ServerToolStripMenuItem.Text = objReport.Name_Server
-                        DatabaseToolStripMenuItem.Text = objReport.Name_DatabaseOrIndex
-                        ViewToolStripMenuItem.Text = objReport.Name_DBViewOrEsType
-
-                        objAppDbLevel = New clsAppDBLevel(objReport.Name_Server, _
-                                                          objReport.Port, _
-                                                          objReport.Name_DatabaseOrIndex, _
-                                                          objLocalConfig.Globals.SearchRange, _
-                                                          objLocalConfig.Globals.Session)
-
-                        Dim objDocs = objAppDbLevel.GetData_Documents(objReport.Name_DatabaseOrIndex, objReport.Name_DBViewOrEsType, False)
-                        Dim objOItem_Result = CreateTableFromEsIndex()
-
-                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                            For Each objDoc As clsAppDocuments In objDocs
-                                Dim row = objDataTable.Rows.Add()
-                                For Each objCol As DataColumn In objDataTable.Columns
-                                    If objDoc.Dict.ContainsKey(objCol.ColumnName) Then
-                                        row(objCol.ColumnName) = objDoc.Dict(objCol.ColumnName)
-                                    End If
-
-                                Next
-                            Next
-
-                            BindingSource_Reports.DataSource = objDataTable
-                            DataGridView_Reports.DataSource = BindingSource_Reports
-                            BindingNavigator_Reports.BindingSource = BindingSource_Reports
-                            RaiseEvent DataLoaded()
-                            configure_DataGridView()
-                        Else
-                                MsgBox("Die Daten konnten nicht ermittelt werden!", MsgBoxStyle.Exclamation)
-                        End If
+                        GetESData()
 
                     End If
                 End If
 
 
             End If
+        End If
+    End Sub
+
+    Private Sub GetESData(Optional strQuery As String = Nothing)
+        ServerToolStripMenuItem.Text = objDataWork_Report.Report.Name_Server
+        DatabaseToolStripMenuItem.Text = objDataWork_Report.Report.Name_DatabaseOrIndex
+        ViewToolStripMenuItem.Text = objDataWork_Report.Report.Name_DBViewOrEsType
+
+        objAppDbLevel = New clsAppDBLevel(objDataWork_Report.Report.Name_Server, _
+                                          objDataWork_Report.Report.Port, _
+                                          objDataWork_Report.Report.Name_DatabaseOrIndex, _
+                                          objLocalConfig.Globals.SearchRange, _
+                                          objLocalConfig.Globals.Session)
+
+        Dim objDocs = objAppDbLevel.GetData_Documents(objDataWork_Report.Report.Name_DatabaseOrIndex.ToLower(), objDataWork_Report.Report.Name_DBViewOrEsType.ToLower(), False, strQuery:=strQuery)
+        Dim objOItem_Result = CreateTableFromEsIndex()
+
+        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+            For Each objDoc As clsAppDocuments In objDocs
+                Dim row = objDataTable.Rows.Add()
+                For Each objCol As DataColumn In objDataTable.Columns
+                    If objDoc.Dict.ContainsKey(objCol.ColumnName) Then
+                        row(objCol.ColumnName) = objDoc.Dict(objCol.ColumnName)
+                    End If
+
+                Next
+            Next
+
+            BindingSource_Reports.DataSource = objDataTable
+            DataGridView_Reports.DataSource = BindingSource_Reports
+            BindingNavigator_Reports.BindingSource = BindingSource_Reports
+            RaiseEvent DataLoaded()
+            configure_DataGridView()
+        Else
+            MsgBox("Die Daten konnten nicht ermittelt werden!", MsgBoxStyle.Exclamation)
         End If
     End Sub
 
@@ -1114,9 +1118,17 @@ Public Class UserControl_Report
                 ToolStripButton_Filter.Checked = True
                 objLocalConfig.Filter = ToolStripTextBox_Filter.Text
                 Try
-                    BindingSource_Reports.Filter = objLocalConfig.Filter
-                    ToolStripTextBox_Filter.Text = objLocalConfig.Filter
-                    ToolStripButton_SaveFilter.Enabled = True
+                    If objDataWork_Report.Report.ID_ReportType = objLocalConfig.OItem_Object_Report_Type_View.GUID Then
+                        BindingSource_Reports.Filter = objLocalConfig.Filter
+                        ToolStripTextBox_Filter.Text = objLocalConfig.Filter
+                        ToolStripButton_SaveFilter.Enabled = True
+                    ElseIf objDataWork_Report.Report.ID_ReportType = objLocalConfig.OItem_Object_Report_Type_ElasticView.GUID Then
+                        GetESData(ToolStripTextBox_Filter.Text)
+                        ToolStripTextBox_Filter.Text = objLocalConfig.Filter
+                        ToolStripButton_SaveFilter.Enabled = True
+                    End If
+
+                    
                 Catch ex As Exception
                     MsgBox(ex.Message)
                     ToolStripTextBox_Filter.Text = ""

@@ -146,8 +146,8 @@ namespace ElasticSearchNestConnector
             Paging = paging;
 
             var Documents = new List<clsAppDocuments>();
-            var intCount = SearchRange;
-            var intPos = LastPos;
+            long intCount = SearchRange;
+            int intPos = LastPos;
 
 
             while (intCount > 0)
@@ -164,6 +164,8 @@ namespace ElasticSearchNestConnector
 
                 Documents.AddRange(docs);
 
+                intCount = Total - intPos;
+                intPos += docs.Count;
                 if (Paging)
                 {
                     var pageCount = (double)result.Total / SearchRange;
