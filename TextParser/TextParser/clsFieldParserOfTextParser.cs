@@ -48,6 +48,8 @@ namespace TextParser
 
         public List<clsOntologyItem> OList_Seperator { get; set; }
 
+        private List<clsObjectRel> oList_ConfigurationItems;
+
         private long docCount;
 
         private bool createFileList;
@@ -109,7 +111,7 @@ namespace TextParser
 
                 if (objDataWork_TextParser.OItem_Result_Index.GUID == objLocalConfig.Globals.LState_Success.GUID)
                 {
-                    
+                    oList_ConfigurationItems = objDataWork_TextParser.OList_ConfigurationItems;
                     if (objDataWork_TextParser.OItem_FileResource != null)
                     {
                         port = int.Parse(objDataWork_TextParser.OItem_Port.Name);
@@ -236,6 +238,11 @@ namespace TextParser
                 }
             }
 
+            clsObjectRel configurationItem_OneRecordByFile =
+                oList_ConfigurationItems.Where(ci => ci.ID_Other == objLocalConfig.OItem_object_one_record_by_file.GUID)
+                    .FirstOrDefault();
+                            
+
             foreach (var file in fileList)
             {
                 if (AbortParseProcess)
@@ -311,28 +318,33 @@ namespace TextParser
                         objOItem_Result = ParseText(text,fileLine);
                         if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                         {
-                            if (docCount >0 && docCount % objLocalConfig.Globals.SearchRange == 0)
-                            {
 
-                                var count = dictList.Count;
-                                
-                                objOItem_Result = objAppDBLevel.Save_Documents(dictList, objOItem_Type != null ? objOItem_Type.Name : objOItem_Type != null ? objOItem_Type.Name : "Doc", index.ToLower());
-                                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                            if (configurationItem_OneRecordByFile == null)
+                            {
+                                if (docCount > 0 && docCount % objLocalConfig.Globals.SearchRange == 0)
                                 {
-                                    savedDocumentCount += count;
-                                    if (parsedLines != null)
+
+                                    var count = dictList.Count;
+
+                                    objOItem_Result = objAppDBLevel.Save_Documents(dictList, objOItem_Type != null ? objOItem_Type.Name : objOItem_Type != null ? objOItem_Type.Name : "Doc", index.ToLower());
+                                    if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                                     {
-                                        parsedLines(parsedDocumentCount, savedDocumentCount);
+                                        savedDocumentCount += count;
+                                        if (parsedLines != null)
+                                        {
+                                            parsedLines(parsedDocumentCount, savedDocumentCount);
+                                        }
+
+
                                     }
-                                    
-                                    
+                                    else
+                                    {
+                                        OItem_Result = objOItem_Result;
+                                    }
+                                    dictList.Clear();
                                 }
-                                else
-                                {
-                                    OItem_Result =  objOItem_Result;
-                                }
-                                dictList.Clear();
                             }
+                            
                             parsedDocumentCount++;
                         }
                         else
@@ -342,9 +354,38 @@ namespace TextParser
                         
                         
                     }
-                    
+
+                
+
                     if (dictList.Count > 0)
                     {
+                        var firstItem = dictList.First();
+                        for (var i = 1; i < dictList.Count; i++)
+                        {
+                            foreach (var key in firstItem.Dict.Keys)
+                            {
+                                if (firstItem.Dict[key] is string)
+                                {
+                                    string strVal = firstItem.Dict[key].ToString();
+                                    strVal += dictList[i].Dict[key].ToString();
+                                    firstItem.Dict[key] = strVal;
+                                }
+                                else if (firstItem.Dict[key] is double)
+                                {
+                                    double dblVal = (double) firstItem.Dict[key];
+                                    dblVal += (double) dictList[i].Dict[key];
+                                    firstItem.Dict[key] = dblVal;
+
+                                }
+                                else if (firstItem.Dict[key] is long)
+                                {
+                                    long lngVal = (long)firstItem.Dict[key];
+                                    lngVal += (long)dictList[i].Dict[key];
+                                    firstItem.Dict[key] = lngVal;
+                                }
+                            }
+                        }
+                        dictList = new List<clsAppDocuments> {firstItem};
                         var count = dictList.Count;
                         objOItem_Result = objAppDBLevel.Save_Documents(dictList, objOItem_Type != null ? objOItem_Type.Name : objOItem_Type != null ? objOItem_Type.Name : "Doc", index);
                         if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)

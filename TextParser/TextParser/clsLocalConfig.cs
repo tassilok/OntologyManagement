@@ -66,6 +66,7 @@ public clsOntologyItem OItem_class_metadata__parser_ { get; set; }
 public clsOntologyItem OItem_class_fieldtoitem { get; set; }
 public clsOntologyItem OItem_class_ontologies { get; set; }
 public clsOntologyItem OItem_class_log__elasticsearch_ { get; set; }
+        public clsOntologyItem OItem_class_textparser_configurationitem { get; set; }
 
         // RelationTypes
 public clsOntologyItem OItem_relationtype_belonging_resource { get; set; }
@@ -87,6 +88,7 @@ public clsOntologyItem OItem_relationtype_replace_with { get; set; }
 public clsOntologyItem OItem_relationtype_import_to { get; set; }
 public clsOntologyItem OItem_relationtype_logging { get; set; }
 public clsOntologyItem OItem_relationtype_parsesource { get; set; }
+        public clsOntologyItem OItem_relationtype_config { get; set; }
 
         // Objects
 public clsOntologyItem OItem_object_temporary_regular_expression { get; set; }
@@ -115,7 +117,7 @@ public clsOntologyItem OItem_object_messagerest { get; set; }
         public clsOntologyItem OItem_object_textparser { get; set; }
         public clsOntologyItem OItem_object_override { get; set; }
         public clsOntologyItem OItem_object_execute { get; set; }
-
+        public clsOntologyItem OItem_object_one_record_by_file { get; set; }
 
         public clsOntologyItem OItem_Index_Logging { get; set; }
         

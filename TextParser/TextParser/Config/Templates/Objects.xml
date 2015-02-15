@@ -17,6 +17,7 @@
 <Item Id="f373e75d2a344bd086148edf3ce16cbb" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belonging]]></Item>
 <Item Id="5393f6c606e549c9ab4787c0e03ddb92" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_Pre]]></Item>
 <Item Id="e07536f4b01d43528c1b330aba30c19d" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_replace_with]]></Item>
+<Item Id="f6b5da74f28640dc96e078dce47941a4" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_Config]]></Item>
 <Item Id="f5adc9f1c9894945b59c1d8b3723fd8a" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_Logging]]></Item>
 <Item Id="92e8661e10d64165bdb82ee771d03f03" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_Value]]></Item>
 <Item Id="2477559316f44cd892f98d3cbe6d7042" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_Posts]]></Item>
@@ -53,6 +54,7 @@
 <Item Id="8b663ab3fa1f4fb084756db1c7a88ff3" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Field_Extractor_Parser]]></Item>
 <Item Id="e70dac50338441d88062babd0849341c" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Entry_Value_Parser]]></Item>
 <Item Id="f684b99ff71a45b3b81448e585e994f5" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Metadata__Parser_]]></Item>
+<Item Id="ac0d83a0dc71489c82a4efffb95b2afc" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Textparser_Configurationitem]]></Item>
 <Item Id="93d138710f164e98bbfe9eaea88286b7" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_FileDate__Last_Change_]]></Item>
 <Item Id="45c77a82a8244bbeba2a814ccbf0cc53" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_Message]]></Item>
 <Item Id="8352c394cf714753b7298d73819193c5" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_bit]]></Item>
@@ -63,6 +65,7 @@
 <Item Id="6c683834b60445118f1c836727fd9296" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_FileDate__Create_]]></Item>
 <Item Id="43afb0eb383f408892175c9e84e4a169" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_FileLine]]></Item>
 <Item Id="48600596a3bb465ea5c7eb951e9f6ccf" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_Override]]></Item>
+<Item Id="9a232dfa062a436ea7dd4d6633eadb95" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_One_Record_By_File]]></Item>
 <Item Id="596a181c0524432abd272b20e512eecd" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_Temporary_Regular_Expression]]></Item>
 <Item Id="d14e9b6e924b487291ef3723f278d927" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_FileName]]></Item>
 <Item Id="f605d13ccc794fd5b17abfd63148eb21" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Object_FilePath]]></Item>
@@ -88,6 +91,7 @@
 <Item Id="bb407fe0dd414f0f9e525599fa1556d7" Id_Parent="2113a7daad084cbc87e2e88fd0b70812"><![CDATA[FileDate (Create)]]></Item>
 <Item Id="8af4354852994e57af8b22cc0d31902e" Id_Parent="2113a7daad084cbc87e2e88fd0b70812"><![CDATA[FileLine]]></Item>
 <Item Id="a063ac347294483388df7164291537c5" Id_Parent="57b8fc4fb7704916ac01f0dd873dcb16"><![CDATA[Override]]></Item>
+<Item Id="1893a0e49c5f4d2fb4b77837b7b2c8fe" Id_Parent="999a518d9d5b4f40b9da49e936706c6b"><![CDATA[One Record By File]]></Item>
 <Item Id="f4db3f5e71914d2b8c09bc7fee3cb235" Id_Parent="bd8af19406a74130acad0394cab33ee6"><![CDATA[Temporary Regular Expression]]></Item>
 <Item Id="831cd882de9c4588848bdd1bc35ddae7" Id_Parent="2113a7daad084cbc87e2e88fd0b70812"><![CDATA[FileName]]></Item>
 <Item Id="b2c8a23adfd54ff1a1e1c9859f744fe3" Id_Parent="2113a7daad084cbc87e2e88fd0b70812"><![CDATA[FilePath]]></Item>

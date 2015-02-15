@@ -11,6 +11,7 @@
 <Item Id="aa616051e5214facabdbcbba6f8c6e73" Id_Parent="b5224e7f7d0d4beebf8eb9a0eeba5747"><![CDATA[Module]]></Item>
 <Item Id="7e84dc67a1234993b0ea62dffc2b895d" Id_Parent="83317bacb4b14db8bf849fca0a93ddd5"><![CDATA[Regular Expressions]]></Item>
 <Item Id="86b05e853ce24a56be3c80375a686a82" Id_Parent="aa616051e5214facabdbcbba6f8c6e73"><![CDATA[Module-Function]]></Item>
+<Item Id="999a518d9d5b4f40b9da49e936706c6b" Id_Parent="f18f0dc8e57b41f0afbf8a0edd4c0fa8"><![CDATA[Textparser-Configurationitem]]></Item>
 <Item Id="4158aad2656a4fb997bf524c6f5fecaa" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Variable]]></Item>
 <Item Id="0b6ab07ed7d24636b99f880ac1bff03c" Id_Parent="bd8af19406a74130acad0394cab33ee6"><![CDATA[Field To Item]]></Item>
 <Item Id="1a386dd920e04023a8bfaa6c75abf1a4" Id_Parent="07dd305355084fba8f6df927c1fb78be"><![CDATA[Text-Seperators]]></Item>
