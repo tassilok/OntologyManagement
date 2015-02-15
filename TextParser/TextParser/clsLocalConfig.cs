@@ -447,6 +447,27 @@ var objOList_attributetype_value_first = (from objOItem in objDBLevel_Config1.OL
   
 	private void get_Config_RelationTypes()
         {
+            var objOList_relationtype_config = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                where objOItem.ID_Object == cstrID_Ontology
+                                                join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                where objRef.Name_Object.ToLower() == "relationtype_config".ToLower() && objRef.Ontology == Globals.Type_RelationType
+                                                select objRef).ToList();
+
+            if (objOList_relationtype_config.Any())
+            {
+                OItem_relationtype_config = new clsOntologyItem()
+                {
+                    GUID = objOList_relationtype_config.First().ID_Other,
+                    Name = objOList_relationtype_config.First().Name_Other,
+                    GUID_Parent = objOList_relationtype_config.First().ID_Parent_Other,
+                    Type = Globals.Type_RelationType
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
             var objOList_relationtype_parsesource = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                                      where objOItem.ID_Object == cstrID_Ontology
                                                      join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
@@ -851,6 +872,27 @@ var objOList_relationtype_value = (from objOItem in objDBLevel_Config1.OList_Obj
   
 	private void get_Config_Objects()
         {
+            var objOList_object_one_record_by_file = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                      where objOItem.ID_Object == cstrID_Ontology
+                                                      join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                      where objRef.Name_Object.ToLower() == "object_one_record_by_file".ToLower() && objRef.Ontology == Globals.Type_Object
+                                                      select objRef).ToList();
+
+            if (objOList_object_one_record_by_file.Any())
+            {
+                OItem_object_one_record_by_file = new clsOntologyItem()
+                {
+                    GUID = objOList_object_one_record_by_file.First().ID_Other,
+                    Name = objOList_object_one_record_by_file.First().Name_Other,
+                    GUID_Parent = objOList_object_one_record_by_file.First().ID_Parent_Other,
+                    Type = Globals.Type_Object
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
             var objOList_object_execute = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                            where objOItem.ID_Object == cstrID_Ontology
                                            join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
@@ -1380,6 +1422,27 @@ var objOList_relationtype_value = (from objOItem in objDBLevel_Config1.OList_Obj
   
 	private void get_Config_Classes()
         {
+            var objOList_class_textparser_configurationitem = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                               where objOItem.ID_Object == cstrID_Ontology
+                                                               join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                               where objRef.Name_Object.ToLower() == "class_textparser_configurationitem".ToLower() && objRef.Ontology == Globals.Type_Class
+                                                               select objRef).ToList();
+
+            if (objOList_class_textparser_configurationitem.Any())
+            {
+                OItem_class_textparser_configurationitem = new clsOntologyItem()
+                {
+                    GUID = objOList_class_textparser_configurationitem.First().ID_Other,
+                    Name = objOList_class_textparser_configurationitem.First().Name_Other,
+                    GUID_Parent = objOList_class_textparser_configurationitem.First().ID_Parent_Other,
+                    Type = Globals.Type_Class
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
             var objOList_class_log__elasticsearch_ = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                                       where objOItem.ID_Object == cstrID_Ontology
                                                       join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object

@@ -362,18 +362,18 @@ namespace TextParser
                         var firstItem = dictList.First();
                         for (var i = 1; i < dictList.Count; i++)
                         {
-                            foreach (var key in firstItem.Dict.Keys)
+                            firstItem.Dict.Keys.ToList().ForEach(key =>
                             {
                                 if (firstItem.Dict[key] is string)
                                 {
-                                    string strVal = firstItem.Dict[key].ToString();
-                                    strVal += dictList[i].Dict[key].ToString();
+                                    string strVal = firstItem.Dict[key].ToString() ?? "";
+                                    strVal += dictList[i].Dict[key].ToString() ?? "";
                                     firstItem.Dict[key] = strVal;
                                 }
                                 else if (firstItem.Dict[key] is double)
                                 {
-                                    double dblVal = (double) firstItem.Dict[key];
-                                    dblVal += (double) dictList[i].Dict[key];
+                                    double dblVal = (double)firstItem.Dict[key];
+                                    dblVal += (double)dictList[i].Dict[key];
                                     firstItem.Dict[key] = dblVal;
 
                                 }
@@ -383,7 +383,8 @@ namespace TextParser
                                     lngVal += (long)dictList[i].Dict[key];
                                     firstItem.Dict[key] = lngVal;
                                 }
-                            }
+                            });
+                           
                         }
                         dictList = new List<clsAppDocuments> {firstItem};
                         var count = dictList.Count;
