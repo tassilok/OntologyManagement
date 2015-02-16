@@ -26,13 +26,14 @@ namespace TextParser
             LogResult = new List<string>();
         }
 
-        public void Parse(string regexPre, string regexMain, string regexPost)
+        public void Parse(string regexPre, string regexMain, string regexPost, bool doAll)
         {
             ParseOk = true;
             int ixStart_Post;
             bool getIxStart = true;
             string logText ="";
 
+            ResultText = ResultText.Replace(System.Environment.NewLine, "");
             // Regex-Pre
             // Regex-Pre
             if (doLogEvent)
@@ -112,22 +113,45 @@ namespace TextParser
                     var objRegExPost = new Regex(regexPost);
                     var objMatches = objRegExPost.Matches(ResultText);
 
-                    if (objMatches.Count > 0 && objMatches[0].Length > 0)
+                    if (!doAll)
                     {
-                        ResultText = ResultText.Substring(0, objMatches[0].Index);
-                        ixStart_Post = objMatches[0].Index;
-                        //ixStart += objMatches[0].Index + objMatches[0].Length-1;
-                        getIxStart = false;
-                    }
-                    else if (objMatches.Count > 0 && objMatches[0].Length == 0)
-                    {
-                        ixStart_Post = objMatches[0].Index;
+                        if (objMatches.Count > 0 && objMatches[0].Length > 0)
+                        {
+                            ResultText = ResultText.Substring(0, objMatches[0].Index);
+                            ixStart_Post = objMatches[0].Index;
+                            //ixStart += objMatches[0].Index + objMatches[0].Length-1;
+                            getIxStart = false;
+                        }
+                        else if (objMatches.Count > 0 && objMatches[0].Length == 0)
+                        {
+                            ixStart_Post = objMatches[0].Index;
+                        }
+                        else
+                        {
+
+                            ParseOk = false;
+                        }    
                     }
                     else
                     {
+                        if (objMatches.Count > 0 && objMatches[objMatches.Count-1].Length > 0)
+                        {
+                            ResultText = ResultText.Substring(0, objMatches[objMatches.Count - 1].Index);
+                            ixStart_Post = objMatches[objMatches.Count - 1].Index;
+                            //ixStart += objMatches[0].Index + objMatches[0].Length-1;
+                            getIxStart = false;
+                        }
+                        else if (objMatches.Count > 0 && objMatches[objMatches.Count - 1].Length == 0)
+                        {
+                            ixStart_Post = objMatches[objMatches.Count - 1].Index;
+                        }
+                        else
+                        {
 
-                        ParseOk = false;
+                            ParseOk = false;
+                        }    
                     }
+                    
 
                     
                 }

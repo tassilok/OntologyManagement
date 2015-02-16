@@ -514,13 +514,13 @@ namespace TextParser
             
         }
 
-        public clsSelection GetSelections(Range textRange, string regexPre, string regexMain, string regexPost)
+        public clsSelection GetSelections(Range textRange, string regexPre, string regexMain, string regexPost, bool doAll = false)
         {
 
             if (!string.IsNullOrEmpty(regexMain))
             {
                 parseResult.ResultText = textRange.Text;
-                parseResult.Parse(regexPre, regexMain, regexPost);
+                parseResult.Parse(regexPre, regexMain, regexPost, doAll);
                 if (parseLogWindow != null && parseLogWindow.Visible)
                 {
                     parseLogWindow.AddLines(parseResult.LogResult);

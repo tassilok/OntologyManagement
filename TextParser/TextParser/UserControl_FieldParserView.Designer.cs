@@ -45,10 +45,10 @@
             this.toolStripLabel_CountLbl = new System.Windows.Forms.ToolStripLabel();
             this.toolStripLabel_Count = new System.Windows.Forms.ToolStripLabel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.dataGridView_Fields = new System.Windows.Forms.DataGridView();
             this.contextMenuStrip_Fields = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editOItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.parseTestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer2 = new System.Windows.Forms.ToolStripContainer();
             this.dataGridView_IndexView = new System.Windows.Forms.DataGridView();
             this.contextMenuStrip_Index = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -78,7 +78,9 @@
             this.toolStripLabel_ParseCountLbl = new System.Windows.Forms.ToolStripLabel();
             this.toolStripLabel_ParseCount = new System.Windows.Forms.ToolStripLabel();
             this.bindingSource_Items = new System.Windows.Forms.BindingSource(this.components);
-            this.parseTestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.dataGridView_Fields = new System.Windows.Forms.DataGridView();
+            this.treeView_SubParsers = new System.Windows.Forms.TreeView();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -88,7 +90,6 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Fields)).BeginInit();
             this.contextMenuStrip_Fields.SuspendLayout();
             this.toolStripContainer2.ContentPanel.SuspendLayout();
             this.toolStripContainer2.TopToolStripPanel.SuspendLayout();
@@ -98,6 +99,11 @@
             this.toolStrip3.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource_Items)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
+            this.splitContainer2.Panel1.SuspendLayout();
+            this.splitContainer2.Panel2.SuspendLayout();
+            this.splitContainer2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Fields)).BeginInit();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -239,7 +245,7 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.dataGridView_Fields);
+            this.splitContainer1.Panel1.Controls.Add(this.splitContainer2);
             // 
             // splitContainer1.Panel2
             // 
@@ -248,26 +254,13 @@
             this.splitContainer1.SplitterDistance = 162;
             this.splitContainer1.TabIndex = 0;
             // 
-            // dataGridView_Fields
-            // 
-            this.dataGridView_Fields.AllowUserToAddRows = false;
-            this.dataGridView_Fields.AllowUserToDeleteRows = false;
-            this.dataGridView_Fields.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView_Fields.ContextMenuStrip = this.contextMenuStrip_Fields;
-            this.dataGridView_Fields.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView_Fields.Location = new System.Drawing.Point(0, 0);
-            this.dataGridView_Fields.Name = "dataGridView_Fields";
-            this.dataGridView_Fields.ReadOnly = true;
-            this.dataGridView_Fields.Size = new System.Drawing.Size(868, 158);
-            this.dataGridView_Fields.TabIndex = 0;
-            // 
             // contextMenuStrip_Fields
             // 
             this.contextMenuStrip_Fields.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.editToolStripMenuItem,
             this.parseTestToolStripMenuItem});
             this.contextMenuStrip_Fields.Name = "contextMenuStrip_Fields";
-            this.contextMenuStrip_Fields.Size = new System.Drawing.Size(153, 70);
+            this.contextMenuStrip_Fields.Size = new System.Drawing.Size(140, 48);
             this.contextMenuStrip_Fields.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Fields_Opening);
             // 
             // editToolStripMenuItem
@@ -275,15 +268,22 @@
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.editOItemToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.editToolStripMenuItem.Text = "x_Edit";
             // 
             // editOItemToolStripMenuItem
             // 
             this.editOItemToolStripMenuItem.Name = "editOItemToolStripMenuItem";
-            this.editOItemToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.editOItemToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.editOItemToolStripMenuItem.Text = "x_Edit OItem";
             this.editOItemToolStripMenuItem.Click += new System.EventHandler(this.editOItemToolStripMenuItem_Click);
+            // 
+            // parseTestToolStripMenuItem
+            // 
+            this.parseTestToolStripMenuItem.Name = "parseTestToolStripMenuItem";
+            this.parseTestToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.parseTestToolStripMenuItem.Text = "x_Parse-Test";
+            this.parseTestToolStripMenuItem.Click += new System.EventHandler(this.parseTestToolStripMenuItem_Click);
             // 
             // toolStripContainer2
             // 
@@ -535,12 +535,44 @@
             this.toolStripLabel_ParseCount.Size = new System.Drawing.Size(24, 22);
             this.toolStripLabel_ParseCount.Text = "0/0";
             // 
-            // parseTestToolStripMenuItem
+            // splitContainer2
             // 
-            this.parseTestToolStripMenuItem.Name = "parseTestToolStripMenuItem";
-            this.parseTestToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.parseTestToolStripMenuItem.Text = "x_Parse-Test";
-            this.parseTestToolStripMenuItem.Click += new System.EventHandler(this.parseTestToolStripMenuItem_Click);
+            this.splitContainer2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer2.Name = "splitContainer2";
+            // 
+            // splitContainer2.Panel1
+            // 
+            this.splitContainer2.Panel1.Controls.Add(this.dataGridView_Fields);
+            // 
+            // splitContainer2.Panel2
+            // 
+            this.splitContainer2.Panel2.Controls.Add(this.treeView_SubParsers);
+            this.splitContainer2.Size = new System.Drawing.Size(872, 162);
+            this.splitContainer2.SplitterDistance = 666;
+            this.splitContainer2.TabIndex = 0;
+            // 
+            // dataGridView_Fields
+            // 
+            this.dataGridView_Fields.AllowUserToAddRows = false;
+            this.dataGridView_Fields.AllowUserToDeleteRows = false;
+            this.dataGridView_Fields.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_Fields.ContextMenuStrip = this.contextMenuStrip_Fields;
+            this.dataGridView_Fields.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView_Fields.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView_Fields.Name = "dataGridView_Fields";
+            this.dataGridView_Fields.ReadOnly = true;
+            this.dataGridView_Fields.Size = new System.Drawing.Size(662, 158);
+            this.dataGridView_Fields.TabIndex = 1;
+            // 
+            // treeView_SubParsers
+            // 
+            this.treeView_SubParsers.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeView_SubParsers.Location = new System.Drawing.Point(0, 0);
+            this.treeView_SubParsers.Name = "treeView_SubParsers";
+            this.treeView_SubParsers.Size = new System.Drawing.Size(198, 158);
+            this.treeView_SubParsers.TabIndex = 0;
             // 
             // UserControl_FieldParserView
             // 
@@ -562,7 +594,6 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Fields)).EndInit();
             this.contextMenuStrip_Fields.ResumeLayout(false);
             this.toolStripContainer2.ContentPanel.ResumeLayout(false);
             this.toolStripContainer2.TopToolStripPanel.ResumeLayout(false);
@@ -576,6 +607,11 @@
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource_Items)).EndInit();
+            this.splitContainer2.Panel1.ResumeLayout(false);
+            this.splitContainer2.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
+            this.splitContainer2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Fields)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -600,7 +636,6 @@
         private System.Windows.Forms.ToolStripLabel toolStripLabel_CountLbl;
         private System.Windows.Forms.ToolStripLabel toolStripLabel_Count;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.DataGridView dataGridView_Fields;
         private System.Windows.Forms.ToolStripButton toolStripButton_Parse;
         private System.Windows.Forms.ToolStripContainer toolStripContainer2;
         private System.Windows.Forms.DataGridView dataGridView_IndexView;
@@ -631,5 +666,8 @@
         private System.Windows.Forms.ToolStripLabel toolStripLabel_ParseCountLbl;
         private System.Windows.Forms.ToolStripLabel toolStripLabel_ParseCount;
         private System.Windows.Forms.ToolStripMenuItem parseTestToolStripMenuItem;
+        private System.Windows.Forms.SplitContainer splitContainer2;
+        private System.Windows.Forms.DataGridView dataGridView_Fields;
+        private System.Windows.Forms.TreeView treeView_SubParsers;
     }
 }

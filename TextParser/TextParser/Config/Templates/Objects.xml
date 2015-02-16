@@ -10,6 +10,7 @@
 <Item Id="b7e7ff531e164d82a7a0c13d17f21bf1" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[AttributeType_UseLastValid]]></Item>
 <Item Id="f5e67ed24c4e4bcc97ea4058e220d6ff" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[AttributeType_Equal]]></Item>
 <Item Id="2fd14227b2c14726908e2532fad369c5" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[AttributeType_Remove_from_source]]></Item>
+<Item Id="9599f8883e1948cbaad6570a74258411" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[AttributeType_DoAll]]></Item>
 <Item Id="c039bce2561f462997d3e11fb79d60e0" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_Main]]></Item>
 <Item Id="d0e8d60aab7c4923b72897d63631e5aa" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belonging_Resource]]></Item>
 <Item Id="4567d06970f04167984ce55e7d8ed2b2" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_belongs_to]]></Item>

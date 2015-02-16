@@ -12,6 +12,8 @@ namespace TextParser
 {
     public class clsLocalConfig
     {
+        public int ImageID_RootParser { get { return 0; } }
+        public int ImageID_SubParser { get { return 1; } }
         private const string cstrID_Ontology = "8f1b3400fef3465ab9173fcb1eb57402";
         private clsImport objImport;
 
@@ -41,6 +43,7 @@ public clsOntologyItem OItem_attributetype_remove_from_source { get; set; }
 public clsOntologyItem OItem_attributetype_useorderid { get; set; }
 public clsOntologyItem OItem_attributetype_regex { get; set; }
 public clsOntologyItem OItem_attributetype_uselastvalid { get; set; }
+public clsOntologyItem OItem_attributetype_doall { get; set; }
 
         // Classes
 public clsOntologyItem OItem_class_entry_value_parser { get; set; }
@@ -296,6 +299,27 @@ private void get_Data_DevelopmentConfig()
   
 	private void get_Config_AttributeTypes()
         {
+            var objOList_attributetype_doall = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                where objOItem.ID_Object == cstrID_Ontology
+                                                join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                where objRef.Name_Object.ToLower() == "attributetype_doall".ToLower() && objRef.Ontology == Globals.Type_AttributeType
+                                                select objRef).ToList();
+
+            if (objOList_attributetype_doall.Any())
+            {
+                OItem_attributetype_doall = new clsOntologyItem()
+                {
+                    GUID = objOList_attributetype_doall.First().ID_Other,
+                    Name = objOList_attributetype_doall.First().Name_Other,
+                    GUID_Parent = objOList_attributetype_doall.First().ID_Parent_Other,
+                    Type = Globals.Type_AttributeType
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
             var objOList_attributetype_uselastvalid = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                                        where objOItem.ID_Object == cstrID_Ontology
                                                        join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object

@@ -82,6 +82,24 @@ namespace TextParser
             Initialize();
         }
 
+        private void FillSubParserTree(clsOntologyItem OItem_Result)
+        {
+            treeView_SubParsers.Nodes.Clear();
+            if (OItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                var rootParserNode = treeView_SubParsers.Nodes.Add(objOItem_TextParser.GUID, objOItem_TextParser.Name, objLocalConfig.ImageID_RootParser, objLocalConfig.ImageID_RootParser);
+                
+                objDataWork_TextParser.OList_SubParsers.OrderBy(subParser => subParser.Name).ToList().ForEach(
+                    subParser =>
+                    {
+                        rootParserNode.Nodes.Add(subParser.GUID, subParser.Name, objLocalConfig.ImageID_SubParser,
+                            objLocalConfig.ImageID_SubParser);
+                    });
+
+                treeView_SubParsers.ExpandAll();
+            }
+        }
+
         public void InitializeView(clsOntologyItem OItem_FieldParser, clsOntologyItem OItem_TextParser)
         {
             OList_Variables = new List<clsOntologyItem>();
@@ -236,6 +254,12 @@ namespace TextParser
                         GetIndexes();
                         pIndexFill = false;
                     }
+                    else if (objDataWork_TextParser.OITem_SourceField != null)
+                    {
+                        pIndexFill = true;
+                        GetIndexes();
+                        pIndexFill = false;
+                    }
                     else
                     {
                         pIndexFill = true;
@@ -256,6 +280,8 @@ namespace TextParser
 
 
             GetFields();
+            FillSubParserTree(objOItem_Result);
+            
             if (objLocalConfig.ExOpt_TextParser != null &&
                                                 objLocalConfig.ExOpt_Execute)
             {
@@ -267,6 +293,10 @@ namespace TextParser
         {
             toolStripButton_Stop.Enabled = false;
             toolStripButton_Parse.Enabled = true;
+            if (objFieldParser.OItem_Result != null && objFieldParser.OItem_Result.GUID == objLocalConfig.Globals.LState_Error.GUID)
+            {
+                MessageBox.Show(this, "Beim Parsen ist ein Fehler aufgetreten: " + objFieldParser.OItem_Result.Additional1 ?? "");
+            }
         }
 
         private void RefreshThreadInfos(long parsedCount, long savedCount)
@@ -298,7 +328,7 @@ namespace TextParser
             var objOItem_Result = objDataWork_FieldParser.GetData_FieldsOfFieldParser();
             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
-                fieldList = new SortableBindingList<clsField>(objDataWork_FieldParser.FieldList.Where(p => p.ID_FieldParser == objOItem_Parser.GUID).OrderBy(f => f.OrderId).ThenBy(f => f.Name_Field));
+                fieldList = new SortableBindingList<clsField>(objDataWork_FieldParser.FieldList.Where(p => p.ID_FieldParser == objOItem_Parser.GUID).OrderBy(f => f.OrderId).ThenBy(f => f.Name_Field).Select(field => field.Clone()));
                 dataGridView_Fields.DataSource = fieldList;
                 foreach (DataGridViewColumn column in dataGridView_Fields.Columns)
                 {
@@ -463,9 +493,21 @@ namespace TextParser
                     threadParse.Abort();
                 }
                 catch (Exception ex) { }
-                threadParse = new Thread(objFieldParser.ParseFiles);
-                threadParse.Start();
-                toolStripButton_Stop.Enabled = true;
+
+                if (objDataWork_TextParser.OITem_SourceField == null)
+                {
+                    threadParse = new Thread(objFieldParser.ParseFiles);
+                    threadParse.Start();
+                    toolStripButton_Stop.Enabled = true;    
+                }
+                else
+                {
+                    objFieldParser.DataWork_TextParser_Parent = objDataWork_TextParser;
+                    threadParse = new Thread(objFieldParser.ParseSourceField);
+                    threadParse.Start();
+                    toolStripButton_Stop.Enabled = true;    
+                }
+                
                 
             }
             GetIndexes();
