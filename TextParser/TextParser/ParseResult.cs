@@ -26,14 +26,18 @@ namespace TextParser
             LogResult = new List<string>();
         }
 
-        public void Parse(string regexPre, string regexMain, string regexPost, bool doAll)
+        public void Parse(string regexPre, string regexMain, string regexPost, bool replaceNewLine, bool doAll)
         {
             ParseOk = true;
             int ixStart_Post;
             bool getIxStart = true;
             string logText ="";
 
-            ResultText = ResultText.Replace(System.Environment.NewLine, "");
+            if (replaceNewLine)
+            {
+                ResultText = ResultText.Replace(System.Environment.NewLine, "");    
+            }
+            
             // Regex-Pre
             // Regex-Pre
             if (doLogEvent)

@@ -419,6 +419,13 @@ namespace TextParser
                     ID_RelationType = objLocalConfig.OItem_relationtype_belonging_source.GUID
                 }));
 
+                objOList_TextParsersRelS.AddRange(objDBLevel_TextParser.OList_Objects.Select(p => new clsObjectRel
+                {
+                    ID_Object = p.GUID,
+                    ID_Parent_Other = objLocalConfig.OItem_class_field.GUID,
+                    ID_RelationType = objLocalConfig.OItem_relationtype_copy_from_parent.GUID
+                }));
+
                 
                 objOItem_Result = objDBLevel_TextParser_LeftRight.get_Data_ObjectRel(objOList_TextParsersRelS,
                                                                                      boolIDs: false);

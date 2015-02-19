@@ -31,6 +31,7 @@
 <Item Id="dd51d5c116e6450e9a804451efbb2876" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_is]]></Item>
 <Item Id="d6126760b90e41c7b98853d3dd74ba4a" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_import_to]]></Item>
 <Item Id="9e97336a468644cea8019add54d1519e" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_ParseSource]]></Item>
+<Item Id="37ed53359ee64a149b95a02ae181855a" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[RelationType_copy_from_parent]]></Item>
 <Item Id="01233b327ccd410889bfed8b5d98e378" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_fieldToItem]]></Item>
 <Item Id="a44d290b37034432b0a4a5a7680ff531" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Text_Seperators]]></Item>
 <Item Id="e55c4c5c31cf46e09e8db66ab8533d59" Id_Parent="d3f72a683f6146a48ff381db05997dc8"><![CDATA[Class_Textparser]]></Item>

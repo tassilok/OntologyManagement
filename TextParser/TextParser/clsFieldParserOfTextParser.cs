@@ -204,9 +204,9 @@ namespace TextParser
             return objOItem_Result;
         }
 
-        public clsOntologyItem ParseLine(string strLine, long line)
+        public clsOntologyItem ParseLine(string strLine, bool replaceNewLine, long line)
         {
-            var objOItem_Result = ParseText(strLine, line);
+            var objOItem_Result = ParseText(strLine, replaceNewLine, line);
 
             return objOItem_Result;
         }
@@ -232,6 +232,7 @@ namespace TextParser
             objFileMeta = new clsFileMeta();
             long parsedDocumentCount = 0;
             long savedDocumentCount = 0;
+            bool replaceNewLine = false;
 
             int pos = -1;
             int parDocCount = 0;
@@ -289,7 +290,10 @@ namespace TextParser
 
                                 if (OList_Seperator == null ||
                                     (OList_Seperator.Any() && OList_Seperator.First().Name == "\\r\\n"))
+                                {
+                                    replaceNewLine = true;
                                     text = textReader.ReadLine();
+                                }
                                 else
                                 {
                                     text = "";
@@ -317,7 +321,7 @@ namespace TextParser
                                 }
 
 
-                                objOItem_Result = ParseText(text, fileLine);
+                                objOItem_Result = ParseText(text, replaceNewLine, fileLine);
                                 if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                                 {
 
@@ -445,6 +449,7 @@ namespace TextParser
             objFileMeta = new clsFileMeta();
             long parsedDocumentCount = 0;
             long savedDocumentCount = 0;
+            bool replaceNewLine = false;
             
             if (OList_Variables != null && OList_Variables.Any())
             {
@@ -519,7 +524,10 @@ namespace TextParser
 
                         if (OList_Seperator == null ||
                             (OList_Seperator.Any() && OList_Seperator.First().Name == "\\r\\n"))
+                        {
+                            replaceNewLine = true;
                             text = textReader.ReadLine();
+                        }
                         else
                         {
                             text = "";
@@ -547,7 +555,7 @@ namespace TextParser
                         }
 
 
-                        objOItem_Result = ParseText(text, fileLine);
+                        objOItem_Result = ParseText(text, replaceNewLine, fileLine);
                         if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                         {
 
@@ -674,7 +682,7 @@ namespace TextParser
             }
         }
 
-        public clsOntologyItem ParseText(string text, long fileLine = 0)
+        public clsOntologyItem ParseText(string text, bool replaceNewLine, long fileLine = 0)
         {
             var add = false;
             var dontAddUser = false;
@@ -775,7 +783,7 @@ namespace TextParser
                     }
                     
                     parseResult.ResultText = textParse;
-                    parseResult.Parse(regexPre, regexMain, regexPost, field.DoAll);
+                    parseResult.Parse(regexPre, regexMain, regexPost, replaceNewLine, field.DoAll);
                     textParse = parseResult.ResultText;
 
                     if (parseResult.ParseOk)
