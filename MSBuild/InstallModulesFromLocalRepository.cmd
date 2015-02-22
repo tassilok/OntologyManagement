@@ -96,7 +96,7 @@ del /s /q "%OMODULE_PATH%\Media-Web-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Media-Web-Module_0.1.0.15.exe" -o"%OMODULE_PATH%\Media-Web-Module\"
 
 del /s /q "%OMODULE_PATH%\TextParser\*.*"
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\TextParser_0.1.0.119.exe" -o"%OMODULE_PATH%\TextParser\"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\TextParser_0.1.0.120.exe" -o"%OMODULE_PATH%\TextParser\"
 
 del /s /q "%OMODULE_PATH%\Office-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Office-Module_0.1.1.81.exe" -o"%OMODULE_PATH%\Office-Module\"
@@ -114,7 +114,7 @@ del /s /q "%OMODULE_PATH%\BankTransaction-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\BankTransaction-Module_0.1.1.82.exe" -o"%OMODULE_PATH%\BankTransaction-Module\"
 
 del /s /q "%OMODULE_PATH%\Development-Module\*.*"
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Development-Module_0.3.0.142.exe" -o"%OMODULE_PATH%\Development-Module\"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Development-Module_0.3.0.143.exe" -o"%OMODULE_PATH%\Development-Module\"
 
 del /s /q "%OMODULE_PATH%\DatabaseConfigurationModule\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\DatabaseConfigurationModule_0.1.0.44.exe" -o"%OMODULE_PATH%\DatabaseConfigurationModule\"
@@ -129,7 +129,7 @@ del /s /q "%OMODULE_PATH%\Media-Viewer-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Media-Viewer-Module_0.1.1.136.exe" -o"%OMODULE_PATH%\Media-Viewer-Module\"
 
 del /s /q "%OMODULE_PATH%\FileResourceModule\*.*"
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\FileResourceModule_0.1.0.98.exe" -o"%OMODULE_PATH%\FileResourceModule\"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\FileResourceModule_0.1.0.99.exe" -o"%OMODULE_PATH%\FileResourceModule\"
 
 del /s /q "%OMODULE_PATH%\FileSystem-Connector-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\FileSystem-Connector-Module_0.1.0.104.exe" -o"%OMODULE_PATH%\FileSystem-Connector-Module\"
