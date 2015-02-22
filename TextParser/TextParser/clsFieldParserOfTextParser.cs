@@ -587,7 +587,7 @@ namespace TextParser
                                     dictList.Clear();
                                 }
                             }
-
+                         
                             parsedDocumentCount++;
                         }
                         else
@@ -607,29 +607,52 @@ namespace TextParser
                             var firstItem = dictList.First();
                             for (var i = 1; i < dictList.Count; i++)
                             {
-                                firstItem.Dict.Keys.ToList().ForEach(key =>
-                                {
-                                    if (firstItem.Dict[key] is string)
-                                    {
-                                        string strVal = firstItem.Dict[key].ToString() ?? "";
-                                        strVal += dictList[i].Dict[key].ToString() ?? "";
-                                        firstItem.Dict[key] = strVal;
-                                    }
-                                    else if (firstItem.Dict[key] is double)
-                                    {
-                                        double dblVal = (double) firstItem.Dict[key];
-                                        dblVal += (double) dictList[i].Dict[key];
-                                        firstItem.Dict[key] = dblVal;
+                                var keys1 = dictList[i].Dict.Keys;
+                                var keys2 = firstItem.Dict.Keys;
 
-                                    }
-                                    else if (firstItem.Dict[key] is long)
+                                var allKeys = keys1.Union(keys2);
+
+                                allKeys.ToList().ForEach(key =>
+                                {
+                                    if (firstItem.Dict.ContainsKey(key))
                                     {
-                                        long lngVal = (long) firstItem.Dict[key];
-                                        lngVal += (long) dictList[i].Dict[key];
-                                        firstItem.Dict[key] = lngVal;
+                                        if (dictList[i].Dict.ContainsKey(key))
+                                        {
+                                            if (firstItem.Dict[key] is string)
+                                            {
+                                                string strVal = firstItem.Dict[key].ToString() ?? "";
+                                                strVal += dictList[i].Dict[key].ToString() ?? "";
+                                                firstItem.Dict[key] = strVal;
+                                            }
+                                            else if (firstItem.Dict[key] is double)
+                                            {
+                                                double dblVal = (double)firstItem.Dict[key];
+                                                dblVal += (double)dictList[i].Dict[key];
+                                                firstItem.Dict[key] = dblVal;
+
+                                            }
+                                            else if (firstItem.Dict[key] is long)
+                                            {
+                                                long lngVal = (long)firstItem.Dict[key];
+                                                lngVal += (long)dictList[i].Dict[key];
+                                                firstItem.Dict[key] = lngVal;
+                                            }
+                                            else if (firstItem.Dict[key] is DateTime)
+                                            {
+                                                firstItem.Dict[key] = dictList[i].Dict[key];
+                                            }
+                                            else if (firstItem.Dict[key] is bool)
+                                            {
+                                                firstItem.Dict[key] = dictList[i].Dict[key];
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        firstItem.Dict.Add(key, dictList[i].Dict[key]);
                                     }
                                 });
-
+                                
                             }
                             dictList = new List<clsAppDocuments> { firstItem };
                         }
@@ -781,9 +804,19 @@ namespace TextParser
                             textParse = contentFields.First().LastContent;
                         }
                     }
+
+                    if (field.FieldListContained != null && field.FieldListContained.Any())
+                    {
+                        (from objField in ParseFieldList
+                         join objContainedList in field.FieldListContained on objField.ID_Field equals objContainedList.ID_Field
+                         select new {objField, objContainedList }).ToList().ForEach(fieldChange =>
+                         {
+                             fieldChange.objContainedList.LastContent = fieldChange.objField.LastContent;
+                         });
+                    }
                     
                     parseResult.ResultText = textParse;
-                    parseResult.Parse(regexPre, regexMain, regexPost, replaceNewLine, field.DoAll);
+                    parseResult.Parse(regexPre, regexMain, regexPost, replaceNewLine, field.DoAll, field.ReplaceList, field.FieldListContained);
                     textParse = parseResult.ResultText;
 
                     if (parseResult.ParseOk)

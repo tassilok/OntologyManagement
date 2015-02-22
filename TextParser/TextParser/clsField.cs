@@ -41,6 +41,8 @@ namespace TextParser
         public string LastContent { get; set; }
         public string ID_Attribute_DoAll { get; set;  }
         public bool DoAll { get; set; }
+        public List<clsRegExReplace> ReplaceList { get; set; }
+        public List<clsField> FieldListContained { get; set; } 
 
         public clsField Clone()
         {
@@ -78,7 +80,9 @@ namespace TextParser
                 RegexPre = RegexPre,
                 RemoveFromSource = RemoveFromSource,
                 UseLastValid = UseLastValid,
-                UseOrderId = UseOrderId
+                UseOrderId = UseOrderId,
+                ReplaceList = ReplaceList,
+                FieldListContained =  FieldListContained
             };
         }
     }

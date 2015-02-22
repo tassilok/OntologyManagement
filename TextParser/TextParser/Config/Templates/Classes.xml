@@ -25,6 +25,7 @@
 <Item Id="8a894710e08c42c5b829ef4809830d33" Id_Parent="2f05c250be334b77ba3cb8a0228821b6"><![CDATA[Path]]></Item>
 <Item Id="c441518dbfe04d55b538df5c5555dd83" Id_Parent="31da809331494400957fa26027fb506e"><![CDATA[user]]></Item>
 <Item Id="11ffaa2eb7294991a880b12110f6c18c" Id_Parent="bd8af19406a74130acad0394cab33ee6"><![CDATA[RegEx-Field-Filter]]></Item>
+<Item Id="cc7bfa9201b9492aa6e7a5ed6520ed83" Id_Parent="bd8af19406a74130acad0394cab33ee6"><![CDATA[Field-Replace (TextParser)]]></Item>
 <Item Id="6eb4fdd32e254886b288e1bfc2857efb" Id_Parent="2f05c250be334b77ba3cb8a0228821b6"><![CDATA[File]]></Item>
 <Item Id="83961991c33d4ec7893a2dba0fc4cd69" Id_Parent="fa121432183946629ecfe0deac63ea7c"><![CDATA[Web-Connection]]></Item>
 <Item Id="d9775bda1526475b8e16723881828876" Id_Parent="d79c764de946454c8e91054ca1471cf2"><![CDATA[Types (Elastic Search)]]></Item>
