@@ -490,6 +490,7 @@ Public Class clsLocalConfig
     Private Sub get_BaseConfig()
         Dim oList_ObjectRel As New List(Of clsObjectRel)
 
+        StaticValues.OItem_Module = objOItem_Module
 
         oList_ObjectRel.Clear()
         oList_ObjectRel.Add(New clsObjectRel(Nothing, _

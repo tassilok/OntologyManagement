@@ -24,6 +24,8 @@ namespace OntologySync_Module
         private List<JobItem> jobItems;
         private List<WebConnection> webConnections;
         private List<UserAuthentication> userAuthentications;
+        private bool allOntologies;
+        private List<OntologyClasses.BaseClasses.clsOntologyItem> ontologies;
 
         private delegate void GetOntologies(string ontology, string type, long count, string direction);
         private GetOntologies getOntologiesHandler;
@@ -91,6 +93,14 @@ namespace OntologySync_Module
             {
                 webConnections = dataWorkOntologySync.WebConnections;
             }
+            else if (loadResult == LoadResult.AllOntologies)
+            {
+                allOntologies = dataWorkOntologySync.AllOntologies;
+            }
+            else if (loadResult == LoadResult.Ontologies)
+            {
+                ontologies = dataWorkOntologySync.BelongingOntologies;
+            }
             else if (loadResult == LoadResult.UserAuthRel)
             {
                 userAuthentications = dataWorkOntologySync.UserAuthentications;
@@ -121,7 +131,7 @@ namespace OntologySync_Module
 
                         // Create the binding.
                         BasicHttpBinding myBinding = new BasicHttpBinding();
-                        myBinding.Security.Mode = BasicHttpSecurityMode.None;
+                        myBinding.Security.Mode = BasicHttpSecurityMode.Transport;
                         myBinding.Security.Transport.ClientCredentialType =
                             HttpClientCredentialType.Basic;
 
@@ -131,6 +141,7 @@ namespace OntologySync_Module
                         EndpointAddress ea = new
                             EndpointAddress(new Uri(jobConnections.First().webConnection.NameUrl));
 
+                        
                         // Create the client. The code for the calculator 
                         // client is not shown here. See the sample applications
                         // for examples of the calculator code.
@@ -139,8 +150,9 @@ namespace OntologySync_Module
                         // to return the user name and password is not shown here. Use
                         // a database to store the user name and passwords, or use the 
                         // ASP.NET Membership provider database.
-                        ontoWebSoapClient.ClientCredentials.UserName.UserName = jobConnections.First().userAuth.NameUser;
-                        ontoWebSoapClient.ClientCredentials.UserName.Password = password;
+                        ontoWebSoapClient.ClientCredentials.Windows.ClientCredential.Domain = ".";
+                        ontoWebSoapClient.ClientCredentials.Windows.ClientCredential.UserName = jobConnections.First().userAuth.NameUser;
+                        ontoWebSoapClient.ClientCredentials.Windows.ClientCredential.Password = password;
                         
                         ontoWebSoapClient.Open();
 
@@ -158,7 +170,6 @@ namespace OntologySync_Module
 
         private void ExportOntologies()
         {
-            var ontologies = dataWorkOntologySync.GetOntologies();
 
             if (ontologies.Any())
             {
