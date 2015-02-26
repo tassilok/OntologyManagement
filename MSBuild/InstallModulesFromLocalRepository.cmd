@@ -2,6 +2,21 @@ c:\
 cd \cygwin64\bin
 mkdir %temp%\OModules
 del /s /q %temp%\OModules\*.*
+del /s /q "%OMODULE_PATH%\OntologyClasses\*.*"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\OntologyClasses_0.0.1.7.exe" -o"%OMODULE_PATH%\OntologyClasses\"
+
+del /s /q "%OMODULE_PATH%\Structure-Module\*.*"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Structure-Module_0.0.1.1.exe" -o"%OMODULE_PATH%\Structure-Module\"
+
+del /s /q "%OMODULE_PATH%\ClassLibrary_ShellWork\*.*"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\ClassLibrary_ShellWork_0.1.0.1.exe" -o"%OMODULE_PATH%\ClassLibrary_ShellWork\"
+
+del /s /q "%OMODULE_PATH%\ClipBoardListener-Url-Connector\*.*"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\ClipBoardListener-Url-Connector_0.0.0.46.exe" -o"%OMODULE_PATH%\ClipBoardListener-Url-Connector\"
+
+del /s /q "%OMODULE_PATH%\ElasticSearchNestConnector\*.*"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\ElasticSearchNestConnector_0.0.0.47.exe" -o"%OMODULE_PATH%\ElasticSearchNestConnector\"
+
 del /s /q "%OMODULE_PATH%\Ontology-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Ontology-Module_0.4.0.145.exe" -o"%OMODULE_PATH%\Ontology-Module\"
 
@@ -81,7 +96,7 @@ del /s /q "%OMODULE_PATH%\Media-Web-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Media-Web-Module_0.1.0.16.exe" -o"%OMODULE_PATH%\Media-Web-Module\"
 
 del /s /q "%OMODULE_PATH%\TextParser\*.*"
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\TextParser_0.1.0.121.exe" -o"%OMODULE_PATH%\TextParser\"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\TextParser_0.1.0.122.exe" -o"%OMODULE_PATH%\TextParser\"
 
 del /s /q "%OMODULE_PATH%\Office-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Office-Module_0.1.1.82.exe" -o"%OMODULE_PATH%\Office-Module\"
@@ -99,7 +114,7 @@ del /s /q "%OMODULE_PATH%\BankTransaction-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\BankTransaction-Module_0.1.1.83.exe" -o"%OMODULE_PATH%\BankTransaction-Module\"
 
 del /s /q "%OMODULE_PATH%\Development-Module\*.*"
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Development-Module_0.3.0.144.exe" -o"%OMODULE_PATH%\Development-Module\"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Development-Module_0.3.0.145.exe" -o"%OMODULE_PATH%\Development-Module\"
 
 del /s /q "%OMODULE_PATH%\DatabaseConfigurationModule\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\DatabaseConfigurationModule_0.1.0.45.exe" -o"%OMODULE_PATH%\DatabaseConfigurationModule\"
@@ -114,7 +129,7 @@ del /s /q "%OMODULE_PATH%\Media-Viewer-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Media-Viewer-Module_0.1.1.137.exe" -o"%OMODULE_PATH%\Media-Viewer-Module\"
 
 del /s /q "%OMODULE_PATH%\FileResourceModule\*.*"
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\FileResourceModule_0.1.0.100.exe" -o"%OMODULE_PATH%\FileResourceModule\"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\FileResourceModule_0.1.0.101.exe" -o"%OMODULE_PATH%\FileResourceModule\"
 
 del /s /q "%OMODULE_PATH%\FileSystem-Connector-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\FileSystem-Connector-Module_0.1.0.105.exe" -o"%OMODULE_PATH%\FileSystem-Connector-Module\"
