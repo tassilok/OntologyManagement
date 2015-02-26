@@ -545,7 +545,7 @@ namespace TextParser
                             }
                             else
                             {
-                                parseResult.ParseOk = false;
+                                dictUser.Add(field.Name_Field, !string.IsNullOrEmpty(textParse));
                             }
                         }
                         else if (field.ID_DataType == objLocalConfig.OItem_object_int.GUID)
