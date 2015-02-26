@@ -42,6 +42,8 @@ namespace TextParser
         private Color colorRichText;
         private Color colorSeperator;
 
+        private bool replaceNewLine;
+
         ParseResult parseResult = new ParseResult(true);
 
         private ParseLogWindow parseLogWindow;
@@ -467,12 +469,18 @@ namespace TextParser
             string regexMain = !string.IsNullOrEmpty(textBox_RegExMain.Text) ? textBox_RegExMain.Text : null;
             string regexPost = !string.IsNullOrEmpty(textBox_RegExPost.Text) ? textBox_RegExPost.Text : null;
 
+            replaceNewLine = false;
+
             if (regexMain != null)
             {
                 scintilla_Text.CurrentPos = 0;
 
                 if (!string.IsNullOrEmpty(toolStripTextBox_LineSeperator.Text))
                 {
+                    if (toolStripTextBox_LineSeperator.Text == "\r\n")
+                    {
+                        replaceNewLine = true;
+                    }
                     var range = scintilla_Text.FindReplace.FindNext(toolStripTextBox_LineSeperator.Text);
 
                     while (range != null && range.Length > 0)
@@ -514,13 +522,13 @@ namespace TextParser
             
         }
 
-        public clsSelection GetSelections(Range textRange, string regexPre, string regexMain, string regexPost)
+        public clsSelection GetSelections(Range textRange, string regexPre, string regexMain, string regexPost, bool doAll = false)
         {
 
             if (!string.IsNullOrEmpty(regexMain))
             {
                 parseResult.ResultText = textRange.Text;
-                parseResult.Parse(regexPre, regexMain, regexPost);
+                parseResult.Parse(regexPre, regexMain, regexPost, replaceNewLine, doAll);
                 if (parseLogWindow != null && parseLogWindow.Visible)
                 {
                     parseLogWindow.AddLines(parseResult.LogResult);

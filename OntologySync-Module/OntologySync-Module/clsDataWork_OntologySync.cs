@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using OntologyClasses.BaseClasses;
 using Ontology_Module;
+using clsObjectTree = OntologySync_Module.OntoWeb.clsObjectTree;
 
 namespace OntologySync_Module
 {
@@ -20,7 +21,9 @@ namespace OntologySync_Module
         Active = 2,
         WebConnection = 4,
         WebConnectionRel = 8,
-        UserAuthRel = 16
+        UserAuthRel = 16,
+        AllOntologies = 32,
+        Ontologies = 64
     }
 
     [Flags]
@@ -31,7 +34,9 @@ namespace OntologySync_Module
         Active = 2,
         WebConnection = 4,
         WebConnectionRel = 8,
-        UserAuthRel = 16
+        UserAuthRel = 16,
+        AllOntologies = 32,
+        Ontologies = 64
     }
     class ClsDataWorkOntologySync
     {
@@ -43,7 +48,8 @@ namespace OntologySync_Module
         private clsDBLevel _dbLevelWebservice;
         private clsDBLevel _dbLevelWebserviceRel;
         private clsDBLevel _dbLevelUserAuthRel;
-        private clsDBLevel _dbLevelOntologies;
+        private clsDBLevel _dbLevelAllOntologies;
+        private clsDBLevel _dbLevelOntologiesOfBaseData;
 
         private delegate void LoadedSubItems(LoadSubResult loadResult, clsOntologyItem oItemResult);
         private event LoadedSubItems loadedSubItems;
@@ -54,7 +60,17 @@ namespace OntologySync_Module
         public List<JobItem> JobItems { get; private set; }
         public List<WebConnection> WebConnections { get; private set; }
         public List<UserAuthentication> UserAuthentications { get; private set; }
-        public List<clsOntologyItem> OntologyItems { get; private set; } 
+        public List<clsOntologyItem> OntologyItems { get; private set; }
+
+        public List<clsOntologyItem> BelongingOntologies { get; private set; }
+        
+        public bool AllOntologies
+        {
+            get
+            {
+                return _dbLevelAllOntologies.OList_ObjectAtt.Any() ? _dbLevelAllOntologies.OList_ObjectAtt.First().Val_Bit != null ? (bool) _dbLevelAllOntologies.OList_ObjectAtt.First().Val_Bit : false : false;
+            }
+        } 
 
         public ClsDataWorkOntologySync(clsLocalConfig localConfig)
         {
@@ -63,25 +79,72 @@ namespace OntologySync_Module
             Initialize();
         }
 
-        public List<clsOntologyItem> GetOntologies()
+        public void GetSubData_006_AllOntologies()
         {
-            var searchOntologies = new List<clsOntologyItem>
+            var searchAllOntologies = new List<clsObjectAtt>
             {
-                new clsOntologyItem {GUID_Parent = _localConfig.Globals.Class_Ontologies.GUID}
+                new clsObjectAtt
+                {
+                    ID_Object = _localConfig.OItem_object_baseconfig.GUID,
+                    ID_AttributeType = _localConfig.OItem_attributetype_allontologies.GUID
+                }
             };
 
-            var result = _dbLevelOntologies.get_Data_Objects(searchOntologies);
+            var result = _dbLevelAllOntologies.get_Data_ObjectAtt(searchAllOntologies, boolIDs: false);
 
-            if (result.GUID == _localConfig.Globals.LState_Success.GUID)
+            loadedSubItems(LoadSubResult.AllOntologies, result);
+        }
+
+        public void GetSubData_007_BelongingOntologies()
+        {
+
+            if (!AllOntologies)
             {
-                OntologyItems = _dbLevelOntologies.OList_Objects;
+                var searchOntologies = new List<clsObjectRel>
+                {
+                    new clsObjectRel
+                    {
+                        ID_Object = _localConfig.OItem_object_baseconfig.GUID,
+                        ID_RelationType = _localConfig.OItem_relationtype_belonging.GUID,
+                        ID_Parent_Other = _localConfig.Globals.Class_Ontologies.GUID
+                    }
+                };
+
+                var result = _dbLevelOntologiesOfBaseData.get_Data_ObjectRel(searchOntologies, boolIDs: false);
+
+                if (result.GUID == _localConfig.Globals.LState_Success.GUID)
+                {
+                    BelongingOntologies = _dbLevelOntologiesOfBaseData.OList_ObjectRel.Select(ont => new clsOntologyItem
+                    {
+                        GUID = ont.ID_Other,
+                        Name = ont.Name_Other,
+                        GUID_Parent = ont.ID_Parent_Other,
+                        Type = _localConfig.Globals.Type_Object
+                    }).ToList();
+                }
+
+                loadedSubItems(LoadSubResult.Ontologies, result);
             }
             else
             {
-                OntologyItems = null;
-            }
+                var searchOntologies = new List<clsOntologyItem>
+                {
+                    new clsOntologyItem
+                    {
+                        GUID_Parent = _localConfig.Globals.Class_Ontologies.GUID
+                    }
+                };
 
-            return OntologyItems;
+                var result = _dbLevelOntologiesOfBaseData.get_Data_Objects(searchOntologies);
+
+                BelongingOntologies = _dbLevelOntologiesOfBaseData.OList_Objects;
+
+                loadedSubItems(LoadSubResult.Ontologies, result);
+            }
+            
+
+            
+
         }
 
         public clsOntologyItem GetData()
@@ -117,6 +180,14 @@ namespace OntologySync_Module
             {
                 loadItems(LoadResult.WebConnectionRel, oItemResult);
             }
+            else if (loadResult == LoadSubResult.AllOntologies)
+            {
+                loadItems(LoadResult.AllOntologies, oItemResult);
+            }
+            else if (loadResult == LoadSubResult.Ontologies)
+            {
+                loadItems(LoadResult.Ontologies, oItemResult);
+            }
         }
 
         private void GetDataThread()
@@ -125,7 +196,10 @@ namespace OntologySync_Module
             GetSubData_002_IsActive();
             GetSubData_003_WebConnection();
             GetSubData_004_WebserviceRel();
+            GetSubData_006_AllOntologies();
+            GetSubData_007_BelongingOntologies();
             GetSubData_005_UserAuthRel();
+            
         }
 
         private void GetSubData_001_Jobs()
@@ -313,7 +387,8 @@ namespace OntologySync_Module
             _dbLevelWebservice = new clsDBLevel(_localConfig.Globals);
             _dbLevelWebserviceRel = new clsDBLevel(_localConfig.Globals);
             _dbLevelUserAuthRel = new clsDBLevel(_localConfig.Globals);
-            _dbLevelOntologies = new clsDBLevel(_localConfig.Globals);
+            _dbLevelAllOntologies = new clsDBLevel(_localConfig.Globals);
+            _dbLevelOntologiesOfBaseData = new clsDBLevel(_localConfig.Globals);
         }
     }
 }

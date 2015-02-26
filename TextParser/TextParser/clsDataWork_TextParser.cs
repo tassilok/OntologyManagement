@@ -10,7 +10,7 @@ using Variable_Value_Module;
 
 namespace TextParser
 {
-    class clsDataWork_TextParser
+    public class clsDataWork_TextParser
     {
         private clsLocalConfig objLocalConfig;
 
@@ -23,6 +23,7 @@ namespace TextParser
         private clsDBLevel objDBLevel_TextParserOfRef;
         private clsDBLevel objDBLevel_Index_To_Rel;
         private clsDBLevel objDBLevel_ServerPort_Rel;
+        private clsDBLevel objDBLevel_SubParsers;
 
         private clsVariableValueWork objVariableValueWork;
         
@@ -52,7 +53,40 @@ namespace TextParser
 
         public clsOntologyItem OITem_Type { get; set; }
 
-        public List<clsObjectRel> OList_ConfigurationItems { get; private set; } 
+        public List<clsObjectRel> OList_ConfigurationItems { get; private set; }
+
+        public clsOntologyItem OITem_SourceField
+        {
+            get
+            {
+                return
+                    objDBLevel_TextParser_LeftRight.OList_ObjectRel.Where(
+                        rel =>
+                            rel.ID_Parent_Other == objLocalConfig.OItem_class_field.GUID &&
+                            rel.ID_RelationType == objLocalConfig.OItem_relationtype_belonging_source.GUID)
+                        .Select(rel => new clsOntologyItem
+                        {
+                            GUID = rel.ID_Other,
+                            Name = rel.Name_Other,
+                            GUID_Parent = rel.ID_Parent_Other,
+                            Type = rel.Ontology
+                        }).FirstOrDefault();
+            }
+        }
+
+        public List<clsOntologyItem> OList_SubParsers
+        {
+            get
+            {
+                return objDBLevel_SubParsers.OList_ObjectRel.Select(subParser => new clsOntologyItem
+                {
+                    GUID = subParser.ID_Other,
+                    Name = subParser.Name_Other,
+                    GUID_Parent = subParser.ID_Parent_Other,
+                    Type = subParser.Ontology
+                }).ToList();
+            }
+        }
 
         private clsOntologyItem objOItem_Index;
 
@@ -378,6 +412,20 @@ namespace TextParser
                     ID_RelationType = objLocalConfig.OItem_relationtype_belonging.GUID
                 }));
 
+                objOList_TextParsersRelS.AddRange(objDBLevel_TextParser.OList_Objects.Select(p => new clsObjectRel
+                {
+                    ID_Object = p.GUID,
+                    ID_Parent_Other = objLocalConfig.OItem_class_field.GUID,
+                    ID_RelationType = objLocalConfig.OItem_relationtype_belonging_source.GUID
+                }));
+
+                objOList_TextParsersRelS.AddRange(objDBLevel_TextParser.OList_Objects.Select(p => new clsObjectRel
+                {
+                    ID_Object = p.GUID,
+                    ID_Parent_Other = objLocalConfig.OItem_class_field.GUID,
+                    ID_RelationType = objLocalConfig.OItem_relationtype_copy_from_parent.GUID
+                }));
+
                 
                 objOItem_Result = objDBLevel_TextParser_LeftRight.get_Data_ObjectRel(objOList_TextParsersRelS,
                                                                                      boolIDs: false);
@@ -414,6 +462,16 @@ namespace TextParser
                         {
                             OITem_Type = null;
                         }
+
+                        var searchSubParsers = objDBLevel_TextParser.OList_Objects.Select(parser => new clsObjectRel
+                        {
+                            ID_Object = parser.GUID,
+                            ID_RelationType = objLocalConfig.OItem_relationtype_contains.GUID,
+                            ID_Parent_Other = objLocalConfig.OItem_class_textparser.GUID
+                        }).ToList();
+
+                        objOItem_Result = objDBLevel_SubParsers.get_Data_ObjectRel(searchSubParsers, boolIDs: false);
+                        
                     }
 
                     
@@ -483,6 +541,7 @@ namespace TextParser
             
             objDBLevel_TextParser = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_TextParser_LeftRight = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_SubParsers = new clsDBLevel(objLocalConfig.Globals);
 
             objDBLevel_ConfigurationItems = new clsDBLevel(objLocalConfig.Globals);
 

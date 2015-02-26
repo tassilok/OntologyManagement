@@ -46,7 +46,7 @@ namespace TextParser
 
             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
-                ParseFieldList = objDataWork_FieldParser.FieldList;
+                ParseFieldList = objDataWork_FieldParser.FieldList.Select(field => field.Clone()).ToList();
 
             }
 

@@ -39,5 +39,51 @@ namespace TextParser
         public string ID_ReferenceField { get; set; }
         public string Name_ReferenceField { get; set; }
         public string LastContent { get; set; }
+        public string ID_Attribute_DoAll { get; set;  }
+        public bool DoAll { get; set; }
+        public List<clsRegExReplace> ReplaceList { get; set; }
+        public List<clsField> FieldListContained { get; set; } 
+
+        public clsField Clone()
+        {
+            return new clsField
+            {
+                DataType = DataType,
+                Regex = Regex,
+                DoAll = DoAll,
+                ID_Attribute_DoAll = ID_Attribute_DoAll,
+                ID_Attribute_RegExMainVal = ID_Attribute_RegExMainVal,
+                ID_Attribute_RegExPostVal = ID_Attribute_RegExPostVal,
+                ID_Attribute_RegExPreVal = ID_Attribute_RegExPreVal,
+                ID_Attribute_RemoveFromSource = ID_Attribute_RemoveFromSource,
+                ID_Attribute_UseLastValid = ID_Attribute_UseLastValid,
+                ID_Attribute_UseOrderID = ID_Attribute_UseOrderID,
+                ID_DataType = ID_DataType,
+                ID_Field = ID_Field,
+                ID_FieldParser = ID_FieldParser,
+                ID_MetaField = ID_MetaField,
+                ID_ReferenceField = ID_ReferenceField,
+                ID_RegExMain = ID_RegExMain,
+                ID_RegExPost = ID_RegExPost,
+                ID_RegExPre = ID_RegExPre,
+                Insert = Insert,
+                IsInsert = IsInsert,
+                IsMeta = IsMeta,
+                LastContent = LastContent,
+                LastValid = LastValid,
+                Name_Field = Name_Field,
+                Name_FieldParser = Name_FieldParser,
+                Name_MetaField = Name_MetaField,
+                Name_ReferenceField = Name_ReferenceField,
+                OrderId = OrderId,
+                RegexPost = RegexPost,
+                RegexPre = RegexPre,
+                RemoveFromSource = RemoveFromSource,
+                UseLastValid = UseLastValid,
+                UseOrderId = UseOrderId,
+                ReplaceList = ReplaceList,
+                FieldListContained =  FieldListContained
+            };
+        }
     }
 }

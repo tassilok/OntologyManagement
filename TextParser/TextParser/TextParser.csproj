@@ -79,6 +79,8 @@
     <Compile Include="clsLocalConfig.cs" />
     <Compile Include="clsRegExField.cs" />
     <Compile Include="clsRegExFilter.cs" />
+    <Compile Include="clsRegExReplace.cs" />
+    <Compile Include="clsReplaceList.cs" />
     <Compile Include="clsSearchItem.cs" />
     <Compile Include="clsSelection.cs" />
     <Compile Include="frmFieldParser.cs">

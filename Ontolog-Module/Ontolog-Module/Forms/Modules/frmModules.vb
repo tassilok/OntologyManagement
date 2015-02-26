@@ -65,7 +65,13 @@ Public Class frmModules
 
                     objOItem_Result = objDBLevel_ModulesOfClass.get_Data_ObjectRel(searchClasses, boolIDs:=False)
                 End If
+            Else
 
+                Dim searchClasses = objDBLevel_ModuleList.OList_ObjectRel.Select(Function(mods) New clsObjectRel With {.ID_Object = mods.ID_Object,
+                                                                                                                   .ID_RelationType = objGlobals.RelationType_belongingClass.GUID,
+                                                                                                                   .ID_Other = StaticValues.OItem_Module.GUID}).ToList()
+
+                objOItem_Result = objDBLevel_ModulesOfClass.get_Data_ObjectRel(searchClasses, boolIDs:=False)
             End If
         End If
         If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
@@ -155,7 +161,14 @@ Public Class frmModules
                 Dim objRelUsedClass = objRelationConfig.Rel_ObjectRelation(objOItem_Module, objOItem_Class, objGlobals.RelationType_belongingClass, OrderID:=objModule.OrderId + 1)
                 objTransaction.ClearItems()
                 objTransaction.do_Transaction(objRelUsedClass)
-
+            Else
+                Dim objOItem_Module = New clsOntologyItem With {.GUID = objModule.ModuleGuid,
+                                                                .Name = objModule.ModuleName,
+                                                                .GUID_Parent = objGlobals.Class_Module.GUID,
+                                                                .Type = objGlobals.Type_Object}
+                Dim objRelUsedClass = objRelationConfig.Rel_ObjectRelation(objOItem_Module, StaticValues.OItem_Module, objGlobals.RelationType_belongingClass, OrderID:=objModule.OrderId + 1)
+                objTransaction.ClearItems()
+                objTransaction.do_Transaction(objRelUsedClass)
             End If
 
 

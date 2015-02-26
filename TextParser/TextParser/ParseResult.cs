@@ -26,178 +26,239 @@ namespace TextParser
             LogResult = new List<string>();
         }
 
-        public void Parse(string regexPre, string regexMain, string regexPost)
+        public void Parse(string regexPre, string regexMain, string regexPost, bool replaceNewLine, bool doAll, List<clsRegExReplace> replaceList = null, List<clsField> mergeFields = null)
         {
             ParseOk = true;
             int ixStart_Post;
             bool getIxStart = true;
             string logText ="";
 
-            // Regex-Pre
-            // Regex-Pre
-            if (doLogEvent)
+            
+
+            if (mergeFields != null && mergeFields.Any())
             {
-                logText = ResultText;
-                LogResult.Clear();
-                LogResult.Add("--------------------------------------------------------");
-                LogResult.Add("--------------------------------------------------------");
-                LogResult.Add(DateTime.Now.ToString("O") + "\t<PreMatch Start>\t" + regexPre ?? "");
-                LogResult.Add(DateTime.Now.ToString("O") + "\t<PreMatch Start>\tSUCCESS\t" + logText);
-            }
-
-            if (!string.IsNullOrEmpty(regexPre))
-            {
-                var objRegExPre = new Regex(regexPre);
-
-                // Regex im Text suchen
-                var objMatches = objRegExPre.Matches(ResultText);
-                if (objMatches.Count > 0 && objMatches[0].Length > 0)
+                ResultText = "";
+                mergeFields.ForEach(field =>
                 {
+                    ResultText += field.LastContent;
+                });
 
-                    ResultText =
-                        ResultText.Substring(objMatches[0].Index +
-                                            objMatches[0].Length);
-                    IxEndPre = objMatches[0].Index + objMatches[0].Length;
-                    //ixStart = ixStart + objMatches[0].Index +
-                    //            objMatches[0].Length-1;
-
-                    ParseOk = true;
-                }
-                else if (objMatches.Count > 0 && objMatches[0].Length == 0)
+                if (doLogEvent)
                 {
-                    IxEndPre = objMatches[0].Index + objMatches[0].Length;
-                    
-                    ParseOk = true;
-                }
-                else
-                {
-             
-                    ParseOk = false;
+                    logText = ResultText;
+                    LogResult.Clear();
+                    LogResult.Add("--------------------------------------------------------");
+                    LogResult.Add("--------------------------------------------------------");
+                    LogResult.Add(logText);
                 }
             }
             else
             {
-             
-                IxEndPre = -1;
-                ParseOk = true;
-            }
-
-            if (doLogEvent)
-            {
-                if (logText != ResultText)
+                if (replaceNewLine)
                 {
-                    logText = logText.Replace(ResultText, "");
-                    LogResult.Add(DateTime.Now.ToString("O") + "\t<PreMatch END>\t" + (ParseOk ? "SUCCESS" : "NOSUC") + "\t" + logText);
+                    ResultText = ResultText.Replace(System.Environment.NewLine, "");    
                 }
-                else
+            
+                // Regex-Pre
+                // Regex-Pre
+                if (doLogEvent)
                 {
-                    LogResult.Add(DateTime.Now.ToString("O") + "\t<PreMatch END>\t" + (ParseOk ? "SUCCESS" : "NOSUC"));
+                    logText = ResultText;
+                    LogResult.Clear();
+                    LogResult.Add("--------------------------------------------------------");
+                    LogResult.Add("--------------------------------------------------------");
+                    LogResult.Add(DateTime.Now.ToString("O") + "\t<PreMatch Start>\t" + regexPre ?? "");
+                    LogResult.Add(DateTime.Now.ToString("O") + "\t<PreMatch Start>\tSUCCESS\t" + logText);
                 }
-                
-                
-            }
 
-            if (doLogEvent)
-            {
-                LogResult.Add("--------------------------------------------------------");
-                LogResult.Add("--------------------------------------------------------");
-                LogResult.Add(DateTime.Now.ToString("O") + "\t<PostMatch Start>\t" + regexPost ?? "");
-                LogResult.Add(DateTime.Now.ToString("O") + "\t<PostMatch Start>\tSUCCESS\t");
-            }
-
-            if (ParseOk)
-            {
-                if (!string.IsNullOrEmpty(regexPost))
+                if (!string.IsNullOrEmpty(regexPre))
                 {
-                    var objRegExPost = new Regex(regexPost);
-                    var objMatches = objRegExPost.Matches(ResultText);
+                    var objRegExPre = new Regex(regexPre);
 
+                    // Regex im Text suchen
+                    var objMatches = objRegExPre.Matches(ResultText);
                     if (objMatches.Count > 0 && objMatches[0].Length > 0)
                     {
-                        ResultText = ResultText.Substring(0, objMatches[0].Index);
-                        ixStart_Post = objMatches[0].Index;
-                        //ixStart += objMatches[0].Index + objMatches[0].Length-1;
-                        getIxStart = false;
+
+                        ResultText =
+                            ResultText.Substring(objMatches[0].Index +
+                                                objMatches[0].Length);
+                        IxEndPre = objMatches[0].Index + objMatches[0].Length;
+                        //ixStart = ixStart + objMatches[0].Index +
+                        //            objMatches[0].Length-1;
+
+                        ParseOk = true;
                     }
                     else if (objMatches.Count > 0 && objMatches[0].Length == 0)
                     {
-                        ixStart_Post = objMatches[0].Index;
+                        IxEndPre = objMatches[0].Index + objMatches[0].Length;
+
+                        ParseOk = true;
                     }
                     else
                     {
 
                         ParseOk = false;
                     }
-
-                    
                 }
                 else
                 {
-                    ixStart_Post = -1;
+
+                    IxEndPre = -1;
                     ParseOk = true;
                 }
-            }
 
-            if (doLogEvent)
-            {
-                if (logText != ResultText )
+                if (doLogEvent)
                 {
-                    LogResult.Add(DateTime.Now.ToString("O") + "\t<PostMatch END>\t" + (ParseOk ? "SUCCESS" : "NOSUC") + (!string.IsNullOrEmpty(ResultText) ? logText.Replace(ResultText, ""): logText));
-                }
-                else
-                {
-                    LogResult.Add(DateTime.Now.ToString("O") + "\t<PostMatch END>\t" + (ParseOk ? "SUCCESS" : "NOSUC"));
-
-                }
-                
-            }
-
-            if (doLogEvent)
-            {
-                LogResult.Add("--------------------------------------------------------");
-                LogResult.Add("--------------------------------------------------------");
-                LogResult.Add(DateTime.Now.ToString("O") + "\t<MainMatch Start>\t" + regexMain ?? "");
-                LogResult.Add(DateTime.Now.ToString("O") + "\t<MainMatch Start>\tSUCCESS\t");
-            }
-
-            if (ParseOk)
-            {
-                if (!string.IsNullOrEmpty(regexMain))
-                {
-                    var objRegEx = new Regex(regexMain);
-                    var objMatches = objRegEx.Matches(ResultText);
-
-                    if (objMatches.Count > 0 && objMatches[0].Length > 0)
+                    if (logText != ResultText)
                     {
-                        ResultText = ResultText.Substring(objMatches[0].Index,
-                                                        objMatches[0].Length);
+                        logText = logText.Replace(ResultText, "");
+                        LogResult.Add(DateTime.Now.ToString("O") + "\t<PreMatch END>\t" + (ParseOk ? "SUCCESS" : "NOSUC") + "\t" + logText);
+                    }
+                    else
+                    {
+                        LogResult.Add(DateTime.Now.ToString("O") + "\t<PreMatch END>\t" + (ParseOk ? "SUCCESS" : "NOSUC"));
+                    }
 
-                        IxStartMain = objMatches[0].Index;
-                        LengthMain = objMatches[0].Length;
-                        if (getIxStart)
+
+                }
+
+                if (doLogEvent)
+                {
+                    LogResult.Add("--------------------------------------------------------");
+                    LogResult.Add("--------------------------------------------------------");
+                    LogResult.Add(DateTime.Now.ToString("O") + "\t<PostMatch Start>\t" + regexPost ?? "");
+                    LogResult.Add(DateTime.Now.ToString("O") + "\t<PostMatch Start>\tSUCCESS\t");
+                }
+
+                if (ParseOk)
+                {
+                    if (!string.IsNullOrEmpty(regexPost))
+                    {
+                        var objRegExPost = new Regex(regexPost);
+                        var objMatches = objRegExPost.Matches(ResultText);
+
+                        if (!doAll)
                         {
+                            if (objMatches.Count > 0 && objMatches[0].Length > 0)
+                            {
+                                ResultText = ResultText.Substring(0, objMatches[0].Index);
+                                ixStart_Post = objMatches[0].Index;
+                                //ixStart += objMatches[0].Index + objMatches[0].Length-1;
+                                getIxStart = false;
+                            }
+                            else if (objMatches.Count > 0 && objMatches[0].Length == 0)
+                            {
+                                ixStart_Post = objMatches[0].Index;
+                            }
+                            else
+                            {
 
-                            //ixStart += objMatches[0].Index + objMatches[0].Length - 1;
+                                ParseOk = false;
+                            }
+                        }
+                        else
+                        {
+                            if (objMatches.Count > 0 && objMatches[objMatches.Count - 1].Length > 0)
+                            {
+                                ResultText = ResultText.Substring(0, objMatches[objMatches.Count - 1].Index);
+                                ixStart_Post = objMatches[objMatches.Count - 1].Index;
+                                //ixStart += objMatches[0].Index + objMatches[0].Length-1;
+                                getIxStart = false;
+                            }
+                            else if (objMatches.Count > 0 && objMatches[objMatches.Count - 1].Length == 0)
+                            {
+                                ixStart_Post = objMatches[objMatches.Count - 1].Index;
+                            }
+                            else
+                            {
+
+                                ParseOk = false;
+                            }
                         }
 
 
-                    }
-                    else if (objMatches.Count > 0 && objMatches[0].Length == 0)
-                    {
-                        IxStartMain = objMatches[0].Index;
-                        LengthMain = 0;
+
                     }
                     else
                     {
-
-                        ParseOk = false;
+                        ixStart_Post = -1;
+                        ParseOk = true;
                     }
                 }
-                else
+
+                if (doLogEvent)
                 {
-                    IxStartMain = -1;
+                    if (logText != ResultText)
+                    {
+                        LogResult.Add(DateTime.Now.ToString("O") + "\t<PostMatch END>\t" + (ParseOk ? "SUCCESS" : "NOSUC") + (!string.IsNullOrEmpty(ResultText) ? logText.Replace(ResultText, "") : logText));
+                    }
+                    else
+                    {
+                        LogResult.Add(DateTime.Now.ToString("O") + "\t<PostMatch END>\t" + (ParseOk ? "SUCCESS" : "NOSUC"));
+
+                    }
+
                 }
+
+                if (doLogEvent)
+                {
+                    LogResult.Add("--------------------------------------------------------");
+                    LogResult.Add("--------------------------------------------------------");
+                    LogResult.Add(DateTime.Now.ToString("O") + "\t<MainMatch Start>\t" + regexMain ?? "");
+                    LogResult.Add(DateTime.Now.ToString("O") + "\t<MainMatch Start>\tSUCCESS\t");
+                }
+
+                if (ParseOk)
+                {
+                    if (!string.IsNullOrEmpty(regexMain))
+                    {
+                        var objRegEx = new Regex(regexMain);
+                        var objMatches = objRegEx.Matches(ResultText);
+
+                        if (objMatches.Count > 0 && objMatches[0].Length > 0)
+                        {
+                            ResultText = ResultText.Substring(objMatches[0].Index,
+                                                            objMatches[0].Length);
+                            if (replaceList != null)
+                            {
+                                replaceList.Where(rep => !string.IsNullOrEmpty(rep.RegExSearch)).ToList().ForEach(rep =>
+                                {
+                                    ResultText = Regex.Replace(ResultText, rep.RegExSearch,
+                                        rep.ReplaceWith ?? "");
+                                });
+                            }
+
+
+                            IxStartMain = objMatches[0].Index;
+                            LengthMain = objMatches[0].Length;
+                            if (getIxStart)
+                            {
+
+                                //ixStart += objMatches[0].Index + objMatches[0].Length - 1;
+                            }
+
+
+                        }
+                        else if (objMatches.Count > 0 && objMatches[0].Length == 0)
+                        {
+                            IxStartMain = objMatches[0].Index;
+                            LengthMain = 0;
+                        }
+                        else
+                        {
+
+                            ParseOk = false;
+                        }
+                    }
+                    else
+                    {
+                        IxStartMain = -1;
+                    }
+                }    
             }
+
+            
 
             if (doLogEvent)
             {

@@ -27,9 +27,10 @@ namespace TextParser
         private clsDataWork_FileResource_Path objDataWork_FileResource_Path;
 
         private clsDataWork_TextParser objDataWork_TextParser;
-
+        public clsDataWork_TextParser DataWork_TextParser_Parent { get; set; }
 
         private clsAppDBLevel objAppDBLevel;
+        private clsAppDBLevel objAppDBLevel_ParentParser;
 
         private List<clsOntologyItem> OList_Variables;
 
@@ -56,6 +57,7 @@ namespace TextParser
 
         private string numberSeperator;
         private string numberSeperatorReplace;
+        private clsOntologyItem oItem_SourceField;
 
         public clsOntologyItem OItem_Result { get; private set; }
 
@@ -198,14 +200,243 @@ namespace TextParser
                 
             }
 
+            
             return objOItem_Result;
         }
 
-        public clsOntologyItem ParseLine(string strLine, long line)
+        public clsOntologyItem ParseLine(string strLine, bool replaceNewLine, long line)
         {
-            var objOItem_Result = ParseText(strLine, line);
+            var objOItem_Result = ParseText(strLine, replaceNewLine, line);
 
             return objOItem_Result;
+        }
+
+        private Stream GenerateStreamFromString(string s)
+        {
+            MemoryStream stream = new MemoryStream();
+            StreamWriter writer = new StreamWriter(stream);
+            writer.Write(s);
+            writer.Flush();
+            stream.Position = 0;
+            return stream;
+        }
+
+        public void ParseSourceField()
+        {
+            clsOntologyItem objOItem_Result = objLocalConfig.Globals.LState_Success.Clone();
+
+            var fileDate_Create = false;
+            var fileDate_LastChange = false;
+            docCount = 0;
+            long fileLine = 0;
+            objFileMeta = new clsFileMeta();
+            long parsedDocumentCount = 0;
+            long savedDocumentCount = 0;
+            bool replaceNewLine = false;
+
+            int pos = -1;
+            int parDocCount = 0;
+            var parentPort = int.Parse(DataWork_TextParser_Parent.OItem_Port.Name);
+            var parentServer = DataWork_TextParser_Parent.OItem_Server.Name;
+
+            objAppDBLevel_ParentParser = new clsAppDBLevel(parentServer,
+                parentPort, DataWork_TextParser_Parent.OItem_Index.Name, objLocalConfig.Globals.SearchRange,
+                objLocalConfig.Globals.Session);
+
+            var documents = new List<clsAppDocuments>();
+
+            if (OList_Variables != null && OList_Variables.Any())
+            {
+                foreach (var oItem_Variable in OList_Variables)
+                {
+                    if (oItem_Variable.GUID == objLocalConfig.OItem_object_user.GUID)
+                    {
+                        index = index.Replace("@" + oItem_Variable.Name.ToLower() + "@",
+                            objLocalConfig.OItem_User.GUID.ToLower());
+                    }
+                }
+            }
+
+            clsObjectRel configurationItem_OneRecordByFile =
+                oList_ConfigurationItems.Where(ci => ci.ID_Other == objLocalConfig.OItem_object_one_record_by_file.GUID)
+                    .FirstOrDefault();
+
+            oItem_SourceField = DataWork_TextParser_Parent.OITem_SourceField;
+            while (parDocCount != 0)
+            {
+                documents = objAppDBLevel.GetData_Documents(paging: true, lastPos: pos);
+                parDocCount = documents.Count;
+                if (parDocCount > 0)
+                {
+                    foreach (var doc in documents)
+                    {
+                        if (doc.Dict.ContainsKey(oItem_SourceField.Name))
+                        {
+                            var id = doc.Id;
+                            var content = doc.Dict[oItem_SourceField.Name].ToString();
+                            dictList = new List<clsAppDocuments>();
+                            //try
+                            //{
+
+                            var stringStream = GenerateStreamFromString(content);
+                            var textReader = new StreamReader(stringStream, true);
+                            var text = "";
+                            UserFields = ParseFieldList.Where(f => f.IsMeta == false).ToList();
+                            while (!textReader.EndOfStream)
+                            {
+                                fileLine++;
+                                dictMeta = new Dictionary<string, object>();
+                                dictUser = new Dictionary<string, object>();
+
+                                if (OList_Seperator == null ||
+                                    (OList_Seperator.Any() && OList_Seperator.First().Name == "\\r\\n"))
+                                {
+                                    replaceNewLine = true;
+                                    text = textReader.ReadLine();
+                                }
+                                else
+                                {
+                                    text = "";
+
+                                    StringBuilder line = new StringBuilder();
+                                    var length = 1;
+                                    var tester = "";
+                                    var finished = false;
+                                    while (!finished && !textReader.EndOfStream)
+                                    {
+                                        length = line.Length;
+                                        char singleChar = (char)textReader.Read();
+                                        tester += singleChar;
+                                        if (OList_Seperator.Any(s => tester.EndsWith(s.Name)))
+                                        {
+                                            text = tester.ToString();
+                                            finished = true;
+                                        }
+
+
+
+                                    }
+
+
+                                }
+
+
+                                objOItem_Result = ParseText(text, replaceNewLine, fileLine);
+                                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                {
+
+                                    if (configurationItem_OneRecordByFile == null)
+                                    {
+                                        if (docCount > 0 && docCount % objLocalConfig.Globals.SearchRange == 0)
+                                        {
+
+                                            var count = dictList.Count;
+
+                                            objOItem_Result = objAppDBLevel.Save_Documents(dictList,
+                                                objOItem_Type != null
+                                                    ? objOItem_Type.Name
+                                                    : objOItem_Type != null ? objOItem_Type.Name : "Doc", index.ToLower());
+                                            if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                            {
+                                                savedDocumentCount += count;
+                                                if (parsedLines != null)
+                                                {
+                                                    parsedLines(parsedDocumentCount, savedDocumentCount);
+                                                }
+
+
+                                            }
+                                            else
+                                            {
+                                                OItem_Result = objOItem_Result;
+                                            }
+                                            dictList.Clear();
+                                        }
+                                    }
+
+                                    parsedDocumentCount++;
+                                }
+                                else
+                                {
+                                    OItem_Result = objOItem_Result;
+                                }
+
+
+                            }
+
+
+
+                            if (dictList.Count > 0)
+                            {
+                                if (configurationItem_OneRecordByFile != null)
+                                {
+                                    var firstItem = dictList.First();
+                                    for (var i = 1; i < dictList.Count; i++)
+                                    {
+                                        firstItem.Dict.Keys.ToList().ForEach(key =>
+                                        {
+                                            if (firstItem.Dict[key] is string)
+                                            {
+                                                string strVal = firstItem.Dict[key].ToString() ?? "";
+                                                strVal += dictList[i].Dict[key].ToString() ?? "";
+                                                firstItem.Dict[key] = strVal;
+                                            }
+                                            else if (firstItem.Dict[key] is double)
+                                            {
+                                                double dblVal = (double)firstItem.Dict[key];
+                                                dblVal += (double)dictList[i].Dict[key];
+                                                firstItem.Dict[key] = dblVal;
+
+                                            }
+                                            else if (firstItem.Dict[key] is long)
+                                            {
+                                                long lngVal = (long)firstItem.Dict[key];
+                                                lngVal += (long)dictList[i].Dict[key];
+                                                firstItem.Dict[key] = lngVal;
+                                            }
+                                        });
+
+                                    }
+                                    dictList = new List<clsAppDocuments> { firstItem };
+                                }
+
+                                var count = dictList.Count;
+                                objOItem_Result = objAppDBLevel.Save_Documents(dictList,
+                                    objOItem_Type != null
+                                        ? objOItem_Type.Name
+                                        : objOItem_Type != null ? objOItem_Type.Name : "Doc", index);
+                                if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                                {
+                                    if (parsedLines != null)
+                                    {
+                                        parsedLines(parsedDocumentCount, savedDocumentCount);
+                                    }
+                                    savedDocumentCount += count;
+                                }
+                                else
+                                {
+                                    OItem_Result = objOItem_Result;
+                                }
+                            }
+                            textReader.Close();
+                        }
+                        if (finishedParsing != null)
+                        {
+                            finishedParsing();
+                        }
+                    }
+                }
+            }
+            
+
+
+
+
+            OItem_Result = objOItem_Result;
+            if (finishedParsing != null)
+            {
+                finishedParsing();
+            }
         }
 
         public void ParseFiles()
@@ -218,6 +449,7 @@ namespace TextParser
             objFileMeta = new clsFileMeta();
             long parsedDocumentCount = 0;
             long savedDocumentCount = 0;
+            bool replaceNewLine = false;
             
             if (OList_Variables != null && OList_Variables.Any())
             {
@@ -241,43 +473,47 @@ namespace TextParser
             clsObjectRel configurationItem_OneRecordByFile =
                 oList_ConfigurationItems.Where(ci => ci.ID_Other == objLocalConfig.OItem_object_one_record_by_file.GUID)
                     .FirstOrDefault();
-                            
 
-            foreach (var file in fileList)
+            if (fileList != null)
             {
-                if (AbortParseProcess)
+                foreach (var file in fileList)
                 {
-                    AbortParseProcess = false;
-                    break;
-                }
-                objFileMeta.FilePath = file.FileName;
-                objFileMeta.FileName = Path.GetFileName(file.FileName);
-                objFileMeta.CreateDate = File.GetCreationTime(file.FileName).Date;
-                objFileMeta.LastWriteDate = File.GetLastWriteTime(file.FileName).Date;
-                objFileMeta.CreateDatetime = File.GetCreationTime(file.FileName);
-                objFileMeta.LastWriteTime = File.GetLastWriteTime(file.FileName);
+                    if (AbortParseProcess)
+                    {
+                        AbortParseProcess = false;
+                        break;
+                    }
+                    objFileMeta.FilePath = file.FileName;
+                    objFileMeta.FileName = Path.GetFileName(file.FileName);
+                    objFileMeta.CreateDate = File.GetCreationTime(file.FileName).Date;
+                    objFileMeta.LastWriteDate = File.GetLastWriteTime(file.FileName).Date;
+                    objFileMeta.CreateDatetime = File.GetCreationTime(file.FileName);
+                    objFileMeta.LastWriteTime = File.GetLastWriteTime(file.FileName);
 
-                ParseFieldList.ForEach(field => field.LastValid = null);
+                    ParseFieldList.ForEach(field => field.LastValid = null);
 
-                fileLine = 0;
-                if (fileDate_Create)
-                {
-                    index = index.Replace("@" + objLocalConfig.OItem_object_filedate_create.Name.ToLower() + "@", File.GetCreationTime(file.FileName).ToString("yyyyMMdd"));
+                    fileLine = 0;
+                    if (fileDate_Create)
+                    {
+                        index = index.Replace("@" + objLocalConfig.OItem_object_filedate_create.Name.ToLower() + "@",
+                            File.GetCreationTime(file.FileName).ToString("yyyyMMdd"));
 
-                }
-                if (fileDate_LastChange)
-                {
-                    index = index.Replace("@" + objLocalConfig.OItem_object_filedate_lastchange.Name.ToLower() + "@", File.GetLastWriteTime(file.FileName).ToString("yyyyMMdd"));
-                }
+                    }
+                    if (fileDate_LastChange)
+                    {
+                        index = index.Replace(
+                            "@" + objLocalConfig.OItem_object_filedate_lastchange.Name.ToLower() + "@",
+                            File.GetLastWriteTime(file.FileName).ToString("yyyyMMdd"));
+                    }
 
-                dictList = new List<clsAppDocuments>();
-                //try
-                //{
-                    
-                    var textReader = new StreamReader(file.FileName,true);
+                    dictList = new List<clsAppDocuments>();
+                    //try
+                    //{
+
+                    var textReader = new StreamReader(file.FileName, true);
 
 
-                    
+
                     var text = "";
                     UserFields = ParseFieldList.Where(f => f.IsMeta == false).ToList();
                     while (!textReader.EndOfStream)
@@ -286,8 +522,12 @@ namespace TextParser
                         dictMeta = new Dictionary<string, object>();
                         dictUser = new Dictionary<string, object>();
 
-                        if (OList_Seperator == null  || ( OList_Seperator.Any() && OList_Seperator.First().Name == "\\r\\n"))
+                        if (OList_Seperator == null ||
+                            (OList_Seperator.Any() && OList_Seperator.First().Name == "\\r\\n"))
+                        {
+                            replaceNewLine = true;
                             text = textReader.ReadLine();
+                        }
                         else
                         {
                             text = "";
@@ -299,34 +539,37 @@ namespace TextParser
                             while (!finished && !textReader.EndOfStream)
                             {
                                 length = line.Length;
-                                char singleChar = (char)textReader.Read();
+                                char singleChar = (char) textReader.Read();
                                 tester += singleChar;
                                 if (OList_Seperator.Any(s => tester.EndsWith(s.Name)))
                                 {
                                     text = tester.ToString();
-                                    finished = true;    
+                                    finished = true;
                                 }
-                                
-                                
+
+
 
                             }
 
-                            
+
                         }
 
 
-                        objOItem_Result = ParseText(text,fileLine);
+                        objOItem_Result = ParseText(text, replaceNewLine, fileLine);
                         if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                         {
 
                             if (configurationItem_OneRecordByFile == null)
                             {
-                                if (docCount > 0 && docCount % objLocalConfig.Globals.SearchRange == 0)
+                                if (docCount > 0 && docCount%objLocalConfig.Globals.SearchRange == 0)
                                 {
 
                                     var count = dictList.Count;
 
-                                    objOItem_Result = objAppDBLevel.Save_Documents(dictList, objOItem_Type != null ? objOItem_Type.Name : objOItem_Type != null ? objOItem_Type.Name : "Doc", index.ToLower());
+                                    objOItem_Result = objAppDBLevel.Save_Documents(dictList,
+                                        objOItem_Type != null
+                                            ? objOItem_Type.Name
+                                            : objOItem_Type != null ? objOItem_Type.Name : "Doc", index.ToLower());
                                     if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                                     {
                                         savedDocumentCount += count;
@@ -344,50 +587,81 @@ namespace TextParser
                                     dictList.Clear();
                                 }
                             }
-                            
+                         
                             parsedDocumentCount++;
                         }
                         else
                         {
                             OItem_Result = objOItem_Result;
                         }
-                        
-                        
+
+
                     }
 
-                
+
 
                     if (dictList.Count > 0)
                     {
-                        var firstItem = dictList.First();
-                        for (var i = 1; i < dictList.Count; i++)
-                        {
-                            foreach (var key in firstItem.Dict.Keys)
+                        if (configurationItem_OneRecordByFile != null)
+                        { 
+                            var firstItem = dictList.First();
+                            for (var i = 1; i < dictList.Count; i++)
                             {
-                                if (firstItem.Dict[key] is string)
-                                {
-                                    string strVal = firstItem.Dict[key].ToString();
-                                    strVal += dictList[i].Dict[key].ToString();
-                                    firstItem.Dict[key] = strVal;
-                                }
-                                else if (firstItem.Dict[key] is double)
-                                {
-                                    double dblVal = (double) firstItem.Dict[key];
-                                    dblVal += (double) dictList[i].Dict[key];
-                                    firstItem.Dict[key] = dblVal;
+                                var keys1 = dictList[i].Dict.Keys;
+                                var keys2 = firstItem.Dict.Keys;
 
-                                }
-                                else if (firstItem.Dict[key] is long)
+                                var allKeys = keys1.Union(keys2);
+
+                                allKeys.ToList().ForEach(key =>
                                 {
-                                    long lngVal = (long)firstItem.Dict[key];
-                                    lngVal += (long)dictList[i].Dict[key];
-                                    firstItem.Dict[key] = lngVal;
-                                }
+                                    if (firstItem.Dict.ContainsKey(key))
+                                    {
+                                        if (dictList[i].Dict.ContainsKey(key))
+                                        {
+                                            if (firstItem.Dict[key] is string)
+                                            {
+                                                string strVal = firstItem.Dict[key].ToString() ?? "";
+                                                strVal += dictList[i].Dict[key].ToString() ?? "";
+                                                firstItem.Dict[key] = strVal;
+                                            }
+                                            else if (firstItem.Dict[key] is double)
+                                            {
+                                                double dblVal = (double)firstItem.Dict[key];
+                                                dblVal += (double)dictList[i].Dict[key];
+                                                firstItem.Dict[key] = dblVal;
+
+                                            }
+                                            else if (firstItem.Dict[key] is long)
+                                            {
+                                                long lngVal = (long)firstItem.Dict[key];
+                                                lngVal += (long)dictList[i].Dict[key];
+                                                firstItem.Dict[key] = lngVal;
+                                            }
+                                            else if (firstItem.Dict[key] is DateTime)
+                                            {
+                                                firstItem.Dict[key] = dictList[i].Dict[key];
+                                            }
+                                            else if (firstItem.Dict[key] is bool)
+                                            {
+                                                firstItem.Dict[key] = dictList[i].Dict[key];
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        firstItem.Dict.Add(key, dictList[i].Dict[key]);
+                                    }
+                                });
+                                
                             }
+                            dictList = new List<clsAppDocuments> { firstItem };
                         }
-                        dictList = new List<clsAppDocuments> {firstItem};
+                       
                         var count = dictList.Count;
-                        objOItem_Result = objAppDBLevel.Save_Documents(dictList, objOItem_Type != null ? objOItem_Type.Name : objOItem_Type != null ? objOItem_Type.Name : "Doc", index);
+                        objOItem_Result = objAppDBLevel.Save_Documents(dictList,
+                            objOItem_Type != null
+                                ? objOItem_Type.Name
+                                : objOItem_Type != null ? objOItem_Type.Name : "Doc", index);
                         if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
                         {
                             if (parsedLines != null)
@@ -402,25 +676,36 @@ namespace TextParser
                         }
                     }
                     textReader.Close();
-                //}
-                //catch (Exception ex)
-                //{
+                    //}
+                    //catch (Exception ex)
+                    //{
 
-                //    return objLocalConfig.Globals.LState_Error.Clone();
-                //}
-                
+                    //    return objLocalConfig.Globals.LState_Error.Clone();
+                    //}
 
-                
+
+
+                }
+                if (finishedParsing != null)
+                {
+                    finishedParsing();
+                }
             }
+            else
+            {
+                objOItem_Result = objLocalConfig.Globals.LState_Error.Clone();
+                objOItem_Result.Additional1 = "Die Liste enthält keine Dateien!";
+            }
+            
+
+            OItem_Result = objOItem_Result;
             if (finishedParsing != null)
             {
                 finishedParsing();
             }
-
-            OItem_Result = objOItem_Result;
         }
 
-        public clsOntologyItem ParseText(string text, long fileLine = 0)
+        public clsOntologyItem ParseText(string text, bool replaceNewLine, long fileLine = 0)
         {
             var add = false;
             var dontAddUser = false;
@@ -519,9 +804,19 @@ namespace TextParser
                             textParse = contentFields.First().LastContent;
                         }
                     }
+
+                    if (field.FieldListContained != null && field.FieldListContained.Any())
+                    {
+                        (from objField in ParseFieldList
+                         join objContainedList in field.FieldListContained on objField.ID_Field equals objContainedList.ID_Field
+                         select new {objField, objContainedList }).ToList().ForEach(fieldChange =>
+                         {
+                             fieldChange.objContainedList.LastContent = fieldChange.objField.LastContent;
+                         });
+                    }
                     
                     parseResult.ResultText = textParse;
-                    parseResult.Parse(regexPre, regexMain, regexPost);
+                    parseResult.Parse(regexPre, regexMain, regexPost, replaceNewLine, field.DoAll, field.ReplaceList, field.FieldListContained);
                     textParse = parseResult.ResultText;
 
                     if (parseResult.ParseOk)
@@ -598,28 +893,28 @@ namespace TextParser
                         field.LastContent = "";
                         dontAddUser = true;
                     }
-
-                    if (field.RemoveFromSource)
-                    {
-                        ixStart = ixStartLast + (parseResult.IxEndPre > -1 ? parseResult.IxEndPre : 0) + parseResult.IxStartMain + parseResult.LengthMain;
-                        if (text.Length > ixStart)
-                            textParseBase = text.Substring(ixStart);
-                        else
-                            textParseBase = text;
-
-                        if (text.Length - 1 > ixStart)
-                            textParse = text.Substring(ixStart);
-                        else
-                            textParse = text;
-                        ixStartLast = ixStart;
-                    }
                     else
                     {
-                        textParse = textParseBase;
+                        if (field.RemoveFromSource)
+                        {
+                            ixStart = ixStartLast + (parseResult.IxEndPre > -1 ? parseResult.IxEndPre : 0) + parseResult.IxStartMain + parseResult.LengthMain;
+                            if (text.Length > ixStart)
+                                textParseBase = text.Substring(ixStart);
+                            else
+                                textParseBase = text;
+
+                            if (text.Length - 1 > ixStart)
+                                textParse = text.Substring(ixStart);
+                            else
+                                textParse = text;
+                            ixStartLast = ixStart;
+                        }
+                        else
+                        {
+                            textParse = textParseBase;
+                        }    
                     }
-
-
-
+                    
                 }
 
 
@@ -633,6 +928,11 @@ namespace TextParser
             if (dictMeta.Any() || (!UserFields.Any() || dictUser.Any()))
             {
                 //if (dontAddUser) dictUser.Clear();
+                if (oItem_SourceField != null)
+                {
+                    dictUser.Add("GUID_Field_Parent", oItem_SourceField.GUID);
+                    dictUser.Add("Name_Field_Parent", oItem_SourceField.Name);
+                }
                 dictUser = dictUser.Union(dictMeta).ToDictionary(pair => pair.Key, pair => pair.Value);
                 var objDoc = new clsAppDocuments { Id = Id, Dict = dictUser };
                 dictList.Add(objDoc);

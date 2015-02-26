@@ -171,6 +171,7 @@
     <Compile Include="Classes\clsTransactionItem.vb" />
     <Compile Include="Classes\RefTree\clsDataWork_RefTree.vb" />
     <Compile Include="Classes\clsModuleConfig.vb" />
+    <Compile Include="Classes\StaticValues.vb" />
     <Compile Include="DataSet_Config.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
