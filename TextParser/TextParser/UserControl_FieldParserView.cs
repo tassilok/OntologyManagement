@@ -31,9 +31,13 @@ namespace TextParser
         private clsDataWork_FileResources objDataWork_FileResource;
         private clsDataWork_FileResource_Path objDataWork_FileResource_Path;
 
+        private clsTransaction_Query objTransactionQuery;
+
         private clsImport_IndexData objImport_IndexData;
 
         private frm_ObjectEdit objFrmObjectEdit;
+
+        private frmPattern objFrmPattern;
 
         private dlg_Attribute_String objDLG_Attribute_String;
 
@@ -58,6 +62,10 @@ namespace TextParser
         private delegate void FinishedThread();
         private FinishedThread finishedThread;
 
+        private delegate void AppliedPattern();
+
+        private AppliedPattern appliedPattern;
+
         private long lngLineCount;
 
 
@@ -72,14 +80,21 @@ namespace TextParser
         private List<clsOntologyItem> OList_Variables;
         private bool pIndexFill = false;
 
+        private string pattern = "";
+
         public UserControl_FieldParserView(clsLocalConfig LocalConfig)
         {
             InitializeComponent();
 
             
             objLocalConfig = LocalConfig;
-
+            appliedPattern = new AppliedPattern(SetPattern);
             Initialize();
+        }
+
+        private void SetPattern()
+        {
+            toolStripTextBox_Query.Text = pattern;
         }
 
         private void FillSubParserTree(clsOntologyItem OItem_Result)
@@ -576,14 +591,15 @@ namespace TextParser
 
         private void toolStripButton_Search_Click(object sender, EventArgs e)
         {
+            page = 0;
+            pages = 0;
+            pos = 0;
             GetPage();
         }
 
         private void toolStripTextBox_Query_TextChanged(object sender, EventArgs e)
         {
-            page = 0;
-            pages = 0;
-            pos = 0;
+            toolStripButton_SaveQuery.Enabled = !string.IsNullOrEmpty(toolStripTextBox_Query.Text);
         }
 
         private void toolStripButton_PageNext_Click(object sender, EventArgs e)
@@ -804,8 +820,42 @@ namespace TextParser
             switch (e.KeyCode)
             {
                 case Keys.Enter:
-                    GetPage();
+                    if (ModifierKeys.HasFlag(Keys.Alt))
+                    {
+                        pattern = "";
+                        if (objFrmPattern == null)
+                        {
+                            objFrmPattern = new frmPattern(objLocalConfig, objOItem_TextParser);
+                            objFrmPattern.PatternApplied += objFrmPattern_PatternApplied;
+                        }
+                        objFrmPattern.InitializePatternView(toolStripTextBox_Query.Text);
+                        objFrmPattern.Show();
+                    }
+                    else
+                    {
+                        GetPage();    
+                    }
+                    
                     break;
+                
+            }
+        }
+
+        void objFrmPattern_PatternApplied(clsSearchPattern searchPattern)
+        {
+            pattern = "";
+            if (searchPattern != null)
+            {
+                pattern = searchPattern.Pattern;
+            }
+
+            if (InvokeRequired)
+            {
+                Invoke(appliedPattern);
+            }
+            else
+            {
+                SetPattern();
             }
         }
 
@@ -934,6 +984,26 @@ namespace TextParser
             {
 
             }
+        }
+
+        private void toolStripButton_SaveQuery_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(toolStripTextBox_Query.Text) && objOItem_TextParser != null)
+            {
+                if (objTransactionQuery == null)
+                {
+                    objTransactionQuery = new clsTransaction_Query(objLocalConfig);
+                    
+                }
+                var result = objTransactionQuery.SaveSearchPattern(objOItem_TextParser, toolStripTextBox_Query.Text);
+                if (result.GUID == objLocalConfig.Globals.LState_Error.GUID)
+                {
+                    MessageBox.Show(this, "Die Query konnte nicht gespeichert werden!", "Fehler!",
+                        MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+            }
+            
+            toolStripButton_SaveQuery.Enabled = false;
         }
     }
 }

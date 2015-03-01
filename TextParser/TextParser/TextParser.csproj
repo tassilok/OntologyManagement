@@ -68,6 +68,7 @@
     <Compile Include="clsDataWork_BaseData.cs" />
     <Compile Include="clsDataWork_FieldParser.cs" />
     <Compile Include="clsDataWork_Import.cs" />
+    <Compile Include="clsDataWork_Pattern.cs" />
     <Compile Include="clsFieldParser.cs" />
     <Compile Include="clsImport_IndexData.cs" />
     <Compile Include="clsDatawork_RegExFilter.cs" />
@@ -82,12 +83,20 @@
     <Compile Include="clsRegExReplace.cs" />
     <Compile Include="clsReplaceList.cs" />
     <Compile Include="clsSearchItem.cs" />
+    <Compile Include="clsSearchPattern.cs" />
     <Compile Include="clsSelection.cs" />
+    <Compile Include="clsTransaction_Query.cs" />
     <Compile Include="frmFieldParser.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmFieldParser.Designer.cs">
       <DependentUpon>frmFieldParser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmPattern.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPattern.Designer.cs">
+      <DependentUpon>frmPattern.cs</DependentUpon>
     </Compile>
     <Compile Include="frmRegExFilter.cs">
       <SubType>Form</SubType>
@@ -128,6 +137,12 @@
     <Compile Include="UserControl_FieldParserView.Designer.cs">
       <DependentUpon>UserControl_FieldParserView.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControl_Pattern.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_Pattern.Designer.cs">
+      <DependentUpon>UserControl_Pattern.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControl_RegExFilterDetail.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -161,6 +176,9 @@
     <EmbeddedResource Include="frmFieldParser.resx">
       <DependentUpon>frmFieldParser.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmPattern.resx">
+      <DependentUpon>frmPattern.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmRegExFilter.resx">
       <DependentUpon>frmRegExFilter.cs</DependentUpon>
     </EmbeddedResource>
@@ -188,6 +206,9 @@
     </Compile>
     <EmbeddedResource Include="UserControl_FieldParserView.resx">
       <DependentUpon>UserControl_FieldParserView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_Pattern.resx">
+      <DependentUpon>UserControl_Pattern.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControl_RegExFilterDetail.resx">
       <DependentUpon>UserControl_RegExFilterDetail.cs</DependentUpon>
@@ -264,6 +285,7 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\saveHS.png" />
     <None Include="Resources\tasto_3_architetto_franc_01.png" />
     <None Include="Resources\tasto_4_architetto_franc_01.png" />
     <None Include="Resources\Stop_Icon.png" />
