@@ -789,6 +789,10 @@ namespace TextParser
                     toolStripButton_removeMarked.Enabled = true;
                     toolStripButton_RemoveUnmarked.Enabled = true;
                     toolStripButton_CopyMarked.Enabled = true;
+                    if (objSelections.Any())
+                    {
+                        Navigate(true);
+                    }
                     ConfigurePositionButtons();     
                 }
             }
@@ -799,18 +803,23 @@ namespace TextParser
             toolStripButton_Previous.Enabled = false;
             toolStripButton_Next.Enabled = false;
 
-            if (objSelections.Any())
-            {
-                if (selectionPosition < objSelections.Count() - 1)
-                {
-                    toolStripButton_Next.Enabled = true;
-                }
+            var start = scintilla_Text.Selection.Start;
 
-                if (selectionPosition > 0)
+            var selections =
+                objSelections.Where(sel => start < sel.Range.Start).OrderBy(sel => sel.Range.Start).ToList();
+            if (selections.Any())
+            {
+                toolStripButton_Next.Enabled = true;
+            }
+            else
+            {
+                selections = objSelections.Where(sel => start > sel.Range.Start + sel.Range.Length).OrderByDescending(sel => sel.Range.Start).ToList();
+                if (selections.Any())
                 {
                     toolStripButton_Previous.Enabled = true;
                 }
             }
+
         }
 
         private void SelectText()
@@ -901,18 +910,41 @@ namespace TextParser
 
         private void toolStripButton_Previous_Click(object sender, EventArgs e)
         {
-            selectionPosition --;
-            scintilla_Text.GoTo.Position(objSelections[selectionPosition].Range.Start);
-            ToggleParseButton();
+            Navigate(false);
         }
 
         private void toolStripButton_Next_Click(object sender, EventArgs e)
         {
-            selectionPosition++;
-            scintilla_Text.GoTo.Position(objSelections[selectionPosition].Range.Start);
-            ToggleParseButton();
+            Navigate(true);
         }
 
+        private void Navigate(bool goUp)
+        {
+            var start = scintilla_Text.Selection.Start;
+
+            var selections =
+                objSelections.Where(sel => start < sel.Range.Start).OrderBy(sel => sel.Range.Start).ToList();
+            if (selections.Any())
+            {
+                scintilla_Text.GoTo.Position(selections.First().Range.Start);
+            }
+            else
+            {
+                selections = objSelections.Where(sel => start > sel.Range.Start + sel.Range.Length).OrderByDescending(sel => sel.Range.Start).ToList();
+                if (selections.Any())
+                {
+                    scintilla_Text.GoTo.Position(selections.First().Range.Start);
+                }
+            }
+
+            ToggleParseButton();
+            ConfigurePositionButtons();
+        }
+
+        private void scintilla_Text_SelectionChanged(object sender, EventArgs e)
+        {
+            ConfigurePositionButtons();    
+        }
         
     }
 }

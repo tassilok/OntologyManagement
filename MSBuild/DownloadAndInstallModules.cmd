@@ -383,8 +383,8 @@ if /i [TextParser] EQU [Ontolog-Module] (
 
 del /s /q "%OMODULE_PATH%\TextParser\*.*"
 
-wget -O "%temp%\OModules\TextParser_0.1.0.122.exe" %DOWNLOAD_URL%/TextParser_0.1.0.122.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\TextParser_0.1.0.122.exe" -o"%OMODULE_PATH%\TextParser\"
+wget -O "%temp%\OModules\TextParser_0.1.0.124.exe" %DOWNLOAD_URL%/TextParser_0.1.0.124.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\TextParser_0.1.0.124.exe" -o"%OMODULE_PATH%\TextParser\"
 
 
 if /i [Office-Module] EQU [Ontolog-Module] (
@@ -455,8 +455,8 @@ if /i [Development-Module] EQU [Ontolog-Module] (
 
 del /s /q "%OMODULE_PATH%\Development-Module\*.*"
 
-wget -O "%temp%\OModules\Development-Module_0.3.0.145.exe" %DOWNLOAD_URL%/Development-Module_0.3.0.145.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Development-Module_0.3.0.145.exe" -o"%OMODULE_PATH%\Development-Module\"
+wget -O "%temp%\OModules\Development-Module_0.3.0.147.exe" %DOWNLOAD_URL%/Development-Module_0.3.0.147.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Development-Module_0.3.0.147.exe" -o"%OMODULE_PATH%\Development-Module\"
 
 
 if /i [DatabaseConfigurationModule] EQU [Ontolog-Module] (
@@ -515,8 +515,8 @@ if /i [FileResourceModule] EQU [Ontolog-Module] (
 
 del /s /q "%OMODULE_PATH%\FileResourceModule\*.*"
 
-wget -O "%temp%\OModules\FileResourceModule_0.1.0.101.exe" %DOWNLOAD_URL%/FileResourceModule_0.1.0.101.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\FileResourceModule_0.1.0.101.exe" -o"%OMODULE_PATH%\FileResourceModule\"
+wget -O "%temp%\OModules\FileResourceModule_0.1.0.103.exe" %DOWNLOAD_URL%/FileResourceModule_0.1.0.103.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\FileResourceModule_0.1.0.103.exe" -o"%OMODULE_PATH%\FileResourceModule\"
 
 
 if /i [FileSystem-Connector-Module] EQU [Ontolog-Module] (
