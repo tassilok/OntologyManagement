@@ -4377,10 +4377,10 @@
   </wsdl:binding>
   <wsdl:service name="OntoWeb">
     <wsdl:port name="OntoWebSoap" binding="tns:OntoWebSoap">
-      <soap:address location="http://wvps176-28-40-26.dedicated.hosteurope.de:8088/OntWeb/OntWeb/OntoWeb.asmx" />
+      <soap:address location="https://wvps176-28-40-26.dedicated.hosteurope.de/OntoWeb/OntoWeb.asmx" />
     </wsdl:port>
     <wsdl:port name="OntoWebSoap12" binding="tns:OntoWebSoap12">
-      <soap12:address location="http://wvps176-28-40-26.dedicated.hosteurope.de:8088/OntWeb/OntWeb/OntoWeb.asmx" />
+      <soap12:address location="https://wvps176-28-40-26.dedicated.hosteurope.de/OntoWeb/OntoWeb.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

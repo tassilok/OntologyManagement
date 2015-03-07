@@ -76,6 +76,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Config\ElasticSearch.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -161,28 +162,18 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadataStorage Include="Service References\OntoWeb\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\OntoWeb\OntoWeb.disco" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\OntoWeb\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\OntoWeb\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\OntoWeb\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Config\Config_ont.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\Stop_Icon.png" />
+    <None Include="Service References\OntoWeb\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\OntoWeb\configuration.svcinfo" />
+    <None Include="Service References\OntoWeb\configuration91.svcinfo" />
+    <None Include="Service References\OntoWeb\OntoWeb.disco" />
     <EmbeddedResource Include="Config\Templates\AttributeTypes.xml" />
     <EmbeddedResource Include="Config\Templates\ClassAtts.xml" />
     <EmbeddedResource Include="Config\Templates\Classes.xml" />
@@ -191,6 +182,9 @@
     <EmbeddedResource Include="Config\Templates\ObjectRel.xml" />
     <EmbeddedResource Include="Config\Templates\Objects.xml" />
     <EmbeddedResource Include="Config\Templates\RelationTypes.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\OntoWeb\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

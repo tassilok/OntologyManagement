@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="321a3df6-89b6-4ba9-a2f3-51868d44356c" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="de8f53b0-4729-435a-9307-66e6fcec6a5f" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -19,11 +19,11 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://wvps176-28-40-26.dedicated.hosteurope.de:8088/OntWeb/OntWeb/OntoWeb.asmx" Protocol="http" SourceId="1" />
+    <MetadataSource Address="https://wvps176-28-40-26.dedicated.hosteurope.de/OntoWeb/OntoWeb.asmx" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="OntoWeb.disco" MetadataType="Disco" ID="a0cdab58-4be3-4b74-90b3-ab644a910faf" SourceId="1" SourceUrl="http://wvps176-28-40-26.dedicated.hosteurope.de:8088/OntWeb/OntWeb/OntoWeb.asmx?disco" />
-    <MetadataFile FileName="OntoWeb.wsdl" MetadataType="Wsdl" ID="ca7f7865-f760-4523-a523-bc4231ebfd75" SourceId="1" SourceUrl="http://wvps176-28-40-26.dedicated.hosteurope.de:8088/OntWeb/OntWeb/OntoWeb.asmx?wsdl" />
+    <MetadataFile FileName="OntoWeb.disco" MetadataType="Disco" ID="7f0d7c0a-37d2-430d-adae-914bcf79724b" SourceId="1" SourceUrl="https://wvps176-28-40-26.dedicated.hosteurope.de/OntoWeb/OntoWeb.asmx?disco" />
+    <MetadataFile FileName="OntoWeb.wsdl" MetadataType="Wsdl" ID="fea7b063-e0a8-42c2-b9fc-b0da3b43c766" SourceId="1" SourceUrl="https://wvps176-28-40-26.dedicated.hosteurope.de/OntoWeb/OntoWeb.asmx?wsdl" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

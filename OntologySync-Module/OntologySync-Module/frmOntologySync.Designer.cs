@@ -33,6 +33,9 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton_Close = new System.Windows.Forms.ToolStripButton();
             this.dataGridView_Sync = new System.Windows.Forms.DataGridView();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripProgressBar_Sync = new System.Windows.Forms.ToolStripProgressBar();
+            this.toolStripButton_Stop = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
@@ -62,10 +65,13 @@
             // 
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton_Close});
+            this.toolStripButton_Close,
+            this.toolStripSeparator1,
+            this.toolStripProgressBar_Sync,
+            this.toolStripButton_Stop});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(62, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(224, 25);
             this.toolStrip1.TabIndex = 0;
             // 
             // toolStripButton_Close
@@ -89,6 +95,28 @@
             this.dataGridView_Sync.ReadOnly = true;
             this.dataGridView_Sync.Size = new System.Drawing.Size(501, 332);
             this.dataGridView_Sync.TabIndex = 0;
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripProgressBar_Sync
+            // 
+            this.toolStripProgressBar_Sync.Name = "toolStripProgressBar_Sync";
+            this.toolStripProgressBar_Sync.Size = new System.Drawing.Size(100, 22);
+            this.toolStripProgressBar_Sync.Visible = false;
+            // 
+            // toolStripButton_Stop
+            // 
+            this.toolStripButton_Stop.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton_Stop.Image = global::OntologySync_Module.Properties.Resources.Stop_Icon;
+            this.toolStripButton_Stop.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_Stop.Name = "toolStripButton_Stop";
+            this.toolStripButton_Stop.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton_Stop.Text = "toolStripButton1";
+            this.toolStripButton_Stop.Visible = false;
+            this.toolStripButton_Stop.Click += new System.EventHandler(this.toolStripButton_Stop_Click);
             // 
             // FrmOntologySync
             // 
@@ -116,6 +144,9 @@
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton toolStripButton_Close;
         private System.Windows.Forms.DataGridView dataGridView_Sync;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar_Sync;
+        private System.Windows.Forms.ToolStripButton toolStripButton_Stop;
     }
 }
 

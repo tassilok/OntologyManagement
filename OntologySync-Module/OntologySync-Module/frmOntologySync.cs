@@ -27,14 +27,19 @@ namespace OntologySync_Module
         private bool allOntologies;
         private List<OntologyClasses.BaseClasses.clsOntologyItem> ontologies;
 
-        private delegate void GetOntologies(string ontology, string type, long count, string direction);
+        private delegate void GetOntologies(string ontology, string type, string step, long countToDo, long countDone, long countNothingToDo, long countError, string direction);
         private GetOntologies getOntologiesHandler;
+
+        private delegate void ToggleThreadState();
+        private ToggleThreadState finishedThread;
 
         private Thread threadRefresh;
 
         private clsExport exportWork;
 
         private clsSecurityWork securityWork;
+
+        private bool stopThread;
 
         public SortableBindingList<SyncLog> SyncLogs { get; set; } 
 
@@ -52,6 +57,7 @@ namespace OntologySync_Module
             SyncLogs = new SortableBindingList<SyncLog>();
             dataGridView_Sync.DataSource = SyncLogs;
             getOntologiesHandler = new GetOntologies(getItemsRefresh);
+            finishedThread = new ToggleThreadState(threadStateToogle);
             exportWork = new clsExport(localConfig.Globals);
             securityWork = new clsSecurityWork(localConfig.Globals, this);
             frmAuthenticate = new frmAuthenticate(localConfig.Globals,true,false,frmAuthenticate.ERelateMode.NoRelate,true);
@@ -77,9 +83,26 @@ namespace OntologySync_Module
 
         }
 
-        private void getItemsRefresh(string ontology, string type, long count, string direction)
+        private void threadStateToogle()
         {
-            SyncLogs.Add(new SyncLog {Ontology = ontology, Type = type, Count = count, Direction = direction});
+            toolStripProgressBar_Sync.Visible = !toolStripProgressBar_Sync.Visible;
+            toolStripButton_Stop.Visible = !toolStripButton_Stop.Visible;
+            toolStripProgressBar_Sync.Value = toolStripButton_Stop.Visible ? 50 : 0;
+        }
+
+        private void getItemsRefresh(string ontology, string type, string step, long countToDo, long countDone, long countNothingToDo, long countError, string direction)
+        {
+            SyncLogs.Add(new SyncLog
+            {
+                Ontology = ontology,
+                Type = type,
+                Step = step,
+                CountToDo = countToDo,
+                CountDone = countDone,
+                CountNothingToDo = countNothingToDo,
+                CountError = countError,
+                Direction = direction
+            });
         }
 
         void dataWorkOntologySync_loadItems(LoadResult loadResult, OntologyClasses.BaseClasses.clsOntologyItem oItemResult)
@@ -127,13 +150,12 @@ namespace OntologySync_Module
                     {
                         var password = securityWork.decode_Password(jobConnections.First().userAuth.NamePassword);
                         
-                       
 
                         // Create the binding.
                         BasicHttpBinding myBinding = new BasicHttpBinding();
                         myBinding.Security.Mode = BasicHttpSecurityMode.Transport;
                         myBinding.Security.Transport.ClientCredentialType =
-                            HttpClientCredentialType.Basic;
+                            HttpClientCredentialType.Ntlm;
 
                         // Create the endpoint address. Note that the machine name 
                         // must match the subject or DNS field of the X.509 certificate
@@ -146,16 +168,33 @@ namespace OntologySync_Module
                         // client is not shown here. See the sample applications
                         // for examples of the calculator code.
                         ontoWebSoapClient = new OntoWebSoapClient(myBinding, ea);
+                        ontoWebSoapClient.Endpoint.Binding.SendTimeout = new TimeSpan(0,8,0,0);
+                        ontoWebSoapClient.Endpoint.Binding.ReceiveTimeout = new TimeSpan(0, 8, 0, 0);
                         // The client must provide a user name and password. The code
                         // to return the user name and password is not shown here. Use
                         // a database to store the user name and passwords, or use the 
                         // ASP.NET Membership provider database.
-                        ontoWebSoapClient.ClientCredentials.Windows.ClientCredential.Domain = ".";
-                        ontoWebSoapClient.ClientCredentials.Windows.ClientCredential.UserName = jobConnections.First().userAuth.NameUser;
-                        ontoWebSoapClient.ClientCredentials.Windows.ClientCredential.Password = password;
+                        //ontoWebSoapClient.ClientCredentials.Windows.ClientCredential.Domain = ".";
+                        //ontoWebSoapClient.ClientCredentials.Windows.ClientCredential.UserName = jobConnections.First().userAuth.NameUser;
+                        //ontoWebSoapClient.ClientCredentials.Windows.ClientCredential.Password = password;
+                        ontoWebSoapClient.ClientCredentials.UserName.UserName = jobConnections.First().userAuth.NameUser;
+                        ontoWebSoapClient.ClientCredentials.UserName.Password = password;
+                        ServicePointManager.ServerCertificateValidationCallback =
+                            ((sender, certificate, chain, sslPolicyErrors) => true);
+
                         
                         ontoWebSoapClient.Open();
 
+                        if (InvokeRequired)
+                        {
+                            this.Invoke(finishedThread);
+                        }
+                        else
+                        {
+                           threadStateToogle();
+                        }
+                        
+                        stopThread = false;
                         threadRefresh.Start();
                         
                             
@@ -184,10 +223,11 @@ namespace OntologySync_Module
 
                 foreach (var ontology in ontologies)
                 {
+                    if (stopThread) break;
                     var result = exportWork.Generate_OntologyItems(ontology,ModeEnum.AllRelations);
                     if (result.GUID == localConfig.Globals.LState_Success.GUID)
                     {
-                        
+                        if (stopThread) break;
                         webServiceAttributeTypes.AddRange( from attTypeNew in
                             exportWork.OList_AttributeTypes.Select(attType => new clsOntologyItem
                             {
@@ -201,8 +241,17 @@ namespace OntologySync_Module
                             where attTypeOld == null
                             select attTypeNew);
 
-                        this.Invoke(getOntologiesHandler, ontology.Name, localConfig.Globals.Type_AttributeType, webServiceAttributeTypes.Count, "Export");
+                        this.Invoke(getOntologiesHandler,
+                            ontology.Name,
+                            localConfig.Globals.Type_AttributeType,
+                            "Get Items",
+                            webServiceAttributeTypes.Count,
+                            0,
+                            0,
+                            0,
+                            "Export");
 
+                        if (stopThread) break;
                         webServiceClasses.AddRange(from classNew in
                             exportWork.OList_Classes.Select(clsType => new clsOntologyItem
                             {
@@ -216,8 +265,17 @@ namespace OntologySync_Module
                                                        where classOld == null
                                                        select classNew);
 
-                        this.Invoke(getOntologiesHandler, ontology.Name, localConfig.Globals.Type_Class, webServiceClasses.Count, "Export");
+                        this.Invoke(getOntologiesHandler, 
+                            ontology.Name, 
+                            localConfig.Globals.Type_Class,
+                            "Get Items", 
+                            webServiceClasses.Count, 
+                            0, 
+                            0, 
+                            0, 
+                            "Export");
 
+                        if (stopThread) break;
                         webServiceRelationTypes.AddRange(from relNew in
                             exportWork.OList_RelationTypes.Select(relTypes => new clsOntologyItem
                         {
@@ -231,8 +289,17 @@ namespace OntologySync_Module
                                                              where relOld == null
                                                              select relNew);
 
-                        this.Invoke(getOntologiesHandler, ontology.Name, localConfig.Globals.Type_RelationType, webServiceRelationTypes.Count, "Export");
+                        this.Invoke(getOntologiesHandler, 
+                            ontology.Name, 
+                            localConfig.Globals.Type_RelationType,
+                            "Get Items", 
+                            webServiceRelationTypes.Count, 
+                            0, 
+                            0, 
+                            0, 
+                            "Export");
 
+                        if (stopThread) break;
                         webServiceObjects.AddRange(from objNew in
                             exportWork.OList_Objects.Select(objTypes => new clsOntologyItem
                         {
@@ -245,8 +312,17 @@ namespace OntologySync_Module
                                                        from objOld in objsOld.DefaultIfEmpty()
                                                        where objOld == null
                                                        select objNew);
-                        this.Invoke(getOntologiesHandler, ontology.Name, localConfig.Globals.Type_Object, webServiceObjects.Count, "Export");
-                        
+                        this.Invoke(getOntologiesHandler, 
+                            ontology.Name, 
+                            localConfig.Globals.Type_Object,
+                            "Get Items", 
+                            webServiceObjects.Count, 
+                            0, 
+                            0, 
+                            0, 
+                            "Export");
+
+                        if (stopThread) break;
                         webServiceClassAtts.AddRange(from clsAttNew in
                             exportWork.OList_ClassAtt.Select(clsAtt => new clsClassAtt
                         {
@@ -260,8 +336,17 @@ namespace OntologySync_Module
                                                          from clsAttOld in objClassAttsOld.DefaultIfEmpty()
                                                          where clsAttOld == null
                                                          select clsAttNew);
-                        this.Invoke(getOntologiesHandler, ontology.Name, localConfig.Globals.Type_ClassAtt, webServiceClassAtts.Count, "Export");
+                        this.Invoke(getOntologiesHandler, 
+                            ontology.Name,
+                            localConfig.Globals.Type_ClassAtt, 
+                            "Get Items", 
+                            webServiceClassAtts.Count, 
+                            0, 
+                            0, 
+                            0, 
+                            "Export");
 
+                        if (stopThread) break;
                         webServiceClassRels.AddRange(from classRelNew in
                             exportWork.OList_ClassRel.Select(clsRel => new clsClassRel
                         {
@@ -287,8 +372,17 @@ namespace OntologySync_Module
                                                          from classRelOld in classRelsOld.DefaultIfEmpty()
                                                          where classRelOld == null
                                                          select classRelNew);
-                        this.Invoke(getOntologiesHandler, ontology.Name, localConfig.Globals.Type_ClassRel, webServiceClassRels.Count, "Export");
+                        this.Invoke(getOntologiesHandler, 
+                            ontology.Name, 
+                            localConfig.Globals.Type_ClassRel,
+                            "Get Items", 
+                            webServiceClassRels.Count, 
+                            0, 
+                            0, 
+                            0, 
+                            "Export");
 
+                        if (stopThread) break;
                         webServiceObjectAtts.AddRange(from objAttNew in 
                             exportWork.OList_ObjectAtt.Select(objAtt => new clsObjectAtt
                         {
@@ -309,8 +403,17 @@ namespace OntologySync_Module
                                                           from objAttOld in objAttsOld.DefaultIfEmpty()
                                                           where objAttOld == null
                                                           select objAttNew);
-                        this.Invoke(getOntologiesHandler, ontology.Name, localConfig.Globals.Type_ObjectAtt, webServiceObjectAtts.Count, "Export");
+                        this.Invoke(getOntologiesHandler, 
+                            ontology.Name, 
+                            localConfig.Globals.Type_ObjectAtt,
+                            "Get Items", 
+                            webServiceObjectAtts.Count, 
+                            0, 
+                            0, 
+                            0, 
+                            "Export");
 
+                        if (stopThread) break;
                         webServiceObjectRels.AddRange(from objRelNew in 
                             exportWork.OList_ObjectRel.Select(objRel => new clsObjectRel
                         {
@@ -340,52 +443,595 @@ namespace OntologySync_Module
                                                           from objRelOld in objRelsOld.DefaultIfEmpty()
                                                           where objRelOld == null
                                                           select objRelNew);
-                        this.Invoke(getOntologiesHandler, ontology.Name, localConfig.Globals.Type_ObjectRel, webServiceObjectRels.Count, "Export");
+                        this.Invoke(getOntologiesHandler, 
+                            ontology.Name, 
+                            localConfig.Globals.Type_ObjectRel,
+                            "Get Items", 
+                            webServiceObjectRels.Count, 
+                            0, 
+                            0, 
+                            0, 
+                            "Export");
+
+                        if (stopThread) break;
                         if (webServiceAttributeTypes.Any())
                         {
-                            var webResult = ontoWebSoapClient.SaveAttributeTypes(webServiceAttributeTypes.ToArray());
+                            clsOntologyItem webResult;
+                            if (webServiceAttributeTypes.Count >= 1000)
+                            {
+                                int start = 0;
+                                int count = 0;
+                                while (start < webServiceAttributeTypes.Count)
+                                {
+                                    count = webServiceAttributeTypes.Count - start;
+                                    count = count > 1000 ? 1000 : count;
+                                    webResult =
+                                        ontoWebSoapClient.SaveAttributeTypes(
+                                            webServiceAttributeTypes.GetRange(start, count).ToArray());
+                                    if (webResult.GUID == localConfig.Globals.LState_Success.GUID)
+                                    {
+                                        Invoke(getOntologiesHandler, 
+                                            ontology.Name, 
+                                            localConfig.Globals.Type_AttributeType, 
+                                            "Sync",
+                                            webServiceAttributeTypes.Count, 
+                                            start + count, 
+                                            0, 
+                                            0, 
+                                            "Export");
+                                    }
+                                    else
+                                    {
+                                        Invoke(getOntologiesHandler, 
+                                            ontology.Name, 
+                                            localConfig.Globals.Type_AttributeType,
+                                            "Sync", 
+                                            webServiceAttributeTypes.Count, 
+                                            0, 
+                                            0,
+                                            start + count, 
+                                            "Export");
+                                    }
+                                    start += 1000;
+                                }
+                            }
+                            else
+                            {
+                                webResult = ontoWebSoapClient.SaveAttributeTypes(webServiceAttributeTypes.ToArray());
+                                if (webResult.GUID == localConfig.Globals.LState_Success.GUID)
+                                {
+                                    Invoke(getOntologiesHandler, 
+                                        ontology.Name, 
+                                        localConfig.Globals.Type_AttributeType,
+                                        "Sync", 
+                                        webServiceAttributeTypes.Count, 
+                                        webServiceAttributeTypes.Count, 
+                                        0, 
+                                        0, 
+                                        "Export");
+                                }
+                                else
+                                {
+                                    Invoke(getOntologiesHandler, 
+                                        ontology.Name, 
+                                        localConfig.Globals.Type_AttributeType,
+                                        "Sync", 
+                                        webServiceAttributeTypes.Count, 
+                                        0, 
+                                        0, 
+                                        webServiceAttributeTypes.Count, 
+                                        "Export");
+                                }
+
+                            }
+
                             webServiceAttributeTypes.Clear();
                         }
 
+                        if (stopThread) break;
                         if (webServiceClasses.Any())
                         {
-                            var webResult = ontoWebSoapClient.SaveClasses(webServiceClasses.ToArray());
+                            if (webServiceClasses.Count >= 1000)
+                            {
+                                int start = 0;
+                                int count = 0;
+                                while (start < webServiceClasses.Count)
+                                {
+                                    count = webServiceClasses.Count - start;
+                                    count = count > 1000 ? 1000 : count;
+                                    var webResult =
+                                        ontoWebSoapClient.SaveClasses(webServiceClasses.GetRange(start, count).ToArray());
+                                    if (webResult.GUID == localConfig.Globals.LState_Success.GUID)
+                                    {
+                                        Invoke(getOntologiesHandler,
+                                            ontology.Name,
+                                            localConfig.Globals.Type_Class,
+                                            "Sync",
+                                            webServiceClasses.Count,
+                                            start + count,
+                                            0,
+                                            0,
+                                            "Export");
+                                    }
+                                    else
+                                    {
+                                        Invoke(getOntologiesHandler,
+                                            ontology.Name,
+                                            localConfig.Globals.Type_Class,
+                                            "Sync",
+                                            webServiceClasses.Count,
+                                            0,
+                                            0,
+                                            start + count,
+                                            "Export");
+                                    }
+                                    start += 1000;
+                                }
+                            }
+                            else
+                            {
+                                var webResult = ontoWebSoapClient.SaveClasses(webServiceClasses.ToArray());
+                                if (webResult.GUID == localConfig.Globals.LState_Success.GUID)
+                                {
+                                    Invoke(getOntologiesHandler,
+                                        ontology.Name,
+                                        localConfig.Globals.Type_Class,
+                                        "Sync",
+                                        webServiceClasses.Count,
+                                        webServiceClasses.Count,
+                                        0,
+                                        0,
+                                        "Export");
+                                }
+                                else
+                                {
+                                    Invoke(getOntologiesHandler,
+                                        ontology.Name,
+                                        localConfig.Globals.Type_Class,
+                                        "Sync",
+                                        webServiceClasses.Count,
+                                        0,
+                                        0,
+                                        webServiceClasses.Count,
+                                        "Export");
+                                }
+                                    
+                            }
+
                             webServiceClasses.Clear();
                         }
 
+                        if (stopThread) break;
                         if (webServiceRelationTypes.Any())
                         {
-                            var webResult = ontoWebSoapClient.SaveRelationTypes(webServiceRelationTypes.ToArray());
+                            if (webServiceRelationTypes.Count >= 1000)
+                            {
+                                int start = 0;
+                                int count = 0;
+                                while (start < webServiceRelationTypes.Count)
+                                {
+                                    count = webServiceRelationTypes.Count - start;
+                                    count = count > 1000 ? 1000 : count;
+                                    var webResult =
+                                        ontoWebSoapClient.SaveRelationTypes(webServiceRelationTypes.GetRange(start, count).ToArray());
+                                    if (webResult.GUID == localConfig.Globals.LState_Success.GUID)
+                                    {
+                                        Invoke(getOntologiesHandler,
+                                            ontology.Name,
+                                            localConfig.Globals.Type_RelationType,
+                                            "Sync",
+                                            webServiceRelationTypes.Count,
+                                            start + count,
+                                            0,
+                                            0,
+                                            "Export");
+                                    }
+                                    else
+                                    {
+                                        Invoke(getOntologiesHandler,
+                                            ontology.Name,
+                                            localConfig.Globals.Type_RelationType,
+                                            "Sync",
+                                            webServiceRelationTypes.Count,
+                                            0,
+                                            0,
+                                            start + count,
+                                            "Export");
+                                    }
+                                    start += 1000;
+                                }
+                            }
+                            else
+                            {
+                                var webResult = ontoWebSoapClient.SaveRelationTypes(webServiceRelationTypes.ToArray());
+                                if (webResult.GUID == localConfig.Globals.LState_Success.GUID)
+                                {
+                                    Invoke(getOntologiesHandler,
+                                        ontology.Name,
+                                        localConfig.Globals.Type_RelationType,
+                                        "Sync",
+                                        webServiceRelationTypes.Count,
+                                        webServiceRelationTypes.Count,
+                                        0,
+                                        0,
+                                        "Export");
+                                }
+                                else
+                                {
+                                    Invoke(getOntologiesHandler,
+                                        ontology.Name,
+                                        localConfig.Globals.Type_RelationType,
+                                        "Sync",
+                                        webServiceRelationTypes.Count,
+                                        0,
+                                        0,
+                                        webServiceRelationTypes.Count,
+                                        "Export");
+                                }
+                            }
+                            
                             webServiceRelationTypes.Clear();
                         }
 
+                        if (stopThread) break;
                         if (webServiceObjects.Any())
                         {
-                            var webResult = ontoWebSoapClient.SaveObjects(webServiceObjects.ToArray());
+                            if (webServiceObjects.Count >= 1000)
+                            {
+                                int start = 0;
+                                int count = 0;
+                                while (start < webServiceObjects.Count)
+                                {
+                                    count = webServiceObjects.Count - start;
+                                    count = count > 1000 ? 1000 : count;
+                                    var webResult =
+                                        ontoWebSoapClient.SaveObjects(webServiceObjects.GetRange(start, count).ToArray());
+                                    if (webResult.GUID == localConfig.Globals.LState_Success.GUID)
+                                    {
+                                        Invoke(getOntologiesHandler,
+                                            ontology.Name,
+                                            localConfig.Globals.Type_Object,
+                                            "Sync",
+                                            webServiceObjects.Count,
+                                            start + count,
+                                            0,
+                                            0,
+                                            "Export");
+                                    }
+                                    else
+                                    {
+                                        Invoke(getOntologiesHandler,
+                                            ontology.Name,
+                                            localConfig.Globals.Type_Object,
+                                            "Sync",
+                                            webServiceObjects.Count,
+                                            0,
+                                            0,
+                                            start + count,
+                                            "Export");
+                                    }
+                                    start += 1000;
+                                }
+                                
+                            }
+                            else
+                            {
+                                var webResult =
+                                        ontoWebSoapClient.SaveObjects(webServiceObjects.ToArray());
+                                if (webResult.GUID == localConfig.Globals.LState_Success.GUID)
+                                {
+                                    Invoke(getOntologiesHandler,
+                                        ontology.Name,
+                                        localConfig.Globals.Type_Object,
+                                        "Sync",
+                                        webServiceObjects.Count,
+                                        webServiceObjects.Count,
+                                        0,
+                                        0,
+                                        "Export");
+                                }
+                                else
+                                {
+                                    Invoke(getOntologiesHandler,
+                                        ontology.Name,
+                                        localConfig.Globals.Type_Object,
+                                        "Sync",
+                                        webServiceObjects.Count,
+                                        0,
+                                        0,
+                                        webServiceObjects.Count,
+                                        "Export");
+                                }
+                            }
                             webServiceObjects.Clear();
+                            
                         }
 
+                        if (stopThread) break;
                         if (webServiceClassAtts.Any())
                         {
-                            var webResult = ontoWebSoapClient.SaveClassAtts(webServiceClassAtts.ToArray());
+                            if (webServiceClassAtts.Count >= 1000)
+                            {
+                                int start = 0;
+                                int count = 0;
+                                while (start < webServiceClassAtts.Count)
+                                {
+                                    count = webServiceClassAtts.Count - start;
+                                    count = count > 1000 ? 1000 : count;
+                                    var webResult =
+                                        ontoWebSoapClient.SaveClassAtts(webServiceClassAtts.GetRange(start, count).ToArray());
+                                    if (webResult.GUID == localConfig.Globals.LState_Success.GUID)
+                                    {
+                                        Invoke(getOntologiesHandler,
+                                            ontology.Name,
+                                            localConfig.Globals.Type_ClassAtt,
+                                            "Sync",
+                                            webServiceClassAtts.Count,
+                                            start + count,
+                                            0,
+                                            0,
+                                            "Export");
+                                    }
+                                    else
+                                    {
+                                        Invoke(getOntologiesHandler,
+                                            ontology.Name,
+                                            localConfig.Globals.Type_ClassAtt,
+                                            "Sync",
+                                            webServiceClassAtts.Count,
+                                            0,
+                                            0,
+                                            start + count,
+                                            "Export");
+                                    }
+                                    start += 1000;
+                                }
+                            }
+                            else
+                            {
+                                var webResult = ontoWebSoapClient.SaveClassAtts(webServiceClassAtts.ToArray());
+                                if (webResult.GUID == localConfig.Globals.LState_Success.GUID)
+                                {
+                                    Invoke(getOntologiesHandler,
+                                        ontology.Name,
+                                        localConfig.Globals.Type_ClassAtt,
+                                        "Sync",
+                                        webServiceClassAtts.Count,
+                                         webServiceClassAtts.Count,
+                                        0,
+                                        0,
+                                        "Export");
+                                }
+                                else
+                                {
+                                    Invoke(getOntologiesHandler,
+                                        ontology.Name,
+                                        localConfig.Globals.Type_ClassAtt,
+                                        "Sync",
+                                        webServiceClassAtts.Count,
+                                        0,
+                                        0,
+                                         webServiceClassAtts.Count,
+                                        "Export");
+                                }
+                            }
+                            
                             webServiceClassAtts.Clear();
                         }
 
+                        if (stopThread) break;
                         if (webServiceClassRels.Any())
                         {
-                            var webResult = ontoWebSoapClient.SaveClassRels(webServiceClassRels.ToArray());
+                            if (webServiceClassRels.Count >= 1000)
+                            {
+                                int start = 0;
+                                int count = 0;
+                                while (start < webServiceClassRels.Count)
+                                {
+                                    count = webServiceClassRels.Count - start;
+                                    count = count > 1000 ? 1000 : count;
+                                    var webResult =
+                                        ontoWebSoapClient.SaveClassRels(webServiceClassRels.GetRange(start, count).ToArray());
+                                    if (webResult.GUID == localConfig.Globals.LState_Success.GUID)
+                                    {
+                                        Invoke(getOntologiesHandler,
+                                            ontology.Name,
+                                            localConfig.Globals.Type_ClassRel,
+                                            "Sync",
+                                            webServiceClassRels.Count,
+                                            start + count,
+                                            0,
+                                            0,
+                                            "Export");
+                                    }
+                                    else
+                                    {
+                                        Invoke(getOntologiesHandler,
+                                            ontology.Name,
+                                            localConfig.Globals.Type_ClassRel,
+                                            "Sync",
+                                            webServiceClassRels.Count,
+                                            0,
+                                            0,
+                                            start + count,
+                                            "Export");
+                                    }
+                                    start += 1000;
+                                }
+                            }
+                            else
+                            {
+                                var webResult = ontoWebSoapClient.SaveClassRels(webServiceClassRels.ToArray());
+                                if (webResult.GUID == localConfig.Globals.LState_Success.GUID)
+                                {
+                                    Invoke(getOntologiesHandler,
+                                        ontology.Name,
+                                        localConfig.Globals.Type_ClassRel,
+                                        "Sync",
+                                        webServiceClassRels.Count,
+                                        webServiceClassRels.Count,
+                                        0,
+                                        0,
+                                        "Export");
+                                }
+                                else
+                                {
+                                    Invoke(getOntologiesHandler,
+                                        ontology.Name,
+                                        localConfig.Globals.Type_ClassRel,
+                                        "Sync",
+                                        webServiceClassRels.Count,
+                                        0,
+                                        0,
+                                        webServiceClassRels.Count,
+                                        "Export");
+                                }
+                            }
+                            
                             webServiceClassRels.Clear();
                         }
 
+                        if (stopThread) break;
                         if (webServiceObjectAtts.Any())
                         {
-                            var webResult = ontoWebSoapClient.SaveObjectAttributes(webServiceObjectAtts.ToArray());
+                            if (webServiceObjectAtts.Count >= 1000)
+                            {
+                                int start = 0;
+                                int count = 0;
+                                while (start < webServiceObjectAtts.Count)
+                                {
+                                    count = webServiceObjectAtts.Count - start;
+                                    count = count > 1000 ? 1000 : count;
+                                    var webResult =
+                                        ontoWebSoapClient.SaveObjectAttributes(webServiceObjectAtts.GetRange(start, count).ToArray());
+                                    if (webResult.Result.GUID == localConfig.Globals.LState_Success.GUID)
+                                    {
+                                        Invoke(getOntologiesHandler,
+                                            ontology.Name,
+                                            localConfig.Globals.Type_ObjectAtt,
+                                            "Sync",
+                                            webServiceObjectAtts.Count,
+                                            start + count,
+                                            0,
+                                            0,
+                                            "Export");
+                                    }
+                                    else
+                                    {
+                                        Invoke(getOntologiesHandler,
+                                            ontology.Name,
+                                            localConfig.Globals.Type_ObjectAtt,
+                                            "Sync",
+                                            webServiceObjectAtts.Count,
+                                            0,
+                                            0,
+                                            start + count,
+                                            "Export");
+                                    }
+                                    start += 1000;
+                                }
+                            }
+                            else
+                            {
+                                var webResult = ontoWebSoapClient.SaveObjectAttributes(webServiceObjectAtts.ToArray());
+                                if (webResult.Result.GUID == localConfig.Globals.LState_Success.GUID)
+                                {
+                                    Invoke(getOntologiesHandler,
+                                        ontology.Name,
+                                        localConfig.Globals.Type_ObjectAtt,
+                                        "Sync",
+                                        webServiceObjectAtts.Count,
+                                        webServiceObjectAtts.Count,
+                                        0,
+                                        0,
+                                        "Export");
+                                }
+                                else
+                                {
+                                    Invoke(getOntologiesHandler,
+                                        ontology.Name,
+                                        localConfig.Globals.Type_ObjectAtt,
+                                        "Sync",
+                                        webServiceObjectAtts.Count,
+                                        0,
+                                        0,
+                                        webServiceObjectAtts.Count,
+                                        "Export");
+                                }
+                            }
+                            
                             webServiceObjectAtts.Clear();
                         }
 
+                        if (stopThread) break;
                         if (webServiceObjectRels.Any())
                         {
-                            var webResult = ontoWebSoapClient.SaveObjectRels(webServiceObjectRels.ToArray());
+                            if (webServiceObjectRels.Count >= 1000)
+                            {
+                                int start = 0;
+                                int count = 0;
+                                while (start < webServiceObjectRels.Count)
+                                {
+                                    count = webServiceObjectRels.Count - start;
+                                    count = count > 1000 ? 1000 : count;
+                                    var webResult =
+                                        ontoWebSoapClient.SaveObjectRels(webServiceObjectRels.GetRange(start, count).ToArray());
+                                    if (webResult.GUID == localConfig.Globals.LState_Success.GUID)
+                                    {
+                                        Invoke(getOntologiesHandler,
+                                            ontology.Name,
+                                            localConfig.Globals.Type_ObjectRel,
+                                            "Sync",
+                                            webServiceObjectRels.Count,
+                                            start + count,
+                                            0,
+                                            0,
+                                            "Export");
+                                    }
+                                    else
+                                    {
+                                        Invoke(getOntologiesHandler,
+                                            ontology.Name,
+                                            localConfig.Globals.Type_ObjectRel,
+                                            "Sync",
+                                            webServiceObjectRels.Count,
+                                            0,
+                                            0,
+                                            start + count,
+                                            "Export");
+                                    }
+                                    start += 1000;
+                                }
+                            }
+                            else
+                            {
+                                var webResult = ontoWebSoapClient.SaveObjectRels(webServiceObjectRels.ToArray());
+                                if (webResult.GUID == localConfig.Globals.LState_Success.GUID)
+                                {
+                                    Invoke(getOntologiesHandler,
+                                        ontology.Name,
+                                        localConfig.Globals.Type_ObjectRel,
+                                        "Sync",
+                                        webServiceObjectRels.Count,
+                                        webServiceObjectRels.Count,
+                                        0,
+                                        0,
+                                        "Export");
+                                }
+                                else
+                                {
+                                    Invoke(getOntologiesHandler,
+                                        ontology.Name,
+                                        localConfig.Globals.Type_ObjectRel,
+                                        "Sync",
+                                        webServiceObjectRels.Count,
+                                        0,
+                                        0,
+                                        webServiceObjectRels.Count,
+                                        "Export");
+                                }
+                            }
+                            
                             webServiceObjectRels.Clear();
                         }
 
@@ -394,7 +1040,14 @@ namespace OntologySync_Module
 
                 
             }
-          
+            if (this.InvokeRequired)
+            {
+                this.Invoke(finishedThread);
+            }
+            else
+            {
+                threadStateToogle();
+            }
         }
 
         private List<JobItem> GetActiveJobs()
@@ -405,6 +1058,11 @@ namespace OntologySync_Module
         private void toolStripButton_Close_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void toolStripButton_Stop_Click(object sender, EventArgs e)
+        {
+            stopThread = true;
         }
     }
 }
