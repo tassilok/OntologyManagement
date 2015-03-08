@@ -69,7 +69,7 @@ del /s /q "%OMODULE_PATH%\TimeManagement-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\TimeManagement-Module_0.1.0.102.exe" -o"%OMODULE_PATH%\TimeManagement-Module\"
 
 del /s /q "%OMODULE_PATH%\OntologySync-Module\*.*"
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\OntologySync-Module_0.0.0.6.exe" -o"%OMODULE_PATH%\OntologySync-Module\"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\OntologySync-Module_0.0.0.8.exe" -o"%OMODULE_PATH%\OntologySync-Module\"
 
 del /s /q "%OMODULE_PATH%\LocalizedTemplate-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\LocalizedTemplate-Module_0.1.0.17.exe" -o"%OMODULE_PATH%\LocalizedTemplate-Module\"

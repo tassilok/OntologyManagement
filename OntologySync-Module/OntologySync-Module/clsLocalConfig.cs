@@ -33,6 +33,7 @@ namespace OntologySync_Module
         public clsOntologyItem OItem_class_url { get; set; }
         public clsOntologyItem OItem_class_password { get; set; }
         public clsOntologyItem OItem_class_job { get; set; }
+        public clsOntologyItem OItem_class_direction { get; set; }
 
         //RelationTypes
     public clsOntologyItem OItem_relationtype_secured_by { get; set; }
@@ -45,6 +46,8 @@ namespace OntologySync_Module
         //Objects
     public clsOntologyItem OItem_object_ontologysync_module { get; set; }
         public clsOntologyItem OItem_object_baseconfig { get; set; }
+        public clsOntologyItem OItem_object_direction_import { get; set; }
+        public clsOntologyItem OItem_object_direction_export { get; set; }
 
         private List<clsObjectRel> objORL_Ontologies;
 
@@ -290,6 +293,27 @@ private void get_Data_DevelopmentConfig()
     
     private void get_Config_Classes()
     {
+        var objOList_class_direction = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                        join objOnt in objORL_Ontologies on objOItem.ID_Object equals objOnt.ID_Object
+                                        join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                        where objRef.Name_Object.ToLower() == "class_direction".ToLower() && objRef.Ontology == Globals.Type_Class
+                                        select objRef).ToList();
+
+        if (objOList_class_direction.Any())
+        {
+            OItem_class_direction = new clsOntologyItem()
+            {
+                GUID = objOList_class_direction.First().ID_Other,
+                Name = objOList_class_direction.First().Name_Other,
+                GUID_Parent = objOList_class_direction.First().ID_Parent_Other,
+                Type = Globals.Type_Class
+            };
+        }
+        else
+        {
+            throw new Exception("config err");
+        }
+
         var objOList_class_web_connection = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                              join objOnt in objORL_Ontologies on objOItem.ID_Object equals objOnt.ID_Object
                                              join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
@@ -503,6 +527,48 @@ private void get_Data_DevelopmentConfig()
   
 	private void get_Config_Objects()
         {
+            var objOList_object_direction_import = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                    join objOnt in objORL_Ontologies on objOItem.ID_Object equals objOnt.ID_Object
+                                                    join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                    where objRef.Name_Object.ToLower() == "object_direction_import".ToLower() && objRef.Ontology == Globals.Type_Object
+                                                    select objRef).ToList();
+
+            if (objOList_object_direction_import.Any())
+            {
+                OItem_object_direction_import = new clsOntologyItem()
+                {
+                    GUID = objOList_object_direction_import.First().ID_Other,
+                    Name = objOList_object_direction_import.First().Name_Other,
+                    GUID_Parent = objOList_object_direction_import.First().ID_Parent_Other,
+                    Type = Globals.Type_Object
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            var objOList_object_direction_export = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                    join objOnt in objORL_Ontologies on objOItem.ID_Object equals objOnt.ID_Object
+                                                    join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                    where objRef.Name_Object.ToLower() == "object_direction_export".ToLower() && objRef.Ontology == Globals.Type_Object
+                                                    select objRef).ToList();
+
+            if (objOList_object_direction_export.Any())
+            {
+                OItem_object_direction_export = new clsOntologyItem()
+                {
+                    GUID = objOList_object_direction_export.First().ID_Other,
+                    Name = objOList_object_direction_export.First().Name_Other,
+                    GUID_Parent = objOList_object_direction_export.First().ID_Parent_Other,
+                    Type = Globals.Type_Object
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
             var objOList_object_baseconfig = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                               join objOnt in objORL_Ontologies on objOItem.ID_Object equals objOnt.ID_Object
                                               join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object

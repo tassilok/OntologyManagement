@@ -275,8 +275,8 @@ if /i [OntologySync-Module] EQU [Ontolog-Module] (
 
 del /s /q "%OMODULE_PATH%\OntologySync-Module\*.*"
 
-wget -O "%temp%\OModules\OntologySync-Module_0.0.0.6.exe" %DOWNLOAD_URL%/OntologySync-Module_0.0.0.6.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\OntologySync-Module_0.0.0.6.exe" -o"%OMODULE_PATH%\OntologySync-Module\"
+wget -O "%temp%\OModules\OntologySync-Module_0.0.0.8.exe" %DOWNLOAD_URL%/OntologySync-Module_0.0.0.8.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\OntologySync-Module_0.0.0.8.exe" -o"%OMODULE_PATH%\OntologySync-Module\"
 
 
 if /i [LocalizedTemplate-Module] EQU [Ontolog-Module] (

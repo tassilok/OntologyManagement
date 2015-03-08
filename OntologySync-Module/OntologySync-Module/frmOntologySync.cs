@@ -21,11 +21,14 @@ namespace OntologySync_Module
 
         private frmAuthenticate frmAuthenticate;
 
+        private clsArgumentParsing objArgumentParsing;
+
         private List<JobItem> jobItems;
         private List<WebConnection> webConnections;
         private List<UserAuthentication> userAuthentications;
         private bool allOntologies;
         private List<OntologyClasses.BaseClasses.clsOntologyItem> ontologies;
+        private OntologyClasses.BaseClasses.clsOntologyItem direction;
 
         private delegate void GetOntologies(string ontology, string type, string step, long countToDo, long countDone, long countNothingToDo, long countError, string direction);
         private GetOntologies getOntologiesHandler;
@@ -54,6 +57,9 @@ namespace OntologySync_Module
 
         private void Initialize()
         {
+            objArgumentParsing = new clsArgumentParsing(localConfig.Globals,Environment.GetCommandLineArgs().ToList());
+
+
             SyncLogs = new SortableBindingList<SyncLog>();
             dataGridView_Sync.DataSource = SyncLogs;
             getOntologiesHandler = new GetOntologies(getItemsRefresh);
@@ -61,14 +67,22 @@ namespace OntologySync_Module
             exportWork = new clsExport(localConfig.Globals);
             securityWork = new clsSecurityWork(localConfig.Globals, this);
             frmAuthenticate = new frmAuthenticate(localConfig.Globals,true,false,frmAuthenticate.ERelateMode.NoRelate,true);
-            threadRefresh = new Thread(ExportOntologies);
+            
             if (frmAuthenticate.ShowDialog(this) == DialogResult.OK)
             {
                 localConfig.OItemUser = frmAuthenticate.OItem_User;
                 if (securityWork.initialize_User(localConfig.OItemUser).GUID == localConfig.Globals.LState_Success.GUID)
                 {
                     dataWorkOntologySync = new ClsDataWorkOntologySync(localConfig);
-
+                    dataWorkOntologySync.OItem_Configuration = localConfig.OItem_BaseConfig;
+                    if (objArgumentParsing.OList_Items.Any())
+                    {
+                        if (objArgumentParsing.OList_Items.First().GUID_Parent ==
+                            localConfig.OItem_object_baseconfig.GUID_Parent)
+                        {
+                            dataWorkOntologySync.OItem_Configuration = objArgumentParsing.OList_Items.First();
+                        }
+                    }
                     
                     dataWorkOntologySync.loadItems += dataWorkOntologySync_loadItems;
                     var result = dataWorkOntologySync.GetData();        
@@ -123,6 +137,19 @@ namespace OntologySync_Module
             else if (loadResult == LoadResult.Ontologies)
             {
                 ontologies = dataWorkOntologySync.BelongingOntologies;
+            }
+            else if (loadResult == LoadResult.Direction)
+            {
+                threadRefresh = null;
+                direction = dataWorkOntologySync.Direction;
+                if (direction.GUID == localConfig.OItem_object_direction_export.GUID)
+                {
+                    threadRefresh = new Thread(ExportOntologies);
+                }
+                else
+                {
+                    
+                }
             }
             else if (loadResult == LoadResult.UserAuthRel)
             {
@@ -195,7 +222,11 @@ namespace OntologySync_Module
                         }
                         
                         stopThread = false;
-                        threadRefresh.Start();
+                        if (threadRefresh != null)
+                        {
+                            threadRefresh.Start();    
+                        }
+                        
                         
                             
                     }
@@ -249,7 +280,7 @@ namespace OntologySync_Module
                             0,
                             0,
                             0,
-                            "Export");
+                            localConfig.OItem_object_direction_export.Name);
 
                         if (stopThread) break;
                         webServiceClasses.AddRange(from classNew in
@@ -272,8 +303,8 @@ namespace OntologySync_Module
                             webServiceClasses.Count, 
                             0, 
                             0, 
-                            0, 
-                            "Export");
+                            0,
+                            localConfig.OItem_object_direction_export.Name);
 
                         if (stopThread) break;
                         webServiceRelationTypes.AddRange(from relNew in
@@ -296,8 +327,8 @@ namespace OntologySync_Module
                             webServiceRelationTypes.Count, 
                             0, 
                             0, 
-                            0, 
-                            "Export");
+                            0,
+                            localConfig.OItem_object_direction_export.Name);
 
                         if (stopThread) break;
                         webServiceObjects.AddRange(from objNew in
@@ -319,8 +350,8 @@ namespace OntologySync_Module
                             webServiceObjects.Count, 
                             0, 
                             0, 
-                            0, 
-                            "Export");
+                            0,
+                            localConfig.OItem_object_direction_export.Name);
 
                         if (stopThread) break;
                         webServiceClassAtts.AddRange(from clsAttNew in
@@ -343,8 +374,8 @@ namespace OntologySync_Module
                             webServiceClassAtts.Count, 
                             0, 
                             0, 
-                            0, 
-                            "Export");
+                            0,
+                            localConfig.OItem_object_direction_export.Name);
 
                         if (stopThread) break;
                         webServiceClassRels.AddRange(from classRelNew in
@@ -379,8 +410,8 @@ namespace OntologySync_Module
                             webServiceClassRels.Count, 
                             0, 
                             0, 
-                            0, 
-                            "Export");
+                            0,
+                            localConfig.OItem_object_direction_export.Name);
 
                         if (stopThread) break;
                         webServiceObjectAtts.AddRange(from objAttNew in 
@@ -410,8 +441,8 @@ namespace OntologySync_Module
                             webServiceObjectAtts.Count, 
                             0, 
                             0, 
-                            0, 
-                            "Export");
+                            0,
+                            localConfig.OItem_object_direction_export.Name);
 
                         if (stopThread) break;
                         webServiceObjectRels.AddRange(from objRelNew in 
@@ -450,8 +481,8 @@ namespace OntologySync_Module
                             webServiceObjectRels.Count, 
                             0, 
                             0, 
-                            0, 
-                            "Export");
+                            0,
+                            localConfig.OItem_object_direction_export.Name);
 
                         if (stopThread) break;
                         if (webServiceAttributeTypes.Any())
@@ -478,7 +509,7 @@ namespace OntologySync_Module
                                             start + count, 
                                             0, 
                                             0, 
-                                            "Export");
+                                            localConfig.OItem_object_direction_export.Name);
                                     }
                                     else
                                     {
@@ -490,7 +521,7 @@ namespace OntologySync_Module
                                             0, 
                                             0,
                                             start + count, 
-                                            "Export");
+                                            localConfig.OItem_object_direction_export.Name);
                                     }
                                     start += 1000;
                                 }
@@ -508,7 +539,7 @@ namespace OntologySync_Module
                                         webServiceAttributeTypes.Count, 
                                         0, 
                                         0, 
-                                        "Export");
+                                        localConfig.OItem_object_direction_export.Name);
                                 }
                                 else
                                 {
@@ -520,7 +551,7 @@ namespace OntologySync_Module
                                         0, 
                                         0, 
                                         webServiceAttributeTypes.Count, 
-                                        "Export");
+                                        localConfig.OItem_object_direction_export.Name);
                                 }
 
                             }
@@ -551,7 +582,7 @@ namespace OntologySync_Module
                                             start + count,
                                             0,
                                             0,
-                                            "Export");
+                                            localConfig.OItem_object_direction_export.Name);
                                     }
                                     else
                                     {
@@ -563,7 +594,7 @@ namespace OntologySync_Module
                                             0,
                                             0,
                                             start + count,
-                                            "Export");
+                                            localConfig.OItem_object_direction_export.Name);
                                     }
                                     start += 1000;
                                 }
@@ -581,7 +612,7 @@ namespace OntologySync_Module
                                         webServiceClasses.Count,
                                         0,
                                         0,
-                                        "Export");
+                                        localConfig.OItem_object_direction_export.Name);
                                 }
                                 else
                                 {
@@ -593,7 +624,7 @@ namespace OntologySync_Module
                                         0,
                                         0,
                                         webServiceClasses.Count,
-                                        "Export");
+                                        localConfig.OItem_object_direction_export.Name);
                                 }
                                     
                             }
@@ -624,7 +655,7 @@ namespace OntologySync_Module
                                             start + count,
                                             0,
                                             0,
-                                            "Export");
+                                            localConfig.OItem_object_direction_export.Name);
                                     }
                                     else
                                     {
@@ -636,7 +667,7 @@ namespace OntologySync_Module
                                             0,
                                             0,
                                             start + count,
-                                            "Export");
+                                            localConfig.OItem_object_direction_export.Name);
                                     }
                                     start += 1000;
                                 }
@@ -654,7 +685,7 @@ namespace OntologySync_Module
                                         webServiceRelationTypes.Count,
                                         0,
                                         0,
-                                        "Export");
+                                        localConfig.OItem_object_direction_export.Name);
                                 }
                                 else
                                 {
@@ -666,7 +697,7 @@ namespace OntologySync_Module
                                         0,
                                         0,
                                         webServiceRelationTypes.Count,
-                                        "Export");
+                                        localConfig.OItem_object_direction_export.Name);
                                 }
                             }
                             
@@ -696,7 +727,7 @@ namespace OntologySync_Module
                                             start + count,
                                             0,
                                             0,
-                                            "Export");
+                                            localConfig.OItem_object_direction_export.Name);
                                     }
                                     else
                                     {
@@ -708,7 +739,7 @@ namespace OntologySync_Module
                                             0,
                                             0,
                                             start + count,
-                                            "Export");
+                                            localConfig.OItem_object_direction_export.Name);
                                     }
                                     start += 1000;
                                 }
@@ -728,7 +759,7 @@ namespace OntologySync_Module
                                         webServiceObjects.Count,
                                         0,
                                         0,
-                                        "Export");
+                                        localConfig.OItem_object_direction_export.Name);
                                 }
                                 else
                                 {
@@ -740,7 +771,7 @@ namespace OntologySync_Module
                                         0,
                                         0,
                                         webServiceObjects.Count,
-                                        "Export");
+                                        localConfig.OItem_object_direction_export.Name);
                                 }
                             }
                             webServiceObjects.Clear();
@@ -770,7 +801,7 @@ namespace OntologySync_Module
                                             start + count,
                                             0,
                                             0,
-                                            "Export");
+                                            localConfig.OItem_object_direction_export.Name);
                                     }
                                     else
                                     {
@@ -782,7 +813,7 @@ namespace OntologySync_Module
                                             0,
                                             0,
                                             start + count,
-                                            "Export");
+                                            localConfig.OItem_object_direction_export.Name);
                                     }
                                     start += 1000;
                                 }
@@ -800,7 +831,7 @@ namespace OntologySync_Module
                                          webServiceClassAtts.Count,
                                         0,
                                         0,
-                                        "Export");
+                                        localConfig.OItem_object_direction_export.Name);
                                 }
                                 else
                                 {
@@ -812,7 +843,7 @@ namespace OntologySync_Module
                                         0,
                                         0,
                                          webServiceClassAtts.Count,
-                                        "Export");
+                                        localConfig.OItem_object_direction_export.Name);
                                 }
                             }
                             
@@ -842,7 +873,7 @@ namespace OntologySync_Module
                                             start + count,
                                             0,
                                             0,
-                                            "Export");
+                                            localConfig.OItem_object_direction_export.Name);
                                     }
                                     else
                                     {
@@ -854,7 +885,7 @@ namespace OntologySync_Module
                                             0,
                                             0,
                                             start + count,
-                                            "Export");
+                                            localConfig.OItem_object_direction_export.Name);
                                     }
                                     start += 1000;
                                 }
@@ -872,7 +903,7 @@ namespace OntologySync_Module
                                         webServiceClassRels.Count,
                                         0,
                                         0,
-                                        "Export");
+                                        localConfig.OItem_object_direction_export.Name);
                                 }
                                 else
                                 {
@@ -884,7 +915,7 @@ namespace OntologySync_Module
                                         0,
                                         0,
                                         webServiceClassRels.Count,
-                                        "Export");
+                                        localConfig.OItem_object_direction_export.Name);
                                 }
                             }
                             
@@ -914,7 +945,7 @@ namespace OntologySync_Module
                                             start + count,
                                             0,
                                             0,
-                                            "Export");
+                                            localConfig.OItem_object_direction_export.Name);
                                     }
                                     else
                                     {
@@ -926,7 +957,7 @@ namespace OntologySync_Module
                                             0,
                                             0,
                                             start + count,
-                                            "Export");
+                                            localConfig.OItem_object_direction_export.Name);
                                     }
                                     start += 1000;
                                 }
@@ -944,7 +975,7 @@ namespace OntologySync_Module
                                         webServiceObjectAtts.Count,
                                         0,
                                         0,
-                                        "Export");
+                                        localConfig.OItem_object_direction_export.Name);
                                 }
                                 else
                                 {
@@ -956,7 +987,7 @@ namespace OntologySync_Module
                                         0,
                                         0,
                                         webServiceObjectAtts.Count,
-                                        "Export");
+                                        localConfig.OItem_object_direction_export.Name);
                                 }
                             }
                             
@@ -986,7 +1017,7 @@ namespace OntologySync_Module
                                             start + count,
                                             0,
                                             0,
-                                            "Export");
+                                            localConfig.OItem_object_direction_export.Name);
                                     }
                                     else
                                     {
@@ -998,7 +1029,7 @@ namespace OntologySync_Module
                                             0,
                                             0,
                                             start + count,
-                                            "Export");
+                                            localConfig.OItem_object_direction_export.Name);
                                     }
                                     start += 1000;
                                 }
@@ -1016,7 +1047,7 @@ namespace OntologySync_Module
                                         webServiceObjectRels.Count,
                                         0,
                                         0,
-                                        "Export");
+                                        localConfig.OItem_object_direction_export.Name);
                                 }
                                 else
                                 {
@@ -1028,7 +1059,7 @@ namespace OntologySync_Module
                                         0,
                                         0,
                                         webServiceObjectRels.Count,
-                                        "Export");
+                                        localConfig.OItem_object_direction_export.Name);
                                 }
                             }
                             

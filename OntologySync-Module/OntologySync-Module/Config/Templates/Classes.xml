@@ -17,6 +17,7 @@
 <Item Id="4b335d37208742f6a680a1b03e35d73c" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[Web-Management]]></Item>
 <Item Id="fa121432183946629ecfe0deac63ea7c" Id_Parent="4b335d37208742f6a680a1b03e35d73c"><![CDATA[Web-Service]]></Item>
 <Item Id="49fdcd27e1054770941d7485dcad08c1" Id_Parent=""><![CDATA[Root]]></Item>
+<Item Id="3d1dc6cfb96449869808f39b7c5c3907" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Direction]]></Item>
 <Item Id="d1d8b1e7ebf84b818a8895824a51ba2d" Id_Parent="9b0eeaffd3924596a266ed29f177f7eb"><![CDATA[Job]]></Item>
 <Item Id="9b0eeaffd3924596a266ed29f177f7eb" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Infrastructure]]></Item>
 

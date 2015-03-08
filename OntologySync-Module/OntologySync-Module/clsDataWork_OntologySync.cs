@@ -23,7 +23,8 @@ namespace OntologySync_Module
         WebConnectionRel = 8,
         UserAuthRel = 16,
         AllOntologies = 32,
-        Ontologies = 64
+        Ontologies = 64,
+        Direction = 128
     }
 
     [Flags]
@@ -36,7 +37,8 @@ namespace OntologySync_Module
         WebConnectionRel = 8,
         UserAuthRel = 16,
         AllOntologies = 32,
-        Ontologies = 64
+        Ontologies = 64,
+        Direction = 128
     }
     class ClsDataWorkOntologySync
     {
@@ -50,6 +52,7 @@ namespace OntologySync_Module
         private clsDBLevel _dbLevelUserAuthRel;
         private clsDBLevel _dbLevelAllOntologies;
         private clsDBLevel _dbLevelOntologiesOfBaseData;
+        private clsDBLevel _dbLevelDirection;
 
         private delegate void LoadedSubItems(LoadSubResult loadResult, clsOntologyItem oItemResult);
         private event LoadedSubItems loadedSubItems;
@@ -61,6 +64,9 @@ namespace OntologySync_Module
         public List<WebConnection> WebConnections { get; private set; }
         public List<UserAuthentication> UserAuthentications { get; private set; }
         public List<clsOntologyItem> OntologyItems { get; private set; }
+        public clsOntologyItem Direction { get; private set; }
+
+        public clsOntologyItem OItem_Configuration { get; set; }
 
         public List<clsOntologyItem> BelongingOntologies { get; private set; }
         
@@ -85,7 +91,7 @@ namespace OntologySync_Module
             {
                 new clsObjectAtt
                 {
-                    ID_Object = _localConfig.OItem_object_baseconfig.GUID,
+                    ID_Object = OItem_Configuration.GUID,
                     ID_AttributeType = _localConfig.OItem_attributetype_allontologies.GUID
                 }
             };
@@ -104,7 +110,7 @@ namespace OntologySync_Module
                 {
                     new clsObjectRel
                     {
-                        ID_Object = _localConfig.OItem_object_baseconfig.GUID,
+                        ID_Object = OItem_Configuration.GUID,
                         ID_RelationType = _localConfig.OItem_relationtype_belonging.GUID,
                         ID_Parent_Other = _localConfig.Globals.Class_Ontologies.GUID
                     }
@@ -145,6 +151,37 @@ namespace OntologySync_Module
 
             
 
+        }
+
+        public void GetSubData_008_BelongingDirection()
+        {
+
+           
+            var searchDirections = new List<clsObjectRel>
+            {
+                new clsObjectRel
+                {
+                    ID_Object = OItem_Configuration.GUID,
+                    ID_RelationType = _localConfig.OItem_relationtype_belonging.GUID,
+                    ID_Parent_Other = _localConfig.OItem_class_direction.GUID
+                }
+            };
+
+            var result = _dbLevelDirection.get_Data_ObjectRel(searchDirections, boolIDs: false);
+
+            if (result.GUID == _localConfig.Globals.LState_Success.GUID)
+            {
+                Direction = _dbLevelDirection.OList_ObjectRel.Select(ont => new clsOntologyItem
+                {
+                    GUID = ont.ID_Other,
+                    Name = ont.Name_Other,
+                    GUID_Parent = ont.ID_Parent_Other,
+                    Type = _localConfig.Globals.Type_Object
+                }).FirstOrDefault();
+            }
+
+            loadedSubItems(LoadSubResult.Direction, result);
+           
         }
 
         public clsOntologyItem GetData()
@@ -188,6 +225,10 @@ namespace OntologySync_Module
             {
                 loadItems(LoadResult.Ontologies, oItemResult);
             }
+            else if (loadResult == LoadSubResult.Direction)
+            {
+                loadItems(LoadResult.Direction, oItemResult);
+            }
         }
 
         private void GetDataThread()
@@ -198,8 +239,9 @@ namespace OntologySync_Module
             GetSubData_004_WebserviceRel();
             GetSubData_006_AllOntologies();
             GetSubData_007_BelongingOntologies();
+            GetSubData_008_BelongingDirection();
             GetSubData_005_UserAuthRel();
-            
+
         }
 
         private void GetSubData_001_Jobs()
@@ -209,7 +251,7 @@ namespace OntologySync_Module
             {
                 new clsObjectRel
                 {
-                    ID_Object = _localConfig.OItem_object_baseconfig.GUID,
+                    ID_Object = OItem_Configuration.GUID,
                     ID_RelationType = _localConfig.OItem_relationtype_needs.GUID,
                     ID_Parent_Other = _localConfig.OItem_class_job.GUID
                 }
@@ -389,6 +431,7 @@ namespace OntologySync_Module
             _dbLevelUserAuthRel = new clsDBLevel(_localConfig.Globals);
             _dbLevelAllOntologies = new clsDBLevel(_localConfig.Globals);
             _dbLevelOntologiesOfBaseData = new clsDBLevel(_localConfig.Globals);
+            _dbLevelDirection = new clsDBLevel(_localConfig.Globals);
         }
     }
 }
