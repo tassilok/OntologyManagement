@@ -291,11 +291,12 @@ namespace TextParser
                                 if (OList_Seperator == null ||
                                     (OList_Seperator.Any() && OList_Seperator.First().Name == "\\r\\n"))
                                 {
-                                    replaceNewLine = true;
+                                    
                                     text = textReader.ReadLine();
                                 }
                                 else
                                 {
+                                    replaceNewLine = true;
                                     text = "";
 
                                     StringBuilder line = new StringBuilder();
