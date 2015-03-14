@@ -74,10 +74,10 @@
     <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>3F51815B460CC12FC184388D6B95C3EB6641D876</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>672475CECF6FFB17D43A817DD914AE5818EBAC0C</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>Ontolog-Module_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>Ontolog-Module_1_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -725,6 +725,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
+    <None Include="Ontolog-Module_1_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Resources\cahiers_de_labo.png" />
     <None Include="Resources\bb_back_.png" />

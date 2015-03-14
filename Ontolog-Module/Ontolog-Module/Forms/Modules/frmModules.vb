@@ -34,6 +34,8 @@ Public Class frmModules
         InitializeComponent()
 
         objOItem_Ref = OItem_Ref
+       
+            
         ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
         objGlobals = Globals
 
@@ -73,6 +75,17 @@ Public Class frmModules
 
                 objOItem_Result = objDBLevel_ModulesOfClass.get_Data_ObjectRel(searchClasses, boolIDs:=False)
             End If
+
+            Me.Text = ""
+            If Not objOItem_Class Is Nothing Then
+                Me.Text = objOItem_Class.Name & " \ "
+            End If
+            If Not objOItem_Ref Is Nothing Then
+                Me.Text = Me.Text & objOItem_Ref.Name
+            Else
+                Me.Text = objGlobals.Class_Module.Name
+            End If
+
         End If
         If objOItem_Result.GUID = objGlobals.LState_Success.GUID Then
 
