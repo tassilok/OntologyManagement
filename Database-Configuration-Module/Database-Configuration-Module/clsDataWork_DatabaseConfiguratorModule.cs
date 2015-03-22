@@ -661,7 +661,7 @@ namespace DatabaseConfigurationModule
             }
             
             loadedSubItems(LoadSubResult.SchemaTableColumns, result);
-        }
+        } 
 
         private clsOntologyItem GetSubData_005_001_FieldTypes()
         {

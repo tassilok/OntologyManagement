@@ -24,6 +24,7 @@ namespace DatabaseConfigurationModule
         private clsDataWork_DatabaseConfiguratorModule objDataWork_DatabaseConfigurationModule;
 
         private UserControl_CodeEditor objUserControl_CodeEditor;
+        private UserControl_Column objUserControl_Column;
 
         private clsRelationConfig objRelationConfig;
         private clsTransaction objTransaction;
@@ -47,6 +48,9 @@ namespace DatabaseConfigurationModule
             objUserControl_CodeEditor = new UserControl_CodeEditor(objLocalConfig.Globals);
             objUserControl_CodeEditor.savedCodeSnipplet += objUserControl_CodeEditor_savedCodeSnipplet;
             objUserControl_CodeEditor.Dock = DockStyle.Fill;
+
+            objUserControl_Column = new UserControl_Column(objLocalConfig);
+            objUserControl_Column.Dock = DockStyle.Fill;
         }
 
         void objUserControl_CodeEditor_savedCodeSnipplet(clsOntologyItem objOItem_CodeSnipplet)
@@ -91,6 +95,11 @@ namespace DatabaseConfigurationModule
                     MessageBox.Show(this, "Das Code-Snipplet konnte nicht ermitteltw erden!", "Fehler!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
                 
+            }
+            else if (objOItem_DBItem.GUID_Parent == objLocalConfig.OItem_class_db_columns.GUID)
+            {
+                panel_ItemConfig.Controls.Add(objUserControl_Column);
+                objUserControl_Column.Initialize(objOItem_DBItem);
             }
         }
     }

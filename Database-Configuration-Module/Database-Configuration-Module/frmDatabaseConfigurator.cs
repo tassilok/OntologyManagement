@@ -67,7 +67,10 @@ namespace DatabaseConfigurationModule
         {
             if (OItem_Selected != null)
             {
-                objUserControl_DatabaseItem.Initialize_Item(OItem_Selected);
+                
+                objUserControl_DatabaseItem.Initialize_Item(OItem_Selected);    
+                
+                
             }
         }
 

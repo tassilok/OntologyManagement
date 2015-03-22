@@ -563,6 +563,12 @@ private void get_Data_DevelopmentConfig()
         OList_ImageToClass.Last().ImageID = ImageID_DatabaseConnection;
         OList_ImageToClass.Add(OItem_class_server.Clone());
         OList_ImageToClass.Last().ImageID = ImageID_Server;
+        OList_ImageToClass.Add(OItem_class_db_columns.Clone());
+        OList_ImageToClass.Last().ImageID = ImageID_PrimaryKey;
+        OList_ImageToClass.Add(OItem_class_db_columns.Clone());
+        OList_ImageToClass.Last().ImageID = ImageID_ForeignKey;
+        OList_ImageToClass.Add(OItem_class_db_columns.Clone());
+        OList_ImageToClass.Last().ImageID = ImageID_Unique;
     }
   
 	private void get_Config_Classes()
