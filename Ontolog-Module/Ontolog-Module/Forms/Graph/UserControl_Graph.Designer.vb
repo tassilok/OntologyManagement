@@ -43,6 +43,7 @@ Partial Class UserControl_Graph
         Me.AddRelationsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.OpenModuleByArgumentToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.OpenLastModuleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RemoveFromGraphToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
@@ -186,9 +187,9 @@ Partial Class UserControl_Graph
         '
         'ContextMenuStrip_Graph
         '
-        Me.ContextMenuStrip_Graph.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddRelationsToolStripMenuItem, Me.OpenModuleByArgumentToolStripMenuItem})
+        Me.ContextMenuStrip_Graph.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddRelationsToolStripMenuItem, Me.OpenModuleByArgumentToolStripMenuItem, Me.RemoveFromGraphToolStripMenuItem})
         Me.ContextMenuStrip_Graph.Name = "ContextMenuStrip_Graph"
-        Me.ContextMenuStrip_Graph.Size = New System.Drawing.Size(225, 48)
+        Me.ContextMenuStrip_Graph.Size = New System.Drawing.Size(225, 92)
         '
         'AddRelationsToolStripMenuItem
         '
@@ -209,6 +210,12 @@ Partial Class UserControl_Graph
         Me.OpenLastModuleToolStripMenuItem.Name = "OpenLastModuleToolStripMenuItem"
         Me.OpenLastModuleToolStripMenuItem.Size = New System.Drawing.Size(181, 22)
         Me.OpenLastModuleToolStripMenuItem.Text = "x_Open Last Module"
+        '
+        'RemoveFromGraphToolStripMenuItem
+        '
+        Me.RemoveFromGraphToolStripMenuItem.Name = "RemoveFromGraphToolStripMenuItem"
+        Me.RemoveFromGraphToolStripMenuItem.Size = New System.Drawing.Size(224, 22)
+        Me.RemoveFromGraphToolStripMenuItem.Text = "_Remove from graph"
         '
         'UserControl_Graph
         '
@@ -251,5 +258,6 @@ End Sub
     Friend WithEvents AddRelationsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents OpenModuleByArgumentToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents OpenLastModuleToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents RemoveFromGraphToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

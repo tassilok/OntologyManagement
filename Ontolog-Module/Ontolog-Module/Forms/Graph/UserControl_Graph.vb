@@ -469,8 +469,13 @@ Public Class UserControl_Graph
 
 
                             ElseIf e.Button.HasFlag(MouseButtons.Right) Then
-                                objOItem_FilterItem = Nothing
-                                Initialize_Graph(objOItem_Selected)
+                                If (ModifierKeys.HasFlag(Keys.Control)) Then
+                                    ContextMenuStrip_Graph.Show(GViewer_OGraph, New Point(e.X, e.Y))
+                                Else
+                                    objOItem_FilterItem = Nothing
+                                    Initialize_Graph(objOItem_Selected)
+                                End If
+                                
 
                             End If
                         End If
@@ -478,8 +483,8 @@ Public Class UserControl_Graph
                     Case objGraphAttributes.ShapeAttribute      'Attribute
                         objOItem_Selected = objDBLevel_Classes.GetOItem(node.Id, objLocalConfig.Globals.Type_AttributeType)
                     Case objGraphAttributes.ShapeObject      'Object
+                        objOItem_Selected = objDBLevel_Classes.GetOItem(node.Id, objLocalConfig.Globals.Type_Object)
                         If e.Button.HasFlag(MouseButtons.Left) Then
-                            objOItem_Selected = objDBLevel_Classes.GetOItem(node.Id, objLocalConfig.Globals.Type_Object)
                             Initialize_Graph(objOItem_Selected)
                         ElseIf e.Button.HasFlag(MouseButtons.Right) Then
                             ContextMenuStrip_Graph.Show(GViewer_OGraph, New Point(e.X, e.Y))
@@ -488,6 +493,13 @@ Public Class UserControl_Graph
                         
                     Case objGraphAttributes.ShapeRelationType     'RelationType
                         objOItem_Selected = objDBLevel_Classes.GetOItem(node.Id, objLocalConfig.Globals.Type_RelationType)
+                        If e.Button.HasFlag(MouseButtons.Left) Then
+
+                        ElseIf e.Button.HasFlag(MouseButtons.Right) Then
+                            ContextMenuStrip_Graph.Show(GViewer_OGraph, New Point(e.X, e.Y))
+
+                        End If
+
                 End Select
 
 
@@ -763,4 +775,54 @@ Public Class UserControl_Graph
         
     End Sub
 
+    Private Sub RemoveFromGraphToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RemoveFromGraphToolStripMenuItem.Click
+        selectedItem = GViewer_OGraph.SelectedObject
+
+
+        Dim objOItem_Selected As clsOntologyItem = Nothing
+
+        If Not selectedItem Is Nothing Then
+
+            If TypeOf selectedItem Is Node Then
+                Dim nodeItems = New List(Of Node) From {CType(selectedItem, Node)}
+
+                Dim edgeItems = New List(Of Edge)(graph.Edges.Where(Function(edgeItem) edgeItem.SourceNode.Id = nodeItems.First().Id Or edgeItem.TargetNode.Id = nodeItems.First().Id).ToList())
+
+                If nodeItems.First().Attr.Shape = objGraphAttributes.ShapeClass Then
+                    edgeItems.ForEach(Sub(edgeItem)
+                                          If edgeItem.TargetNode.Attr.Shape = objGraphAttributes.ShapeObject Then
+                                              nodeItems.Add(edgeItem.TargetNode)
+
+                                          End If
+                                      End Sub)
+
+
+
+                End If
+
+                nodeItems.ForEach(Sub(nodeItem)
+                                      Dim edgeAdds = New List(Of Edge)(graph.Edges.Where(Function(edgeItem) edgeItem.SourceNode.Id = nodeItem.Id Or edgeItem.TargetNode.Id = nodeItem.Id).ToList())
+                                      edgeItems.AddRange(From edgeAdd In edgeAdds
+                                                         Group Join edgeExist In edgeItems On edgeAdd Equals edgeExist Into edgesExist = Group
+                                                         From edgeExist In edgesExist.DefaultIfEmpty()
+                                                         Where edgeExist Is Nothing
+                                                         Select edgeAdd)
+
+                                  End Sub)
+
+                edgeItems.ForEach(Sub(edgeItem)
+                                      graph.Edges.Remove(edgeItem)
+                                  End Sub)
+
+                nodeItems.ForEach(Sub(nodeItem)
+                                      graph.NodeMap.Remove(nodeItem.Id)
+                                  End Sub)
+
+
+                GViewer_OGraph.Invalidate()
+                RedRawGraph(True)
+            End If
+
+        End If
+    End Sub
 End Class
