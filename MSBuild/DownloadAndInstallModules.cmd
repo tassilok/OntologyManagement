@@ -467,8 +467,8 @@ if /i [DatabaseConfigurationModule] EQU [Ontolog-Module] (
 
 del /s /q "%OMODULE_PATH%\DatabaseConfigurationModule\*.*"
 
-wget -O "%temp%\OModules\DatabaseConfigurationModule_0.1.0.46.exe" %DOWNLOAD_URL%/DatabaseConfigurationModule_0.1.0.46.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\DatabaseConfigurationModule_0.1.0.46.exe" -o"%OMODULE_PATH%\DatabaseConfigurationModule\"
+wget -O "%temp%\OModules\DatabaseConfigurationModule_0.1.0.47.exe" %DOWNLOAD_URL%/DatabaseConfigurationModule_0.1.0.47.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\DatabaseConfigurationModule_0.1.0.47.exe" -o"%OMODULE_PATH%\DatabaseConfigurationModule\"
 
 
 if /i [ScriptingModule] EQU [Ontolog-Module] (
