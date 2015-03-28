@@ -26,16 +26,17 @@ Partial Class frmCodeGenerator
         Me.ToolStripContainer1 = New System.Windows.Forms.ToolStripContainer()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripButton_Close = New System.Windows.Forms.ToolStripButton()
-        Me.TextBox_Code = New System.Windows.Forms.TextBox()
         Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
         Me.ToolStripLabel1 = New System.Windows.Forms.ToolStripLabel()
         Me.ToolStripComboBox_Languages = New System.Windows.Forms.ToolStripComboBox()
+        Me.Scintilla_Code = New ScintillaNET.Scintilla()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
         Me.ToolStripContainer1.TopToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
         Me.ToolStrip2.SuspendLayout()
+        CType(Me.Scintilla_Code, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'ToolStripContainer1
@@ -47,7 +48,7 @@ Partial Class frmCodeGenerator
         '
         'ToolStripContainer1.ContentPanel
         '
-        Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.TextBox_Code)
+        Me.ToolStripContainer1.ContentPanel.Controls.Add(Me.Scintilla_Code)
         Me.ToolStripContainer1.ContentPanel.Size = New System.Drawing.Size(473, 382)
         Me.ToolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.ToolStripContainer1.Location = New System.Drawing.Point(0, 0)
@@ -78,16 +79,6 @@ Partial Class frmCodeGenerator
         Me.ToolStripButton_Close.Size = New System.Drawing.Size(50, 22)
         Me.ToolStripButton_Close.Text = "x_Close"
         '
-        'TextBox_Code
-        '
-        Me.TextBox_Code.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TextBox_Code.Location = New System.Drawing.Point(0, 0)
-        Me.TextBox_Code.Multiline = True
-        Me.TextBox_Code.Name = "TextBox_Code"
-        Me.TextBox_Code.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.TextBox_Code.Size = New System.Drawing.Size(473, 382)
-        Me.TextBox_Code.TabIndex = 1
-        '
         'ToolStrip2
         '
         Me.ToolStrip2.Dock = System.Windows.Forms.DockStyle.None
@@ -108,6 +99,24 @@ Partial Class frmCodeGenerator
         Me.ToolStripComboBox_Languages.Name = "ToolStripComboBox_Languages"
         Me.ToolStripComboBox_Languages.Size = New System.Drawing.Size(120, 25)
         '
+        'Scintilla_Code
+        '
+        Me.Scintilla_Code.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Scintilla_Code.Location = New System.Drawing.Point(0, 0)
+        Me.Scintilla_Code.Name = "Scintilla_Code"
+        Me.Scintilla_Code.Size = New System.Drawing.Size(473, 382)
+        Me.Scintilla_Code.Styles.BraceBad.FontName = "Verdana" & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0)
+        Me.Scintilla_Code.Styles.BraceLight.FontName = "Verdana" & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0)
+        Me.Scintilla_Code.Styles.CallTip.FontName = "Segoe UI" & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0)
+        Me.Scintilla_Code.Styles.ControlChar.FontName = "Verdana" & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0)
+        Me.Scintilla_Code.Styles.Default.BackColor = System.Drawing.SystemColors.Window
+        Me.Scintilla_Code.Styles.Default.FontName = "Verdana" & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0)
+        Me.Scintilla_Code.Styles.IndentGuide.FontName = "Verdana" & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0)
+        Me.Scintilla_Code.Styles.LastPredefined.FontName = "Verdana" & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0)
+        Me.Scintilla_Code.Styles.LineNumber.FontName = "Verdana" & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0)
+        Me.Scintilla_Code.Styles.Max.FontName = "Verdana" & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0) & Global.Microsoft.VisualBasic.ChrW(0)
+        Me.Scintilla_Code.TabIndex = 0
+        '
         'frmCodeGenerator
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -120,7 +129,6 @@ Partial Class frmCodeGenerator
         Me.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(False)
         Me.ToolStripContainer1.BottomToolStripPanel.PerformLayout()
         Me.ToolStripContainer1.ContentPanel.ResumeLayout(False)
-        Me.ToolStripContainer1.ContentPanel.PerformLayout()
         Me.ToolStripContainer1.TopToolStripPanel.ResumeLayout(False)
         Me.ToolStripContainer1.TopToolStripPanel.PerformLayout()
         Me.ToolStripContainer1.ResumeLayout(False)
@@ -129,14 +137,15 @@ Partial Class frmCodeGenerator
         Me.ToolStrip1.PerformLayout()
         Me.ToolStrip2.ResumeLayout(False)
         Me.ToolStrip2.PerformLayout()
+        CType(Me.Scintilla_Code, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
     Friend WithEvents ToolStripContainer1 As System.Windows.Forms.ToolStripContainer
     Friend WithEvents ToolStrip1 As System.Windows.Forms.ToolStrip
     Friend WithEvents ToolStripButton_Close As System.Windows.Forms.ToolStripButton
-    Friend WithEvents TextBox_Code As System.Windows.Forms.TextBox
     Friend WithEvents ToolStrip2 As System.Windows.Forms.ToolStrip
     Friend WithEvents ToolStripLabel1 As System.Windows.Forms.ToolStripLabel
     Friend WithEvents ToolStripComboBox_Languages As System.Windows.Forms.ToolStripComboBox
+    Friend WithEvents Scintilla_Code As ScintillaNET.Scintilla
 End Class

@@ -130,6 +130,7 @@ Public Class clsLocalConfig
     Private objOItem_type_ontology_export As New clsOntologyItem
     Private objOItem_class_code_templates As clsOntologyItem
     Private objOItem_class_xml As clsOntologyItem
+    Private objOItem_class_syntax_highlighting__scintillanet_ As clsOntologyItem
 
     'Objects
     Private objOItem_object_version As clsOntologyItem
@@ -824,6 +825,12 @@ Public Class clsLocalConfig
         End Get
     End Property
 
+    Public ReadOnly Property OItem_class_syntax_highlighting__scintillanet_ As clsOntologyItem
+        Get
+            Return objOItem_class_syntax_highlighting__scintillanet_
+        End Get
+    End Property
+
 
     'Objects
     Public ReadOnly Property OItem_object_version As clsOntologyItem
@@ -1361,6 +1368,22 @@ Public Class clsLocalConfig
     End Sub
 
     Private Sub get_Config_Classes()
+        Dim objOList_class_syntax_highlighting__scintillanet_ = (From objOItem In objDBLevel_Config1.OList_ObjectRel
+                                           Where objOItem.ID_Object = cstrID_Ontology
+                                           Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object
+                                           Where objRef.Name_Object.ToLower() = "class_syntax_highlighting__scintillanet_".ToLower() And objRef.Ontology = objGlobals.Type_Class
+                                           Select objRef).ToList()
+
+        If objOList_class_syntax_highlighting__scintillanet_.Count > 0 Then
+            objOItem_class_syntax_highlighting__scintillanet_ = New clsOntologyItem
+            objOItem_class_syntax_highlighting__scintillanet_.GUID = objOList_class_syntax_highlighting__scintillanet_.First().ID_Other
+            objOItem_class_syntax_highlighting__scintillanet_.Name = objOList_class_syntax_highlighting__scintillanet_.First().Name_Other
+            objOItem_class_syntax_highlighting__scintillanet_.GUID_Parent = objOList_class_syntax_highlighting__scintillanet_.First().ID_Parent_Other
+            objOItem_class_syntax_highlighting__scintillanet_.Type = objGlobals.Type_Class
+        Else
+            Err.Raise(1, "config err")
+        End If
+
         Dim objOList_class_path = (From objOItem In objDBLevel_Config1.OList_ObjectRel
                                            Where objOItem.ID_Object = cstrID_Ontology
                                            Join objRef In objDBLevel_Config2.OList_ObjectRel On objOItem.ID_Other Equals objRef.ID_Object

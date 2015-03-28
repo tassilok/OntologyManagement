@@ -6,6 +6,7 @@ Public Class clsDataWork_CodeGenerator
     Private objDBLevel_XML As clsDBLevel
     Private objDBLevel_CodeTemplateRel As clsDBLevel
     Private objDBLevel_CodeTemplateAtt As clsDBLevel
+    Private objDBLevel_SyntaxHighlight As clsDBLevel
     Private strXML_Declaration As String
     Private strXML_Property As String
     Private strXML_Declaration_List As String
@@ -20,6 +21,17 @@ Public Class clsDataWork_CodeGenerator
     Private strList_Initialization_Class As String
 
     Public Property OList_CodeTemplates As New List(Of clsCodeTemplate)
+
+    Public Function GetSyntaxHighlight(ID_ProgramingLanguage As String) As clsOntologyItem
+        Return objDBLevel_SyntaxHighlight.OList_ObjectRel.Where(Function(synt) synt.ID_Other = ID_ProgramingLanguage).Select(Function(synt) New clsOntologyItem With
+                                                                                                                                                       {
+                                                                                                                                                           .GUID = synt.ID_Object,
+                                                                                                                                                           .Name = synt.Name_Object,
+                                                                                                                                                           .GUID_Parent = synt.ID_Parent_Object,
+                                                                                                                                                           .Type = objLocalConfig.Globals.Type_Object
+                                                                                                                                                        }).FirstOrDefault()
+
+    End Function
 
     Public Function Get_CodeTemplates() As clsOntologyItem
         Dim objOList_CodeTemplates As New List(Of clsObjectRel) From {New clsObjectRel With {.ID_Parent_Object = objLocalConfig.OItem_Class_Code_Template.GUID, _
@@ -51,100 +63,113 @@ Public Class clsDataWork_CodeGenerator
 
         If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
             If objDBLevel_CodeTemplateRel.OList_ObjectRel.Any Then
-                
-                Dim objOList_CodeTemplate_Standard = New List(Of clsObjectAtt) From {New clsObjectAtt With {.ID_AttributeType = objLocalConfig.OItem_Attribute_Standard.GUID, _
+                Dim searchSyntaxHighlight = New List(Of clsObjectRel) From
+                    {
+                        New clsObjectRel With
+                            {
+                                .ID_Parent_Object = objLocalConfig.OItem_class_syntax_highlighting__scintillanet_.GUID,
+                                .ID_RelationType = objLocalConfig.OItem_RelationType_belongsTo.GUID,
+                                .ID_Parent_Other = objLocalConfig.OItem_Class_ProgramingLanguage.GUID
+                            }
+                    }
+
+                objOItem_Result = objDBLevel_SyntaxHighlight.get_Data_ObjectRel(searchSyntaxHighlight, boolIDs:=False)
+                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                    Dim objOList_CodeTemplate_Standard = New List(Of clsObjectAtt) From {New clsObjectAtt With {.ID_AttributeType = objLocalConfig.OItem_Attribute_Standard.GUID, _
                                                                                                             .ID_Class = objLocalConfig.OItem_Class_Code_Template.GUID}}
 
-                objOItem_Result = objDBLevel_CodeTemplateAtt.get_Data_ObjectAtt(objOList_CodeTemplate_Standard, boolIDs:=False)
-                If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                    If objDBLevel_CodeTemplateAtt.OList_ObjectAtt.Any Then
-                        Dim objOList_XML_XMLText = (From objXML In objDBLevel_CodeTemplateRel.OList_ObjectRel.Where(Function(p) p.ID_Parent_Other = objLocalConfig.OItem_Class_XML.GUID).ToList()
-                                                   Select New clsObjectAtt With {.ID_AttributeType = objLocalConfig.OItem_Attribute_XML_Text.GUID, _
-                                                                                 .ID_Object = objXML.ID_Other}).ToList()
+                    objOItem_Result = objDBLevel_CodeTemplateAtt.get_Data_ObjectAtt(objOList_CodeTemplate_Standard, boolIDs:=False)
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                        If objDBLevel_CodeTemplateAtt.OList_ObjectAtt.Any Then
+                            Dim objOList_XML_XMLText = (From objXML In objDBLevel_CodeTemplateRel.OList_ObjectRel.Where(Function(p) p.ID_Parent_Other = objLocalConfig.OItem_Class_XML.GUID).ToList()
+                                                       Select New clsObjectAtt With {.ID_AttributeType = objLocalConfig.OItem_Attribute_XML_Text.GUID, _
+                                                                                     .ID_Object = objXML.ID_Other}).ToList()
 
-                        objOItem_Result = objDBLevel_XML.get_Data_ObjectAtt(objOList_XML_XMLText, boolIDs:=False)
-                        If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                            If objDBLevel_XML.OList_ObjectAtt.Any Then
-                                Dim objLCodeTemplates = (From objCodeTemplate In objDBLevel_CodeTemplateRel.OList_ObjectRel
-                                                         Group By objCodeTemplate.ID_Object, objCodeTemplate.Name_Object, objCodeTemplate.ID_Parent_Object Into Group).ToList()
-
-
-                                Dim objLXML = (From objXml In objDBLevel_CodeTemplateRel.OList_ObjectRel.Where(Function(p) p.ID_Parent_Other = objLocalConfig.OItem_Class_XML.GUID) _
-                                              .Select(Function(p) New With {.ID_Object = p.ID_Object, _
-                                                                            .ID_RelationType = p.ID_RelationType, _
-                                                                            .ID_Other = p.ID_Other, _
-                                                                            .Name_Other = p.Name_Other, _
-                                                                            .ID_Parent_Other = p.ID_Parent_Other}).ToList()
-                                               Join objXMLText In objDBLevel_XML.OList_ObjectAtt On objXml.ID_Other Equals objXMLText.ID_Object
-                                               Select objXml.ID_Object, _
-                                                      objXml.ID_RelationType, _
-                                                      objXml.ID_Other, _
-                                                      objXml.Name_Other, _
-                                                      objXml.ID_Parent_Other, _
-                                                      objXMLText.ID_Attribute, _
-                                                      objXMLText.Val_String).ToList()
-
-                                Dim objLStandard = objDBLevel_CodeTemplateAtt.OList_ObjectAtt
-
-                                Dim objLProgramingLanguage = objDBLevel_CodeTemplateRel.OList_ObjectRel.Where(Function(p) p.ID_Parent_Other = objLocalConfig.OItem_Class_ProgramingLanguage.GUID).ToList()
+                            objOItem_Result = objDBLevel_XML.get_Data_ObjectAtt(objOList_XML_XMLText, boolIDs:=False)
+                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                If objDBLevel_XML.OList_ObjectAtt.Any Then
+                                    Dim objLCodeTemplates = (From objCodeTemplate In objDBLevel_CodeTemplateRel.OList_ObjectRel
+                                                             Group By objCodeTemplate.ID_Object, objCodeTemplate.Name_Object, objCodeTemplate.ID_Parent_Object Into Group).ToList()
 
 
+                                    Dim objLXML = (From objXml In objDBLevel_CodeTemplateRel.OList_ObjectRel.Where(Function(p) p.ID_Parent_Other = objLocalConfig.OItem_Class_XML.GUID) _
+                                                  .Select(Function(p) New With {.ID_Object = p.ID_Object, _
+                                                                                .ID_RelationType = p.ID_RelationType, _
+                                                                                .ID_Other = p.ID_Other, _
+                                                                                .Name_Other = p.Name_Other, _
+                                                                                .ID_Parent_Other = p.ID_Parent_Other}).ToList()
+                                                   Join objXMLText In objDBLevel_XML.OList_ObjectAtt On objXml.ID_Other Equals objXMLText.ID_Object
+                                                   Select objXml.ID_Object, _
+                                                          objXml.ID_RelationType, _
+                                                          objXml.ID_Other, _
+                                                          objXml.Name_Other, _
+                                                          objXml.ID_Parent_Other, _
+                                                          objXMLText.ID_Attribute, _
+                                                          objXMLText.Val_String).ToList()
+
+                                    Dim objLStandard = objDBLevel_CodeTemplateAtt.OList_ObjectAtt
+
+                                    Dim objLProgramingLanguage = objDBLevel_CodeTemplateRel.OList_ObjectRel.Where(Function(p) p.ID_Parent_Other = objLocalConfig.OItem_Class_ProgramingLanguage.GUID).ToList()
 
 
-                                OList_CodeTemplates = (From objCodeTemplate In objLCodeTemplates
-                                                       Join objXML_Declaration In objLXML.Where(Function(p) p.ID_RelationType = objLocalConfig.OItem_relationtype_declaration.GUID).ToList() On objCodeTemplate.ID_Object Equals objXML_Declaration.ID_Object
-                                                       Join objXML_DocumentContainer In objLXML.Where(Function(p) p.ID_RelationType = objLocalConfig.OItem_relationtype_document_container.GUID).ToList() On objCodeTemplate.ID_Object Equals objXML_DocumentContainer.ID_Object
-                                                       Join objXML_Attribute In objLXML.Where(Function(p) p.ID_RelationType = objLocalConfig.OItem_relationtype_attribute.GUID).ToList() On objCodeTemplate.ID_Object Equals objXML_Attribute.ID_Object
-                                                       Join objXML_Property In objLXML.Where(Function(p) p.ID_RelationType = objLocalConfig.OItem_relationtype_property.GUID).ToList() On objCodeTemplate.ID_Object Equals objXML_Property.ID_Object
-                                                       Join objXML_Object In objLXML.Where(Function(p) p.ID_RelationType = objLocalConfig.OItem_relationtype_object.GUID).ToList() On objCodeTemplate.ID_Object Equals objXML_Object.ID_Object
-                                                       Join objXML_Class In objLXML.Where(Function(p) p.ID_RelationType = objLocalConfig.OItem_relationtype_class.GUID).ToList() On objCodeTemplate.ID_Object Equals objXML_Class.ID_Object
-                                                       Join objXML_RelationType In objLXML.Where(Function(p) p.ID_RelationType = objLocalConfig.OItem_relationtype_relationtype.GUID).ToList() On objCodeTemplate.ID_Object Equals objXML_RelationType.ID_Object
-                                                       Join objStandard In objLStandard On objCodeTemplate.ID_Object Equals objStandard.ID_Object
-                                                       Join objProgramingLanguage In objLProgramingLanguage On objCodeTemplate.ID_Object Equals objProgramingLanguage.ID_Object
-                                                       Select New clsCodeTemplate With {.ID_CodeTemplate = objCodeTemplate.ID_Object, _
-                                                                                        .Name_CodeTemplate = objCodeTemplate.Name_Object, _
-                                                                                        .ID_Attribute_Standard = objStandard.ID_Attribute, _
-                                                                                        .Standard = objStandard.Val_Bit, _
-                                                                                        .ID_ProgramingLanguage = objProgramingLanguage.ID_Other, _
-                                                                                        .Name_ProgramingLanguage = objProgramingLanguage.Name_Other, _
-                                                                                        .ID_XML_Attribute = objXML_Attribute.ID_Other, _
-                                                                                        .Name_XML_Attribute = objXML_Attribute.Name_Other, _
-                                                                                        .ID_Attribute_XML_Attribute = objXML_Attribute.ID_Attribute, _
-                                                                                        .XML_Attribute = objXML_Attribute.Val_String, _
-                                                                                        .ID_XML_Class = objXML_Class.ID_Other, _
-                                                                                        .Name_XML_Class = objXML_Class.Name_Other, _
-                                                                                        .ID_Attribute_XML_Class = objXML_Class.ID_Attribute, _
-                                                                                        .XML_Class = objXML_Class.Val_String, _
-                                                                                        .ID_XML_Declaration = objXML_Declaration.ID_Other, _
-                                                                                        .Name_XML_Declaration = objXML_Declaration.Name_Other, _
-                                                                                        .ID_Attribute_XML_Declaration = objXML_Declaration.ID_Attribute, _
-                                                                                        .XML_Declaration = objXML_Declaration.Val_String, _
-                                                                                        .ID_XML_DocumentContainer = objXML_DocumentContainer.ID_Other, _
-                                                                                        .Name_XML_DocumentContainer = objXML_DocumentContainer.Name_Other, _
-                                                                                        .ID_Attribute_XML_DocumentContainer = objXML_DocumentContainer.ID_Attribute, _
-                                                                                        .XML_DocumentContainer = objXML_DocumentContainer.Val_String, _
-                                                                                        .ID_XML_Object = objXML_Object.ID_Other, _
-                                                                                        .Name_XML_Object = objXML_Object.Name_Other, _
-                                                                                        .ID_Attribute_XML_Object = objXML_Object.ID_Attribute, _
-                                                                                        .XML_Object = objXML_Object.Val_String, _
-                                                                                        .ID_XML_Property = objXML_Property.ID_Other, _
-                                                                                        .Name_XML_Property = objXML_Property.Name_Other, _
-                                                                                        .ID_Attribute_XML_Property = objXML_Property.ID_Attribute, _
-                                                                                        .XML_Property = objXML_Property.Val_String, _
-                                                                                        .ID_XML_RelationType = objXML_RelationType.ID_Other, _
-                                                                                        .Name_XML_RelationType = objXML_RelationType.Name_Other, _
-                                                                                        .ID_Attribute_XML_RelationType = objXML_RelationType.ID_Attribute, _
-                                                                                        .XML_RelationType = objXML_RelationType.Val_String}).ToList()
 
 
-                            Else
-                                objOItem_Result = objLocalConfig.Globals.LState_Error
+                                    OList_CodeTemplates = (From objCodeTemplate In objLCodeTemplates
+                                                           Join objXML_Declaration In objLXML.Where(Function(p) p.ID_RelationType = objLocalConfig.OItem_relationtype_declaration.GUID).ToList() On objCodeTemplate.ID_Object Equals objXML_Declaration.ID_Object
+                                                           Join objXML_DocumentContainer In objLXML.Where(Function(p) p.ID_RelationType = objLocalConfig.OItem_relationtype_document_container.GUID).ToList() On objCodeTemplate.ID_Object Equals objXML_DocumentContainer.ID_Object
+                                                           Join objXML_Attribute In objLXML.Where(Function(p) p.ID_RelationType = objLocalConfig.OItem_relationtype_attribute.GUID).ToList() On objCodeTemplate.ID_Object Equals objXML_Attribute.ID_Object
+                                                           Join objXML_Property In objLXML.Where(Function(p) p.ID_RelationType = objLocalConfig.OItem_relationtype_property.GUID).ToList() On objCodeTemplate.ID_Object Equals objXML_Property.ID_Object
+                                                           Join objXML_Object In objLXML.Where(Function(p) p.ID_RelationType = objLocalConfig.OItem_relationtype_object.GUID).ToList() On objCodeTemplate.ID_Object Equals objXML_Object.ID_Object
+                                                           Join objXML_Class In objLXML.Where(Function(p) p.ID_RelationType = objLocalConfig.OItem_relationtype_class.GUID).ToList() On objCodeTemplate.ID_Object Equals objXML_Class.ID_Object
+                                                           Join objXML_RelationType In objLXML.Where(Function(p) p.ID_RelationType = objLocalConfig.OItem_relationtype_relationtype.GUID).ToList() On objCodeTemplate.ID_Object Equals objXML_RelationType.ID_Object
+                                                           Join objStandard In objLStandard On objCodeTemplate.ID_Object Equals objStandard.ID_Object
+                                                           Join objProgramingLanguage In objLProgramingLanguage On objCodeTemplate.ID_Object Equals objProgramingLanguage.ID_Object
+                                                           Select New clsCodeTemplate With {.ID_CodeTemplate = objCodeTemplate.ID_Object, _
+                                                                                            .Name_CodeTemplate = objCodeTemplate.Name_Object, _
+                                                                                            .ID_Attribute_Standard = objStandard.ID_Attribute, _
+                                                                                            .Standard = objStandard.Val_Bit, _
+                                                                                            .ID_ProgramingLanguage = objProgramingLanguage.ID_Other, _
+                                                                                            .Name_ProgramingLanguage = objProgramingLanguage.Name_Other, _
+                                                                                            .ID_XML_Attribute = objXML_Attribute.ID_Other, _
+                                                                                            .Name_XML_Attribute = objXML_Attribute.Name_Other, _
+                                                                                            .ID_Attribute_XML_Attribute = objXML_Attribute.ID_Attribute, _
+                                                                                            .XML_Attribute = objXML_Attribute.Val_String, _
+                                                                                            .ID_XML_Class = objXML_Class.ID_Other, _
+                                                                                            .Name_XML_Class = objXML_Class.Name_Other, _
+                                                                                            .ID_Attribute_XML_Class = objXML_Class.ID_Attribute, _
+                                                                                            .XML_Class = objXML_Class.Val_String, _
+                                                                                            .ID_XML_Declaration = objXML_Declaration.ID_Other, _
+                                                                                            .Name_XML_Declaration = objXML_Declaration.Name_Other, _
+                                                                                            .ID_Attribute_XML_Declaration = objXML_Declaration.ID_Attribute, _
+                                                                                            .XML_Declaration = objXML_Declaration.Val_String, _
+                                                                                            .ID_XML_DocumentContainer = objXML_DocumentContainer.ID_Other, _
+                                                                                            .Name_XML_DocumentContainer = objXML_DocumentContainer.Name_Other, _
+                                                                                            .ID_Attribute_XML_DocumentContainer = objXML_DocumentContainer.ID_Attribute, _
+                                                                                            .XML_DocumentContainer = objXML_DocumentContainer.Val_String, _
+                                                                                            .ID_XML_Object = objXML_Object.ID_Other, _
+                                                                                            .Name_XML_Object = objXML_Object.Name_Other, _
+                                                                                            .ID_Attribute_XML_Object = objXML_Object.ID_Attribute, _
+                                                                                            .XML_Object = objXML_Object.Val_String, _
+                                                                                            .ID_XML_Property = objXML_Property.ID_Other, _
+                                                                                            .Name_XML_Property = objXML_Property.Name_Other, _
+                                                                                            .ID_Attribute_XML_Property = objXML_Property.ID_Attribute, _
+                                                                                            .XML_Property = objXML_Property.Val_String, _
+                                                                                            .ID_XML_RelationType = objXML_RelationType.ID_Other, _
+                                                                                            .Name_XML_RelationType = objXML_RelationType.Name_Other, _
+                                                                                            .ID_Attribute_XML_RelationType = objXML_RelationType.ID_Attribute, _
+                                                                                            .XML_RelationType = objXML_RelationType.Val_String}).ToList()
+
+
+                                Else
+                                    objOItem_Result = objLocalConfig.Globals.LState_Error
+                                End If
                             End If
+                        Else
+                            objOItem_Result = objLocalConfig.Globals.LState_Error
                         End If
-                    Else
-                        objOItem_Result = objLocalConfig.Globals.LState_Error
                     End If
                 End If
+                
             Else
                 objOItem_Result = objLocalConfig.Globals.LState_Error
             End If
@@ -298,5 +323,6 @@ Public Class clsDataWork_CodeGenerator
         objDBLevel_XML = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_CodeTemplateRel = New clsDBLevel(objLocalConfig.Globals)
         objDBLevel_CodeTemplateAtt = New clsDBLevel(objLocalConfig.Globals)
+        objDBLevel_SyntaxHighlight = New clsDBLevel(objLocalConfig.Globals)
     End Sub
 End Class

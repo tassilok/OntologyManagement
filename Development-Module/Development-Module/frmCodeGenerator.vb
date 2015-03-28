@@ -46,8 +46,11 @@ Public Class frmCodeGenerator
         objOItem_CodeTemplate = ToolStripComboBox_Languages.ComboBox.SelectedItem
 
         strCode = objData_CodeGenerator.get_Code(objOItem_Development, objOItem_CodeTemplate, objDGVRC, objDGVSRC)
-
-        TextBox_Code.Text = strCode
+        Dim objSyntaxHighLight = objData_CodeGenerator.GetSyntaxHighlight(objOItem_CodeTemplate.ID_ProgramingLanguage)
+        If Not objSyntaxHighLight Is Nothing Then
+            Scintilla_Code.ConfigurationManager.Language = objSyntaxHighLight.Name
+        End If
+        Scintilla_Code.Text = strCode
     End Sub
 
     Public Sub New(ByVal LocalConfig As clsLocalConfig, ByVal objDataGridViewCollection As DataGridViewRowCollection, ByVal objOItem_Development As clsOntologyItem)
