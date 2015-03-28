@@ -19,7 +19,12 @@ Public Class clsTransaction_Version
     Public Property objOItem_Dev As clsOntologyItem
 
     Private WithEvents objFrmOntologyItemList As frmOntologyItemList
-    Private objFrmAdvancedFilter As frmAdvancedFilter
+    Private objFrmJoinSelector As frmJoinSelector
+    Private objFrmMain As frmMain
+
+    Private objOItem_Commit As clsOntologyItem
+    Private objOItem_RelationType As clsOntologyItem
+    Private objOItem_Direction As clsOntologyItem
 
     Private objFieldParser As clsFieldParser
 
@@ -44,7 +49,15 @@ Public Class clsTransaction_Version
         If boolSaveVersionFile Then
             SaveVersionFile(objOItem_Dev)
         End If
-
+        If Not objOItem_Commit Is Nothing _
+                    And Not objOItem_Direction Is Nothing _
+                    And Not objOItem_RelationType Is Nothing Then
+            Dim objOItem_Left = If(objOItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID, OItem_Version_Last, objOItem_Commit)
+            Dim objOItem_Right = If(objOItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID, objOItem_Commit, OItem_Version_Last)
+            Dim objRel_VersionToCommit = objRelationConfig.Rel_ObjectRelation(objOItem_Left, objOItem_Right, objOItem_RelationType)
+            objTransaction.ClearItems()
+            objTransaction.do_Transaction(objRel_VersionToCommit)
+        End If
         
 
         For Each objOItem_Dev_Dependend In objOList_VersionedDevs
@@ -55,6 +68,17 @@ Public Class clsTransaction_Version
             End If
             objFrmOntologyItemList.RemoveItem(objOItem_Dev_Dependend.GUID)
 
+            If Not OItem_Version_Last Is Nothing Then
+                If Not objOItem_Commit Is Nothing _
+                    And Not objOItem_Direction Is Nothing _
+                    And Not objOItem_RelationType Is Nothing Then
+                    Dim objOItem_Left = If(objOItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID, OItem_Version_Last, objOItem_Commit)
+                    Dim objOItem_Right = If(objOItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID, objOItem_Commit, OItem_Version_Last)
+                    Dim objRel_VersionToCommit = objRelationConfig.Rel_ObjectRelation(objOItem_Left, objOItem_Right, objOItem_RelationType)
+                    objTransaction.ClearItems()
+                    objTransaction.do_Transaction(objRel_VersionToCommit)
+                End If
+            End If
 
         Next
 
@@ -181,8 +205,9 @@ Public Class clsTransaction_Version
         objOList_VersionedDevs = New List(Of clsOntologyItem)
 
         If MsgBox("Wollen Sie die Versionen mit einem Commit-Objekt verknüpfen?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
-            objFrmAdvancedFilter = New frmAdvancedFilter(objLocalConfig.Globals, Nothing)
-            objFrmAdvancedFilter.ShowDialog(Me)
+            While (Not SetCommmitJoin())
+            End While
+
         End If
 
         GetDependendHierarchy(objOItem_Dev)
@@ -193,6 +218,66 @@ Public Class clsTransaction_Version
         Return objOItem_Result
     End Function
 
+    Private Function SetCommmitJoin() As Boolean
+        objOItem_Commit = Nothing
+        objOItem_Direction = Nothing
+        objOItem_RelationType = Nothing
+
+        Dim result = False
+
+        objFrmJoinSelector = New frmJoinSelector(objLocalConfig.Globals)
+
+        If objFrmJoinSelector.ShowDialog() = DialogResult.OK Then
+            Dim objOItem_VersionClass As clsOntologyItem = Nothing
+            If objFrmJoinSelector.OItem_Left.GUID = objLocalConfig.OItem_Class_DevelopmentVersion.GUID Then
+                objOItem_VersionClass = objFrmJoinSelector.OItem_Left
+                objOItem_Direction = objLocalConfig.Globals.Direction_LeftRight
+
+            End If
+
+            If objFrmJoinSelector.OItem_Right.GUID = objLocalConfig.OItem_Class_DevelopmentVersion.GUID Then
+                objOItem_VersionClass = objFrmJoinSelector.OItem_Right
+                objOItem_Direction = objLocalConfig.Globals.Direction_RightLeft
+            End If
+
+            If Not objOItem_VersionClass Is Nothing Then
+                Dim objOItem_CommitClass As clsOntologyItem = Nothing
+                If objFrmJoinSelector.OItem_Left.GUID = objLocalConfig.OItem_Class_DevelopmentVersion.GUID Then
+                    objOItem_CommitClass = objFrmJoinSelector.OItem_Right
+
+                ElseIf objFrmJoinSelector.OItem_Right.GUID = objLocalConfig.OItem_Class_DevelopmentVersion.GUID Then
+                    objOItem_CommitClass = objFrmJoinSelector.OItem_Left
+
+                End If
+                If Not objOItem_CommitClass Is Nothing Then
+                    MsgBox("Wählen Sie bitte einen Commit zum Vernetzten aus.", MsgBoxStyle.Information)
+                    objFrmMain = New frmMain(objLocalConfig.Globals, objLocalConfig.Globals.Type_Class, objOItem_CommitClass)
+                    If objFrmMain.ShowDialog() = DialogResult.OK Then
+                        If objFrmMain.Type_Applied = objLocalConfig.Globals.Type_Object Then
+                            If objFrmMain.OList_Simple.Count = 1 Then
+                                If objFrmMain.OList_Simple.First().GUID_Parent = objOItem_CommitClass.GUID Then
+                                    objOItem_Commit = objFrmMain.OList_Simple.First()
+                                    objOItem_RelationType = objFrmJoinSelector.OItem_RelationType
+                                    result = True
+                                Else
+                                    MsgBox("Wählen Sie bitte ein Commit-Objekt aus!", MsgBoxStyle.Information)
+                                End If
+                            Else
+                                MsgBox("Wählen Sie bitte ein Commit-Objekt aus!", MsgBoxStyle.Information)
+                            End If
+                        Else
+                            MsgBox("Wählen Sie bitte ein Commit-Objekt aus!", MsgBoxStyle.Information)
+                        End If
+                    Else
+                        MsgBox("Wählen Sie bitte ein Commit-Objekt aus!", MsgBoxStyle.Information)
+                    End If
+                End If
+
+            End If
+
+        End If
+        Return result
+    End Function
 
     Private Sub GetDependendHierarchy(OItem_Dev As clsOntologyItem)
         If Not objOList_VersionedDevs.Any(Function(d) d.GUID = OItem_Dev.GUID) Then
