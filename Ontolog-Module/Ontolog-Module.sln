@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Ontolog-Module", "Ontolog-Module\Ontolog-Module.vbproj", "{3F2F6722-C36B-420D-AFE7-B21C19457208}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Structure-Module", "..\Structure-Module\Structure-Module\Structure-Module.csproj", "{57DA143A-8BCB-4A88-9D27-E436613E1A66}"
@@ -10,6 +12,8 @@ EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ClassLibrary_ShellWork", "..\ClassLibrary_ShellWork\ClassLibrary_ShellWork\ClassLibrary_ShellWork.vbproj", "{10BCC346-A390-401C-BA6A-904A8842A40B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElasticSearchNestConnector", "..\ElasticSearchNestConnector\ElasticSearchNestConnector\ElasticSearchNestConnector.csproj", "{47208CAE-F413-4C25-A184-14F1140CA081}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OntologyAppDBConnector", "..\OntologyAppDBConnector\OntologyAppDBConnector.csproj", "{F6FD720C-9A26-4C5C-8BB2-5EDAAC678495}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,6 +77,16 @@ Global
 		{47208CAE-F413-4C25-A184-14F1140CA081}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{47208CAE-F413-4C25-A184-14F1140CA081}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{47208CAE-F413-4C25-A184-14F1140CA081}.Release|x86.ActiveCfg = Release|Any CPU
+		{F6FD720C-9A26-4C5C-8BB2-5EDAAC678495}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6FD720C-9A26-4C5C-8BB2-5EDAAC678495}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6FD720C-9A26-4C5C-8BB2-5EDAAC678495}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F6FD720C-9A26-4C5C-8BB2-5EDAAC678495}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F6FD720C-9A26-4C5C-8BB2-5EDAAC678495}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F6FD720C-9A26-4C5C-8BB2-5EDAAC678495}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6FD720C-9A26-4C5C-8BB2-5EDAAC678495}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6FD720C-9A26-4C5C-8BB2-5EDAAC678495}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F6FD720C-9A26-4C5C-8BB2-5EDAAC678495}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{F6FD720C-9A26-4C5C-8BB2-5EDAAC678495}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
