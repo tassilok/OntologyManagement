@@ -19,6 +19,7 @@ Public Class clsTransaction_Version
     Public Property objOItem_Dev As clsOntologyItem
 
     Private WithEvents objFrmOntologyItemList As frmOntologyItemList
+    Private objFrmAdvancedFilter As frmAdvancedFilter
 
     Private objFieldParser As clsFieldParser
 
@@ -178,6 +179,11 @@ Public Class clsTransaction_Version
         Dim objOItem_Result = objLocalConfig.Globals.LState_Success.Clone()
         Me.boolSaveVersionFile = boolSaveVersionFile
         objOList_VersionedDevs = New List(Of clsOntologyItem)
+
+        If MsgBox("Wollen Sie die Versionen mit einem Commit-Objekt verknüpfen?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+            objFrmAdvancedFilter = New frmAdvancedFilter(objLocalConfig.Globals, Nothing)
+            objFrmAdvancedFilter.ShowDialog(Me)
+        End If
 
         GetDependendHierarchy(objOItem_Dev)
         Dim objVisColList = New List(Of String) From {"Name"}

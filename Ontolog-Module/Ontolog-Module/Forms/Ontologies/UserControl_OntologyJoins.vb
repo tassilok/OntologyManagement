@@ -180,7 +180,7 @@ Public Class UserControl_OntologyJoins
         Dim objOItem_Result As clsOntologyItem
 
         If Not objOItem_Ontology Is Nothing Then
-            objFrmJoinSelector = New frmJoinSelector(objDataWork_Ontologies)
+            objFrmJoinSelector = New frmJoinSelector(objDataWork_Ontologies.LocalConfig)
             objFrmJoinSelector.ShowDialog(Me)
             If objFrmJoinSelector.DialogResult = DialogResult.OK Then
                

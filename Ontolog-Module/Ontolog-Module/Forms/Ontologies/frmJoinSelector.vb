@@ -3,7 +3,8 @@ Imports Ontology_Module
 Public Class frmJoinSelector
     Private WithEvents objUserControl_ObjectRelTree As UserControl_ObjectRelTree
     Private WithEvents objUserControl_TypeTree As UserControl_TypeTree
-    Private objDataWork_Ontologies As clsDataWork_Ontologies
+    Private objLocalConfig As clsLocalConfig_Ontologies
+    Private objDBLevel As clsDBLevel
     Private objOItem_OItem_Class As clsOntologyItem
     Private objOItem_OItem_Other As clsOntologyItem
     Private objOItem_OItem_RelationType As clsOntologyItem
@@ -57,15 +58,15 @@ Public Class frmJoinSelector
     Private Sub select_Object(oList_Items As List(Of clsOntologyItem)) Handles objUserControl_ObjectRelTree.selected_Item
         If oList_Items.Count = 2 Then
             objOItem_OItem_Class = oList_Items(0)
-            objOItem_OItem_Class = objDataWork_Ontologies.GetData_OItemByGuidAndType(objOItem_OItem_Class.GUID, _
-                                                                                     objDataWork_Ontologies.LocalConfig.Globals.Type_Class)
+            objOItem_OItem_Class = objDBLevel.GetOItem(objOItem_OItem_Class.GUID, _
+                                                        objLocalConfig.Globals.Type_Class)
 
-            If objOItem_OItem_Class.GUID_Related = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
+            If objOItem_OItem_Class.GUID_Related = objLocalConfig.Globals.LState_Success.GUID Then
                 objOItem_OItem_Other = oList_Items(1)
-                objOItem_OItem_Other = objDataWork_Ontologies.GetData_OItemByGuidAndType(objOItem_OItem_Other.GUID, _
-                                                                                         objDataWork_Ontologies.LocalConfig.Globals.Type_AttributeType)
+                objOItem_OItem_Other = objDBLevel.GetOItem(objOItem_OItem_Other.GUID, _
+                                                            objLocalConfig.Globals.Type_AttributeType)
 
-                If Not objOItem_OItem_Other.GUID_Related = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
+                If Not objOItem_OItem_Other.GUID_Related = objLocalConfig.Globals.LState_Success.GUID Then
                     objOItem_OItem_Other = Nothing
                     MsgBox("Der Attributtype konnte nicht ermittelt werden!", MsgBoxStyle.Exclamation)
                 End If
@@ -79,17 +80,17 @@ Public Class frmJoinSelector
             objOItem_OItem_RelationType = Nothing
         ElseIf oList_Items.Count = 4 Then
             objOItem_OItem_Class = oList_Items(0)
-            objOItem_OItem_Class = objDataWork_Ontologies.GetData_OItemByGuidAndType(objOItem_OItem_Class.GUID, _
-                                                                                     objDataWork_Ontologies.LocalConfig.Globals.Type_Class)
+            objOItem_OItem_Class = objDBLevel.GetOItem(objOItem_OItem_Class.GUID, _
+                                                        objLocalConfig.Globals.Type_Class)
 
-            If objOItem_OItem_Class.GUID_Related = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
-                If oList_Items(3).GUID = objDataWork_Ontologies.LocalConfig.Globals.Direction_LeftRight.GUID Then
+            If objOItem_OItem_Class.GUID_Related = objLocalConfig.Globals.LState_Success.GUID Then
+                If oList_Items(3).GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
                     objOItem_OItem_Other = oList_Items(1)
 
-                    objOItem_OItem_Other = objDataWork_Ontologies.GetData_OItemByGuidAndType(objOItem_OItem_Other.GUID, _
-                                                                                         objOItem_OItem_Other.Type)
+                    objOItem_OItem_Other = objDBLevel.GetOItem(objOItem_OItem_Other.GUID, _
+                                                                objOItem_OItem_Other.Type)
 
-                    If objOItem_OItem_Other.GUID_Related = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
+                    If objOItem_OItem_Other.GUID_Related = objLocalConfig.Globals.LState_Success.GUID Then
                         objOItem_OItem_Other.Direction = objOItem_OItem_Other.Direction_LeftRight
                     Else
 
@@ -98,22 +99,22 @@ Public Class frmJoinSelector
                     End If
 
                     objOItem_OItem_RelationType = oList_Items(2)
-                    objOItem_OItem_RelationType = objDataWork_Ontologies.GetData_OItemByGuidAndType(objOItem_OItem_RelationType.GUID, _
-                                                                                         objOItem_OItem_RelationType.Type)
+                    objOItem_OItem_RelationType = objDBLevel.GetOItem(objOItem_OItem_RelationType.GUID, _
+                                                                    objOItem_OItem_RelationType.Type)
 
-                    If Not objOItem_OItem_RelationType.GUID_Related = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
+                    If Not objOItem_OItem_RelationType.GUID_Related = objLocalConfig.Globals.LState_Success.GUID Then
 
                         objOItem_OItem_RelationType = Nothing
                         MsgBox("Der Attributtype konnte nicht ermittelt werden!", MsgBoxStyle.Exclamation)
                     End If
-                ElseIf oList_Items(3).GUID = objDataWork_Ontologies.LocalConfig.Globals.Direction_RightLeft.GUID Then
+                ElseIf oList_Items(3).GUID = objLocalConfig.Globals.Direction_RightLeft.GUID Then
                     objOItem_OItem_Class = oList_Items(0)
 
                     objOItem_OItem_Other = oList_Items(1)
-                    objOItem_OItem_Other = objDataWork_Ontologies.GetData_OItemByGuidAndType(objOItem_OItem_Other.GUID, _
+                    objOItem_OItem_Other = objDBLevel.GetOItem(objOItem_OItem_Other.GUID, _
                                                                                          objOItem_OItem_Other.Type)
 
-                    If objOItem_OItem_Other.GUID_Related = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
+                    If objOItem_OItem_Other.GUID_Related = objLocalConfig.Globals.LState_Success.GUID Then
                         objOItem_OItem_Other.Direction = objOItem_OItem_Other.Direction_RightLeft
                     Else
 
@@ -122,10 +123,10 @@ Public Class frmJoinSelector
                     End If
 
                     objOItem_OItem_RelationType = oList_Items(2)
-                    objOItem_OItem_RelationType = objDataWork_Ontologies.GetData_OItemByGuidAndType(objOItem_OItem_RelationType.GUID, _
+                    objOItem_OItem_RelationType = objDBLevel.GetOItem(objOItem_OItem_RelationType.GUID, _
                                                                                          objOItem_OItem_RelationType.Type)
 
-                    If Not objOItem_OItem_RelationType.GUID_Related = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
+                    If Not objOItem_OItem_RelationType.GUID_Related = objLocalConfig.Globals.LState_Success.GUID Then
 
                         objOItem_OItem_RelationType = Nothing
                         MsgBox("Der Attributtype konnte nicht ermittelt werden!", MsgBoxStyle.Exclamation)
@@ -140,16 +141,16 @@ Public Class frmJoinSelector
             
         Else
             objOItem_OItem_Class = oList_Items(0)
-            objOItem_OItem_Class = objDataWork_Ontologies.GetData_OItemByGuidAndType(objOItem_OItem_Class.GUID, _
-                                                                                     objDataWork_Ontologies.LocalConfig.Globals.Type_Class)
+            objOItem_OItem_Class = objDBLevel.GetOItem(objOItem_OItem_Class.GUID, _
+                                                                                     objLocalConfig.Globals.Type_Class)
 
-            If objOItem_OItem_Class.GUID_Related = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
+            If objOItem_OItem_Class.GUID_Related = objLocalConfig.Globals.LState_Success.GUID Then
                 objOItem_OItem_RelationType = oList_Items(1)
 
-                objOItem_OItem_RelationType = objDataWork_Ontologies.GetData_OItemByGuidAndType(objOItem_OItem_RelationType.GUID, _
+                objOItem_OItem_RelationType = objDBLevel.GetOItem(objOItem_OItem_RelationType.GUID, _
                                                                                          objOItem_OItem_RelationType.Type)
 
-                If Not objOItem_OItem_RelationType.GUID_Related = objDataWork_Ontologies.LocalConfig.Globals.LState_Success.GUID Then
+                If Not objOItem_OItem_RelationType.GUID_Related = objLocalConfig.Globals.LState_Success.GUID Then
 
                     objOItem_OItem_RelationType = Nothing
                     MsgBox("Der Attributtype konnte nicht ermittelt werden!", MsgBoxStyle.Exclamation)
@@ -175,7 +176,7 @@ Public Class frmJoinSelector
                 Not objOItem_OItem_RelationType Is Nothing Then
                 ToolStripButton_Apply.Enabled = True
             ElseIf Not objOItem_OItem_Other Is Nothing Then
-                If objOItem_OItem_Other.Type = objDataWork_Ontologies.LocalConfig.Globals.Type_AttributeType Then
+                If objOItem_OItem_Other.Type = objLocalConfig.Globals.Type_AttributeType Then
                     ToolStripButton_Apply.Enabled = True
                 Else
                     ToolStripButton_Apply.Enabled = False
@@ -196,22 +197,34 @@ Public Class frmJoinSelector
         Configure_Apply()
     End Sub
 
-    Public Sub New(DataWork_Ontologies As clsDataWork_Ontologies)
+    Public Sub New(localConfig As clsLocalConfig_Ontologies)
 
         ' Dieser Aufruf ist für den Designer erforderlich.
         InitializeComponent()
 
         ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
-        objDataWork_Ontologies = DataWork_Ontologies
+        objLocalConfig = localConfig
         initialize()
     End Sub
 
+    Public Sub New(Globals As clsGlobals)
+
+        ' Dieser Aufruf ist für den Designer erforderlich.
+        InitializeComponent()
+
+        ' Fügen Sie Initialisierungen nach dem InitializeComponent()-Aufruf hinzu.
+        objLocalConfig = New clsLocalConfig_Ontologies(Globals)
+        initialize()
+    End Sub
+
+
     Private Sub initialize()
-        objUserControl_TypeTree = New UserControl_TypeTree(objDataWork_Ontologies.LocalConfig.Globals)
+        objDBLevel = New clsDBLevel(objLocalConfig.Globals)
+        objUserControl_TypeTree = New UserControl_TypeTree(objLocalConfig.Globals)
         objUserControl_TypeTree.initialize_Tree()
         objUserControl_TypeTree.Dock = DockStyle.Fill
 
-        objUserControl_ObjectRelTree = New UserControl_ObjectRelTree(objDataWork_Ontologies.LocalConfig.Globals)
+        objUserControl_ObjectRelTree = New UserControl_ObjectRelTree(objLocalConfig.Globals)
         objUserControl_ObjectRelTree.Dock = DockStyle.Fill
 
         SplitContainer1.Panel1.Controls.Add(objUserControl_TypeTree)
