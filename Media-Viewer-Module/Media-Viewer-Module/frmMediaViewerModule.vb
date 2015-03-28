@@ -16,6 +16,8 @@ Public Class frmMediaViewerModule
     Private objFrmListEdit As frmMediaModule_ListEdit
     Private objFrmMenu As frmMenu
 
+    Private objDBLevel_OItem As clsDBLevel
+
     Private objMediaItems As clsMediaItems
 
     Private objFrmMetaData As frmMetaData_Image
@@ -374,6 +376,7 @@ Public Class frmMediaViewerModule
     End Sub
 
     Private Sub initialize()
+        objDBLevel_OItem = New clsDBLevel(objLocalConfig.Globals)
         objArgumentParsing = New clsArgumentParsing(objLocalConfig.Globals, Environment.GetCommandLineArgs().ToList())
         objOItem_Argument = If(Not objArgumentParsing.OList_Items Is Nothing, objArgumentParsing.OList_Items.FirstOrDefault, Nothing)
         If Not objArgumentParsing.FunctionList Is Nothing Then
@@ -386,7 +389,7 @@ Public Class frmMediaViewerModule
                     objOItem_Function = objLocalConfig.OItem_Type_PDF_Documents
                 End If
             End If
-            
+
         End If
 
         objOItem_Open = objLocalConfig.Globals.LState_Nothing
@@ -435,8 +438,26 @@ Public Class frmMediaViewerModule
 
     End Sub
 
+    Private Function SetTitleByArgument(objArgument As clsOntologyItem) As String
+        Dim strTitle = ""
+        If objArgument.Type = objLocalConfig.Globals.Type_Object Then
+            Dim objOItem_Class = objDBLevel_OItem.GetOItem(objArgument.GUID_Parent, objLocalConfig.Globals.Type_Class)
+
+            If Not objOItem_Class Is Nothing Then
+                strTitle = objOItem_Class.Name & " \ "
+            End If
+        End If
+
+        strTitle = strTitle & objArgument.Name
+
+        Me.Text = strTitle
+
+        Return strTitle
+    End Function
+
     Private Sub OpenByArgument()
         If Not objOItem_Argument Is Nothing Then
+            Dim strTitle = SetTitleByArgument(objOItem_Argument)
             If objOItem_Argument.GUID_Parent = objLocalConfig.OItem_Type_Images__Graphic_.GUID Then
                 objMediaItems = New clsMediaItems(objLocalConfig)
                 Dim objMediaItem = objMediaItems.Get_MultiMediaItem(objOItem_Argument)
@@ -452,7 +473,7 @@ Public Class frmMediaViewerModule
 
                     Environment.Exit(0)
                 End If
-                
+
             ElseIf objOItem_Argument.GUID_Parent = objLocalConfig.OItem_Type_Media_Item.GUID Then
                 objMediaItems = New clsMediaItems(objLocalConfig)
                 Dim objMediaItem = objMediaItems.Get_MultiMediaItem(objOItem_Argument)
@@ -494,11 +515,11 @@ Public Class frmMediaViewerModule
 
                 Environment.Exit(0)
             Else
-                objFrmMenu = New frmMenu(objLocalConfig, objOItem_Argument)
+                objFrmMenu = New frmMenu(objLocalConfig, objOItem_Argument, strTitle)
                 objFrmMenu.ShowDialog(Me)
                 Environment.Exit(0)
             End If
-            
+
         End If
     End Sub
 

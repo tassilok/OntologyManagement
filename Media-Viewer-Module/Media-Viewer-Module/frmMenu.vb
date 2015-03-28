@@ -125,7 +125,7 @@ Public Class frmMenu
         End Select
     End Sub
 
-    Public Sub New(LocalConfig As clsLocalConfig, OItem_ItemForMenu As clsOntologyItem)
+    Public Sub New(LocalConfig As clsLocalConfig, OItem_ItemForMenu As clsOntologyItem, Optional strTitle As String = Nothing)
 
         ' Dieser Aufruf ist für den Designer erforderlich.
         InitializeComponent()
@@ -135,6 +135,10 @@ Public Class frmMenu
 
         objOItem_ItemForMenu = OItem_ItemForMenu
         objOItem_ClassIfItemIsObject = Nothing
+
+        If Not String.IsNullOrEmpty(strTitle) Then
+            Me.Text = strTitle
+        End If
 
         Initialize()
     End Sub
