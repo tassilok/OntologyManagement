@@ -30,6 +30,7 @@ Partial Class UserControl_ImageList
         Me.SaveImagesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.NameToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DateTimeStampToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.OrderIdToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.PrintImagesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CreatePDFToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ChangeOrderIDToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -57,7 +58,6 @@ Partial Class UserControl_ImageList
         Me.PrintDocument_Image = New System.Drawing.Printing.PrintDocument()
         Me.SaveFileDialog_PDF = New System.Windows.Forms.SaveFileDialog()
         Me.BindingSource_Images = New System.Windows.Forms.BindingSource(Me.components)
-        Me.OrderIdToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ContextMenuStrip_Relate.SuspendLayout()
         Me.ToolStripContainer1.BottomToolStripPanel.SuspendLayout()
         Me.ToolStripContainer1.ContentPanel.SuspendLayout()
@@ -73,7 +73,7 @@ Partial Class UserControl_ImageList
         '
         Me.ContextMenuStrip_Relate.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RelateToolStripMenuItem, Me.RelateAllToolStripMenuItem, Me.SaveImagesToolStripMenuItem, Me.PrintImagesToolStripMenuItem, Me.CreatePDFToolStripMenuItem, Me.ChangeOrderIDToolStripMenuItem, Me.AddToSyncToolStripMenuItem})
         Me.ContextMenuStrip_Relate.Name = "ContextMenuStrip_Relate"
-        Me.ContextMenuStrip_Relate.Size = New System.Drawing.Size(175, 180)
+        Me.ContextMenuStrip_Relate.Size = New System.Drawing.Size(175, 158)
         '
         'RelateToolStripMenuItem
         '
@@ -112,6 +112,13 @@ Partial Class UserControl_ImageList
         Me.DateTimeStampToolStripMenuItem.Name = "DateTimeStampToolStripMenuItem"
         Me.DateTimeStampToolStripMenuItem.Size = New System.Drawing.Size(169, 22)
         Me.DateTimeStampToolStripMenuItem.Text = "x_DateTimeStamp"
+        '
+        'OrderIdToolStripMenuItem
+        '
+        Me.OrderIdToolStripMenuItem.Enabled = False
+        Me.OrderIdToolStripMenuItem.Name = "OrderIdToolStripMenuItem"
+        Me.OrderIdToolStripMenuItem.Size = New System.Drawing.Size(169, 22)
+        Me.OrderIdToolStripMenuItem.Text = "x_OrderId"
         '
         'PrintImagesToolStripMenuItem
         '
@@ -296,13 +303,6 @@ Partial Class UserControl_ImageList
         'SaveFileDialog_PDF
         '
         Me.SaveFileDialog_PDF.Filter = "PDF-Documents|*.pdf"
-        '
-        'OrderIdToolStripMenuItem
-        '
-        Me.OrderIdToolStripMenuItem.Enabled = False
-        Me.OrderIdToolStripMenuItem.Name = "OrderIdToolStripMenuItem"
-        Me.OrderIdToolStripMenuItem.Size = New System.Drawing.Size(169, 22)
-        Me.OrderIdToolStripMenuItem.Text = "x_OrderId"
         '
         'UserControl_ImageList
         '

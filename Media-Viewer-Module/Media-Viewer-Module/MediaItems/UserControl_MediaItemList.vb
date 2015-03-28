@@ -21,6 +21,7 @@ Public Class UserControl_MediaItemList
     Private objDlg_Attribute_Long As dlg_Attribute_Long
     Private objFrm_ObjectEdit As frm_ObjectEdit
     Private objFrm_FileSystemManagement As frm_FilesystemModule
+    Private objFrmName As frm_Name
 
     Private objFrmListEdit As frmMediaModule_ListEdit
 
@@ -758,6 +759,27 @@ Public Class UserControl_MediaItemList
                         MsgBox("Bitte nur OrderIDs größer gleich 0 eingeben!", MsgBoxStyle.Information)
                     End If
 
+                End If
+            ElseIf DataGridView_MediaItems.Columns(e.ColumnIndex).DataPropertyName = "Name_Image" Then
+                Dim objDGVR_Selected = DataGridView_MediaItems.Rows(e.RowIndex)
+                Dim objDRV_Selected As DataRowView = objDGVR_Selected.DataBoundItem
+                Dim objDGVC_Selected = DataGridView_MediaItems.Rows(e.RowIndex).Cells(e.ColumnIndex)
+
+                objFrmName = New frm_Name("New Name", objLocalConfig.Globals, Value1:=objDGVC_Selected.Value)
+                objFrmName.ShowDialog(Me)
+                If objFrmName.DialogResult = DialogResult.OK Then
+                    Dim objOItem_MediaItem = New clsOntologyItem With {.GUID = objDRV_Selected.Item("ID_MediaItem"), _
+                                                                               .Name = objFrmName.Value1, _
+                                                                               .GUID_Parent = objLocalConfig.OItem_Type_Media_Item.GUID, _
+                                                                               .Type = objLocalConfig.Globals.Type_Object}
+
+                    objTransaction_MediaItems.ClearItems()
+                    Dim objOItem_Result = objTransaction_MediaItems.do_Transaction(objOItem_MediaItem)
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                        objDRV_Selected.Item("Name_Image") = objOItem_MediaItem.Name
+                    Else
+                        MsgBox("Der Name konnte nicht geändert werden!", MsgBoxStyle.Exclamation)
+                    End If
                 End If
             End If
         End If

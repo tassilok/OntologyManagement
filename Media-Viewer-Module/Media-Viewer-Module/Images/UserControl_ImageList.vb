@@ -17,6 +17,8 @@ Public Class UserControl_ImageList
     Private objBlobConnection As clsBlobConnection
 
     Private objDlg_Attribute_Long As dlg_Attribute_Long
+    Private objDLG_Attribute_Double As dlg_Attribute_Double
+    Private objFrmName As frm_Name
 
     Private objFrmSaveFiles As frmSaveFiles
     Private objFrm_FileSystemManagement As frm_FilesystemModule
@@ -1138,6 +1140,64 @@ Public Class UserControl_ImageList
             DateTimeStampToolStripMenuItem.Checked = False
             NameToolStripMenuItem.Checked = False
             OrderIdToolStripMenuItem.Checked = True
+        End If
+    End Sub
+
+    Private Sub DataGridView_Images_CellMouseDoubleClick(sender As Object, e As DataGridViewCellMouseEventArgs) Handles DataGridView_Images.CellMouseDoubleClick
+        If e.ColumnIndex > -1 Then
+            If DataGridView_Images.Columns(e.ColumnIndex).DataPropertyName = "OrderID" Then
+                Dim objDGVR_Selected = DataGridView_Images.Rows(e.RowIndex)
+                Dim objDRV_Selected As DataRowView = objDGVR_Selected.DataBoundItem
+                Dim objDGVC_Selected = DataGridView_Images.Rows(e.RowIndex).Cells(e.ColumnIndex)
+
+                objDLG_Attribute_Double = New dlg_Attribute_Double("New OrderID", objLocalConfig.Globals, objDGVC_Selected.Value)
+                objDLG_Attribute_Double.ShowDialog(Me)
+                If objDLG_Attribute_Double.DialogResult = DialogResult.OK Then
+                    Dim intOrderID = objDLG_Attribute_Double.Value
+                    If intOrderID >= 0 Then
+                        If objDGVC_Selected.Value <> intOrderID Then
+                            Dim objOItem_Image = New clsOntologyItem With {.GUID = objDRV_Selected.Item("ID_Image"), _
+                                                                               .Name = objDRV_Selected.Item("Name_Image"), _
+                                                                               .GUID_Parent = objLocalConfig.OItem_Type_Images__Graphic_.GUID, _
+                                                                               .Type = objLocalConfig.Globals.Type_Object, _
+                                                                               .Level = intOrderID}
+
+                            Dim objORel_MediaItem_To_Ref = objDataWork_Images.Rel_Image_To_Ref(objOItem_Image, objOItem_Ref, False)
+                            objTransaction_Images.ClearItems()
+                            Dim objOItem_Result = objTransaction_Images.do_Transaction(objORel_MediaItem_To_Ref)
+                            If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                                objDRV_Selected.Item("OrderID") = intOrderID
+                            Else
+                                MsgBox("Die OrderID konnte nicht gespeichert werden!", MsgBoxStyle.Exclamation)
+                            End If
+                        End If
+                    Else
+                        MsgBox("Bitte nur OrderIDs größer gleich 0 eingeben!", MsgBoxStyle.Information)
+                    End If
+
+                End If
+            ElseIf DataGridView_Images.Columns(e.ColumnIndex).DataPropertyName = "Name_Image" Then
+                Dim objDGVR_Selected = DataGridView_Images.Rows(e.RowIndex)
+                Dim objDRV_Selected As DataRowView = objDGVR_Selected.DataBoundItem
+                Dim objDGVC_Selected = DataGridView_Images.Rows(e.RowIndex).Cells(e.ColumnIndex)
+
+                objFrmName = New frm_Name("New Name", objLocalConfig.Globals, Value1:=objDGVC_Selected.Value)
+                objFrmName.ShowDialog(Me)
+                If objFrmName.DialogResult = DialogResult.OK Then
+                    Dim objOItem_Image = New clsOntologyItem With {.GUID = objDRV_Selected.Item("ID_Image"), _
+                                                                               .Name = objFrmName.Value1, _
+                                                                               .GUID_Parent = objLocalConfig.OItem_Type_Images__Graphic_.GUID, _
+                                                                               .Type = objLocalConfig.Globals.Type_Object}
+
+                    objTransaction_Images.ClearItems()
+                    Dim objOItem_Result = objTransaction_Images.do_Transaction(objOItem_Image)
+                    If objOItem_Result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
+                        objDRV_Selected.Item("Name_Image") = objOItem_Image.Name
+                    Else
+                        MsgBox("Der Name konnte nicht geändert werden!", MsgBoxStyle.Exclamation)
+                    End If
+                End If
+            End If
         End If
     End Sub
 End Class
