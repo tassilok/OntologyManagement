@@ -511,7 +511,8 @@ namespace TextParser
                     //try
                     //{
 
-                    var textReader = new StreamReader(file.FileName, true);
+                    var stream = new FileStream(file.FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                    var textReader = new StreamReader(stream);
 
 
 
@@ -678,6 +679,7 @@ namespace TextParser
                         }
                     }
                     textReader.Close();
+                    stream.Close();
                     //}
                     //catch (Exception ex)
                     //{
