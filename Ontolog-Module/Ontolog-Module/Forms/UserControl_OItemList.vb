@@ -650,7 +650,7 @@ Public Class UserControl_OItemList
                 objDGVR_Selected = DataGridView_Items.Rows(e.RowIndex)
                 objDRV_Selected = objDGVR_Selected.DataBoundItem
 
-                objDlg_Attribute_Long = New dlg_Attribute_Long("New OrderID", objLocalConfig.Globals, objDRV_Selected.Item("OrderID"))
+                objDlg_Attribute_Long = New dlg_Attribute_Long("New OrderID", objLocalConfig, objDRV_Selected.Item("OrderID"))
                 objDlg_Attribute_Long.ShowDialog(Me)
 
                 If objDlg_Attribute_Long.DialogResult = DialogResult.OK Then
