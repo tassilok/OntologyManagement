@@ -59,6 +59,7 @@
     <Compile Include="clsUserAppDBDeletor.cs" />
     <Compile Include="clsUserAppDBSelector.cs" />
     <Compile Include="clsUserAppDBUpdater.cs" />
+    <Compile Include="ElExportAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
