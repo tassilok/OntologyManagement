@@ -16,6 +16,7 @@ using System.Text.RegularExpressions;
 using PortListenerForText_Module;
 using System.Globalization;
 using System.Threading;
+using CommandLineRun_Module;
 
 namespace TextParser
 {
@@ -38,6 +39,7 @@ namespace TextParser
         private frm_ObjectEdit objFrmObjectEdit;
 
         private frmPattern objFrmPattern;
+        private frmCommandLineRun objFrmCommandLineRun;
 
         private dlg_Attribute_String objDLG_Attribute_String;
 
@@ -1004,6 +1006,21 @@ namespace TextParser
             }
             
             toolStripButton_SaveQuery.Enabled = false;
+        }
+
+        private void toolStripButton_CommandLineRun_Click(object sender, EventArgs e)
+        {
+            objFrmCommandLineRun = new frmCommandLineRun(objLocalConfig.Globals,objOItem_TextParser, false);
+            objFrmCommandLineRun.appliedItem += objFrmCommandLineRun_appliedItem;
+            objFrmCommandLineRun.ShowDialog(this);
+        }
+
+        void objFrmCommandLineRun_appliedItem()
+        {
+            var fieldDict =
+                objDataWork_FieldParser.FieldList.Where(field => field.ID_FieldParser == objOItem_Parser.GUID).Select(
+                    field => new KeyValuePair<string, string>(field.Name_Field, field.ID_Field)).ToList();
+            objFrmCommandLineRun.CreateScriptOfTextParserOrReport(fieldDict,dataGridView_IndexView);
         }
     }
 }

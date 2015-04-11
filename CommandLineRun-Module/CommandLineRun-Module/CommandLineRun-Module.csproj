@@ -67,13 +67,13 @@
     <Compile Include="clsDataWork_CodeSniplets.cs" />
     <Compile Include="clsDataWork_CommandLineRun.cs" />
     <Compile Include="clsDataWork_ExecutableConfiguration.cs" />
-    <Compile Include="clsDataWork_ReportsToCommandLine.cs" />
+    <Compile Include="clsDataWork_TextPOrReportsToCommandLine.cs" />
     <Compile Include="clsExecutableConfiguration.cs" />
     <Compile Include="clsLocalConfig.cs" />
     <Compile Include="clsShellOutput.cs" />
     <Compile Include="clsTransaction_CodeSnipplets.cs" />
     <Compile Include="clsValue.cs" />
-    <Compile Include="clsVariableToReportField.cs" />
+    <Compile Include="clsVariableToField.cs" />
     <Compile Include="clsVariableValueMapper.cs" />
     <Compile Include="frmCodeSnippletEditor.cs">
       <SubType>Form</SubType>

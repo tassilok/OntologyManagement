@@ -63,6 +63,16 @@ namespace TextParser.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Procedures {
+            get {
+                object obj = ResourceManager.GetObject("Procedures", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap pulsante_01_architetto_f_01 {
             get {
                 object obj = ResourceManager.GetObject("pulsante_01_architetto_f_01", resourceCulture);

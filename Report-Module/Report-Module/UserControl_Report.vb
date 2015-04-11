@@ -110,7 +110,7 @@ Public Class UserControl_Report
 
 
         Dim dictFieldList = objDataWork_ReportFields.ReportFields.Select(Function(repf) New KeyValuePair(Of String, String)(repf.Name_Col, repf.ID_RepField)).ToList()
-        objFrmCommandLineRun.CreateScriptOfReport(dictFieldList, DataGridView_Reports)
+        objFrmCommandLineRun.CreateScriptOfTextParserOrReport(dictFieldList, DataGridView_Reports)
     End Sub
 
     Public ReadOnly Property DataGridViewRow_Selected As DataGridViewSelectedRowCollection

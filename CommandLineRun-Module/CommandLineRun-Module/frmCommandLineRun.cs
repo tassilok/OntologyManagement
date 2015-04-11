@@ -10,7 +10,7 @@ namespace CommandLineRun_Module
     {
         private clsLocalConfig objLocalConfig;
         public clsDataWork_CommandLineRun objDataWork_CommandLineRun { get; set; }
-        private clsDataWork_ReportsToCommandLine objDataWork_ReportsToCommandLine;
+        private clsDataWork_TextPOrReportsToCommandLine objDataWork_ReportsToCommandLine;
         private UserControl_CommandLineRunTree objUserControl_CommandLineTree;
         private UserControl_ExecuteCode objUserControl_ExecuteCode;
 
@@ -25,6 +25,7 @@ namespace CommandLineRun_Module
         private clsShellOutput objShellOutput;
 
         private clsOntologyItem objOItem_Report;
+        private clsOntologyItem objOItem_TextParser;
 
         public delegate void AppliedCommandLineRun();
 
@@ -34,10 +35,10 @@ namespace CommandLineRun_Module
         private DataGridView dataSource;
         private bool reportRegistered;
 
-        private bool initializeReports = false;
+        private bool initializeReportsOrTextParser = false;
+        private bool forReports;
 
-
-        public void CreateScriptOfReport(List<KeyValuePair<string, string>> columnFieldList, DataGridView dataSource)
+        public void CreateScriptOfTextParserOrReport(List<KeyValuePair<string, string>> columnFieldList, DataGridView dataSource)
         {
             this.columnFieldList = columnFieldList;
             this.dataSource = dataSource;
@@ -54,9 +55,9 @@ namespace CommandLineRun_Module
             //TestReports();
             objDataWork_CommandLineRun = new clsDataWork_CommandLineRun(objLocalConfig);
             ParseArguments();
-            if (initializeReports)
+            if (initializeReportsOrTextParser)
             {
-                Initialize_Reports();
+                Initialize_TextParserOrReport();
             }
             else
             {
@@ -75,7 +76,7 @@ namespace CommandLineRun_Module
                 };
 
             strCommandLine = null;
-            Initialize_Reports();
+            Initialize_TextParserOrReport();
         }
 
         public frmCommandLineRun(string[] commandLine, clsShellOutput shellOutput)
@@ -88,9 +89,9 @@ namespace CommandLineRun_Module
             objDataWork_CommandLineRun = new clsDataWork_CommandLineRun(objLocalConfig);
             ParseArguments();
 
-            if (initializeReports)
+            if (initializeReportsOrTextParser)
             {
-                Initialize_Reports();
+                Initialize_TextParserOrReport();
             }
             else
             {
@@ -100,23 +101,30 @@ namespace CommandLineRun_Module
         }
         
 
-        public frmCommandLineRun(clsGlobals Globals, clsOntologyItem OItem_Report)
+        public frmCommandLineRun(clsGlobals Globals, clsOntologyItem OItem_TextParserOrReport, bool forReports = true)
         {
             InitializeComponent();
 
-            objOItem_Report = OItem_Report;
-
             strCommandLine = null;
             objLocalConfig = new clsLocalConfig(Globals);
-            Initialize_Reports();
+            this.forReports = forReports;
+            
+            objOItem_Report = OItem_TextParserOrReport;
+            Initialize_TextParserOrReport();
+            
+            
+
+            
+            
         }
 
-        private void Initialize_Reports()
+        
+        private void Initialize_TextParserOrReport()
         {
-            this.Text = "Report: " + objOItem_Report.Name;
+            this.Text = forReports ? "Report: " : "TextParser: " + objOItem_Report.Name;
             
-            objDataWork_ReportsToCommandLine = new clsDataWork_ReportsToCommandLine(objLocalConfig);
-            var objOItem_Result = objDataWork_ReportsToCommandLine.GetData_CmdlrReports(objOItem_Report);
+            objDataWork_ReportsToCommandLine = new clsDataWork_TextPOrReportsToCommandLine(objLocalConfig);
+            var objOItem_Result = objDataWork_ReportsToCommandLine.GetData_CmdlrTextParserReport(objOItem_Report,forReports);
             if (objOItem_Result.GUID == objLocalConfig.Globals.LState_Success.GUID)
             {
                 objDataWork_CommandLineRun = new clsDataWork_CommandLineRun(objLocalConfig);
@@ -308,7 +316,7 @@ namespace CommandLineRun_Module
                             {
                                 if (objArgumentParsing.FunctionList[0].GUID_Function == objLocalConfig.OItem_object_commandlinerun_module.GUID)
                                 {
-                                    initializeReports = true;
+                                    initializeReportsOrTextParser = true;
                                     objOItem_Report = objOItem_Argument;
                                 }
                             }

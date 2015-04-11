@@ -73,7 +73,7 @@ namespace CommandLineRun_Module
         }
 
         public void InitializeCodeView(clsOntologyItem OItem_Cmdlr,
-                                       clsDataWork_ReportsToCommandLine objDataWork_ReportsToCommandLine,
+                                       clsDataWork_TextPOrReportsToCommandLine objDataWork_ReportsToCommandLine,
                                        DataGridView dataGridView_Report,
                                        List<KeyValuePair<string, string>> columnFieldList)
         {
@@ -117,7 +117,7 @@ namespace CommandLineRun_Module
 
                 var variablesToReportFields = objDataWork_ReportsToCommandLine.GetVariableToField();
                 var dataExtractConfig = (from variableToField in variablesToReportFields
-                                         join columnField in columnFieldList on variableToField.ID_ReportField
+                                         join columnField in columnFieldList on variableToField.ID_Field
                                              equals columnField.Value
                                          select new { variableToField, columnField }).ToList();
                 scriptEncoding = null;
@@ -146,25 +146,55 @@ namespace CommandLineRun_Module
                     
                     if (dataExtractConfig.Any(dc => dc.variableToField.ID_CommandLineRun == code.ID_CommandLineRun))
                     {
-                        
-                        dataGridView_Report.Rows.Cast<DataGridViewRow>().ToList().ForEach(dgvr =>
+                        if (dataGridView_Report.SelectedRows.Count == 0)
                         {
-                            var codeToParse = code.CodeParsed;
-                            
-                            dataExtractConfig.ForEach(dat =>
+                            dataGridView_Report.Rows.Cast<DataGridViewRow>().ToList().ForEach(dgvr =>
                             {
-                                var value = System.Web.HttpUtility.HtmlDecode( dgvr.Cells[dat.columnField.Key].Value.ToString());
-                                codeToParse = codeToParse.Replace("@" + dat.variableToField.Name_Variable + "@", value);
+                                var codeToParse = code.CodeParsed;
+
+                                dataExtractConfig.ForEach(dat =>
+                                {
+                                    var value =
+                                        System.Web.HttpUtility.HtmlDecode(
+                                            dgvr.Cells[dat.columnField.Key].Value.ToString());
+                                    codeToParse = codeToParse.Replace("@" + dat.variableToField.Name_Variable + "@",
+                                        value);
+                                });
+
+
+
+                                if (!string.IsNullOrEmpty(scintilla_CodeParsed.Text))
+                                {
+                                    scintilla_CodeParsed.Text += "\n";
+                                }
+                                scintilla_CodeParsed.Text += codeToParse;
                             });
-
-
-                            
-                            if (!string.IsNullOrEmpty(scintilla_CodeParsed.Text))
+                        }
+                        else
+                        {
+                            dataGridView_Report.SelectedRows.Cast<DataGridViewRow>().ToList().ForEach(dgvr =>
                             {
-                                scintilla_CodeParsed.Text += "\n";
-                            }
-                            scintilla_CodeParsed.Text += codeToParse;    
-                        });
+                                var codeToParse = code.CodeParsed;
+
+                                dataExtractConfig.ForEach(dat =>
+                                {
+                                    var value =
+                                        System.Web.HttpUtility.HtmlDecode(
+                                            dgvr.Cells[dat.columnField.Key].Value.ToString());
+                                    codeToParse = codeToParse.Replace("@" + dat.variableToField.Name_Variable + "@",
+                                        value);
+                                });
+
+
+
+                                if (!string.IsNullOrEmpty(scintilla_CodeParsed.Text))
+                                {
+                                    scintilla_CodeParsed.Text += "\n";
+                                }
+                                scintilla_CodeParsed.Text += codeToParse;
+                            });
+                        }
+
 
                         if (!string.IsNullOrEmpty(scintilla_Code.Text))
                         {

@@ -48,6 +48,9 @@ public clsOntologyItem OItem_class_comand_line__run__to_report { get; set; }
 public clsOntologyItem OItem_class_variable_to_field { get; set; }
 public clsOntologyItem OItem_class_report_field { get; set; }
 public clsOntologyItem OItem_class_encoding { get; set; }
+public clsOntologyItem OItem_class_field { get; set; }
+public clsOntologyItem OItem_class_variable_to_textparserfield { get; set; }
+public clsOntologyItem OItem_class_comand_line__run__to_textparser { get; set; }
 
         // Objects
 public clsOntologyItem OItem_object_commandlinerun_module { get; set; }
@@ -499,6 +502,69 @@ var objOList_relationtype_needs = (from objOItem in objDBLevel_Config1.OList_Obj
   
 	private void get_Config_Classes()
         {
+            var objOList_class_field = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                        where objOItem.ID_Object == cstrID_Ontology
+                                        join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                        where objRef.Name_Object.ToLower() == "class_field".ToLower() && objRef.Ontology == Globals.Type_Class
+                                        select objRef).ToList();
+
+            if (objOList_class_field.Any())
+            {
+                OItem_class_field = new clsOntologyItem()
+                {
+                    GUID = objOList_class_field.First().ID_Other,
+                    Name = objOList_class_field.First().Name_Other,
+                    GUID_Parent = objOList_class_field.First().ID_Parent_Other,
+                    Type = Globals.Type_Class
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            var objOList_class_variable_to_textparserfield = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                              where objOItem.ID_Object == cstrID_Ontology
+                                                              join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                              where objRef.Name_Object.ToLower() == "class_variable_to_textparserfield".ToLower() && objRef.Ontology == Globals.Type_Class
+                                                              select objRef).ToList();
+
+            if (objOList_class_variable_to_textparserfield.Any())
+            {
+                OItem_class_variable_to_textparserfield = new clsOntologyItem()
+                {
+                    GUID = objOList_class_variable_to_textparserfield.First().ID_Other,
+                    Name = objOList_class_variable_to_textparserfield.First().Name_Other,
+                    GUID_Parent = objOList_class_variable_to_textparserfield.First().ID_Parent_Other,
+                    Type = Globals.Type_Class
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            var objOList_class_comand_line__run__to_textparser = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                                  where objOItem.ID_Object == cstrID_Ontology
+                                                                  join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                                  where objRef.Name_Object.ToLower() == "class_comand_line__run__to_textparser".ToLower() && objRef.Ontology == Globals.Type_Class
+                                                                  select objRef).ToList();
+
+            if (objOList_class_comand_line__run__to_textparser.Any())
+            {
+                OItem_class_comand_line__run__to_textparser = new clsOntologyItem()
+                {
+                    GUID = objOList_class_comand_line__run__to_textparser.First().ID_Other,
+                    Name = objOList_class_comand_line__run__to_textparser.First().Name_Other,
+                    GUID_Parent = objOList_class_comand_line__run__to_textparser.First().ID_Parent_Other,
+                    Type = Globals.Type_Class
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
             var objOList_class_encoding = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                            where objOItem.ID_Object == cstrID_Ontology
                                            join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object

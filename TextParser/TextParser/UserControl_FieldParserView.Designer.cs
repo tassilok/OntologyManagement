@@ -36,6 +36,10 @@
             this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel_PagesLbl = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripButton_PageFirst = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton_PagePrevious = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton_PageNext = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton_PageLast = new System.Windows.Forms.ToolStripButton();
             this.toolStripLabel_PageCur = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel_CountLbl = new System.Windows.Forms.ToolStripLabel();
@@ -54,33 +58,31 @@
             this.filterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.equalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.differentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStrip4 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButton_CommandLineRun = new System.Windows.Forms.ToolStripButton();
             this.toolStrip3 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripComboBox_Indexes = new System.Windows.Forms.ToolStripComboBox();
+            this.toolStripDropDownButton_IndexWork = new System.Windows.Forms.ToolStripDropDownButton();
+            this.toolStripMenuItem_DeleteIndex = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel_Query = new System.Windows.Forms.ToolStripLabel();
             this.toolStripTextBox_Query = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripButton_Search = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton_SaveQuery = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton_Import = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripTextBox_Parser = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripButton_Parse = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton_Stop = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton_Listen = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel_ParseCountLbl = new System.Windows.Forms.ToolStripLabel();
             this.toolStripLabel_ParseCount = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripButton_PageFirst = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton_PagePrevious = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton_PageNext = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton_PageLast = new System.Windows.Forms.ToolStripButton();
-            this.toolStripDropDownButton_IndexWork = new System.Windows.Forms.ToolStripDropDownButton();
-            this.toolStripMenuItem_DeleteIndex = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripButton_Search = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton_SaveQuery = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton_Import = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton_Parse = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton_Stop = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton_Listen = new System.Windows.Forms.ToolStripButton();
             this.bindingSource_Items = new System.Windows.Forms.BindingSource(this.components);
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
@@ -98,10 +100,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Fields)).BeginInit();
             this.contextMenuStrip_Fields.SuspendLayout();
             this.toolStripContainer2.ContentPanel.SuspendLayout();
+            this.toolStripContainer2.RightToolStripPanel.SuspendLayout();
             this.toolStripContainer2.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_IndexView)).BeginInit();
             this.contextMenuStrip_Index.SuspendLayout();
+            this.toolStrip4.SuspendLayout();
             this.toolStrip3.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource_Items)).BeginInit();
@@ -172,6 +176,46 @@
             this.toolStripLabel_PagesLbl.Name = "toolStripLabel_PagesLbl";
             this.toolStripLabel_PagesLbl.Size = new System.Drawing.Size(51, 22);
             this.toolStripLabel_PagesLbl.Text = "x-Pages:";
+            // 
+            // toolStripButton_PageFirst
+            // 
+            this.toolStripButton_PageFirst.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton_PageFirst.Image = global::TextParser.Properties.Resources.pulsante_01_architetto_f_01_First1;
+            this.toolStripButton_PageFirst.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_PageFirst.Name = "toolStripButton_PageFirst";
+            this.toolStripButton_PageFirst.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton_PageFirst.Text = "toolStripButton1";
+            this.toolStripButton_PageFirst.Click += new System.EventHandler(this.toolStripButton_PageFirst_Click);
+            // 
+            // toolStripButton_PagePrevious
+            // 
+            this.toolStripButton_PagePrevious.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton_PagePrevious.Image = global::TextParser.Properties.Resources.pulsante_01_architetto_f_01;
+            this.toolStripButton_PagePrevious.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_PagePrevious.Name = "toolStripButton_PagePrevious";
+            this.toolStripButton_PagePrevious.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton_PagePrevious.Text = "toolStripButton2";
+            this.toolStripButton_PagePrevious.Click += new System.EventHandler(this.toolStripButton_PagePrevious_Click);
+            // 
+            // toolStripButton_PageNext
+            // 
+            this.toolStripButton_PageNext.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton_PageNext.Image = global::TextParser.Properties.Resources.pulsante_02_architetto_f_01;
+            this.toolStripButton_PageNext.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_PageNext.Name = "toolStripButton_PageNext";
+            this.toolStripButton_PageNext.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton_PageNext.Text = "toolStripButton3";
+            this.toolStripButton_PageNext.Click += new System.EventHandler(this.toolStripButton_PageNext_Click);
+            // 
+            // toolStripButton_PageLast
+            // 
+            this.toolStripButton_PageLast.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton_PageLast.Image = global::TextParser.Properties.Resources.pulsante_02_architetto_f_01_Last;
+            this.toolStripButton_PageLast.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_PageLast.Name = "toolStripButton_PageLast";
+            this.toolStripButton_PageLast.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton_PageLast.Text = "toolStripButton4";
+            this.toolStripButton_PageLast.Click += new System.EventHandler(this.toolStripButton_PageLast_Click);
             // 
             // toolStripLabel_PageCur
             // 
@@ -292,12 +336,15 @@
             // toolStripContainer2.ContentPanel
             // 
             this.toolStripContainer2.ContentPanel.Controls.Add(this.dataGridView_IndexView);
-            this.toolStripContainer2.ContentPanel.Size = new System.Drawing.Size(868, 321);
+            this.toolStripContainer2.ContentPanel.Size = new System.Drawing.Size(844, 321);
             this.toolStripContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer2.LeftToolStripPanelVisible = false;
             this.toolStripContainer2.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer2.Name = "toolStripContainer2";
-            this.toolStripContainer2.RightToolStripPanelVisible = false;
+            // 
+            // toolStripContainer2.RightToolStripPanel
+            // 
+            this.toolStripContainer2.RightToolStripPanel.Controls.Add(this.toolStrip4);
             this.toolStripContainer2.Size = new System.Drawing.Size(868, 346);
             this.toolStripContainer2.TabIndex = 0;
             this.toolStripContainer2.Text = "toolStripContainer2";
@@ -316,7 +363,7 @@
             this.dataGridView_IndexView.Location = new System.Drawing.Point(0, 0);
             this.dataGridView_IndexView.Name = "dataGridView_IndexView";
             this.dataGridView_IndexView.ReadOnly = true;
-            this.dataGridView_IndexView.Size = new System.Drawing.Size(868, 321);
+            this.dataGridView_IndexView.Size = new System.Drawing.Size(844, 321);
             this.dataGridView_IndexView.TabIndex = 0;
             this.dataGridView_IndexView.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_IndexView_CellContentDoubleClick);
             this.dataGridView_IndexView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_IndexView_CellDoubleClick);
@@ -354,6 +401,26 @@
             this.differentToolStripMenuItem.Text = "x_different";
             this.differentToolStripMenuItem.Click += new System.EventHandler(this.differentToolStripMenuItem_Click);
             // 
+            // toolStrip4
+            // 
+            this.toolStrip4.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip4.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButton_CommandLineRun});
+            this.toolStrip4.Location = new System.Drawing.Point(0, 3);
+            this.toolStrip4.Name = "toolStrip4";
+            this.toolStrip4.Size = new System.Drawing.Size(24, 34);
+            this.toolStrip4.TabIndex = 0;
+            // 
+            // toolStripButton_CommandLineRun
+            // 
+            this.toolStripButton_CommandLineRun.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton_CommandLineRun.Image = global::TextParser.Properties.Resources.Procedures;
+            this.toolStripButton_CommandLineRun.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_CommandLineRun.Name = "toolStripButton_CommandLineRun";
+            this.toolStripButton_CommandLineRun.Size = new System.Drawing.Size(22, 20);
+            this.toolStripButton_CommandLineRun.Text = "toolStripButton1";
+            this.toolStripButton_CommandLineRun.Click += new System.EventHandler(this.toolStripButton_CommandLineRun_Click);
+            // 
             // toolStrip3
             // 
             this.toolStrip3.Dock = System.Windows.Forms.DockStyle.None;
@@ -370,7 +437,7 @@
             this.toolStripButton_Import});
             this.toolStrip3.Location = new System.Drawing.Point(3, 0);
             this.toolStrip3.Name = "toolStrip3";
-            this.toolStrip3.Size = new System.Drawing.Size(865, 25);
+            this.toolStrip3.Size = new System.Drawing.Size(850, 25);
             this.toolStrip3.TabIndex = 0;
             // 
             // toolStripLabel3
@@ -384,6 +451,25 @@
             this.toolStripComboBox_Indexes.Name = "toolStripComboBox_Indexes";
             this.toolStripComboBox_Indexes.Size = new System.Drawing.Size(200, 25);
             this.toolStripComboBox_Indexes.SelectedIndexChanged += new System.EventHandler(this.toolStripComboBox_Indexes_SelectedIndexChanged);
+            // 
+            // toolStripDropDownButton_IndexWork
+            // 
+            this.toolStripDropDownButton_IndexWork.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripDropDownButton_IndexWork.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem_DeleteIndex});
+            this.toolStripDropDownButton_IndexWork.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton_IndexWork.Image")));
+            this.toolStripDropDownButton_IndexWork.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButton_IndexWork.Name = "toolStripDropDownButton_IndexWork";
+            this.toolStripDropDownButton_IndexWork.Size = new System.Drawing.Size(86, 22);
+            this.toolStripDropDownButton_IndexWork.Text = "x_IndexWork";
+            this.toolStripDropDownButton_IndexWork.DropDownOpening += new System.EventHandler(this.toolStripDropDownButton_IndexWork_DropDownOpening);
+            // 
+            // toolStripMenuItem_DeleteIndex
+            // 
+            this.toolStripMenuItem_DeleteIndex.Name = "toolStripMenuItem_DeleteIndex";
+            this.toolStripMenuItem_DeleteIndex.Size = new System.Drawing.Size(148, 22);
+            this.toolStripMenuItem_DeleteIndex.Text = "x_Delete Index";
+            this.toolStripMenuItem_DeleteIndex.Click += new System.EventHandler(this.toolStripMenuItem_DeleteIndex_Click);
             // 
             // toolStripSeparator3
             // 
@@ -403,10 +489,41 @@
             this.toolStripTextBox_Query.KeyDown += new System.Windows.Forms.KeyEventHandler(this.toolStripTextBox_Query_KeyDown);
             this.toolStripTextBox_Query.TextChanged += new System.EventHandler(this.toolStripTextBox_Query_TextChanged);
             // 
+            // toolStripButton_Search
+            // 
+            this.toolStripButton_Search.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton_Search.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_Search.Image")));
+            this.toolStripButton_Search.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_Search.Name = "toolStripButton_Search";
+            this.toolStripButton_Search.Size = new System.Drawing.Size(56, 22);
+            this.toolStripButton_Search.Text = "x_Search";
+            this.toolStripButton_Search.Click += new System.EventHandler(this.toolStripButton_Search_Click);
+            // 
+            // toolStripButton_SaveQuery
+            // 
+            this.toolStripButton_SaveQuery.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton_SaveQuery.Enabled = false;
+            this.toolStripButton_SaveQuery.Image = global::TextParser.Properties.Resources.saveHS;
+            this.toolStripButton_SaveQuery.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_SaveQuery.Name = "toolStripButton_SaveQuery";
+            this.toolStripButton_SaveQuery.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton_SaveQuery.Text = "toolStripButton1";
+            this.toolStripButton_SaveQuery.Click += new System.EventHandler(this.toolStripButton_SaveQuery_Click);
+            // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripButton_Import
+            // 
+            this.toolStripButton_Import.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton_Import.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_Import.Image")));
+            this.toolStripButton_Import.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_Import.Name = "toolStripButton_Import";
+            this.toolStripButton_Import.Size = new System.Drawing.Size(57, 22);
+            this.toolStripButton_Import.Text = "x_Import";
+            this.toolStripButton_Import.Click += new System.EventHandler(this.toolStripButton_Import_Click);
             // 
             // toolStrip1
             // 
@@ -438,15 +555,47 @@
             this.toolStripTextBox_Parser.Name = "toolStripTextBox_Parser";
             this.toolStripTextBox_Parser.Size = new System.Drawing.Size(300, 25);
             // 
+            // toolStripButton_Parse
+            // 
+            this.toolStripButton_Parse.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton_Parse.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_Parse.Image")));
+            this.toolStripButton_Parse.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_Parse.Name = "toolStripButton_Parse";
+            this.toolStripButton_Parse.Size = new System.Drawing.Size(49, 22);
+            this.toolStripButton_Parse.Text = "x_Parse";
+            this.toolStripButton_Parse.Click += new System.EventHandler(this.toolStripButton_Parse_Click);
+            // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
             this.toolStripSeparator5.Size = new System.Drawing.Size(6, 25);
             // 
+            // toolStripButton_Stop
+            // 
+            this.toolStripButton_Stop.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton_Stop.Image = global::TextParser.Properties.Resources.Stop_Icon;
+            this.toolStripButton_Stop.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_Stop.Name = "toolStripButton_Stop";
+            this.toolStripButton_Stop.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton_Stop.Text = "toolStripButton1";
+            this.toolStripButton_Stop.Click += new System.EventHandler(this.toolStripButton_Stop_Click);
+            // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
             this.toolStripSeparator6.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripButton_Listen
+            // 
+            this.toolStripButton_Listen.CheckOnClick = true;
+            this.toolStripButton_Listen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton_Listen.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_Listen.Image")));
+            this.toolStripButton_Listen.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_Listen.Name = "toolStripButton_Listen";
+            this.toolStripButton_Listen.Size = new System.Drawing.Size(52, 22);
+            this.toolStripButton_Listen.Text = "x_Listen";
+            this.toolStripButton_Listen.CheckStateChanged += new System.EventHandler(this.toolStripButton_Listen_CheckStateChanged);
+            this.toolStripButton_Listen.Click += new System.EventHandler(this.toolStripButton_Listen_Click);
             // 
             // toolStripSeparator7
             // 
@@ -464,128 +613,6 @@
             this.toolStripLabel_ParseCount.Name = "toolStripLabel_ParseCount";
             this.toolStripLabel_ParseCount.Size = new System.Drawing.Size(24, 22);
             this.toolStripLabel_ParseCount.Text = "0/0";
-            // 
-            // toolStripButton_PageFirst
-            // 
-            this.toolStripButton_PageFirst.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton_PageFirst.Image = global::TextParser.Properties.Resources.pulsante_01_architetto_f_01_First1;
-            this.toolStripButton_PageFirst.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_PageFirst.Name = "toolStripButton_PageFirst";
-            this.toolStripButton_PageFirst.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton_PageFirst.Text = "toolStripButton1";
-            this.toolStripButton_PageFirst.Click += new System.EventHandler(this.toolStripButton_PageFirst_Click);
-            // 
-            // toolStripButton_PagePrevious
-            // 
-            this.toolStripButton_PagePrevious.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton_PagePrevious.Image = global::TextParser.Properties.Resources.pulsante_01_architetto_f_01;
-            this.toolStripButton_PagePrevious.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_PagePrevious.Name = "toolStripButton_PagePrevious";
-            this.toolStripButton_PagePrevious.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton_PagePrevious.Text = "toolStripButton2";
-            this.toolStripButton_PagePrevious.Click += new System.EventHandler(this.toolStripButton_PagePrevious_Click);
-            // 
-            // toolStripButton_PageNext
-            // 
-            this.toolStripButton_PageNext.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton_PageNext.Image = global::TextParser.Properties.Resources.pulsante_02_architetto_f_01;
-            this.toolStripButton_PageNext.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_PageNext.Name = "toolStripButton_PageNext";
-            this.toolStripButton_PageNext.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton_PageNext.Text = "toolStripButton3";
-            this.toolStripButton_PageNext.Click += new System.EventHandler(this.toolStripButton_PageNext_Click);
-            // 
-            // toolStripButton_PageLast
-            // 
-            this.toolStripButton_PageLast.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton_PageLast.Image = global::TextParser.Properties.Resources.pulsante_02_architetto_f_01_Last;
-            this.toolStripButton_PageLast.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_PageLast.Name = "toolStripButton_PageLast";
-            this.toolStripButton_PageLast.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton_PageLast.Text = "toolStripButton4";
-            this.toolStripButton_PageLast.Click += new System.EventHandler(this.toolStripButton_PageLast_Click);
-            // 
-            // toolStripDropDownButton_IndexWork
-            // 
-            this.toolStripDropDownButton_IndexWork.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripDropDownButton_IndexWork.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem_DeleteIndex});
-            this.toolStripDropDownButton_IndexWork.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton_IndexWork.Image")));
-            this.toolStripDropDownButton_IndexWork.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripDropDownButton_IndexWork.Name = "toolStripDropDownButton_IndexWork";
-            this.toolStripDropDownButton_IndexWork.Size = new System.Drawing.Size(86, 22);
-            this.toolStripDropDownButton_IndexWork.Text = "x_IndexWork";
-            this.toolStripDropDownButton_IndexWork.DropDownOpening += new System.EventHandler(this.toolStripDropDownButton_IndexWork_DropDownOpening);
-            // 
-            // toolStripMenuItem_DeleteIndex
-            // 
-            this.toolStripMenuItem_DeleteIndex.Name = "toolStripMenuItem_DeleteIndex";
-            this.toolStripMenuItem_DeleteIndex.Size = new System.Drawing.Size(148, 22);
-            this.toolStripMenuItem_DeleteIndex.Text = "x_Delete Index";
-            this.toolStripMenuItem_DeleteIndex.Click += new System.EventHandler(this.toolStripMenuItem_DeleteIndex_Click);
-            // 
-            // toolStripButton_Search
-            // 
-            this.toolStripButton_Search.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton_Search.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_Search.Image")));
-            this.toolStripButton_Search.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_Search.Name = "toolStripButton_Search";
-            this.toolStripButton_Search.Size = new System.Drawing.Size(56, 22);
-            this.toolStripButton_Search.Text = "x_Search";
-            this.toolStripButton_Search.Click += new System.EventHandler(this.toolStripButton_Search_Click);
-            // 
-            // toolStripButton_SaveQuery
-            // 
-            this.toolStripButton_SaveQuery.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton_SaveQuery.Enabled = false;
-            this.toolStripButton_SaveQuery.Image = global::TextParser.Properties.Resources.saveHS;
-            this.toolStripButton_SaveQuery.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_SaveQuery.Name = "toolStripButton_SaveQuery";
-            this.toolStripButton_SaveQuery.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton_SaveQuery.Text = "toolStripButton1";
-            this.toolStripButton_SaveQuery.Click += new System.EventHandler(this.toolStripButton_SaveQuery_Click);
-            // 
-            // toolStripButton_Import
-            // 
-            this.toolStripButton_Import.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton_Import.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_Import.Image")));
-            this.toolStripButton_Import.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_Import.Name = "toolStripButton_Import";
-            this.toolStripButton_Import.Size = new System.Drawing.Size(57, 22);
-            this.toolStripButton_Import.Text = "x_Import";
-            this.toolStripButton_Import.Click += new System.EventHandler(this.toolStripButton_Import_Click);
-            // 
-            // toolStripButton_Parse
-            // 
-            this.toolStripButton_Parse.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton_Parse.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_Parse.Image")));
-            this.toolStripButton_Parse.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_Parse.Name = "toolStripButton_Parse";
-            this.toolStripButton_Parse.Size = new System.Drawing.Size(49, 22);
-            this.toolStripButton_Parse.Text = "x_Parse";
-            this.toolStripButton_Parse.Click += new System.EventHandler(this.toolStripButton_Parse_Click);
-            // 
-            // toolStripButton_Stop
-            // 
-            this.toolStripButton_Stop.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton_Stop.Image = global::TextParser.Properties.Resources.Stop_Icon;
-            this.toolStripButton_Stop.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_Stop.Name = "toolStripButton_Stop";
-            this.toolStripButton_Stop.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton_Stop.Text = "toolStripButton1";
-            this.toolStripButton_Stop.Click += new System.EventHandler(this.toolStripButton_Stop_Click);
-            // 
-            // toolStripButton_Listen
-            // 
-            this.toolStripButton_Listen.CheckOnClick = true;
-            this.toolStripButton_Listen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton_Listen.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_Listen.Image")));
-            this.toolStripButton_Listen.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_Listen.Name = "toolStripButton_Listen";
-            this.toolStripButton_Listen.Size = new System.Drawing.Size(52, 22);
-            this.toolStripButton_Listen.Text = "x_Listen";
-            this.toolStripButton_Listen.CheckStateChanged += new System.EventHandler(this.toolStripButton_Listen_CheckStateChanged);
-            this.toolStripButton_Listen.Click += new System.EventHandler(this.toolStripButton_Listen_Click);
             // 
             // UserControl_FieldParserView
             // 
@@ -614,12 +641,16 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Fields)).EndInit();
             this.contextMenuStrip_Fields.ResumeLayout(false);
             this.toolStripContainer2.ContentPanel.ResumeLayout(false);
+            this.toolStripContainer2.RightToolStripPanel.ResumeLayout(false);
+            this.toolStripContainer2.RightToolStripPanel.PerformLayout();
             this.toolStripContainer2.TopToolStripPanel.ResumeLayout(false);
             this.toolStripContainer2.TopToolStripPanel.PerformLayout();
             this.toolStripContainer2.ResumeLayout(false);
             this.toolStripContainer2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_IndexView)).EndInit();
             this.contextMenuStrip_Index.ResumeLayout(false);
+            this.toolStrip4.ResumeLayout(false);
+            this.toolStrip4.PerformLayout();
             this.toolStrip3.ResumeLayout(false);
             this.toolStrip3.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
@@ -683,5 +714,7 @@
         private System.Windows.Forms.DataGridView dataGridView_Fields;
         private System.Windows.Forms.TreeView treeView_SubParsers;
         private System.Windows.Forms.ToolStripButton toolStripButton_SaveQuery;
+        private System.Windows.Forms.ToolStrip toolStrip4;
+        private System.Windows.Forms.ToolStripButton toolStripButton_CommandLineRun;
     }
 }
