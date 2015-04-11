@@ -2,6 +2,21 @@ c:\
 cd \cygwin64\bin
 mkdir %temp%\OModules
 del /s /q %temp%\OModules\*.*
+del /s /q "%OMODULE_PATH%\OntologyClasses\*.*"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\OntologyClasses_0.0.1.7.exe" -o"%OMODULE_PATH%\OntologyClasses\"
+
+del /s /q "%OMODULE_PATH%\Structure-Module\*.*"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Structure-Module_0.0.1.1.exe" -o"%OMODULE_PATH%\Structure-Module\"
+
+del /s /q "%OMODULE_PATH%\ClassLibrary_ShellWork\*.*"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\ClassLibrary_ShellWork_0.1.0.1.exe" -o"%OMODULE_PATH%\ClassLibrary_ShellWork\"
+
+del /s /q "%OMODULE_PATH%\ClipBoardListener-Url-Connector\*.*"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\ClipBoardListener-Url-Connector_0.0.0.46.exe" -o"%OMODULE_PATH%\ClipBoardListener-Url-Connector\"
+
+del /s /q "%OMODULE_PATH%\ElasticSearchNestConnector\*.*"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\ElasticSearchNestConnector_0.0.0.48.exe" -o"%OMODULE_PATH%\ElasticSearchNestConnector\"
+
 del /s /q "%OMODULE_PATH%\Ontology-Module\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\Ontology-Module_0.4.0.150.exe" -o"%OMODULE_PATH%\Ontology-Module\"
 

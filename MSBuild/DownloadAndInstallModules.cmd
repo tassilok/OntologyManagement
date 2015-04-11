@@ -3,6 +3,66 @@ cd \cygwin64\bin
 mkdir %temp%\OModules
 del /s /q %temp%\OModules\*.*
 
+if /i [OntologyClasses] EQU [Ontolog-Module] (
+	SET DOWNLOAD_URL=https://sourceforge.net/projects/ontologymanager/files/OntologyManager
+) else (
+	SET DOWNLOAD_URL=https://sourceforge.net/projects/ontologymanager/files/Modules/OntologyClasses
+)
+
+del /s /q "%OMODULE_PATH%\OntologyClasses\*.*"
+
+wget -O "%temp%\OModules\OntologyClasses_0.0.1.7.exe" %DOWNLOAD_URL%/OntologyClasses_0.0.1.7.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\OntologyClasses_0.0.1.7.exe" -o"%OMODULE_PATH%\OntologyClasses\"
+
+
+if /i [Structure-Module] EQU [Ontolog-Module] (
+	SET DOWNLOAD_URL=https://sourceforge.net/projects/ontologymanager/files/OntologyManager
+) else (
+	SET DOWNLOAD_URL=https://sourceforge.net/projects/ontologymanager/files/Modules/Structure-Module
+)
+
+del /s /q "%OMODULE_PATH%\Structure-Module\*.*"
+
+wget -O "%temp%\OModules\Structure-Module_0.0.1.1.exe" %DOWNLOAD_URL%/Structure-Module_0.0.1.1.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\Structure-Module_0.0.1.1.exe" -o"%OMODULE_PATH%\Structure-Module\"
+
+
+if /i [ClassLibrary_ShellWork] EQU [Ontolog-Module] (
+	SET DOWNLOAD_URL=https://sourceforge.net/projects/ontologymanager/files/OntologyManager
+) else (
+	SET DOWNLOAD_URL=https://sourceforge.net/projects/ontologymanager/files/Modules/ClassLibrary_ShellWork
+)
+
+del /s /q "%OMODULE_PATH%\ClassLibrary_ShellWork\*.*"
+
+wget -O "%temp%\OModules\ClassLibrary_ShellWork_0.1.0.1.exe" %DOWNLOAD_URL%/ClassLibrary_ShellWork_0.1.0.1.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\ClassLibrary_ShellWork_0.1.0.1.exe" -o"%OMODULE_PATH%\ClassLibrary_ShellWork\"
+
+
+if /i [ClipBoardListener-Url-Connector] EQU [Ontolog-Module] (
+	SET DOWNLOAD_URL=https://sourceforge.net/projects/ontologymanager/files/OntologyManager
+) else (
+	SET DOWNLOAD_URL=https://sourceforge.net/projects/ontologymanager/files/Modules/ClipBoardListener-Url-Connector
+)
+
+del /s /q "%OMODULE_PATH%\ClipBoardListener-Url-Connector\*.*"
+
+wget -O "%temp%\OModules\ClipBoardListener-Url-Connector_0.0.0.46.exe" %DOWNLOAD_URL%/ClipBoardListener-Url-Connector_0.0.0.46.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\ClipBoardListener-Url-Connector_0.0.0.46.exe" -o"%OMODULE_PATH%\ClipBoardListener-Url-Connector\"
+
+
+if /i [ElasticSearchNestConnector] EQU [Ontolog-Module] (
+	SET DOWNLOAD_URL=https://sourceforge.net/projects/ontologymanager/files/OntologyManager
+) else (
+	SET DOWNLOAD_URL=https://sourceforge.net/projects/ontologymanager/files/Modules/ElasticSearchNestConnector
+)
+
+del /s /q "%OMODULE_PATH%\ElasticSearchNestConnector\*.*"
+
+wget -O "%temp%\OModules\ElasticSearchNestConnector_0.0.0.48.exe" %DOWNLOAD_URL%/ElasticSearchNestConnector_0.0.0.48.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\ElasticSearchNestConnector_0.0.0.48.exe" -o"%OMODULE_PATH%\ElasticSearchNestConnector\"
+
+
 if /i [Ontology-Module] EQU [Ontolog-Module] (
 	SET DOWNLOAD_URL=https://sourceforge.net/projects/ontologymanager/files/OntologyManager
 ) else (
