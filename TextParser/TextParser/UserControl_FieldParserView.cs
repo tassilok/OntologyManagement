@@ -49,7 +49,7 @@ namespace TextParser
         private clsDBLevel objDBLevel_Indexes;
 
         private frmModules objFrmModules;
-        private clsShellWork objShellWork;
+        private clsShellWork objShellWork = new clsShellWork();
 
         private frmPortListenerForText objFrmPortListenerForText;
         
