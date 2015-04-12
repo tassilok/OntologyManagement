@@ -13,20 +13,24 @@
 <Item Id="956a2e59176a4437a8668690616b9da4" Id_Parent="71415eebce464b2cb0a2f72116b55438"><![CDATA[Programing-Language]]></Item>
 <Item Id="f47a3e1c50b44666a41de975597c9adb" Id_Parent="2f05c250be334b77ba3cb8a0228821b6"><![CDATA[Folder]]></Item>
 <Item Id="e70a5349f5f64671b4e3dbc9b53ca8fe" Id_Parent="dbadb971a838485ba4eedce6c477ac3c"><![CDATA[Comand Line (Run) To Report]]></Item>
+<Item Id="751a91f1c59142fdb98be39614f74e5e" Id_Parent="205df6b64e8c4aabb39f5bd2bdc4c88b"><![CDATA[Variable To TextParserField]]></Item>
 <Item Id="e116e2bd424b4a76a22908513f919a85" Id_Parent="71415eebce464b2cb0a2f72116b55438"><![CDATA[Code-Snipplets]]></Item>
 <Item Id="a543c143e2084e5c93b8f6b7aa316c59" Id_Parent="20b74c27dcd64d86b4c2dd669a9d9490"><![CDATA[Arguments]]></Item>
 <Item Id="87def71be84142fa97a27a861d72be09" Id_Parent="2f05c250be334b77ba3cb8a0228821b6"><![CDATA[Path-Variable (Windows)]]></Item>
 <Item Id="001fef875bb04f4885a1cfb081fd7c18" Id_Parent="fcf2ff376c8d4fec939903d53898b84f"><![CDATA[Executable-Configuration]]></Item>
 <Item Id="498213473d044624bbd71a5b62bba94c" Id_Parent="8aa50712fda94222a3506378f36e49f8"><![CDATA[Encoding]]></Item>
+<Item Id="4158aad2656a4fb997bf524c6f5fecaa" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Variable]]></Item>
+<Item Id="dbadb971a838485ba4eedce6c477ac3c" Id_Parent="20b74c27dcd64d86b4c2dd669a9d9490"><![CDATA[Comand Line (Run)]]></Item>
+<Item Id="6eb4fdd32e254886b288e1bfc2857efb" Id_Parent="2f05c250be334b77ba3cb8a0228821b6"><![CDATA[File]]></Item>
 <Item Id="20b74c27dcd64d86b4c2dd669a9d9490" Id_Parent="4546225bab044036b2182e95a25a0c2b"><![CDATA[Comand Line]]></Item>
 <Item Id="6e31f90520ce4f8fb4016da5ba871ecb" Id_Parent="ba76b764134341d69973ca181c4fabc8"><![CDATA[Extensions]]></Item>
 <Item Id="8a894710e08c42c5b829ef4809830d33" Id_Parent="2f05c250be334b77ba3cb8a0228821b6"><![CDATA[Path]]></Item>
 <Item Id="c790aa5b14a446b0bd8c4317ef5716e2" Id_Parent="30cbc6e89c0f47d6920c97fdc40ea1de"><![CDATA[Report-Field]]></Item>
 <Item Id="9c10df14a3bf4c69b1df23bc8d34b898" Id_Parent="e70a5349f5f64671b4e3dbc9b53ca8fe"><![CDATA[Variable To Field]]></Item>
-<Item Id="4158aad2656a4fb997bf524c6f5fecaa" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Variable]]></Item>
-<Item Id="dbadb971a838485ba4eedce6c477ac3c" Id_Parent="20b74c27dcd64d86b4c2dd669a9d9490"><![CDATA[Comand Line (Run)]]></Item>
-<Item Id="6eb4fdd32e254886b288e1bfc2857efb" Id_Parent="2f05c250be334b77ba3cb8a0228821b6"><![CDATA[File]]></Item>
+<Item Id="205df6b64e8c4aabb39f5bd2bdc4c88b" Id_Parent="dbadb971a838485ba4eedce6c477ac3c"><![CDATA[Comand Line (Run) To TextParser]]></Item>
+<Item Id="bd8af19406a74130acad0394cab33ee6" Id_Parent="f18f0dc8e57b41f0afbf8a0edd4c0fa8"><![CDATA[Field]]></Item>
 <Item Id="b5224e7f7d0d4beebf8eb9a0eeba5747" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Module-Management]]></Item>
+<Item Id="f18f0dc8e57b41f0afbf8a0edd4c0fa8" Id_Parent="e963963489d8493eb74c56634f773d3c"><![CDATA[Textparser]]></Item>
 <Item Id="30cbc6e89c0f47d6920c97fdc40ea1de" Id_Parent="83317bacb4b14db8bf849fca0a93ddd5"><![CDATA[Reports]]></Item>
 <Item Id="ba76b764134341d69973ca181c4fabc8" Id_Parent="6eb4fdd32e254886b288e1bfc2857efb"><![CDATA[Filetypes]]></Item>
 <Item Id="2f05c250be334b77ba3cb8a0228821b6" Id_Parent="665dd88b792e4256a27a68ee1e10ece6"><![CDATA[Filesystem-Management]]></Item>
@@ -38,5 +42,6 @@
 <Item Id="7d0178e29c044485b81c6d79253c6f64" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[Localization-Management]]></Item>
 <Item Id="83317bacb4b14db8bf849fca0a93ddd5" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[Information-Management]]></Item>
 <Item Id="73e32abfe5774d319a46bc07e9e15de3" Id_Parent="49fdcd27e1054770941d7485dcad08c1"><![CDATA[Software-Management]]></Item>
+<Item Id="e963963489d8493eb74c56634f773d3c" Id_Parent="83317bacb4b14db8bf849fca0a93ddd5"><![CDATA[Texte]]></Item>
 
 </Items>

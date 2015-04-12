@@ -45,6 +45,11 @@ public clsOntologyItem OItem_attributetype_regex { get; set; }
 public clsOntologyItem OItem_attributetype_uselastvalid { get; set; }
 public clsOntologyItem OItem_attributetype_doall { get; set; }
 public clsOntologyItem OItem_attributetype_text { get; set; }
+public clsOntologyItem OItem_attributetype_doublevalue { get; set; }
+public clsOntologyItem OItem_attributetype_longvalue { get; set; }
+public clsOntologyItem OItem_attributetype_datetimevalue { get; set; }
+public clsOntologyItem OItem_attributetype_bitvalue { get; set; }
+public clsOntologyItem OItem_attributetype_stringvalue { get; set; }
 
         // Classes
 public clsOntologyItem OItem_class_entry_value_parser { get; set; }
@@ -73,6 +78,7 @@ public clsOntologyItem OItem_class_log__elasticsearch_ { get; set; }
         public clsOntologyItem OItem_class_textparser_configurationitem { get; set; }
         public clsOntologyItem OItem_class_field_replace__textparser_ { get; set; }
         public clsOntologyItem OItem_class_pattern { get; set; }
+        public clsOntologyItem OItem_class_documentitem { get; set; }
 
         // RelationTypes
 public clsOntologyItem OItem_relationtype_belonging_resource { get; set; }
@@ -306,6 +312,111 @@ private void get_Data_DevelopmentConfig()
   
 	private void get_Config_AttributeTypes()
         {
+            var objOList_attributetype_stringvalue = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                      where objOItem.ID_Object == cstrID_Ontology
+                                                      join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                      where objRef.Name_Object.ToLower() == "attributetype_stringvalue".ToLower() && objRef.Ontology == Globals.Type_AttributeType
+                                                      select objRef).ToList();
+
+            if (objOList_attributetype_stringvalue.Any())
+            {
+                OItem_attributetype_stringvalue = new clsOntologyItem()
+                {
+                    GUID = objOList_attributetype_stringvalue.First().ID_Other,
+                    Name = objOList_attributetype_stringvalue.First().Name_Other,
+                    GUID_Parent = objOList_attributetype_stringvalue.First().ID_Parent_Other,
+                    Type = Globals.Type_AttributeType
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            var objOList_attributetype_doublevalue = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                      where objOItem.ID_Object == cstrID_Ontology
+                                                      join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                      where objRef.Name_Object.ToLower() == "attributetype_doublevalue".ToLower() && objRef.Ontology == Globals.Type_AttributeType
+                                                      select objRef).ToList();
+
+            if (objOList_attributetype_doublevalue.Any())
+            {
+                OItem_attributetype_doublevalue = new clsOntologyItem()
+                {
+                    GUID = objOList_attributetype_doublevalue.First().ID_Other,
+                    Name = objOList_attributetype_doublevalue.First().Name_Other,
+                    GUID_Parent = objOList_attributetype_doublevalue.First().ID_Parent_Other,
+                    Type = Globals.Type_AttributeType
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            var objOList_attributetype_longvalue = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                    where objOItem.ID_Object == cstrID_Ontology
+                                                    join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                    where objRef.Name_Object.ToLower() == "attributetype_longvalue".ToLower() && objRef.Ontology == Globals.Type_AttributeType
+                                                    select objRef).ToList();
+
+            if (objOList_attributetype_longvalue.Any())
+            {
+                OItem_attributetype_longvalue = new clsOntologyItem()
+                {
+                    GUID = objOList_attributetype_longvalue.First().ID_Other,
+                    Name = objOList_attributetype_longvalue.First().Name_Other,
+                    GUID_Parent = objOList_attributetype_longvalue.First().ID_Parent_Other,
+                    Type = Globals.Type_AttributeType
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            var objOList_attributetype_datetimevalue = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                        where objOItem.ID_Object == cstrID_Ontology
+                                                        join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                        where objRef.Name_Object.ToLower() == "attributetype_datetimevalue".ToLower() && objRef.Ontology == Globals.Type_AttributeType
+                                                        select objRef).ToList();
+
+            if (objOList_attributetype_datetimevalue.Any())
+            {
+                OItem_attributetype_datetimevalue = new clsOntologyItem()
+                {
+                    GUID = objOList_attributetype_datetimevalue.First().ID_Other,
+                    Name = objOList_attributetype_datetimevalue.First().Name_Other,
+                    GUID_Parent = objOList_attributetype_datetimevalue.First().ID_Parent_Other,
+                    Type = Globals.Type_AttributeType
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
+            var objOList_attributetype_bitvalue = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                                   where objOItem.ID_Object == cstrID_Ontology
+                                                   join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                                   where objRef.Name_Object.ToLower() == "attributetype_bitvalue".ToLower() && objRef.Ontology == Globals.Type_AttributeType
+                                                   select objRef).ToList();
+
+            if (objOList_attributetype_bitvalue.Any())
+            {
+                OItem_attributetype_bitvalue = new clsOntologyItem()
+                {
+                    GUID = objOList_attributetype_bitvalue.First().ID_Other,
+                    Name = objOList_attributetype_bitvalue.First().Name_Other,
+                    GUID_Parent = objOList_attributetype_bitvalue.First().ID_Parent_Other,
+                    Type = Globals.Type_AttributeType
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
             var objOList_attributetype_text = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                                where objOItem.ID_Object == cstrID_Ontology
                                                join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
@@ -1516,6 +1627,27 @@ var objOList_relationtype_value = (from objOItem in objDBLevel_Config1.OList_Obj
   
 	private void get_Config_Classes()
         {
+            var objOList_class_documentitem = (from objOItem in objDBLevel_Config1.OList_ObjectRel
+                                               where objOItem.ID_Object == cstrID_Ontology
+                                               join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object
+                                               where objRef.Name_Object.ToLower() == "class_documentitem".ToLower() && objRef.Ontology == Globals.Type_Class
+                                               select objRef).ToList();
+
+            if (objOList_class_documentitem.Any())
+            {
+                OItem_class_documentitem = new clsOntologyItem()
+                {
+                    GUID = objOList_class_documentitem.First().ID_Other,
+                    Name = objOList_class_documentitem.First().Name_Other,
+                    GUID_Parent = objOList_class_documentitem.First().ID_Parent_Other,
+                    Type = Globals.Type_Class
+                };
+            }
+            else
+            {
+                throw new Exception("config err");
+            }
+
             var objOList_class_pattern = (from objOItem in objDBLevel_Config1.OList_ObjectRel
                                           where objOItem.ID_Object == cstrID_Ontology
                                           join objRef in objDBLevel_Config2.OList_ObjectRel on objOItem.ID_Other equals objRef.ID_Object

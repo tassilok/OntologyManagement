@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortListenerForText-Module"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLineRun-Module", "..\CommandLineRun-Module\CommandLineRun-Module\CommandLineRun-Module.csproj", "{DEED8843-0C77-4C8C-93C5-3E5768314A63}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ClassLibrary_ShellWork", "..\ClassLibrary_ShellWork\ClassLibrary_ShellWork\ClassLibrary_ShellWork.vbproj", "{10BCC346-A390-401C-BA6A-904A8842A40B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -148,6 +150,16 @@ Global
 		{DEED8843-0C77-4C8C-93C5-3E5768314A63}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{DEED8843-0C77-4C8C-93C5-3E5768314A63}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{DEED8843-0C77-4C8C-93C5-3E5768314A63}.Release|x86.ActiveCfg = Release|Any CPU
+		{10BCC346-A390-401C-BA6A-904A8842A40B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10BCC346-A390-401C-BA6A-904A8842A40B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10BCC346-A390-401C-BA6A-904A8842A40B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{10BCC346-A390-401C-BA6A-904A8842A40B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{10BCC346-A390-401C-BA6A-904A8842A40B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{10BCC346-A390-401C-BA6A-904A8842A40B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10BCC346-A390-401C-BA6A-904A8842A40B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10BCC346-A390-401C-BA6A-904A8842A40B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{10BCC346-A390-401C-BA6A-904A8842A40B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{10BCC346-A390-401C-BA6A-904A8842A40B}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

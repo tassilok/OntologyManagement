@@ -155,6 +155,12 @@ Public Class clsAppDBLevel
         Return objOItem_Result
     End Function
 
+    Public Function Del_Documents(strType As String, idList As List(Of String)) As clsOntologyItem
+        Dim objOItem_Result = objAppElDeletor.DeleteItemsById(strIndex, strType, idList)
+
+        Return objOItem_Result
+    End Function
+
     Public Function GetData_Documents(Optional strIndex As String = Nothing, Optional strType As String = Nothing, Optional paging As Boolean = false, Optional lastPos  As Integer = 0, optional strQuery As String = Nothing) As List(Of clsAppDocuments)
         Dim objDocuments = objAppElSelector.GetData_Documents(strIndex,strType,paging,lastPos,strQuery)
 

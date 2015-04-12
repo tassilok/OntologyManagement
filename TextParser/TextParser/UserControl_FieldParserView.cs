@@ -17,6 +17,7 @@ using PortListenerForText_Module;
 using System.Globalization;
 using System.Threading;
 using CommandLineRun_Module;
+using ClassLibrary_ShellWork;
 
 namespace TextParser
 {
@@ -46,6 +47,9 @@ namespace TextParser
         private clsAppDBLevel objAppDBLevel;
 
         private clsDBLevel objDBLevel_Indexes;
+
+        private frmModules objFrmModules;
+        private clsShellWork objShellWork;
 
         private frmPortListenerForText objFrmPortListenerForText;
         
@@ -83,6 +87,8 @@ namespace TextParser
         private bool pIndexFill = false;
 
         private string pattern = "";
+
+        private string strLastModule;
 
         public UserControl_FieldParserView(clsLocalConfig LocalConfig)
         {
@@ -384,16 +390,19 @@ namespace TextParser
 
                 if (index != "")
                 {
-                    var Docs = objAppDBLevel.GetData_Documents(index, objDataWork_TextParser.OITem_Type != null ? objDataWork_TextParser.OITem_Type.Name : "Doc", true, pos, toolStripTextBox_Query.Text == "" ? null : toolStripTextBox_Query.Text).Select(d => d.Dict).ToList();
+                    var Docs = objAppDBLevel.GetData_Documents(index, objDataWork_TextParser.OITem_Type != null ? objDataWork_TextParser.OITem_Type.Name : "Doc", true, pos, toolStripTextBox_Query.Text == "" ? null : toolStripTextBox_Query.Text).ToList();
                     CreateDataTable();
 
                     foreach (var doc in Docs)
                     {
+                        
                         var row = dataTable.Rows.Add();
+                        row[objOItem_TextParser.GUID + "_ID"] = doc.Id;
                         for(int i = 0;i<fieldList.Count;i++)
                         {
-                            if (doc.ContainsKey(fieldList[i].Name_Field))
-                                row[fieldList[i].Name_Field] = doc[fieldList[i].Name_Field];
+                            
+                            if (doc.Dict.ContainsKey(fieldList[i].Name_Field))
+                                row[fieldList[i].Name_Field] = doc.Dict[fieldList[i].Name_Field];
                         }
 
                     }
@@ -401,6 +410,10 @@ namespace TextParser
                     dataGridView_IndexView.DataSource = bindingSource_Items;
                     foreach (DataGridViewColumn col in dataGridView_IndexView.Columns)
                     {
+                        if (col.DataPropertyName == objOItem_TextParser.GUID + "_ID")
+                        {
+                            col.Visible = false;
+                        }
                         if (col.ValueType == typeof(System.DateTime))
                         {
                             col.DefaultCellStyle.Format = CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern + " " +  CultureInfo.CurrentCulture.DateTimeFormat.LongTimePattern; 
@@ -448,6 +461,7 @@ namespace TextParser
         private void CreateDataTable()
         {
             dataTable = new DataTable();
+            dataTable.Columns.Add(objOItem_TextParser.GUID + "_ID", typeof (string));
             foreach (var field in fieldList.OrderBy(f => f.IsMeta).ThenBy(f => f.OrderId).ToList())
             {
                 if (field.ID_DataType == objLocalConfig.OItem_object_bit.GUID)
@@ -645,7 +659,17 @@ namespace TextParser
 
         private void toolStripMenuItem_DeleteIndex_Click(object sender, EventArgs e)
         {
-            Deleted_Index();
+            var documentItems = objDataWork_FieldParser.GetDocumentItems(objOItem_TextParser);
+            if (!documentItems.Any())
+            {
+                Deleted_Index();    
+            }
+            else
+            {
+                MessageBox.Show(this, "Der Index kann nicht gelöscht werden, weil noch Referenzen existieren. Entfernen Sie diese zuerst!", "Referenzen!",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            
             
         }
 
@@ -781,10 +805,18 @@ namespace TextParser
         private void contextMenuStrip_Index_Opening(object sender, CancelEventArgs e)
         {
             filterToolStripMenuItem.Enabled = false;
+            ModuleMenuToolStripMenuItem.Enabled = false;
+            editToolStripMenuItem1.Enabled = false;
 
             if (dataGridView_IndexView.SelectedCells.Count == 1)
             {
                 filterToolStripMenuItem.Enabled = true;
+                ModuleMenuToolStripMenuItem.Enabled = true;
+            }
+
+            if (dataGridView_IndexView.SelectedRows.Count > 0)
+            {
+                editToolStripMenuItem1.Enabled = true;
             }
         }
 
@@ -1021,6 +1053,166 @@ namespace TextParser
                 objDataWork_FieldParser.FieldList.Where(field => field.ID_FieldParser == objOItem_Parser.GUID).Select(
                     field => new KeyValuePair<string, string>(field.Name_Field, field.ID_Field)).ToList();
             objFrmCommandLineRun.CreateScriptOfTextParserOrReport(fieldDict,dataGridView_IndexView);
+        }
+
+        private void OpenModuleByArgumentToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dataGridView_Fields.SelectedCells.Count == 1)
+            {
+                DataGridViewCell cell = dataGridView_IndexView.SelectedCells[0];
+                DataGridViewRow dgvRow = dataGridView_IndexView.Rows[cell.RowIndex];
+                DataRowView row = (DataRowView) dgvRow.DataBoundItem;
+                DataGridViewColumn col = dataGridView_IndexView.Columns[cell.ColumnIndex];
+
+                var fields = fieldList.Where(field => field.Name_Field == col.DataPropertyName);
+
+                if (fields.Any())
+                {
+                    var docItem = objDataWork_FieldParser.GetDocumentItem(cell.Value, row[objOItem_TextParser.GUID + "_ID"].ToString(),
+                        objOItem_TextParser, new clsOntologyItem
+                        {
+                            GUID = fields.First().ID_Field,
+                            Name = fields.First().Name_Field,
+                            GUID_Parent = objLocalConfig.OItem_class_field.GUID,
+                            Type = objLocalConfig.Globals.Type_Object
+                        });
+
+                    if (docItem != null)
+                    {
+                        if (!OpenLastModuleToolStripMenuItem.Checked || string.IsNullOrEmpty(strLastModule))
+                        {
+                            objFrmModules = new frmModules(objLocalConfig.Globals, docItem);
+                            objFrmModules.ShowDialog(this);
+
+                            if (objFrmModules.DialogResult == DialogResult.OK)
+                            {
+                                var strModule = objFrmModules.Selected_Module;
+                                if (!string.IsNullOrEmpty(strModule))
+                                {
+                                    if (objShellWork.start_Process(strModule, "Item=" + docItem.GUID + ",Object",
+                                                                   System.IO.Path.GetDirectoryName(strModule), false, false))
+                                    {
+                                        strLastModule = strModule;
+                                        OpenLastModuleToolStripMenuItem.ToolTipText = strLastModule;
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show(this, "Das Modul konnte nicht gestartet werden!", "Fehler!",
+                                                        MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                    }
+                                }
+                            }
+
+                        }
+                        else
+                        {
+                            if (objShellWork.start_Process(strLastModule, "Item=" + docItem.GUID + ",Object",
+                                                                   System.IO.Path.GetDirectoryName(strLastModule), false, false))
+                            {
+                                OpenLastModuleToolStripMenuItem.ToolTipText = strLastModule;
+                            }
+                            else
+                            {
+                                MessageBox.Show(this, "Das Modul konnte nicht gestartet werden!", "Fehler!",
+                                                MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            }
+                        }
+                    }
+
+                
+                }
+
+                
+
+            }
+            
+        }
+
+        private void editToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var rows = dataGridView_IndexView.SelectedRows.Cast<DataGridViewRow>().ToList();
+            
+            var documentItems = objDataWork_FieldParser.GetDocumentItems(objOItem_TextParser);
+
+            if (documentItems != null)
+            {
+                var ids =
+                    (from row in
+                        rows.Select(
+                            row => ((DataRowView) row.DataBoundItem)[objOItem_TextParser.GUID + "_ID"].ToString())
+                            .ToList()
+                        join docItem in documentItems on row equals docItem.Name into docItems
+                        from docItem in docItems.DefaultIfEmpty()
+                        where docItem == null
+                        select row).ToList();
+
+
+                if (ids.Any())
+                {
+                    if (MessageBox.Show(this, "Wollen Sie die Zeilen wirklich löschen?", "Löschen?",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question) == DialogResult.Yes)
+                    {
+                        var result = objAppDBLevel.Del_Documents(
+                            objDataWork_TextParser.OITem_Type != null ? objDataWork_TextParser.OITem_Type.Name : "Doc",
+                            ids);
+
+                        if (result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                        {
+                            foreach (var row in rows)
+                            {
+                                dataGridView_IndexView.Rows.Remove(row);
+                            }
+
+                            if (rows.Count < dataGridView_IndexView.SelectedRows.Count)
+                            {
+                                MessageBox.Show(this,
+                                    "Es existieren Referenzen zu einigen Dokumenten, die sie löschen wollten!",
+                                    "Referenzen!",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show(this, "Die Dokumente konnten nicht entfernt werden!", "Fehler!",
+                                MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            GetPage();
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show(this, "Die Liste enthält keine Elemente. Evtl. existieren noch Referenzen!", "Referenzen!",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                
+            }
+            else
+            {
+                MessageBox.Show(this, "Beim Ermitteln der Referenzen ist ein Fehler aufgetreten!", "Fehler!",
+                        MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+            
+        }
+
+        private void toolStripButton_Referenzen_Click(object sender, EventArgs e)
+        {
+            var documentItems = objDataWork_FieldParser.GetDockumentItemsWithFields(objOItem_TextParser);
+
+            var rows = (from docItem in documentItems
+                from row in dataGridView_IndexView.Rows.Cast<DataGridViewRow>().ToList()
+                where ((DataRowView) row.DataBoundItem)[objOItem_TextParser.GUID + "_ID"].ToString() == docItem.Name_DocItem
+                select new {row, docItem}).ToList();
+
+            rows.ForEach(row =>
+            {
+                row.row.Cells[row.docItem.Name_Field].Style.BackColor = Color.Yellow;
+            });
         }
     }
 }

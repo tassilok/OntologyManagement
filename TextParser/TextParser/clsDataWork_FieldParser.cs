@@ -27,6 +27,12 @@ namespace TextParser
         private clsDBLevel objDBLevel_RegExRegEx;
         private clsDBLevel objDBLevel_RegExReplaceWith;
         private clsDBLevel objDBLevel_ContainedFields;
+
+        private clsDBLevel objDBLevel_DocumentItem;
+        private clsDBLevel objDBLevel_DocItemToField;
+
+        private clsTransaction objTransaction;
+        private clsRelationConfig objRelationConfig;
       
         private clsLocalConfig objLocalConfig;
 
@@ -39,6 +45,266 @@ namespace TextParser
             Initialize();
         }
 
+        public List<clsDocumentItem> GetDockumentItemsWithFields(clsOntologyItem oItem_TextParser)
+        {
+            var documentItems = new List<clsDocumentItem>();
+
+            var searchItems = new List<clsObjectRel>
+            {
+                new clsObjectRel
+                {
+                    ID_Object = oItem_TextParser.GUID,
+                    ID_RelationType = objLocalConfig.OItem_relationtype_contains.GUID,
+                    ID_Parent_Other = objLocalConfig.OItem_class_documentitem.GUID
+                }
+
+            };
+
+            var result = objDBLevel_DocumentItem.get_Data_ObjectRel(searchItems, boolIDs: false);
+
+            if (result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                var searchFields = objDBLevel_DocumentItem.OList_ObjectRel.Select(docItem => new clsObjectRel
+                {
+                    ID_Object = docItem.ID_Other,
+                    ID_RelationType = objLocalConfig.OItem_relationtype_belongs_to.GUID,
+                    ID_Parent_Other = objLocalConfig.OItem_class_field.GUID
+                }).ToList();
+
+                result = objDBLevel_DocItemToField.get_Data_ObjectRel(searchFields, boolIDs: false);
+
+                if (result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+                    documentItems = (from docItem in objDBLevel_DocumentItem.OList_ObjectRel
+                        join fieldItem in objDBLevel_DocItemToField.OList_ObjectRel on docItem.ID_Other equals
+                            fieldItem.ID_Object
+                        select new clsDocumentItem
+                        {
+                            ID_DocItem = docItem.ID_Other,
+                            Name_DocItem = docItem.Name_Other,
+                            ID_Field = fieldItem.ID_Other,
+                            Name_Field = fieldItem.Name_Other
+                        }).ToList();
+                    
+                }
+                else
+                {
+                    documentItems = null;
+                }
+                
+            }
+            else
+            {
+                documentItems = null;
+            }
+
+            return documentItems;
+        }
+
+        public List<clsOntologyItem> GetDocumentItems(clsOntologyItem oItem_TextParser)
+        {
+            var documentItems = new List<clsOntologyItem>();
+
+            var searchItems = new List<clsObjectRel>
+            {
+                new clsObjectRel
+                {
+                    ID_Object = oItem_TextParser.GUID,
+                    ID_RelationType = objLocalConfig.OItem_relationtype_contains.GUID,
+                    ID_Parent_Other = objLocalConfig.OItem_class_documentitem.GUID
+                }
+
+            };
+
+            var result = objDBLevel_DocumentItem.get_Data_ObjectRel(searchItems, boolIDs: false);
+
+            if (result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                documentItems = objDBLevel_DocumentItem.OList_ObjectRel.Select(docItem => new clsOntologyItem
+                {
+                    GUID = docItem.ID_Other,
+                    Name = docItem.Name_Other,
+                    GUID_Parent = docItem.ID_Parent_Other,
+                    Type = objLocalConfig.Globals.Type_Object
+                }).ToList();
+            }
+            else
+            {
+                documentItems = null;
+            }
+
+            return documentItems;
+        }
+
+        public clsOntologyItem GetDocumentItem(object value, string idDoc, clsOntologyItem oItem_TextParser, clsOntologyItem oItem_Field)
+        {
+
+            var name = idDoc;
+
+            var objOItem_DocumentItem = new clsOntologyItem
+            {
+                Name = name,
+                GUID_Parent = objLocalConfig.OItem_class_documentitem.GUID,
+                Type = objLocalConfig.Globals.Type_Object
+            };
+
+            var searchObjRel = new List<clsObjectRel>
+            {
+                new clsObjectRel
+                {
+                    ID_Object = oItem_TextParser.GUID,
+                    ID_Parent_Other = objLocalConfig.OItem_class_documentitem.GUID,
+                    ID_RelationType = objLocalConfig.OItem_relationtype_contains.GUID
+                }
+            };
+
+            var result = objDBLevel_DocumentItem.get_Data_ObjectRel(searchObjRel, boolIDs: false);
+
+            if (result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                var searchDocItemToField = objDBLevel_DocumentItem.OList_ObjectRel.Where(docItem => docItem.Name_Other == idDoc).Select(docItem => new clsObjectRel
+                {
+                    ID_Object = docItem.ID_Other,
+                    ID_RelationType = objLocalConfig.OItem_relationtype_belongs_to.GUID,
+                    ID_Other = oItem_Field.GUID
+                }).ToList();
+
+                if (searchDocItemToField.Any())
+                {
+                    result = objDBLevel_DocItemToField.get_Data_ObjectRel(searchDocItemToField, boolIDs: false);
+                    if (result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                    {
+                        if (objDBLevel_DocItemToField.OList_ObjectRel.Any())
+                        {
+                            objOItem_DocumentItem = new clsOntologyItem
+                            {
+                                GUID = objDBLevel_DocItemToField.OList_ObjectRel.First().ID_Object,
+                                Name =  objDBLevel_DocItemToField.OList_ObjectRel.First().Name_Object,
+                                GUID_Parent = objDBLevel_DocItemToField.OList_ObjectRel.First().ID_Parent_Object,
+                                Type = objLocalConfig.Globals.Type_Object
+                            };
+
+                            return objOItem_DocumentItem;
+                        }
+                        else
+                        {
+                            return CreateDocumentItem(value, idDoc, oItem_TextParser, oItem_Field);
+                        }
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                else
+                {
+                    return CreateDocumentItem(value, idDoc, oItem_TextParser, oItem_Field);
+                }
+
+                
+            }
+            else
+            {
+                return null;
+            }
+
+            
+
+
+
+            
+
+
+        }
+
+        public clsOntologyItem CreateDocumentItem(object value, string idDoc, clsOntologyItem oItem_TextParser, clsOntologyItem oItem_Field)
+        {
+            var objOItem_DocumentItem = new clsOntologyItem();
+            objOItem_DocumentItem.GUID = objLocalConfig.Globals.NewGUID;
+            objOItem_DocumentItem.Name = idDoc;
+            objOItem_DocumentItem.GUID_Parent = objLocalConfig.OItem_class_documentitem.GUID;
+            objOItem_DocumentItem.Type = objLocalConfig.Globals.Type_Object;
+
+            objTransaction.ClearItems();
+
+            var result = objTransaction.do_Transaction(objOItem_DocumentItem);
+            if (result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                var rel_TextParserToDocumentItem = objRelationConfig.Rel_ObjectRelation(oItem_TextParser,
+                    objOItem_DocumentItem, objLocalConfig.OItem_relationtype_contains);
+
+                result = objTransaction.do_Transaction(rel_TextParserToDocumentItem);
+
+                if (result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                {
+                    clsObjectAtt rel_ObjectAtt;
+                    if (value is bool)
+                    {
+                        rel_ObjectAtt = objRelationConfig.Rel_ObjectAttribute(objOItem_DocumentItem,
+                            objLocalConfig.OItem_attributetype_bitvalue, value);
+
+                    }
+                    else if (value is DateTime)
+                    {
+                        rel_ObjectAtt = objRelationConfig.Rel_ObjectAttribute(objOItem_DocumentItem,
+                            objLocalConfig.OItem_attributetype_datetimevalue, value);
+                    }
+                    else if (value is long)
+                    {
+                        rel_ObjectAtt = objRelationConfig.Rel_ObjectAttribute(objOItem_DocumentItem,
+                            objLocalConfig.OItem_attributetype_longvalue, value);
+                    }
+                    else if (value is double)
+                    {
+                        rel_ObjectAtt = objRelationConfig.Rel_ObjectAttribute(objOItem_DocumentItem,
+                            objLocalConfig.OItem_attributetype_doublevalue, value);
+                    }
+                    else if (value is string)
+                    {
+                        rel_ObjectAtt = objRelationConfig.Rel_ObjectAttribute(objOItem_DocumentItem,
+                            objLocalConfig.OItem_attributetype_stringvalue, value);
+                    }
+                    else
+                    {
+                        return null;
+                    }
+
+                    result = objTransaction.do_Transaction(rel_ObjectAtt);
+
+                    if (result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                    {
+                        var rel_ObjRel = objRelationConfig.Rel_ObjectRelation(objOItem_DocumentItem, oItem_Field,
+                            objLocalConfig.OItem_relationtype_belongs_to);
+
+                        result = objTransaction.do_Transaction(rel_ObjRel);
+                        if (result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+                        {
+                            return objOItem_DocumentItem;
+                        }
+                        else
+                        {
+                            objTransaction.rollback();
+                            return null;
+                        }
+                    }
+                    else
+                    {
+                        objTransaction.rollback();
+                        return null;
+                    }
+
+                }
+                else
+                {
+                    objTransaction.rollback();
+                    return null;
+                }
+            }
+            else
+            {
+                return null;
+            }
+        }
         
         public clsObjectAtt GetRegexOfField(clsOntologyItem OItem_Field, clsOntologyItem OItem_RelationType)
         {
@@ -783,6 +1049,11 @@ namespace TextParser
             objDBLevel_RegExRegEx = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_RegExReplaceWith = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_ContainedFields = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_DocumentItem = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_DocItemToField = new clsDBLevel(objLocalConfig.Globals);
+
+            objTransaction = new clsTransaction(objLocalConfig.Globals);
+            objRelationConfig = new clsRelationConfig(objLocalConfig.Globals);
         }
     }
 }

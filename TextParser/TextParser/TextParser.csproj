@@ -69,6 +69,7 @@
     <Compile Include="clsDataWork_FieldParser.cs" />
     <Compile Include="clsDataWork_Import.cs" />
     <Compile Include="clsDataWork_Pattern.cs" />
+    <Compile Include="clsDocumentItem.cs" />
     <Compile Include="clsFieldParser.cs" />
     <Compile Include="clsImport_IndexData.cs" />
     <Compile Include="clsDatawork_RegExFilter.cs" />
@@ -243,6 +244,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ClassLibrary_ShellWork\ClassLibrary_ShellWork\ClassLibrary_ShellWork.vbproj">
+      <Project>{10bcc346-a390-401c-ba6a-904a8842a40b}</Project>
+      <Name>ClassLibrary_ShellWork</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\CommandLineRun-Module\CommandLineRun-Module\CommandLineRun-Module.csproj">
       <Project>{deed8843-0c77-4c8c-93c5-3e5768314a63}</Project>
       <Name>CommandLineRun-Module</Name>
