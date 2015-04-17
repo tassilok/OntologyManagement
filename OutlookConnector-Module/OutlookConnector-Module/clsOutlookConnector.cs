@@ -138,15 +138,23 @@ namespace OutlookConnector_Module
             objOutlook = new Microsoft.Office.Interop.Outlook.Application();
             objMapi = objOutlook.GetNamespace("Mapi");
 
-            var objMailItem = objMapi.GetItemFromID(strEntryID);
-            if (objMailItem != null)
+            try
             {
-                objMailItem.Display();
+                var objMailItem = objMapi.GetItemFromID(strEntryID);
+                if (objMailItem != null)
+                {
+                    objMailItem.Display();
+                }
+                else
+                {
+                    objOItem_Result = objGlobals.LState_Error.Clone();
+                }
             }
-            else
+            catch(System.Exception ex)
             {
                 objOItem_Result = objGlobals.LState_Error.Clone();
             }
+            
 
             return objOItem_Result;
         }

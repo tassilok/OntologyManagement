@@ -80,6 +80,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DataSet_OutlookConnector.xsd</DependentUpon>
     </Compile>
+    <Compile Include="frmMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMenu.Designer.cs">
+      <DependentUpon>frmMenu.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmOutlookConnector.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -94,6 +100,9 @@
     <Compile Include="UserControl_OutlookItemList.Designer.cs">
       <DependentUpon>UserControl_OutlookItemList.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="frmMenu.resx">
+      <DependentUpon>frmMenu.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmOutlookConnector.resx">
       <DependentUpon>frmOutlookConnector.cs</DependentUpon>
     </EmbeddedResource>

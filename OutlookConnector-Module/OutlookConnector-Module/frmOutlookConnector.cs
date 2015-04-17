@@ -20,15 +20,20 @@ namespace OutlookConnector_Module
         private clsLocalConfig objLocalConfig;
         private clsDataWork_OutlookConnector objDataWork;
         private clsDataWork_OutlookItems objDatawork_OutlookItems;
+        private clsDBLevel _dbLevel_OItem;
 
         private frmAuthenticate objFrmAuthenticate;
         private UserControl_OutlookItemList objUserControl_OutlookItemList;
         private UserControl_SingleViewer objUserControl_SingleViewer;
 
+        private frmMenu _frmMenu;
+
 
         private clsOutlookConnector objOutlookConnector;
 
         public List<clsMailItem> MailItems { get; set; }
+
+        private clsOntologyItem _oItem_Ref;
 
         private DataSet_OutlookConnectorTableAdapters.mltbl_MailItemsTableAdapter mltblA_MailItems = new DataSet_OutlookConnectorTableAdapters.mltbl_MailItemsTableAdapter();
 
@@ -47,6 +52,37 @@ namespace OutlookConnector_Module
             objLocalConfig = new clsLocalConfig(Globals);
             objLocalConfig.User = OItem_User;
             Initialize();
+        }
+
+        private void ParseArguments()
+        {
+            var parseArguments = new clsArgumentParsing(objLocalConfig.Globals, Environment.GetCommandLineArgs().ToList());
+
+
+            if (parseArguments.OList_Items != null && parseArguments.OList_Items.Count == 1)
+            {
+                _oItem_Ref = parseArguments.OList_Items.First();
+                if (_oItem_Ref.Type == objLocalConfig.Globals.Type_Object)
+                {
+                    var oItem_Class = _dbLevel_OItem.GetOItem(_oItem_Ref.GUID_Parent, objLocalConfig.Globals.Type_Class);
+
+
+                    this.Text = "";
+                    _oItem_Ref.Additional1 = this.Text;
+                    if (oItem_Class != null)
+                    {
+                        this.Text = oItem_Class.Name + @" \ ";
+                        _oItem_Ref.Additional1 = this.Text;
+                    }
+
+                    this.Text += _oItem_Ref.Name;
+                    _oItem_Ref.Additional1 = this.Text;
+
+                    _frmMenu = new frmMenu(objLocalConfig, objDataWork, _oItem_Ref);
+                    _frmMenu.ShowDialog(this);
+                    Environment.Exit(0);
+                }
+            }
         }
 
         private void Initialize()
@@ -69,6 +105,9 @@ namespace OutlookConnector_Module
                 objOutlookConnector = new clsOutlookConnector(objLocalConfig.Globals);    
                 
                 objDataWork = new clsDataWork_OutlookConnector(objLocalConfig);
+                _dbLevel_OItem = new clsDBLevel(objLocalConfig.Globals);
+                ParseArguments();
+
                 objDatawork_OutlookItems = new clsDataWork_OutlookItems(objLocalConfig, objDataWork);
                 objUserControl_OutlookItemList = new UserControl_OutlookItemList(objLocalConfig, objDataWork);
                 objUserControl_OutlookItemList.Dock = DockStyle.Fill;

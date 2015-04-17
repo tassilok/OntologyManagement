@@ -17,6 +17,7 @@ namespace OutlookConnector_Module
         private clsDBLevel objDBLevel_OutlookItems_Rel1;
         private clsDBLevel objDBLevel_OutlookItems_Rel2;
         private clsDBLevel objDBLevel_EmailAddress;
+        private clsDBLevel objDBLevel_EntryID;
 
         private clsDBLevel objDBLevel_RefToMailItem;
 
@@ -48,6 +49,32 @@ namespace OutlookConnector_Module
             if (objOList_OItems.Any())
             {
                 return objOList_OItems.First();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public string GetEntryID(clsOntologyItem oItem_Email)
+        {
+
+            var searchOutlookItem = new List<clsObjectRel>{ new clsObjectRel {ID_Other = oItem_Email.GUID,
+                    ID_RelationType = objLocalConfig.OItem_relationtype_is.GUID,
+                    ID_Parent_Object = objLocalConfig.OItem_type_outlook_item.GUID } };
+
+            var result = objDBLevel_EntryID.get_Data_ObjectRel(searchOutlookItem, boolIDs: false);
+
+            if (result.GUID == objLocalConfig.Globals.LState_Success.GUID)
+            {
+                if (objDBLevel_EntryID.OList_ObjectRel.Any())
+                {
+                    return objDBLevel_EntryID.OList_ObjectRel.First().Name_Object;
+                }
+                else
+                {
+                    return "";
+                }
             }
             else
             {
@@ -318,6 +345,7 @@ namespace OutlookConnector_Module
             objDBLevel_OutlookItems_Rel2 = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_EmailAddress = new clsDBLevel(objLocalConfig.Globals);
             objDBLevel_RefToMailItem = new clsDBLevel(objLocalConfig.Globals);
+            objDBLevel_EntryID = new clsDBLevel(objLocalConfig.Globals);
 
             objAppDBLevel = new clsAppDBLevel(objLocalConfig.Globals, objDataWork_OutlookConnector.Ontology, objLocalConfig.User);
 
