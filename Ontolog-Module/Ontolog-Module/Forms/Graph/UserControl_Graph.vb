@@ -191,21 +191,21 @@ Public Class UserControl_Graph
         End If
         OList_ObjectAtt.ForEach(Sub(obja)
                                     nodeItem.AddAttribNode(obja.ID_Attribute, obja.Val_Name)
-                                    nodeItem.AddEdge(obja.ID_Object, obja.ID_Attribute, obja.Name_AttributeType)
+                                    nodeItem.AddEdge(obja.ID_Object, obja.ID_Attribute, obja.Name_AttributeType + ": " + obja.OrderID.ToString())
                                 End Sub)
 
         If OList_ObjectRel Is Nothing Then
             OList_ObjectRel = New List(Of clsObjectRel)
         End If
         OList_ObjectRel.ForEach(Sub(objr)
-                                    nodeItem.AddEdge(objr.ID_Object, objr.ID_Other, objr.Name_RelationType)
+                                    nodeItem.AddEdge(objr.ID_Object, objr.ID_Other, objr.Name_RelationType + ": " + objr.OrderID.ToString())
                                 End Sub)
 
         If EdgeList Is Nothing Then
             EdgeList = New List(Of clsObjectRel)
         End If
         EdgeList.ForEach(Sub(edg)
-                             nodeItem.AddEdge(edg.ID_Object, edg.ID_Other, edg.Name_RelationType)
+                             nodeItem.AddEdge(edg.ID_Object, edg.ID_Other, edg.Name_RelationType + ": " + edg.OrderID.ToString())
                          End Sub)
 
 
@@ -252,11 +252,11 @@ Public Class UserControl_Graph
                                                   nodeItem.AddAttribNode(objatt.ID_Attribute, objatt.Val_Name)
 
                                                   nodeItem.AddEdge(objatt.ID_Object, objatt.ID_Attribute)
-                                                  nodeItem.AddEdge(objatt.ID_AttributeType, objatt.ID_Attribute, objatt.Name_AttributeType)
+                                                  nodeItem.AddEdge(objatt.ID_AttributeType, objatt.ID_Attribute, objatt.Name_AttributeType + ": " + objatt.OrderID.ToString())
                                               End Sub)
 
             objExport.OList_ObjectRel.ForEach(Sub(objrel)
-                                                  nodeItem.AddEdge(objrel.ID_Object, objrel.ID_Other, objrel.Name_RelationType)
+                                                  nodeItem.AddEdge(objrel.ID_Object, objrel.ID_Other, objrel.Name_RelationType + ": " + objrel.OrderID.ToString())
 
                                               End Sub)
 
@@ -312,7 +312,7 @@ Public Class UserControl_Graph
 
                     objDBLevel_ObjectAtt.OList_ObjectAtt.ForEach(Sub(oa)
                                                                      nodeItem.AddAttribNode(oa.ID_Attribute, oa.Val_Name)
-                                                                     nodeItem.AddEdge(OItem_Object.GUID, oa.ID_Attribute, oa.Name_AttributeType)
+                                                                     nodeItem.AddEdge(OItem_Object.GUID, oa.ID_Attribute, oa.Name_AttributeType + ": " + oa.OrderID.ToString())
                                                                  End Sub)
 
                     objDBLevel_ObjectRel_LeftRight.OList_ObjectRel.ForEach(Sub(objr)
@@ -321,23 +321,23 @@ Public Class UserControl_Graph
                                                                                If objr.Ontology = objLocalConfig.Globals.Type_Object Then
                                                                                    Dim classItem = objDBLevel_Classes.GetOItem(objr.ID_Parent_Other, objLocalConfig.Globals.Type_Class)
                                                                                    nodeItem.AddNode(classItem.GUID, classItem.Name, objLocalConfig.Globals.Type_Class, False)
-                                                                                   nodeItem.AddEdge(classItem.GUID, objr.ID_Other,ShowArrow := false)
+                                                                                   nodeItem.AddEdge(classItem.GUID, objr.ID_Other, ShowArrow:=False)
                                                                                End If
 
-                                                                               nodeItem.AddEdge(OItem_Object.GUID, objr.ID_Other, objr.Name_RelationType, 3)
+                                                                               nodeItem.AddEdge(OItem_Object.GUID, objr.ID_Other, objr.Name_RelationType + ": " + objr.OrderID.ToString(), 3)
 
                                                                            End Sub)
 
                     objDBLevel_ObjectRel_RightLeft.OList_ObjectRel.ForEach(Sub(objr)
                                                                                nodeItem.AddNode(objr.ID_Object, objr.Name_Object, objLocalConfig.Globals.Type_Object, False)
 
-                                                                               graph.AddEdge(objr.ID_Object, objr.Name_RelationType, OItem_Object.GUID)
+                                                                               graph.AddEdge(objr.ID_Object, objr.Name_RelationType + ": " + objr.OrderID.ToString(), OItem_Object.GUID)
 
                                                                                Dim classItem = objDBLevel_Classes.GetOItem(objr.ID_Parent_Object, objLocalConfig.Globals.Type_Class)
 
                                                                                nodeItem.AddNode(classItem.GUID, classItem.Name, objLocalConfig.Globals.Type_Class, False)
 
-                                                                               nodeItem.AddEdge(classItem.GUID, objr.ID_Object,ShowArrow := false)
+                                                                               nodeItem.AddEdge(classItem.GUID, objr.ID_Object, ShowArrow:=False)
                                                                            End Sub)
 
                     RedRawGraph(True)
@@ -688,15 +688,15 @@ Public Class UserControl_Graph
 
                             Dim result = objDBLevel_ObjectRel.get_Data_ObjectRel(search, boolIDs:=False)
                             If result.GUID = objLocalConfig.Globals.LState_Success.GUID Then
-                                objDBLevel_ObjectRel.OList_ObjectRel.ForEach(Sub(rel)
-                                                                                 If objOItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
-                                                                                     nodeItem.AddNode(rel.ID_Other, rel.Name_Other, rel.Ontology, False)
-                                                                                     nodeItem.AddEdge(rel.ID_Object, rel.ID_Other, rel.Name_RelationType)
-                                                                                 Else
-                                                                                     nodeItem.AddNode(rel.ID_Object, rel.Name_Object, objLocalConfig.Globals.Type_Object, False)
-                                                                                     nodeItem.AddEdge(rel.ID_Object, rel.ID_Other, rel.Name_RelationType)
-                                                                                 End If
-                                                                             End Sub)
+                                    objDBLevel_ObjectRel.OList_ObjectRel.ForEach(Sub(rel)
+                                                                                     If objOItem_Direction.GUID = objLocalConfig.Globals.Direction_LeftRight.GUID Then
+                                                                                         nodeItem.AddNode(rel.ID_Other, rel.Name_Other, rel.Ontology, False)
+                                                                                         nodeItem.AddEdge(rel.ID_Object, rel.ID_Other, rel.Name_RelationType + ": " + rel.OrderID.ToString())
+                                                                                     Else
+                                                                                         nodeItem.AddNode(rel.ID_Object, rel.Name_Object, objLocalConfig.Globals.Type_Object, False)
+                                                                                         nodeItem.AddEdge(rel.ID_Object, rel.ID_Other, rel.Name_RelationType + ": " + rel.OrderID.ToString())
+                                                                                     End If
+                                                                                 End Sub)
                                 nodeItem.Graph.NeedCalculateLayout = True
                                 GViewer_OGraph.Graph = nodeItem.Graph
                             Else
