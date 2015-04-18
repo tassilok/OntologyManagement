@@ -1602,7 +1602,7 @@ Public Class UserControl_Report
         Dim objOList_Objects As New List(Of clsOntologyItem)
         objOList_Objects.Add(objOItem_Object)
         objFrmObjectEdit = New frm_ObjectEdit(objLocalConfig.Globals, objOList_Objects, 0, objLocalConfig.Globals.Type_Object, Nothing)
-        objFrmObjectEdit.ShowDialog(Me)
+        objFrmObjectEdit.Show()
     End Sub
 
     Private Sub CopyNameToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CopyNameToolStripMenuItem.Click
@@ -1752,6 +1752,37 @@ Public Class UserControl_Report
 
     Private Sub DataGridView_Reports_SelectionChanged(sender As Object, e As EventArgs) Handles DataGridView_Reports.SelectionChanged
         RaiseEvent SelectionChanged()
+
+        If Not objFrmObjectEdit Is Nothing Then
+            If objFrmObjectEdit.Visible Then
+                Dim objDGVR_Selected As DataGridViewRow
+                Dim objDRV_Selected As DataRowView
+                Dim objDRC_Token As DataRowCollection
+                Dim objGUID_Item As String
+
+                objOItem_Object = Nothing
+               
+                If DataGridView_Reports.SelectedCells.Count = 1 Then
+                    Dim objLCol = objDataWork_ReportFields.ReportFields.Where(Function(p) p.Name_Col = DataGridView_Reports.Columns(DataGridView_Reports.SelectedCells(0).ColumnIndex).DataPropertyName).ToList
+
+                    If objLCol.Any() Then
+                        Dim objLLeaded = objDataWork_ReportFields.ReportFields.Where(Function(p) p.ID_RepField = objLCol.First().ID_LeadField).ToList()
+                        If objLLeaded.Any() Then
+                            If objLLeaded.First.ID_FieldType = objLocalConfig.OItem_Object_Field_Type_GUID.GUID Then
+                                objDGVR_Selected = DataGridView_Reports.Rows(DataGridView_Reports.SelectedCells(0).RowIndex)
+                                objDRV_Selected = objDGVR_Selected.DataBoundItem
+
+                                If Not IsDBNull(objDRV_Selected.Item(objLLeaded.First.Name_Col)) Then
+                                    objGUID_Item = objDRV_Selected.Item(objLLeaded.First.Name_Col)
+                                    objOItem_Object = objDataWork_ReportFields.GetOntologyItem(objGUID_Item)
+                                    objFrmObjectEdit.RefreshForm(New List(Of clsOntologyItem) From {objOItem_Object}, 0, objLocalConfig.Globals.Type_Object, Nothing)
+                                End If
+                            End If
+                        End If
+                    End If
+                End If
+            End If
+        End If
     End Sub
 
     Public Function VisibilityColumn(ColumnId As Integer, boolVisible As Boolean) As Boolean
