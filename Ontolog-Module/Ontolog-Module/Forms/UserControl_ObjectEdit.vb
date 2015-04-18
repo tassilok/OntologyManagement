@@ -728,6 +728,14 @@ Public Class UserControl_ObjectEdit
             SplitContainer1.Panel2.Controls.Add(objUserControl_OItem_List)
         End If
 
+        If Not objOItem_Object Is Nothing Then
+            If Not objFrm_Graph Is Nothing Then
+                If objFrm_Graph.Visible = True Then
+                    objFrm_Graph.Initialize_Graph(objOItem_Object)
+                End If
+            End If
+        End If
+
         set_CountLbl()
         configure_Navigation()
     End Sub
