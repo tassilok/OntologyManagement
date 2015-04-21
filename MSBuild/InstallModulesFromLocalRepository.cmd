@@ -57,7 +57,7 @@ del /s /q "%OMODULE_PATH%\NextGenerationOntoEdit\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\NextGenerationOntoEdit_0.1.0.26.exe" -o"%OMODULE_PATH%\NextGenerationOntoEdit\"
 
 del /s /q "%OMODULE_PATH%\OntoMsg-Module\*.*"
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\OntoMsg-Module_0.0.0.3.exe" -o"%OMODULE_PATH%\OntoMsg-Module\"
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\OntoMsg-Module_0.0.0.4.exe" -o"%OMODULE_PATH%\OntoMsg-Module\"
 
 del /s /q "%OMODULE_PATH%\GraphMLConnector\*.*"
 "%PROGRAMFILES%\7-Zip\7z.exe" x "%OMODULE_INST_PATH%\GraphMLConnector_0.1.0.111.exe" -o"%OMODULE_PATH%\GraphMLConnector\"

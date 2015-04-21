@@ -868,7 +868,7 @@ Public Class clsDBLevel
 
     Public Function create_Index_Es() As Boolean
         Dim indexSettings = objElSelector.GetIndexSettings()
-        Dim objOPResult = objElSelector.ElConnector.CreateIndex(strIndex)
+        Dim objOPResult = objElSelector.ElConnector.CreateIndex(Function(ix) ix.Index(strIndex).InitializeUsing(indexSettings))
         Return objOPResult.IsValid
 
     End Function

@@ -227,8 +227,8 @@ if /i [OntoMsg-Module] EQU [Ontolog-Module] (
 
 del /s /q "%OMODULE_PATH%\OntoMsg-Module\*.*"
 
-wget -O "%temp%\OModules\OntoMsg-Module_0.0.0.3.exe" %DOWNLOAD_URL%/OntoMsg-Module_0.0.0.3.exe/download
-"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\OntoMsg-Module_0.0.0.3.exe" -o"%OMODULE_PATH%\OntoMsg-Module\"
+wget -O "%temp%\OModules\OntoMsg-Module_0.0.0.4.exe" %DOWNLOAD_URL%/OntoMsg-Module_0.0.0.4.exe/download
+"%PROGRAMFILES%\7-Zip\7z.exe" x "%temp%\OModules\OntoMsg-Module_0.0.0.4.exe" -o"%OMODULE_PATH%\OntoMsg-Module\"
 
 
 if /i [GraphMLConnector] EQU [Ontolog-Module] (
